@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理</title>
+
+    <link rel="stylesheet" href="/static/xr/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/xr/css/sidebar-menu.css">
+
+    <style type="text/css">
+        .main-sidebar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            min-height: 100%;
+            width: 230px;
+            z-index: 810;
+            background-color: #222d32;
+        }
+        .main-content{
+            position: absolute;
+            width: 100%;
+            padding-left: 230px;
+            top: 0;
+            right: 0;
+        }
+
+        /*主体部分*/
+        section  .content {
+            width: 100%;
+            margin-top: 40px;
+            padding: 0 20px;
+        }
+        section  form.add {
+            width: 400px;
+            margin: 0 auto;
+        }
+        /*主体部分*/
+        .table th, .table td {
+            text-align: center;
+        }
+    </style>
+    <!---->
+
+    <link href="/static/xr/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/xr/css/base.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <script src="/static/xr/js/jquery.min.js"></script>
+    <script src="/static/xr/js/jquery.cookie.js"></script>
+    <script src="/static/xr/js/bprotocol.js"></script>
+    <script src="/static/xr/js/conf.js"></script>
+    <script src="/static/xr/js/sidebar-menu.js"></script>
+    <script src="/static/xr/js/base.js"></script>
+
+
+</head>
+<body>
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="header">管理系统</li>
+            <li class="treeview">
+                <a href="index2.html">
+                    <i class="fa fa-window-restore"></i> <span>授权管理</span> <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> 未授权 </a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> 已授权 </a></li>
+                </ul>
+            </li>
+            <li class="treeview active">
+                <a href="javascript:;">
+                    <i class="fa fa-user-o"></i>
+                    <span>用户管理</span>
+                    <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu menu-open" style="display: block;">
+                    <li><a href="#" data-bind=".ShowUser" onclick="showUserList()"><i class="fa fa-circle-o"></i> 用户列表</a></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</aside>
+
+<section class="main-content">
+    <style>
+        .main-content>header{
+            width: 100%;
+            height: 60px;
+            background: #1a2226;
+        }
+        .main-content>header>ul{
+            margin-right: 30px;
+            float: right;
+        }
+        .main-content>header li{
+            float: left;
+        }
+        .main-content>header>ul>li>a{
+            display: block;
+            height: 60px;
+            padding: 10px 25px 10px 15px;
+            font-size: 16px;
+            line-height: 40px;
+            font-weight: 700;
+            color: #4b646f;
+
+        }
+        .main-content>header>ul>li:last-child{
+            position: relative;
+        }
+        li.user:hover .a_list{
+            display: block;
+        }
+
+        .a_list{
+            display: none;
+            padding: 5px 0;
+            position: absolute;
+            right: 0;
+            border:1px solid #cccccc;
+            border-radius: 3px;
+            top: 56px;
+            background-color: #fff;
+            width: 100%;
+
+        }
+        .a_list li{
+            width: 100%;
+
+        }
+        .a_list li:hover{
+            background-color: #cccccc;
+        }
+        .a_list li>a{
+            display: block;
+            height: 30px;
+            color: #000;
+            line-height: 30px;
+            font-size: 14px;
+            width: 100%;
+            text-align: center;
+
+        }
+
+
+    </style>
+    <header>
+        <ul class="clearfix">
+            <li><a href="#">Test</a></li>
+            <li class="user"><a href="#" id="username" data-toggle="dropdown" style="color:#1a2226">用户名2 <i class="fa fa-angle-down"></i></a>
+                    <ul class="a_list">
+                        <li><a href="#" onclick="fun_api_logout()">退出</a></li>
+                    </ul>
+            </li>
+        </ul>
+    </header>
+
+    <!--主体部分-->
+    <section>
+            <div class="content">
+                <!--添加用户-->
+                <div class="AddUser" style="display: none">
+                    <form class="add">
+                        <div class="h2" style="text-align: center;margin-bottom: 20px">添加用户</div>
+                        <div class="form-group">
+                            <input type="text" class="form-control username" id="exampleInputEmail1"
+                                   placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control password" id="exampleInputPassword1"
+                                   placeholder="请输入密码">
+                        </div>
+                        <button type="button" class="btn btn-default" onclick="addUser()">添加</button>
+                    </form>
+                </div>
+                <!--添加用户结束-->
+
+
+                <!--显示用户列表-->
+                <div class="ShowUser">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>用户名</th>
+                            <!--<th>用户组</th>-->
+                            <th>证书信息</th>
+                            <th>设备信息</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <!--显示用户列表结束-->
+
+            </div>
+
+    </section>
+    <!--主体部分结束-->
+
+    <!-- 弹出框 -->
+    <div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="closeModal()" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title h2" id="myModalLabel" style="text-align: center">用户数据</h2>
+                </div>
+                <div class="modal-body">
+                    <!--证书信息表格-->
+                    <div class="modalTable certTable" style="display: none">
+                        <div class="showCert" style="width: 100%;overflow: auto">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <!--"SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",
+                                        "Type": "Registered",
+                                        "Mode": "UnKnowType",
+                                        "State": "Normal",
+                                        "Issuer_id": 3,
+                                        "IssueDate": "2018-11-22 15:25:40",
+                                        "ValidityBegin": "2018-11-22 15:25:40",
+                                        "ValidityEnd": "2038-11-17 15:25:40",
+                                        "IssueTimes": 1-->
+                                    <th>修改</th>
+                                    <th>颁布的设备</th>
+                                    <th>SerialNumber</th>
+                                    <th>Type</th>
+                                    <th style="display: none">Mode</th>
+                                    <th>State</th>
+                                    <th style="display: none">Issuer_id</th>
+                                    <th>IssueDate</th>
+                                    <th>ValidityBegin</th>
+                                    <th>ValidityEnd</th>
+                                    <th>IssueTimes</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="certPager">
+                            <ul class="pager" style="margin-bottom: 0">
+                                <li><a href="javascript:;" onclick="getCerts_list(0)">首页</a></li>
+                                <li><a href="javascript:;" onclick="bindCertsPager_Previous()">上一页</a></li>
+                                <li><a href="javascript:;" onclick="bindCertsPager_Next()">下一页</a></li>
+                                <li><a href="javascript:;" onclick="getCerts_list(currentCertsPage_total-1)">尾页</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--证书信息表格结束-->
+
+                    <!--证书颁发的设备-->
+                    <div class="modalTable termTable" style="display: none">
+                        <div class="showCert2Term" style="width: 100%;overflow: auto">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Type</th>               <!--    type-->
+                                    <th>CLI_ID</th>                 <!--  id-->
+                                    <!--<th>RandCode</th>              randcode-->
+                                    <th>硬件供应商</th>              <!--     hardwareprovider-->
+                                    <th>硬件SN</th>               <!--    hardwaresn-->
+                                    <th>硬件版本</th>               <!--    hardwareversion-->
+                                    <th>软件供应商</th>              <!--     softwareprovider-->
+                                    <th>软件版本</th>               <!--    softwareversion-->
+                                    <th>CPU</th>                 <!--  cpu-->
+                                    <th>IMEI</th>               <!--    imei-->
+                                    <th>MAC</th>                <!--   mac-->
+                                    <th>OSID</th>               <!--    osid-->
+                                    <th>OSType</th>             <!--     ostype-->
+                                    <th>OSVersion</th>          <!--     osversion-->
+                                    <th>模型编号</th>               <!--   modelnumber-->
+                                    <th>序列号</th>             <!--   serialnumber-->
+                                    <!-- <th>SessionID</th>          sessionid-->
+                                    <!--<th>ClientHost</th>         -->
+                                    <th>描述</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="certPager">
+                            <ul class="pager" style="margin-bottom: 0">
+                                <li><a href="javascript:;" onclick="getCerts2Term_list(0)">首页</a></li>
+                                <li><a href="javascript:;" onclick="bindCerts2TermPager_Previous()">上一页</a></li>
+                                <li><a href="javascript:;" onclick="bindCerts2TermPager_Next()">下一页</a></li>
+                                <li><a href="javascript:;" onclick="getCerts2Term_list(currentCerts2TermPage_total-1)">尾页</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--证书颁发的设备结束-->
+
+                    <!--展示用户设备信息-->
+                    <div class="modalTable allTermTable" style="display: none">
+                        <style>
+                            .allTermTable .header{
+                                /*margin-top: -15px;*/
+                                display: flex;
+                                text-align: center;
+                                font-size: 16px;
+                                font-weight: 700;
+                                height: 40px;
+                                line-height: 40px;
+                            }
+                            .allTermTable .header .left{
+                                flex: 1;
+                            }
+
+                            .allTermTable .header .right{
+                                flex: 1;
+                            }
+                            .allTermTable .header a{
+                                width: 100%;
+                                display: block;
+                                height: 100%;
+                                border-radius: 4px;
+                            }
+                            .allTermTable .header a.active{
+                                background-color: #3c3c3c70;
+                            }
+
+                            .allTermTable .content{
+                                margin-top: 5px;
+                                width: 100%;
+                                height: 300px;
+                                /*background-color: red;*/
+                            }
+                        </style>
+                        <div class="header" >
+                            <div class="left "><a class="tab active" href="javascript:;" onclick="getAuthTerm(this)" data-bind=".authTerm">已授权</a></div>
+                            <div class="right "><a class="tab" href="javascript:;" onclick="getUnAuthTerm(this)"  data-bind=".un_authTerm">未授权</a></div>
+                        </div>
+                        <div class="content authTerm">
+                            <p>授权的设备</p>
+                        </div>
+                        <div class="content un_authTerm" style="display: none">
+                            <p>未授权的设备</p>
+                        </div>
+                    </div>
+                    <!--展示用户设备信息结束-->
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="closeModal()">Close</button>
+                    <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 弹出框结束 -->
+</section>
+
+
+<!--------------模板Script---------------------------------------------------------------->
+
+<!--获取用户模板-->
+<script id="userList" type="text/html">
+    {{each users as value}}
+    <tr>
+        <td>{{value.Name}}</td>
+        <!--<td>{{value.OwnerUserGroup_id}}</td>-->
+        <td><a href="javascript:;" class="btn-link" data-bind="{{value.Name}}" onclick="showUserCerts(this)">查看</a></td>
+        <td><a href="javascript:;" class="btn-link" data-bind="{{value.Name}}" onclick="showAllTerms(this)">查看</a></td>
+        <!--data-toggle="modal" data-target="#myModal"-->
+    </tr>
+    {{/each}}
+</script>
+<!--获取用户模板结束-->
+
+<!--获取用户证书模板-->
+<script id="certList" type="text/html">
+    <!--SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",-->
+    <!--"Type": "Registered",-->
+    <!--"Mode": "UnKnowType",-->
+    <!--"State": "Normal",-->
+    <!--"Issuer_id": 3,-->
+    <!--"IssueDate": "2018-11-22 15:25:40",-->
+    <!--"ValidityBegin": "2018-11-22 15:25:40",-->
+    <!--"ValidityEnd": "2038-11-17 15:25:40",-->
+    <!--"IssueTimes": 1-->
+    {{each certs as value i}}
+    <tr>
+        <td><input data-bind="{{value.SerialNumber}}" type="button" value="修改"
+                   style="height: 20px;line-height: 20px;padding: 0 5px" onclick="updateCert(this)"></td>
+        <td><input type="button" value="查看"
+                   style="height: 20px;line-height: 20px;padding: 0 5px" onclick="showTerminal('{{value.SerialNumber}}')"></td>
+        <td>{{value.SerialNumber}}</td>
+        <!--<td></td>-->
+        <td>
+            <span>{{value.Type}}</span>
+            <select style="display: none" name="Type" class="certType">
+                <option value="Trial">Trial</option>
+                <option value="Free">Free</option>
+                <option value="Unregistered">Unregistered</option>
+                <option value="Registered">Registered</option>
+            </select>
+        </td>
+        <td style="display: none">
+            <span>{{value.Mode}}</span>
+            <select style="display: none" name="Mode" class="certMode">
+                <option value="UnKnowType">UnKnowType</option>
+            </select>
+        </td>
+        <td>
+            <span>{{value.State}}</span>
+            <select style="display: none" name="State" class="certState">
+                <option value="Normal">Normal</option>
+                <option value="Revoke">Revoke</option>
+            </select>
+        </td>
+        <td style="display: none">{{value.Issuer_id}}</td>
+        <td>{{value.IssueDate}}</td>
+        <td>{{value.ValidityBegin}}</td>
+        <td>{{value.ValidityEnd}}</td>
+        <td>{{value.IssueTimes}}</td>
+    </tr>
+    {{/each}}
+    <tr>
+</script>
+<!--获取用户证书模板结束-->
+
+<!--获取证书颁布设备-->
+<script id="termList" type="text/html">
+    {{each terminals as value i}}
+    <tr>
+        <td><input type="checkbox" name="done" data-sessionid=""></td>
+        <td>{{value.Type}}</td>
+        <td>{{value.CLI_ID}}</td>
+        <!--<td>{{value.randcode}}</td>-->
+        <td>{{value.HardwareProvider}}</td>
+        <td>{{value.HardwareSN}}</td>
+        <td>{{value.HardwareVersion}}</td>
+        <td>{{value.SoftwareProvider}}</td>
+        <td>{{value.SoftwareVersion}}</td>
+        <td>{{value.CPU}}</td>
+        <td>{{value.IMEI}}</td>
+        <td>{{value.MAC}}</td>
+        <td>{{value.OSID}}</td>
+        <td>{{value.OSType}}</td>
+        <td>{{value.OSVersion}}</td>
+        <td>{{value.ModuleNumber}}</td>
+        <td>{{value.SerialNumber}}</td>
+        <!--<td>{{value.sessionid}}</td>-->
+        <!--<td>{{value.clienthost}}</td>-->
+        <td>{{value.Desc}}</td>
+    </tr>
+    {{/each}}
+</script>
+<!--获取证书颁布设备结束-->
+
+<!--------------模板Script---------------------------------------------------------------->
+
+
+<script src="/static/xr/js/bootstrap.min.js"></script>
+<script src="/static/xr/js/template.js"></script>
+<script src="/static/xr/js/usermanage.js"></script>
+</body>
+</html>

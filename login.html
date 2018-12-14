@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" media="screen" href="/static/xr/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/xr/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/xr/css/bootstrap.min.css">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <script src="/static/xr/js/jquery.min.js"></script>
+    <script src="/static/xr/js/bootstrap.min.js"></script>
+
+    <script>
+        function CloseModal() {
+            $(".modal").modal("hide");
+            $("#captcha").val('');
+        }
+
+        $(".modal").click(function(e){
+            if(e.target==this){
+                closeModal()
+            }
+        });
+    </script>
+</head>
+<body>
+<div id="particles-js">
+
+    <!--登录页面-->
+    <div class="login logindiv">
+        <div class="login-top">
+            登录
+        </div>
+        {% csrf_token %}
+        <div class="login-center clearfix">
+            <div class="login-center-img"><img src="/static/xr/images/name.png"/></div>
+            <div class="login-center-input">
+                <input type="text" name="" id="username" value="" placeholder="请输入您的用户名" onfocus="this.placeholder=''"
+                       onblur="this.placeholder='请输入您的用户名'"/>
+                <div class="login-center-input-text">用户名</div>
+            </div>
+        </div>
+        <div class="login-center clearfix">
+            <div class="login-center-img"><img src="/static/xr/images/password.png"/></div>
+            <div class="login-center-input">
+                <input type="password" id="password" name="" value="" placeholder="请输入您的密码"
+                       onfocus="this.placeholder=''"
+                       onblur="this.placeholder='请输入您的密码'"/>
+                <div class="login-center-input-text">密码</div>
+            </div>
+        </div>
+        <div class="login-center clearfix">
+            <div class="login-center-img">
+                <input type="checkbox" name="" style="width: 15px;height: 15px;margin-top: 3px">
+            </div>
+            <div class="login-center-input" style="line-height: 30px">
+                记住用户
+            </div>
+
+        </div>
+        <div class="login-button" onclick="login()" style="margin-top: 20px">
+            登陆
+        </div>
+        <div class="login-button" onclick="ChangeRegister()" style="margin-top: 20px">
+            去注册
+        </div>
+    </div>
+    <!--登录页面结束-->
+
+
+    <!--注册页面-->
+    <div class="login registerdiv" style="display: none">
+        <div class="login-top">
+            注册
+        </div>
+        {% csrf_token %}
+        <div class="login-center clearfix">
+            <div class="login-center-img"><img src="/static/xr/images/name.png"/></div>
+            <div class="login-center-input">
+                <input type="text" name="" id="reg_username" value="" placeholder="请输入您的用户名"
+                       onfocus="this.placeholder=''"
+                       onblur="this.placeholder='请输入您的用户名'"/>
+                <div class="login-center-input-text">用户名</div>
+            </div>
+        </div>
+        <div class="login-center clearfix">
+            <div class="login-center-img"><img src="/static/xr/images/email.png"/></div>
+            <div class="login-center-input">
+                <input type="email" name="" id="reg_email" value="" placeholder="请输入您的邮箱" onfocus="this.placeholder=''"
+                       onblur="this.placeholder='请输入您的邮箱'"/>
+                <div class="login-center-input-text">邮箱</div>
+            </div>
+        </div>
+        <div class="login-center clearfix">
+            <div class="login-center-img"><img src="/static/xr/images/password.png"/></div>
+            <div class="login-center-input">
+                <input type="password" id="reg_password" name="" value="" placeholder="请输入您的密码"
+                       onfocus="this.placeholder=''"
+                       onblur="this.placeholder='请输入您的密码'"/>
+                <div class="login-center-input-text">密码</div>
+            </div>
+        </div>
+        <div class="login-center clearfix">
+            <div class="login-center-img"><img src="/static/xr/images/password.png"/></div>
+            <div class="login-center-input">
+                <input type="password" id="reg_password_again" name="" value="" placeholder="请再次输入您的密码"
+                       onfocus="this.placeholder=''"
+                       onblur="this.placeholder='请再次输入您的密码'"/>
+                <div class="login-center-input-text">密码</div>
+            </div>
+        </div>
+        <div class="login-button" onclick="GoRegister()">
+            注册
+        </div>
+
+        <div class="login-button" onclick="ChangeLogin()" style="margin-top: 20px">
+            去登陆
+        </div>
+    </div>
+    <!--注册页面-->
+
+
+    <div class="sk-rotating-plane"></div>
+</div>
+
+<!-- 提示框 -->
+<div class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="CloseModal()" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                    <h2 class="modal-title h2" id="myModalLabel" style="text-align: center">邮箱验证</h2>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" type="text" id="captcha" name="" value="" placeholder="请输入邮箱验证码"
+                           onfocus="this.placeholder=''"
+                           onblur="this.placeholder='请输入邮箱验证码'"/>
+                    <div style="margin-top: 20px;width: 100%">
+                        <div style="margin: 0 auto;text-align: center">
+                            <input onclick="Get_Captcha()" type="button" class="btn btn-default left" value="重新获取验证码" >
+                            <input onclick="Register()" type="button" class="btn btn btn-success right" value="确认注册">
+                        </div>
+
+                    </div>
+
+                </div>
+
+        </div>
+    </div>
+</div>
+<!-- 提示框 -->
+
+
+<!--<script src="/static/xr/js/particles.min.js"></script>-->
+<!--<script src="/static/xr/js/app.js"></script>-->
+<script src="/static/xr/js/jquery.cookie.js"></script>
+<script src="/static/xr/js/conf.js"></script>
+<script src="/static/xr/js/bprotocol.js"></script>
+<script>
+
+    $(function () {
+        var param = {"access_token":$.cookie("access_token")};
+        bproto_ajax(GET_LOGIN_MSG_URL, param, function (obj_json) {
+            console.log(obj_json);
+            if(obj_json.code==0){location.href = '/static/xr/index2.html';}
+        });
+        if($.cookie('saveName')){
+            $("#username").val($.cookie('saveName'));
+        }
+
+        //密码输入框逻辑
+        $("#reg_password_again").focus(function () {
+            if ($("#reg_password").val() == $(this).val()) {
+                $(this).css("border-color", "#1e90ff");
+            } else {
+                $(this).css("border-color", 'rgba(255, 30, 37, 0.89)');
+            }
+            if ($(".registerdiv #reg_password").val().length === 0) {
+                $("#reg_password").focus();
+            } else {
+
+            }
+        });
+        $("#reg_password_again").on('input', function () {
+            if ($("#reg_password").val() == $(this).val()) {
+                $(this).css("border-color", "#1e90ff");
+            } else {
+                $(this).css("border-color", 'rgba(255, 30, 37, 0.89)');
+            }
+        });
+        $("#reg_password_again").blur(function () {
+            if ($("#reg_password").val() == $(this).val()) {
+                $(this).css("border-color", "#fff #fff #ccc #fff");
+            } else {
+                $(this).css("border-color", 'rgba(255, 30, 37, 0.89)');
+            }
+        });
+        //密码输入框逻辑
+
+        //邮箱验证
+
+        mailReg = new RegExp("^(\\w-*\\.*)+@(\\w-?)+(\\.\\w{1,})+$");
+        $("#reg_email").focus(function () {
+            var val = $(this).val();
+            if(!mailReg.test(val)){
+                //失败后
+                $(this).popover("show");
+            }else{
+                $(this).popover("hide");
+            }
+        });
+        $("#reg_email").on('input',function () {
+            var val = $(this).val();
+            if(!mailReg.test(val)){
+                //失败后
+                $(this).popover("show");
+            }else{
+                $(this).popover("hide");
+            }
+        });
+        $("#reg_email").blur(function () {
+            var val = $(this).val();
+            if(!mailReg.test(val)){
+                //失败后
+                $(this).popover("show");
+            }else{
+                $(this).popover("hide");
+            }
+        });
+        //邮箱验证
+
+        // $("#reg_username,#reg_password,#reg_password_again").focus(
+        //     checkIsblank(this)
+        // );
+        // $("#reg_username,#reg_password,#reg_password_again").on('input',checkIsblank($("#reg_username,#reg_password,#reg_password_again")));
+        // $("#reg_username,#reg_password,#reg_password_again").blur(
+        //     checkIsblank(this)
+        // );
+        $("#reg_username,#reg_password,#reg_password_again,#captcha,#username,#password").each(function () {
+           $(this).focus(function () {
+               $(this).popover("hide");
+           });
+           $(this).on('input',function () {
+               $(this).popover("hide");
+               if($(this).val()===""){
+                   $(this).popover("show");
+               }
+           });
+           $(this).blur(function () {
+               $(this).popover("hide");
+               if($(this).val()===""){
+                   $(this).popover("show");
+               }
+           });
+        });
+
+        $("#username").popover({
+            trigger: "manual",
+            content: "请输入用户名",
+            container: 'body',
+            animation: false});
+        $("#password").popover({
+            trigger: "manual",
+            content: "请输入密码",
+            container: 'body',
+            animation: false});
+        $("#reg_username").popover({
+            trigger: "manual",
+            content: "请输入用户名",
+            container: 'body',
+            animation: false});
+        $("#reg_email").popover({
+            trigger: "manual",
+            content: "请输入正确的邮箱",
+            container: 'body',
+            animation: false});
+        $("#reg_password").popover({
+            trigger: "manual",
+            content: "请输入密码",
+            container: 'body',
+            animation: false});
+        $("#reg_password_again").popover({
+            trigger: "manual",
+            content: "请再次输入密码",
+            container: 'body',
+            animation: false});
+        $("#captcha").popover({
+            trigger: "manual",
+            content: "请输入验证码",
+            container: 'body',
+            animation: false});
+    });
+
+    //登录
+    function login() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        if(StrisBlack(username)||StrisBlack(password)){
+            checkIsblank($("#username,#password"));
+            return;
+        }
+
+        param = {'username': username, 'password': password};
+        bproto_ajax(LOGIN_URL, param, function (obj_json) {
+            console.log(obj_json);
+            if (obj_json.code == 0) {
+                $.cookie('access_token', obj_json.access_token, {path: '/'});
+                if ($("[type=checkbox]").prop("checked")) {
+                    if (!$.cookie('saveName')) {
+                        $.cookie('saveName', '', {expires: 365, path: '/'})
+                    }
+                    if ($.cookie('saveName').indexOf(obj_json.username) == -1) {
+                        $.cookie('saveName', obj_json.username);
+                    }
+                }
+                location.href = "/static/xr/index2.html";
+            } else {
+                alert("用户名或密码错误");
+            }
+        }, function () {
+            alert("服务器连接失败");
+        })
+    }
+
+    //登录结束
+
+    function checkIsblank(target) {
+        target.each(function () {
+            var ele = $(this);
+            if(StrisBlack($(ele).val())){
+                $(ele).popover("show");
+            }else{
+                $(ele).popover("hide");
+            }
+        })
+
+    }
+
+    //判断字符串是否为空
+    function StrisBlack(str) {
+        str = str.replace(/ /g,"");
+        if(str===""||str.length===0){
+            return true;
+        }
+        return false;
+    }
+
+    // 注册
+    function GoRegister() {
+        reg_username = document.getElementById('reg_username').value;
+        reg_email = document.getElementById('reg_email').value;
+        reg_password = document.getElementById('reg_password').value;
+        reg_password_again = document.getElementById('reg_password_again').value;
+
+        //非空判断
+        if(StrisBlack($("#reg_username").val())||
+            StrisBlack($("#reg_password").val())||
+            StrisBlack($("#reg_password_again").val())||
+            StrisBlack($("#reg_email").val()))
+        {
+            checkIsblank($("#reg_username,#reg_password,#reg_password_again,#reg_email"));
+            return;
+        }
+        //验证邮箱表达式
+        if(!mailReg.test($("#reg_email").val())){
+            $("#reg_email").popover("show");
+            return;
+        }
+
+
+
+        bproto_ajax(REGISTER_CHECK_USERNAME, {"username": reg_username}, function (obj_json) {
+            console.log("验证用户名是否存在:  "+JSON.stringify(obj_json));
+            if (obj_json.code === 0) {
+                //用户验证不存在，开始验证用户邮箱
+                bproto_ajax(REGISTER_GET_CAPTCHA, {'email': reg_email}, function (obj_json) {
+                    //成功后
+                    console.log("获取验证码后提示框:  "+JSON.stringify(obj_json));
+                    if (obj_json.code === 0) {
+                        $(".modal").modal("show");
+                    } else if(obj_json.code===-4) {
+                        $("#reg_email").val("").focus();
+                        alert("邮箱已存在,请更换邮箱绑定");
+                    }
+                });
+            } else {
+                alert("用户 " + reg_username + " 已存在,请重新输入");
+            }
+        });
+
+    }
+
+    function Get_Captcha() {
+        bproto_ajax(REGISTER_GET_CAPTCHA, {'email': reg_email}, function (obj_json) {
+            console.log("再次获取验证码:  "+JSON.stringify(obj_json));
+            if(obj_json.code===0){
+                alert("重新获取成功");
+            }else if(obj_json.code===-4){
+                alert('该邮箱获取次数过多,请稍后重试');
+            }
+        });
+    }
+
+    function Register() {
+        var captcha = $("#captcha").val();
+        if(StrisBlack(captcha)){
+            checkIsblank($("#captcha"));
+            return;
+        }
+        var param = {
+            "username":reg_username,
+            "password":reg_password,
+            "cellphone":"12333333333",
+            "email":reg_email,
+            'captcha':captcha
+        };
+        bproto_ajax(REGISTER_URL,param,function(obj_json){
+            console.log("注册:  "+JSON.stringify(obj_json));
+            if(obj_json.code===0){
+                alert("注册成功");
+                CloseModal();
+                $(".login input").val("");
+                ChangeLogin();
+                $("#username").val(reg_username);
+                $("#password").val(reg_password);
+            }
+        });
+    }
+
+
+    // 注册结束
+
+    function ChangeRegister() {
+        $(".login input").val("");
+        $("#particles-js .login").hide();
+        $(".login input").popover("hide");
+        $("#particles-js .registerdiv").show();
+    }
+
+    function ChangeLogin() {
+        $(".login input").val("");
+        $("#particles-js .login").hide();
+        $(".login input").popover("hide");
+        $("#particles-js .logindiv").show();
+    }
+
+
+
+</script>
+
+</body>
+</html>

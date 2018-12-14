@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="/static/xr/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/xr/css/base.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <script src="/static/xr/js/jquery.min.js"></script>
+    <script src="/static/xr/js/jquery.cookie.js"></script>
+    <script src="/static/xr/js/bprotocol.js"></script>
+    <script src="/static/xr/js/conf.js"></script>
+    <script>
+
+            access_token = '';
+            //获取登录信息
+            access_token = $.cookie("access_token");
+            var param = {"access_token":access_token};
+            bproto_ajax(GET_LOGIN_MSG_URL, param, function (obj_json) {
+                console.log(obj_json);
+                if(obj_json.code!=0){location.href = '/';}
+                $("#username").css('color','#ff7e6a').html(obj_json.username)
+            })
+    </script>
+
+    <style>
+        /*导航栏*/
+        nav {
+            background-color: #8c8c8c;
+            /*overflow: hidden;*/
+        }
+        nav>div {
+            height: 60px;
+        }
+        nav ul.right{
+            float: right;
+            height: 50px;
+        }
+        nav ul.right>li{
+            float: left;
+            margin-left: 20px;
+        }
+        nav ul.right>li>a,nav ul.right>li>span {
+            display: block;
+            height: 30px;
+            font-size: 16px;
+            padding: 5px 10px;
+            margin-top: 15px;
+            text-align: center;
+            line-height: 18px;
+            border: 2px solid rgba(0,0,0,0);
+        }
+        nav h1{
+            font-size: 20px;
+            font-weight: bold;
+            float: left;
+            line-height: 60px;
+            width: 100px;
+        }
+        nav ul.right>li>a.active{
+            border: 2px solid #1b6d85;
+            border-radius: 2px;
+        }
+        .shouquan{
+            display: none;
+            background-color: #8c8c8c;
+            width: 88px;
+            position: absolute;
+            z-index: 1000;
+            height: auto;
+            list-style: none;
+            /*top: 60px;*/
+            padding-top: 15px;
+        }
+        .shouquan li{
+            list-style: none;
+            width: 88px;
+        }
+        .shouquan li.line{
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #000000;
+        }
+        .shouquan li a {
+            display: block;
+            border: 1px solid #8c8c8c;
+            width: 88px;
+            height: 50px;
+            padding: 5px 0;
+            line-height: 35px;
+            text-align: center;
+            font-size: 16px;
+        }
+        .shouquan li a:hover{
+            background-color: #424242;
+            color: #ffffff;
+        }
+        /*导航栏*/
+
+        /*未授权部分*/
+        .sort {
+            width: 100%;
+            border: 1px solid #cccccc;
+            padding: 10px 20px;
+        }
+        .sort li{
+            float: left;
+            height: 30px;
+        }
+        .sort ul li:nth-child(n+2){
+            margin-left: 20px;
+        }
+        .sort li a {
+            line-height: 30px;
+        }
+        .sort ul li:nth-child(1){
+            width: 100px;
+        }
+        .sort ul li:nth-child(1) span{
+            text-align: left;
+            line-height: 30px;
+            color: #3c3c3c;
+        }
+        /*未授权部分*/
+
+
+        /*底部授权*/
+        .account {
+
+            position: fixed;
+            bottom: 0;
+            left:0;
+            height: 60px;
+            width: 100%;
+            background: rgba(0,0,0,.5);
+        }
+        .btn-group-lg>.btn, .btn-lg {
+            padding: 5px 6px;
+
+        }
+        .account .fl{
+            line-height: 60px;
+        }
+        .account .fl input{
+            margin-right: 10px;
+        }
+        .account .fl span {
+            font-size: 16px;
+            color: #ffffff;
+        }
+         a.authorize{
+            margin-top: 10px;
+            display: block;
+            width: auto;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 30px;
+
+            background-color: #5880ff;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #ffffff;
+        }
+        .authorize:hover{
+            color: #ffffff;
+        }
+        /*底部授权*/
+
+        /*提示框时间*/
+        .duration{
+            width: 80%;
+            margin: 20px auto;
+        }
+        .duration input{
+            border: 2px solid #abff8d;
+            border-radius: 4px;
+            padding:10px 20px;
+            width: 40%;
+            outline:none;
+        }
+        .duration input:last-child{
+            float: right;
+        }
+        /*提示框时间*/
+
+    </style>
+</head>
+<body>
+<!--导航栏-->
+<nav>
+    <div class="w1200 clearfix">
+        <style>
+
+        </style>
+        <h1 class="left">管理-系统
+        </h1>
+        <ul class="right">
+            <li style="position: relative" class="auth_manage"><a class="active" href="javascript:;">授权管理</a>
+                <ul class="shouquan">
+                    <li><a href="#" onclick="changeContent(this)" data-bind="#unauthorized">未授权</a></li>
+                    <li class="line"></li>
+                    <li><a href="#" onclick="changeContent(this)" data-bind="#authorized">已授权</a></li>
+                </ul>
+            </li>
+
+            <li><a class="UserManage" href="UserManage.html" data-bind="#UserManage">用户管理</a></li>
+            <li><span id="username" style="color: rgba(0,0,0,.0);">用户名</span></li>
+            <li><a href="javascript:;" onclick="fun_api_logout()">退出</a></li>
+        </ul>
+    </div>
+</nav>
+<!--导航栏结束-->
+<!--<section class="Change">-->
+    <!--<style>-->
+        <!--.Change ul{-->
+            <!--display: flex;-->
+        <!--}-->
+        <!--.Change ul li{-->
+            <!--height:100px;-->
+            <!--text-align: center;-->
+            <!--flex: 1;-->
+        <!--}-->
+
+    <!--</style>-->
+    <!--<div class="w1200">-->
+
+    <!--</div>-->
+
+<!--</section>-->
+
+<!--未授权页面-->
+<section class="content" id="unauthorized">
+    <div class="w1200">
+
+        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 50px 0;color: #3c3c3c;">未授权产品</div>
+
+        <div class="sort">
+            <div>
+                <ul class="clearfix typesort" data-bind="typesort">
+                    <li><span>Type:</span></li>
+
+                </ul>
+            </div>
+            <div>
+                <ul class="clearfix hardwaresort" data-bind="hardwaresort">
+                <li><span>硬件供应商:</span></li>
+                </ul>
+            </div>
+            <div>
+                <ul class="clearfix softwaresort" data-bind="softwaresort">
+                    <li><span>软件供应商:</span></li>
+                </ul>
+            </div>
+        </div>
+        <ol class="breadcrumb">
+            <li>所有分类</li>
+            <li class="active" data-bind="typesort" style="display: none"></li>
+            <li class="active" data-bind="hardwaresort" style="display: none"></li>
+            <li class="active" data-bind="softwaresort" style="display: none"></li>
+        </ol>
+
+        <div class="tablebox" style="width: 100%;height: 100%;overflow: auto;margin-bottom: 60px">
+
+            <table class="table">
+                <thead >
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>               <!--    type-->
+                        <th>ID</th>                 <!--  id-->
+                        <th>RandCode</th>           <!--   randcode-->
+                        <th>硬件供应商</th>              <!--     hardwareprovider-->
+                        <th>硬件SN</th>               <!--    hardwaresn-->
+                        <th>硬件版本</th>               <!--    hardwareversion-->
+                        <th>软件供应商</th>              <!--     softwareprovider-->
+                        <th>软件版本</th>               <!--    softwareversion-->
+                        <th>CPU</th>                 <!--  cpu-->
+                        <th>IMEI</th>               <!--    imei-->
+                        <th>MAC</th>                <!--   mac-->
+                        <th>OSID</th>               <!--    osid-->
+                        <th>OSType</th>             <!--     ostype-->
+                        <th>OSVersion</th>          <!--     osversion-->
+                        <th>模型编号</th>               <!--   modelnumber-->
+                        <th>序列号</th>             <!--   serialnumber-->
+                        <th>SessionID</th>          <!-- sessionid-->
+                        <th>描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!--底部授权部分-->
+    <div class="account">
+
+        <div class="w1200">
+            <div class="fl">
+                <input type="checkbox" name="allcheck" id="allcheck"/><span>全选/全不选</span>&nbsp;&nbsp;
+                <span class="checkNum" style="visibility: hidden">已选100</span>
+            </div>
+            <div class="fr">
+                <a class="authorize" onclick="auth_show()" href="javascript:;">授权</a>
+            </div>
+        </div>
+    </div>
+    <!--底部授权部分结束-->
+
+    <!--授权提示框-->
+        <div class="modal fade bs-example-modal-lg" id="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="h2" style="text-align: center">授权</div>
+                    <hr/>
+                    <!--<div class="progress" style="margin: 20px 20px">-->
+                        <!--<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="duration">
+                        <input type="text" id="year" placeholder="请输入授权期限(单位为年)"/>
+                        <input type="text" id="day"  placeholder="请输入授权期限(单位为日)(默认1日)"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="auth_btn()">授权</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    <script>
+        $(function () {
+            // $(".modal").modal("show")
+        });
+    </script>
+    <!--授权提示框结束-->
+
+
+</section>
+<!--未授权页面结束-->
+
+<!--未授权模板文件-->
+<script id="unauthorizedTemp" type="text/html">
+    {{each registers as value i}}
+        <tr>
+            <td><input type="checkbox" name="done" data-sessionid="{{value.sessionid}}"></td>
+            <td>{{value.type}}</td>
+            <td>{{value.id}}</td>
+            <td>{{value.randcode}}</td>
+            <td>{{value.hardwareprovider}}</td>
+            <td>{{value.hardwaresn}}</td>
+            <td>{{value.hardwareversion}}</td>
+            <td>{{value.softwareprovider}}</td>
+            <td>{{value.softwareversion}}</td>
+            <td>{{value.cpu}}</td>
+            <td>{{value.imei}}</td>
+            <td>{{value.mac}}</td>
+            <td>{{value.osid}}</td>
+            <td>{{value.ostype}}</td>
+            <td>{{value.osversion}}</td>
+            <td>{{value.modelnumber}}</td>
+            <td>{{value.serialnumber}}</td>
+            <td>{{value.sessionid}}</td>
+            <td>{{value.desc}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!--未授权模板结束-->
+
+<!--授权页面-->
+<section class="content" id="authorized" style="display: none">
+    <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 50px 0;color: #3c3c3c;">已授权产品</div>
+    <div class="w1200">
+        <div style="width: 100%;overflow: auto">
+            <table class="table" >
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>               <!--    type-->
+                        <th>ID</th>                 <!--  id-->
+                        <th>RandCode</th>           <!--   randcode-->
+                        <th>硬件供应商</th>              <!--     hardwareprovider-->
+                        <th>硬件SN</th>               <!--    hardwaresn-->
+                        <th>硬件版本</th>               <!--    hardwareversion-->
+                        <th>软件供应商</th>              <!--     softwareprovider-->
+                        <th>软件版本</th>               <!--    softwareversion-->
+                        <th>CPU</th>                 <!--  cpu-->
+                        <th>IMEI</th>               <!--    imei-->
+                        <th>MAC</th>                <!--   mac-->
+                        <th>OSID</th>               <!--    osid-->
+                        <th>OSType</th>             <!--     ostype-->
+                        <th>OSVersion</th>          <!--     osversion-->
+                        <th>模型编号</th>               <!--   modelnumber-->
+                        <th>序列号</th>             <!--   serialnumber-->
+                        <th>SessionID</th>          <!-- sessionid-->
+                        <th>描述</th>                 <!--  desc-->
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<!--授权页面结束-->
+
+
+
+
+<script src="/static/xr/js/bootstrap.min.js"></script>
+<script src="/static/xr/js/template.js"></script>
+<script src="/static/xr/js/index.js"></script>
+</body>
+</html>

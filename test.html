@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <link href="/static/xr/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/xr/css/base.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <script type="text/javascript">
+        // $(document).ready(function() {
+        //     $('.inactive').click(function(){
+        //         var className=$(this).parents('li').parents().attr('class');
+        //         if($(this).siblings('ul').css('display')=='none'){
+        //             if(className=="yiji"){
+        //                 $(this).parents('li').siblings('li').children('ul').parent('li').children('a').removeClass('inactives');
+        //                 $(this).parents('li').siblings('li').children('ul').slideUp(100);
+        //                 $(this).parents('li').children('ul').children('li').children('ul').parent('li').children('a').removeClass('inactives');
+        //                 $(this).parents('li').children('ul').children('li').children('ul').slideUp(100);
+        //             }
+        //             $(this).addClass('inactives');
+        //             $(this).siblings('ul').slideDown(100);
+        //         }else{
+        //             $(this).removeClass('inactives');
+        //             $(this).siblings('ul').slideUp(100);
+        //         }
+        //     })
+        // });
+    </script>
+</head>
+<body>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">.col-md-4</div>
+                    <div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
+                    <div class="col-md-2 col-md-offset-4">.col-md-2 .col-md-offset-4</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9">
+                        Level 1: .col-sm-9
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-6">
+                                Level 2: .col-xs-8 .col-sm-6
+                            </div>
+                            <div class="col-xs-4 col-sm-6">
+                                Level 2: .col-xs-4 .col-sm-6
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="Pager"></div>
+
+<div class="Abc"></div>
+<div>
+<!--<style>-->
+    <!--* {-->
+        <!--padding: 0;-->
+        <!--margin: 0;-->
+    <!--}-->
+    <!--/*-->
+      <!--* 外面盒子样式-&#45;&#45;自己定义-->
+      <!--*/-->
+
+    <!--.page_div {-->
+        <!--margin-top: 20px;-->
+        <!--margin-bottom: 20px;-->
+        <!--font-size: 15px;-->
+        <!--font-family: "microsoft yahei";-->
+        <!--color: #666666;-->
+        <!--margin-right: 10px;-->
+        <!--padding-left: 20px;-->
+        <!--box-sizing: border-box;-->
+    <!--}-->
+    <!--/*-->
+     <!--* 页数按钮样式-->
+     <!--*/-->
+
+    <!--.page_div a {-->
+        <!--min-width: 30px;-->
+        <!--height: 28px;-->
+        <!--border: 1px solid #dce0e0!important;-->
+        <!--text-align: center;-->
+        <!--margin: 0 4px;-->
+        <!--cursor: pointer;-->
+        <!--line-height: 28px;-->
+        <!--color: #666666;-->
+        <!--font-size: 13px;-->
+        <!--display: inline-block;-->
+    <!--}-->
+
+    <!--#firstPage,-->
+    <!--#lastPage {-->
+        <!--width: 50px;-->
+        <!--color: #0073A9;-->
+        <!--border: 1px solid #0073A9!important;-->
+    <!--}-->
+
+    <!--#prePage,-->
+    <!--#nextPage {-->
+        <!--width: 70px;-->
+        <!--color: #0073A9;-->
+        <!--border: 1px solid #0073A9!important;-->
+    <!--}-->
+
+    <!--.page_div .current {-->
+        <!--background-color: #0073A9;-->
+        <!--border-color: #0073A9;-->
+        <!--color: #FFFFFF;-->
+    <!--}-->
+
+    <!--.totalPages {-->
+        <!--margin: 0 10px;-->
+    <!--}-->
+
+    <!--.totalPages span,-->
+    <!--.totalSize span {-->
+        <!--color: #0073A9;-->
+        <!--margin: 0 5px;-->
+    <!--}-->
+<!--</style>-->
+</div>
+
+
+<script src="/static/xr/js/jquery.min.js"></script>
+
+<script src="/static/xr/js/bootstrap.min.js"></script>
+<script src="/static/xr/js/paging.js"></script>
+<script>
+    $(".Pager").paging({
+        pageNo:0,
+        totalPage: 9,
+        totalSize: 300,
+        callback: function(num) {
+            alert(num);
+        }
+    })
+    $(".Pager").paging({
+        pageNo:0,
+        totalPage: 9,
+        totalSize: 300,
+        callback: function(num) {
+            alert(num);
+        }
+    })
+</script>
+
+</body>
+</html>
