@@ -291,6 +291,8 @@
                     <th>模型编号</th>               <!--   modelnumber-->
                     <th>序列号</th>             <!--   serialnumber-->
                     <th>SessionID</th>          <!-- sessionid-->
+                    <th>UserLabel</th>          <!-- userlabel-->
+                    <th>客户端IP</th>          <!-- clienthost-->
                     <th>描述</th>
                 </tr>
                 </thead>
@@ -366,6 +368,8 @@
                         <th>模型编号</th>               <!--   modelnumber-->
                         <th>序列号</th>             <!--   serialnumber-->
                         <th>SessionID</th>          <!-- sessionid-->
+                        <th>UserLabel</th>          <!-- userlabel-->
+                        <th>ClientHost</th>          <!-- clienthost-->
                         <th>描述</th>                 <!--  desc-->
                     </tr>
                     </thead>
@@ -402,6 +406,8 @@
         <td>{{value.modelnumber}}</td>
         <td>{{value.serialnumber}}</td>
         <td>{{value.sessionid}}</td>
+        <td>{{value.userlabel}}</td>
+        <td>{{value.clienthost}}</td>
         <td>{{value.desc}}</td>
     </tr>
     {{/each}}

@@ -3,6 +3,7 @@ var hardwareproviderlist = [];
 var softwareproviderlist = [];
 var authorizedlist = [];
 
+
 //动态设置table高度
 $(window).resize(function () {
     $(".tablebox").height($(window).height() - $(".account").height() - $(".tablebox").offset().top)
@@ -23,6 +24,26 @@ Array.prototype.unique = function () {
     }
     return r;
 };
+
+//根据ip获取地理位置
+function IP2address(ip,callback) {
+    var url = "https://opendata.baidu.com/api.php?query="+ip+"&co=&resource_id=6006&cb=op_aladdin_callback&format=json&tn=baidu";
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'jsonp',
+        timeout: 1000,
+        cache: false,
+        jsonp:"cb",
+        error: function () {
+            callback(JSON.stringify({"status":-1}))
+        },  //错误执行方法
+        success: function (obj_json) {
+            callback(obj_json);
+        }
+    })
+}
 
 // 退出
 function fun_api_logout() {
@@ -63,6 +84,17 @@ function fun_get_register_list() {
     param = {'access_token': access_token};
     bproto_ajax(GET_REGISTER_URL, param, function (obj_json) {
         if (obj_json.code == 0) {
+            var temp = obj_json;
+            for (let i = 0; i < temp.registers.length; i++) {
+                IP2address(temp.registers[i].clienthost,function (json) {
+                    temp.registers[i].clienthost = json.data[0].location;
+                    if(i===temp.registers.length-1){
+                        temp = template('unauthorizedTemp', temp);
+                        $("#unauthorized table tbody").html(temp);
+                    }
+                });
+            }
+
             authorizedlist = obj_json.registers;
             typelist = [];            //清空数据
             hardwareproviderlist = [];//清空数据
@@ -78,9 +110,7 @@ function fun_get_register_list() {
             softwareproviderlist = softwareproviderlist.unique();
 
             //模板渲染
-            var data = template('unauthorizedTemp', obj_json);
-            $("#unauthorized table tbody").html(data);
-            applySort()
+            applySort();
         }
     })
 }
