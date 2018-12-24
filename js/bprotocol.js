@@ -13,7 +13,7 @@ function bproto_ajax(post_url, post_data, on_success, on_error) {
             //通常情况下textStatus和errorThrown只有其中一个包含信息
             //this; //调用本次ajax请求时传递的options参数
             console.warn(XMLHttpRequest.statusText)
-            alert("服务器出错,请刷新页面重试" + XMLHttpRequest.statusText + XMLHttpRequest.status);
+            // alert("服务器出错,请刷新页面重试" + XMLHttpRequest.statusText + XMLHttpRequest.status);
         }
     })
 }
