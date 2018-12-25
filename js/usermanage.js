@@ -47,6 +47,18 @@ $("#dayduration").popover({
     content: '<div id="dayduration_pop">请输入证书授权时效(可单选)</div>',
     container: 'body',
     animation: false});
+
+$("#addUserLabel").popover(
+    {
+        html:true,
+        trigger:"manual",
+        title:"请扫描二维码",
+        content:"<div id='userlabelqrcode'></div>",
+        container: 'body',
+    }
+);
+
+
 verifTarget("#Times");
 function verifTarget(target) {
     $(target).on("input", function () {
@@ -152,13 +164,11 @@ function AddCert_Modal(){
     })
 }
 
-
-
 //绑定查看证书a标签事件
-function showUserCerts(a) {
-    username = $(a).attr("data-bind");
+function showUserCerts(target) {
+    username = $(target).attr("data-bind");
 //    {"access_token":"SAKPFLsOpsnrzAyAmYSxNu6pCJEwxpHM","username":"admin","page":0,"page_size":5}:
-    userid = $(a).attr("data-userid");
+    userid = $(target).attr("data-userid");
     param={
         "access_token":access_token,
         "username":username,
@@ -188,6 +198,33 @@ function showUserCerts(a) {
         }
     });
 }
+
+
+//查看用户标签信息
+function showUserLabel(target) {
+
+}
+
+//添加用户标签
+function addUserLabel() {
+
+    param = {'access_token':access_token};
+
+    bproto_ajax(USER_LABEL_ADD,param,function (obj_json) {
+        console.log(obj_json);
+        var data = obj_json.userlabel;
+        $("#addUserLabel").popover("show");
+        new QRCode(document.getElementById("userlabelqrcode"),data);
+    })
+}
+
+
+
+
+
+
+
+
 
 //根据page页数获取证书数据
 function getCerts_list(page) {

@@ -85,10 +85,12 @@
                 <a href="javascript:;">
                     <i class="fa fa-user-o"></i>
                     <span>用户管理</span>
-                    <i class="fa fa-angle-right pull-right"></i>
+                    <i class="fa fa-angle-down pull-right"></i>
                 </a>
                 <ul class="treeview-menu menu-open" style="display: block;">
-                    <li><a href="#" data-bind=".ShowUser" onclick="showUserList()"><i class="fa fa-circle-o"></i> 用户列表</a></li>
+                    <li>
+                        <a href="#" data-bind=".ShowUser" onclick="showUserList()"><i class="fa fa-circle-o"></i> 用户列表 </a>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -184,7 +186,7 @@
                             <input type="password" class="form-control password" id="exampleInputPassword1"
                                    placeholder="请输入密码">
                         </div>
-                        <button type="button" class="btn btn-default" onclick="addUser()">添加</button>
+                        <button  type="button" class="btn btn-default" onclick="addUser()">添加</button>
                     </form>
                 </div>
                 <!--添加用户结束-->
@@ -192,14 +194,16 @@
 
                 <!--显示用户列表-->
                 <div class="ShowUser">
-                    <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 50px 0;color: #3c3c3c;">用户列表</div>
+                    <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 50px 0 20px 0;color: #3c3c3c;">用户列表</div>
+                    <button type="button" id="addUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="addUserLabel()"> 添加认证标签 </button>
                     <table class="table table-bordered">
                         <thead>
                         <tr>
-                            <th>用户名</th>
+                            <th>账号</th>
                             <th>邮箱</th>
                             <th>证书信息</th>
                             <th>颁布证书</th>
+                            <th>标签信息</th>
                             <th>设备信息</th>
                         </tr>
                         </thead>
@@ -503,6 +507,8 @@
         </div>
     </div>
     <!-- 弹出框结束 -->
+
+
 </section>
 
 
@@ -516,6 +522,7 @@
         <td>{{value.email}}</td>
         <td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" data-userid="{{value.user_id}}" onclick="showUserCerts(this)">查看</a></td>
         <td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" data-user="{{value.username}}" onclick="addUserCert(this)">添加证书</a></td>
+        <td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" onclick="showUserLabel(this)">查看</a></td>
         <td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="showAllTerms(this)">查看</a></td>
         <!--data-toggle="modal" data-target="#myModal"-->
     </tr>
@@ -691,6 +698,7 @@
 
 <script src="/static/xr/js/bootstrap.min.js"></script>
 <script src="/static/xr/js/template.js"></script>
+<script src="/static/xr/js/qrcode.min.js"></script>
 <script src="/static/xr/js/usermanage.js"></script>
 </body>
 </html>

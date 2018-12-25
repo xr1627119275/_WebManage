@@ -41,7 +41,13 @@ UPDATE_CERTS_URL = "/api/v1/update_cert/" ; //更改证书信息
 GET_CERT_TERMINAL_URL = "/api/v1/get_cert_terminal/" ;  //查看证书颁布的设备
 
 
-
 ADMIN_ISSUE_UESER_CERT = "/api/v1/issue/admin_issue_user_cert/"; //管理员颁发个用户证书
 
 ISSUE_UESER_CERT = "/api/v1/issue/issue_user_cert/"; //将授权次数转移
+
+
+USER_LABEL_GET = "/api/v1/user/user_label_get/"; //查看用户标签
+
+USER_LABEL_ADD  = "/api/v1/user/user_label_add/"; //用户标签添加
+
+

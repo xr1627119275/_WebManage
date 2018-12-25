@@ -158,11 +158,12 @@
     <section class="sidebar">
         <ul class="sidebar-menu">
             <li class="header">管理系统</li>
+        <!--授权管理-->
             <li class="treeview active">
                 <a href="javascript:;">
                     <i class="fa fa-window-restore"></i>
                     <span>授权管理</span>
-                    <i class="fa fa-angle-right pull-right"></i>
+                    <i class="fa fa-angle-down pull-right"></i>
                 </a>
                 <ul class="treeview-menu menu-open">
                     <li><a href="#unauthorized" onclick="changeContent(this)" data-bind="#unauthorized"><i class="fa fa-circle-o"></i> 未授权设备 </a></li>
@@ -170,6 +171,51 @@
                     <li><a href="#onlineTerminal" onclick="changeContent(this)" data-bind="#onlineTerminal"><i class="fa fa-circle-o"></i> 在线设备 </a></li>
                 </ul>
             </li>
+        <!--授权管理-->
+
+        <!--证书管理-->
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-window-restore"></i>
+                    <span>证书管理</span>
+                    <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> 用户列表 </a></li>
+
+                </ul>
+            </li>
+        <!--证书管理-->
+
+        <!--设备管理-->
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-window-restore"></i>
+                    <span>设备管理</span>
+                    <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> 用户列表 </a></li>
+
+                </ul>
+            </li>
+        <!--设备管理-->
+
+        <!--认证标签管理-->
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-window-restore"></i>
+                    <span>认证标签管理</span>
+                    <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu" style="display: none;">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> 用户列表 </a></li>
+
+                </ul>
+            </li>
+        <!--认证标签管理-->
+
+        <!--用户管理-->
             <li class="treeview">
                 <a href="UserManage2.html">
                     <i class="fa fa-user-o"></i>
@@ -181,7 +227,7 @@
 
                 </ul>
             </li>
-
+        <!--用户管理-->
         </ul>
     </section>
 </aside>
