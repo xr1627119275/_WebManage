@@ -5,9 +5,12 @@ function bproto_ajax(post_url, post_data, on_success, on_error) {
         url: post_url,
         headers: {'X-CSRFToken': $.cookie('csrftoken')},
         data: JSON.stringify(post_data),
-        success: on_success ? on_success : function (data, textStatus) {
-            console.log(data)
-            console.log(textStatus)
+        success: function (data,textStatus) {
+            if(data.code&&data.code===-1&&data.msg==="not login"){
+                location.href = '/';
+            }else{
+                on_success(data);
+            }
         },
         error: on_error ? on_error : function (XMLHttpRequest, textStatus, errorThrown) {
             //通常情况下textStatus和errorThrown只有其中一个包含信息

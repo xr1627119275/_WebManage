@@ -22,7 +22,25 @@ LOGOUT_URL = "/api/v1/api_logout/"; //退出登录url
 
 GET_REGISTER_URL = "/api/v1/get_register_list2/"; //获取未授权列表
 
-GET_ONLINE_TERMINAL_URL = "/api/v1/get_online_terminal_list/"; //获取在线设备
+GET_REGISTER_LIST_FILTER_INFO = "/api/v1/get_register_list_filter_info/";//获取未授权检索列表内容
+
+GET_USER_TERMINAL_LIST_FILTER_INFO = "/api/v1/get_user_terminal_list_filter_info/";//获取授权检索列表内容
+
+GET_USER_TERMINAL_LIST = "/api/v1/get_user_terminal_list/"; //获取授权的设备列表
+
+
+
+
+GET_ONLINE_TERMINAL_URL = "/api/v1/get_online_terminal_list/"; //获取在线设备list
+
+GET_USER_ONLINE_TERMINAL_URL = "/api/v1/get_user_online_terminal_list/"; //获取在线设备list
+
+GET_TERMINAL_INFO = "/api/v1/get_terminal_info/";//获取在线设备信息
+
+SEND_SERVER_CMD = "/api/v1/send_server_cmd/";//给在线设备发送信息
+
+GET_SERVER_CMD_RESPONSE ="/api/v1/get_server_cmd_response/";//获取在线设备回复信息
+
 
 AUTHORIZE_URL = "/api/v1/auth_register2/"; //授权设备
 
@@ -49,5 +67,19 @@ ISSUE_UESER_CERT = "/api/v1/issue/issue_user_cert/"; //将授权次数转移
 USER_LABEL_GET = "/api/v1/user/user_label_get/"; //查看用户标签
 
 USER_LABEL_ADD  = "/api/v1/user/user_label_add/"; //用户标签添加
+
+USER_LABEL_DEL  = "/api/v1/user/user_label_del/"; //用户标签删除
+
+USER_LABEL_UPDATE  = "/api/v1/user/user_label_update/"; //用户标签修改
+
+
+
+GET_MODULE_FIELDS = "/api/v1/get_module_fields/";//设备字段验证列表
+
+GET_MODULE_FIELD_NAME = "/api/v1/get_module_field_name/";//获取字段名称列表
+
+ADD_MODULE_FIELD = "/api/v1/add_module_field/";//添加验证字段
+
+DEL_MODULE_FIELD = "/api/v1/del_module_field/";//删除验证字段
 
 
