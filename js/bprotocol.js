@@ -1,4 +1,36 @@
+//
+function AjaxPost(url,data,list) {
+    return new Promise(function (resolve,reject){
+        // bproto_ajax(url,data,resolve,reject)
+        $.ajax(
+            $.ajax({
+                type: 'POST',
+                dataType: "json",
+                url: url,
+                headers: {'X-CSRFToken': $.cookie('csrftoken')},
+                data: JSON.stringify(data),
+                success: function (data,textStatus) {
+                    if(data.code&&data.code===-1&&data.msg==="not login"){
+                        alert("回话已过期，请重新登录");
+                        location.href = '/';
+                    }else{
+                        resolve(data);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    //通常情况下textStatus和errorThrown只有其中一个包含信息
+                    //this; //调用本次ajax请求时传递的options参数
+                    console.warn(XMLHttpRequest.statusText)
+                    reject(XMLHttpRequest.statusText)
+                    // alert("服务器出错,请刷新页面重试" + XMLHttpRequest.statusText + XMLHttpRequest.status);
+                }
+            })
+        )
+    })
+}
+
 function bproto_ajax(post_url, post_data, on_success, on_error) {
+
     $.ajax({
         type: 'POST',
         dataType: "json",
@@ -20,6 +52,7 @@ function bproto_ajax(post_url, post_data, on_success, on_error) {
         }
     })
 }
+
 
 
 function bproto_ajax_async(post_url, post_data, on_success, on_error) {

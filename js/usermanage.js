@@ -8,6 +8,8 @@ cacheUserslist = [];
 
 currentCert = ""; //初始化证书号
 
+ModalShowList = [];
+
 
 switch (location.hash) {
   case "#userslistManage":
@@ -449,8 +451,10 @@ function showUpdateCertTimes(target) {
       }
     }
     var html = template('Select_usersList', {"users": users});
-    $(".SelectUser .users").html(html);
+    $("#UserModal .SelectUser .users").html(html);
     $("#UserModal #myModalLabel").text("选择用户");
+    $("#UserModal .modal-dialog").removeClass("modal-lg").addClass("modal-md");
+    $("#UserModal").modal("show");
     $(".modalTable").hide();
     $(".SelectUser").show();
     ModalShowList.push({target: $(".SelectUser"), title: $("#UserModal #myModalLabel").text()});
@@ -496,6 +500,8 @@ function showTerminal(cert) {
       currentCerts2TermPage = obj_json.page;
       currentCerts2TermPage_total = obj_json.page_total;
       $(".showCert2Term tbody").html(template("termList", obj_json));
+      $("#UserModal .modal-dialog").removeClass("modal-md").addClass("modal-lg");
+      $("#UserModal").modal("show");
       $(".modalTable").hide();
       $("#UserModal #myModalLabel").text("证书(" + currentCert + ")颁发的设备");
       $(".termTable").show();

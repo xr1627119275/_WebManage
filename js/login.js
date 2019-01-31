@@ -29,6 +29,14 @@ $(function () {
       $("#username").val($(this).text());
   });
 
+  //回车检测
+  $("#login_captcha_input").bind("keypress",function (e) {
+    if(e.keyCode === "13"){
+      login();
+    }
+  });
+
+
   //邮箱验证
   mailReg = new RegExp("^(\\w-*\\.*)+@(\\w-?)+(\\.\\w{1,})+$");
   ChineseReg = new RegExp("[\u4e00-\u9fa5]");

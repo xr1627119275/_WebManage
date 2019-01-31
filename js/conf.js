@@ -22,6 +22,8 @@ LOGOUT_URL = "/api/v1/api_logout/"; //退出登录url
 
 GET_REGISTER_URL = "/api/v1/get_register_list2/"; //获取未授权列表
 
+DEL_REGISTER_INFO = "/api/v1/del_register_info/"; //获取未授权列表
+
 GET_REGISTER_LIST_FILTER_INFO = "/api/v1/get_register_list_filter_info/";//获取未授权检索列表内容
 
 GET_USER_TERMINAL_LIST_FILTER_INFO = "/api/v1/get_user_terminal_list_filter_info/";//获取授权检索列表内容
@@ -82,4 +84,17 @@ ADD_MODULE_FIELD = "/api/v1/add_module_field/";//添加验证字段
 
 DEL_MODULE_FIELD = "/api/v1/del_module_field/";//删除验证字段
 
+
+
+GET_CMS_INFO = "/api/v1/get_cms_info/";//CMS服务器信息
+
+GET_CMS_PU_LIST = "/api/v1/get_cms_pu_list/";
+
+UPDATE_CMS_INFO = '/api/v1/update_cms_info/';//CMS服务器信息(主要是启用/关闭黑白名单)
+
+GET_BW_FIELD_TYPE_LIST = "/api/v1/get_bw_field_type_list/"; //CMS黑白名单字段获取
+
+UPDATE_BLACK_WHITE_LIST_FILTER = '/api/v1/update_black_white_list_filter/'; //添加CMS删除白名单, 增加时(有该项数据, 修改) (条件筛选, 比如CMS上线的设备是指定硬件厂商的设备
+
+GET_BLACK_WHITE_LIST_FILTER = '/api/v1/get_black_white_list_filter/';//获取CMS黑白名单 (条件筛选)
 

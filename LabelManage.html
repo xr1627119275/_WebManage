@@ -77,6 +77,22 @@
             </li>
             <!--授权管理-->
 
+s
+            <!--CMS管理-->
+            <li class="treeview">
+                <a href="CmsManage.html">
+                    <i class="fa fa-briefcase"></i>
+                    <span>CMS管理</span>
+                    <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu menu-open">
+                    <li><a href="#cmslist" onclick="changeContent(this)" data-bind="#cmslist"><i class="fa fa-circle-o"></i> CMS设备 </a></li>
+                    <li><a href="#black_white" onclick="changeContent(this)" data-bind="#black_white"><i class="fa fa-circle-o"></i> 黑白名单管理 </a></li>
+                </ul>
+            </li>
+            <!--CMS管理-->
+
+
             <!--证书管理-->
             <li class="treeview" >
                 <a href="CertManage.html">
@@ -93,7 +109,7 @@
 
             <!--认证标签管理-->
             <li class="treeview active">
-                <a href="javascript:;">
+                <a href="LabelManage.html">
                     <i class="fa fa-tags"></i>
                     <span>认证标签管理</span>
                     <i class="fa fa-angle-down pull-right"></i>
@@ -193,7 +209,7 @@
     </header>
 
     <section id="labelList" class="content labelList">
-        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 50px 0;color: #3c3c3c;">认证标签信息</div>
+        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">认证标签信息</div>
         <button type="button" id="addUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="ShowAddUserLabel_modal()"> 添加认证标签 </button>
         <button type="button" id="removeUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="RemoveUserLabel()"> 删除认证标签 </button>
         <button type="button" id="updateUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="ShowUpdateUserLabel_modal()"> 修改认证标签信息 </button>
@@ -225,6 +241,7 @@
                             #
                             <!--<input type="checkbox" id="labelList_all_cb">-->
                         </th>
+                        <th>标签名称</th>
                         <th style="display: none">UserId</th>
                         <th>标签ID</th>
                         <th>描述信息</th>
@@ -253,6 +270,11 @@
 
                 <div class="modal-body">
                     <div class="form-group">
+                        <label class="mylabel">用户授权标签名称</label>
+                        <input class="form-control" id="input_label_name" placeholder="请填写描述信息"/>
+                    </div>
+
+                    <div class="form-group">
                         <label class="mylabel">用户授权标签描述信息</label>
                         <textarea class="form-control" id="textarea_label_note" rows="3" placeholder="请填写描述信息"></textarea>
                     </div>
@@ -270,6 +292,11 @@
                     <h4 class="modal-title h4" id="LabelManage_title" style="text-align: center">修改授权标签</h4>
                 </div>
                 <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="mylabel">用户授权标签名称</label>
+                        <input class="form-control" id="update_input_label_name" placeholder="请填写描述信息"/>
+                    </div>
                     <div class="form-group">
                         <label class="mylabel">用户授权标签描述信息</label>
                         <textarea class="form-control" id="update_textarea_label_note" rows="3" placeholder="请更改描述信息"></textarea>
@@ -290,6 +317,7 @@
     {{each userlabel as value i}}
         <tr>
             <td style="height: 52px;line-height:52px;"><input type="radio" name="cb_label" data-bind="{{value.label_id}}"/></td>
+            <td style="line-height:52px;">{{value.label_name}}</td>
             <td style="display: none">{{value.User_id}}</td>
             <td style="height: 52px;line-height:52px;position: relative;"><span >{{value.label_id}}<div class="showqrcode" style="background-color:#fff;">{{value.label_id}}</div></span></td>
             <td><textarea class="form-control textarea_label_note" style="resize: none;cursor: text;" disabled rows="2" >{{value.label_note}}</textarea></td>

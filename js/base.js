@@ -1,4 +1,5 @@
 access_token = '';
+window.CurrentUserId = '';
 //获取登录信息
 access_token = $.cookie("access_token");
 var param = {"access_token": access_token};
@@ -8,7 +9,7 @@ bproto_ajax(GET_LOGIN_MSG_URL, param, function (obj_json) {
     location.href = '/';
   }
   CurrentUser = obj_json.username;
-  window.CurrentUserId = obj_json.user_id;
+  CurrentUserId = obj_json.user_id;
   $("#username").css("color", "#4b646f").html(obj_json.username + ' <i class="fa fa-angle-down"></i>');
 });
 
@@ -25,6 +26,21 @@ function fun_api_logout() {
   })
 }
 
+//提前获取用户信息，并回调
+function GetUserMsg_CallBack(func){
+  if(!window.CurrentUserId){
+    access_token = $.cookie("access_token");
+    var param = {"access_token": access_token};
+    bproto_ajax(GET_LOGIN_MSG_URL, param, function (obj_json) {
+      CurrentUser = obj_json.username;
+      window.CurrentUserId = obj_json.user_id;
+      func();
+    });
+
+  }else{
+    func();
+  }
+}
 
 //根据ip获取地理位置
 function IP2address(ip, callback) {

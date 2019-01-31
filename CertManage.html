@@ -75,9 +75,23 @@
             </li>
             <!--授权管理-->
 
+            <!--CMS管理-->
+            <li class="treeview">
+                <a href="CmsManage.html">
+                    <i class="fa fa-briefcase"></i>
+                    <span>CMS管理</span>
+                    <i class="fa fa-angle-right pull-right"></i>
+                </a>
+                <ul class="treeview-menu menu-open">
+                    <li><a href="#cmslist" onclick="changeContent(this)" data-bind="#cmslist"><i class="fa fa-circle-o"></i> CMS设备 </a></li>
+                    <li><a href="#black_white" onclick="changeContent(this)" data-bind="#black_white"><i class="fa fa-circle-o"></i> 黑白名单管理 </a></li>
+                </ul>
+            </li>
+            <!--CMS管理-->
+
             <!--证书管理-->
             <li class="treeview active">
-                <a href="#">
+                <a href="javascript:;">
                     <i class="fa fa-book"></i>
                     <span>证书管理</span>
                     <i class="fa fa-angle-down pull-right"></i>
@@ -191,7 +205,7 @@
     </header>
 
     <section id="certList" class="content">
-        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 50px 0;color: #3c3c3c;">证书信息</div>
+        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">证书信息</div>
 
         <div class="showCert" style="width: 100%;overflow: auto">
             <table class="table table-bordered">

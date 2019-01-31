@@ -19,11 +19,11 @@ currentOnlineTermPageSize = 20; // 初始化在线设备每页获取数据
 
 currentUnAuthTermPage_total = 0;//初始化未授权设备总页数
 currentUnAuthTermPage = 0; //初始化未授权设备当前页数
-currentUnAuthTermPageSize = 10; // 初始化未授权设备每页获取数据
+currentUnAuthTermPageSize = 20; // 初始化未授权设备每页获取数据
 
 currentAuthTermPage_total = 0;//初始化授权设备总页数
 currentAuthTermPage = 0; //初始化授权设备当前页数
-currentAuthTermPageSize = 10; // 初始化授权设备每页获取数据
+currentAuthTermPageSize = 20; // 初始化授权设备每页获取数据
 
 
 Module_FiledLists = {};//分类验证字段
@@ -55,7 +55,7 @@ function GetUserMsg_CallBack(func){
 $(window).resize(function () {
   // $(".tablebox").height($(window).height() - $(".account").height() - $(".tablebox").offset().top-60);
   $(".tablebox").height($(window).height() - parseInt(unauth_account_ishide?""+$("#unauthorized .account").height():"0") - $(".tablebox").offset().top-60);
-  $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top-60);
+  $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top);
   $(".tablebox_online").height($(window).height() - parseInt(online_account_ishide?""+$("#onlineTerminal .account").height():"0") - $(".tablebox_online").offset().top-60);
   // console.log("change")
 }).trigger("resize");
@@ -67,7 +67,7 @@ switch (location.hash) {
     break;
   case "#authorizedPage":
     changeContent($("a[data-bind=#authorized]")[0]);
-    $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top-60);
+    $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top);
     break;
   case "#onlineTerminalPage":
     changeContent($("a[data-bind=#onlineTerminal]")[0]);
@@ -124,8 +124,9 @@ function changeContent(target) {
   // $(target).addClass("active");
   $(targetId).show();
   $(".shouquan").hide();
+  $(".breadcrumb li.active").text("").hide();
   if ($(target)[0] == $("a[data-bind=#unauthorized]")[0]) {
-    fun_get_register_list();
+    GetUserMsg_CallBack(fun_get_register_list);
   } else if ($(target)[0] == $("a[data-bind=#onlineTerminal]")[0]) {
     GetUserMsg_CallBack(fun_get_online_terminal_list);
   } else if ($(target)[0] == $("a[data-bind=#TerminalVerify]")[0]) {
@@ -147,10 +148,13 @@ function changeContent(target) {
 //获取未授权列表
 function fun_get_register_list() {
   unauth_account_ishide = false;
+  $("#unauthorized .dropdown-menu li:nth-child(1)").click();
+  $("#unauthorized input").val("");
   $("#unauthorized .account").hide();
   $("input[type=checkbox]").prop("checked", false);
   param = {
     "access_token":access_token,
+    'user_id':CurrentUserId,
     'page':currentUnAuthTermPage,
     "page_size":currentUnAuthTermPageSize
   };
@@ -188,21 +192,12 @@ function update_ip() {
   });
 }
 
+
+
+
+
 //根据未授权列表数据 检索,去重
 function UnAuth_List_Search() {
-  // unauthorizedlist = lists;
-  // unauthTypelist = [];            //清空数据
-  // unauthHardwareproviderlist = [];//清空数据
-  // unauthSoftwareproviderlist = [];//清空数据
-  // for (let i = 0; i < unauthorizedlist.length; i++) {
-  //   unauthTypelist.push(unauthorizedlist[i].randcode);
-  //   unauthHardwareproviderlist.push(unauthorizedlist[i].hardwareprovider);
-  //   unauthSoftwareproviderlist.push(unauthorizedlist[i].softwareprovider);
-  // }
-  // //去重
-  // unauthTypelist = unauthTypelist.unique();
-  // unauthHardwareproviderlist = unauthHardwareproviderlist.unique();
-  // unauthSoftwareproviderlist = unauthSoftwareproviderlist.unique();
 
   bproto_ajax(GET_REGISTER_LIST_FILTER_INFO,{},function (obj_json) {
     if(obj_json.code===0){
@@ -217,20 +212,6 @@ function UnAuth_List_Search() {
 
 //根据已授权列表数据 检索,去重
 function Auth_List_Search() {
-  // unauthorizedlist = lists;
-  // unauthTypelist = [];            //清空数据
-  // unauthHardwareproviderlist = [];//清空数据
-  // unauthSoftwareproviderlist = [];//清空数据
-  // for (let i = 0; i < unauthorizedlist.length; i++) {
-  //   unauthTypelist.push(unauthorizedlist[i].randcode);
-  //   unauthHardwareproviderlist.push(unauthorizedlist[i].hardwareprovider);
-  //   unauthSoftwareproviderlist.push(unauthorizedlist[i].softwareprovider);
-  // }
-  // //去重
-  // unauthTypelist = unauthTypelist.unique();
-  // unauthHardwareproviderlist = unauthHardwareproviderlist.unique();
-  // unauthSoftwareproviderlist = unauthSoftwareproviderlist.unique();
-
   bproto_ajax(GET_USER_TERMINAL_LIST_FILTER_INFO,{},function (obj_json) {
     if(obj_json.code===0){
       authTypelist = obj_json.type;
@@ -259,7 +240,8 @@ function Online_List_Search() {
 
 //授权过的设备获取list
 function fun_get_authterm_list(){
-
+  $("#authorized .dropdown-menu li:nth-child(1)").click();
+  $("#authorized input").val("");
   param = {
     "access_token":access_token,
     'page':currentAuthTermPage,
@@ -282,7 +264,8 @@ function fun_get_authterm_list(){
 
 //获取在线设备列表
 function fun_get_online_terminal_list() {
-
+  $("#onlineTerminal .dropdown-menu li:nth-child(1)").click();
+  $("#onlineTerminal input").val("");
   param = {
     "access_token": access_token,
     "page": 0,
@@ -335,17 +318,23 @@ function getUnAuthTerm_list(page) {
   if (page < 0) {
     page = 0
   }
-  var sortlist = [];
+  var sortlist = {};
   $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function () {
     if ($(this).text().length > 0) {
-      sortlist.push($(this).text())
+      sortlist[$(this).attr("data-info")] = $(this).text()
     }
   });
 
+  var search_val = $("#unauthorized .search input").val();
+
+  if(search_val.length>0){
+    sortlist[$("#unauthorized .search .search-btn").attr("data-bind")]=search_val
+  }
 
   $("input[type=checkbox]").prop("checked", false);
   param = {
     "access_token":access_token,
+    'user_id':CurrentUserId,
     'page':page,
     "page_size":currentUnAuthTermPageSize,
     'filters':sortlist
@@ -373,10 +362,24 @@ function getAuthTerm_list(page) {
   if (page < 0) {
     page = 0
   }
+  var sortlist = {};
+  $("#authorized .breadcrumb li:nth-child(n+2)").each(function () {
+    if ($(this).text().length > 0) {
+      sortlist[$(this).attr("data-info")] = $(this).text()
+    }
+  });
+
+  var search_val = $("#authorized .search input").val();
+
+  if(search_val.length>0){
+    sortlist[$("#authorized .search .search-btn").attr("data-bind")]=search_val
+  }
   param = {
     "access_token":access_token,
+    'user_id':CurrentUserId,
     'page':page,
-    "page_size":currentAuthTermPageSize
+    "page_size":currentAuthTermPageSize,
+    'filter':sortlist
   };
   bproto_ajax(GET_USER_TERMINAL_LIST, param, function (obj_json) {
     if (obj_json.code === 0) {
@@ -397,28 +400,43 @@ function getAuthTerm_list(page) {
 
 //根据page页数获取在线设备
 function getOnlineTerm_list(page) {
-  if (page < 0) {
-    page = 0
-  }
 
-  param = {
-    "access_token": access_token,
-    'user_id':currentUserId,
-    "page": page,
-    "page_size": currentOnlineTermPageSize
-  };
-  bproto_ajax(GET_USER_ONLINE_TERMINAL_URL, param, function (obj_json) {
-    if (obj_json.code === 0) {
-      // "page": 0,    "page_size": 5,    "page_total": 86
-      if(obj_json.registers.length===0){
-        alert("已经是最后一页了");
-        return;
-      }
-      currentOnlineTermPage = obj_json.page;
-      currentOnlineTermPage_total = obj_json.page_total;
-      RenderOnlineTerminalTable(obj_json);
+  GetUserMsg_CallBack(function () {
+    if (page < 0) {
+      page = 0
     }
-  });
+    var sortlist = {};
+    $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function () {
+      if ($(this).text().length > 0) {
+        sortlist[$(this).attr("data-info")] = $(this).text()
+      }
+    });
+
+    var search_val = $("#onlineTerminal .search input").val();
+
+    if(search_val.length>0){
+      sortlist[$("#onlineTerminal .search .search-btn").attr("data-bind")]=search_val
+    }
+    param = {
+      "access_token": access_token,
+      'user_id':currentUserId,
+      "page": page,
+      "page_size": currentOnlineTermPageSize,
+      'filter': sortlist
+    };
+    bproto_ajax(GET_USER_ONLINE_TERMINAL_URL, param, function (obj_json) {
+      if (obj_json.code === 0) {
+        // "page": 0,    "page_size": 5,    "page_total": 86
+        if(obj_json.terminal_list.length===0){
+          alert("已经是最后一页了");
+          return;
+        }
+        currentOnlineTermPage = obj_json.page;
+        currentOnlineTermPage_total = obj_json.page_total;
+        RenderOnlineTerminalTable(obj_json);
+      }
+    });
+  })
 }
 
 
@@ -444,6 +462,132 @@ function RenderOnlineTerminalTable(list) {
   // $("#onlineTerminal .table tr td:nth-child(1),#onlineTerminal.table tr th:nth-child(1)").hide();
 }
 
+$('.search input[type=text]').bind('keyup', function(event) {
+  if (event.keyCode == "13") {
+    //回车执行查询
+    $(this).parent().find(".search-btn").click();
+  }
+});
+
+
+//搜索按钮逻辑
+function btn_search(target) {
+  var select_val =  $(target).attr("data-bind");
+  var search_input =  $(target).parent().prev().val();
+  if(select_val===""){
+    alert('请选择搜索名称')
+    return;
+  } else if(search_input===""||search_input.length===0){
+    alert("请输入搜索内容");
+    return;
+  }
+  var filter = {};
+  filter[select_val]=search_input;
+  switch ($(target).attr("data-info")) {
+    case "unauthorized":
+      var param = {
+        "access_token":access_token,
+        'user_id':CurrentUserId,
+        'page':0,
+        "page_size":currentUnAuthTermPageSize,
+        "filter":filter
+      };
+      bproto_ajax(GET_REGISTER_URL, param, function (obj_json) {
+        if (obj_json.code === 0) {
+          currentUnAuthTermPage_total = obj_json.page_total;
+          currentUnAuthTermPage = obj_json.page;
+          var html = template('unauthorizedTemp', obj_json);
+          $("#unauthorized table tbody").html(html);
+          update_ip();
+          UnAuth_List_Search();
+        }
+      });
+      break;
+    case "authorized":
+      // param = {
+      //   "access_token":access_token,
+      //   'page':0,
+      //   'user_id':CurrentUserId,
+      //   'page_size':currentAuthTermPageSize,
+      //   'filter':filter
+      // };
+      // bproto_ajax(GET_USER_TERMINAL_LIST,param,function (obj_json) {
+      //   if(obj_json.code===0){
+      //     currentAuthTermPage = obj_json.page;
+      //     currentAuthTermPage_total = obj_json.page_total;
+      //     var html = template('authorizedTemp', obj_json);
+      //     $("#authorized .tablebox_authterm table tbody").html(html);
+      //     Auth_List_Search();
+      //   }
+      // });
+        getAuthTerm_list(0);
+      break;
+    case "onlineTerminal":
+      param = {
+        "access_token": access_token,
+        "page": 0,
+        "page_size": currentOnlineTermPageSize,
+        'user_id':CurrentUserId,
+        'filter':filter
+      };
+      bproto_ajax(GET_USER_ONLINE_TERMINAL_URL, param, function (obj_json) {
+        //{"code":0,"msg":"success","page":0,"page_size":0,"page_total":0,"terminal_list":[]}
+        if (obj_json.code === 0) {
+          currentOnlineTermPage_total = obj_json.page_total;
+          currentOnlineTermPage = obj_json.page;
+          // console.log(JSON.stringify(obj_json));
+          // var html = template('onlineTermsTemp', obj_json);
+          // $("#onlineTerminal .tablebox_authterm table tbody").html(html);
+          // Online_List_Search();
+
+          // console.log(obj_json);
+          RenderOnlineTerminalTable(obj_json);
+        }
+      })
+      break;
+
+  }
+}
+
+//清空搜索框
+function remove_input(target) {
+  $(target).next().val("");
+  switch ($(target).attr("data-info")) {
+    case "unauthorized":
+      getUnAuthTerm_list(0);
+      break;
+    case "authorized":
+      getAuthTerm_list(0);
+      break;
+    case "onlineTerminal":
+      getOnlineTerm_list(0);
+      break;
+  }
+}
+
+//搜索框select
+function SearchSelect(target){
+  $(target).parent().prev().find(".text").text($(target).text())
+  $(target).parent().parent().parent().find(".search-btn").attr("data-bind",$(target).find("a").attr("data-bind"))
+}
+
+
+//检索收起筛选按钮
+function Receive(target){
+  target.isclick = !target.isclick;
+  if(target.isclick) {
+    $(target).find("span").removeClass("fa-angle-up").addClass("fa-angle-down");
+    $(target).parent().prev().slideUp(function () {
+      $(window).trigger("resize")
+    })
+  }else {
+    $(target).find("span").removeClass("fa-angle-down").addClass("fa-angle-up");
+    $(target).parent().prev().slideDown(function () {
+      $(window).trigger("resize")
+    })
+  }
+
+}
 
 //未授权页面的渲染检索功能div
 function applyUnAuthSort() {
@@ -477,7 +621,7 @@ function applyAuthSort() {
   authHardwareproviderlist.forEach(function (value) {
     $("#authorized .hardwaresort").append("<li><a href='javascript:;'>" + value + "</a></li>");
   });
-  $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top-60);
+  $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top);
 
 }
 
@@ -585,17 +729,25 @@ bindSortItem();
 
 //根据未授权检索要求重新渲染数据
 function updateUnauthorizedSort() {
-  var sortlist = [];
+  var sortlist = {};
   $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function () {
     if ($(this).text().length > 0) {
-      sortlist.push($(this).text())
+      sortlist[$(this).attr("data-info")] = $(this).text()
     }
   });
+
+  var search_val = $("#unauthorized .search input").val();
+
+  if(search_val.length>0){
+    sortlist[$("#unauthorized .search .search-btn").attr("data-bind")]=search_val
+  }
+
   param = {
     "access_token":access_token,
+    'user_id':CurrentUserId,
     'page':0,
     "page_size":currentUnAuthTermPageSize,
-    'filters':sortlist
+    'filter':sortlist
   };
   bproto_ajax(GET_REGISTER_URL, param, function (obj_json) {
     if (obj_json.code === 0) {
@@ -619,10 +771,16 @@ function updateAuthorizedSort() {
       sortlist[$(this).attr("data-info")] = $(this).text()
     }
   });
+
+  var search_val = $("#authorized .search input").val();
+
+  if(search_val.length>0){
+    sortlist[$("#authorized .search .search-btn").attr("data-bind")]=search_val
+  }
   param = {
     "access_token":access_token,
     'user_id':CurrentUserId,
-    'page':currentAuthTermPage,
+    'page':0,
     "page_size":currentAuthTermPageSize,
     'filter':sortlist
   };
@@ -646,6 +804,12 @@ function updateOnlineSort(){
       sortlist[$(this).attr("data-info")] = $(this).text()
     }
   });
+
+  var search_val = $("#onlineTerminal .search input").val();
+
+  if(search_val.length>0){
+    sortlist[$("#onlineTerminal .search .search-btn").attr("data-bind")]=search_val
+  }
   param = {
     "access_token":access_token,
     'user_id':CurrentUserId,
@@ -740,11 +904,46 @@ checkboxClick();
 
 //授权提示框里下拉列表点击逻辑
 $(".cert_input .dropdown-menu").on("click",'li a',function () {
-  $("#cert_id").val($(this).text());
+  $("#cert_id").val($(this).text().split("(")[0]);
 });
 $(".label_input .dropdown-menu").on("click",'li a',function () {
-  $("#label_id").val($(this).text());
+  $("#label_id").val($(this).attr("data-bind"));
 });
+
+
+//授权删除
+function auth_delete() {
+  var templist=[];
+  $("#unauthorized input[name=done]").each(function () {
+    if ($(this).prop("checked")) {
+      templist.push($(this).attr("data-sessionid"))
+    }
+  });
+  GetUserMsg_CallBack(function () {
+
+    if(window.confirm('您确定要删除吗?')){
+      var param = {
+        "access_token":access_token,
+        "user_id":CurrentUserId,
+        "session_id_list":templist
+      };
+      bproto_ajax(DEL_REGISTER_INFO,param,function (obj_json) {
+        if(obj_json.code===0){
+          alert("删除成功");
+          $("#unauthorized .breadcrumb li.active").each(function () {
+            $(this).text("").hide()
+          });
+          $("#allcheck").prop("checked", false);
+          $(".checkNum").text("已选0").css("visibility", "hidden");
+          fun_get_register_list();
+        }else {
+          alert("删除失败");
+        }
+      })
+    }
+  })
+}
+
 
 //绑定授权按钮
 function auth_show() {
@@ -761,11 +960,11 @@ function auth_show() {
   bproto_ajax(GET_USERCERTS_URL,param,function (obj_json) {
     if(obj_json.code===0){
       for (let i = 0; i < obj_json.certs.length; i++) {
-        certidlist.push(obj_json.certs[i].SerialNumber)
+        certidlist.push({"id":obj_json.certs[i].SerialNumber,"Times":parseInt(obj_json.certs[i].MaxIssueTimes-obj_json.certs[i].IssueTimes)});
       }
       certid_html = "";
       for (let i = 0; i < certidlist.length; i++) {
-        certid_html += "<li><a href='javascript:;'>" +certidlist[i]+"</a></li>"
+        certid_html += "<li><a style='display: inline-block' href='javascript:;'>" +certidlist[i].id+"<span style='padding-right: 20px'>(剩余次数:"+certidlist[i].Times+")</span></a></li>"
       }
       $(".cert_input .dropdown-menu").html(certid_html);
 
@@ -775,18 +974,18 @@ function auth_show() {
   bproto_ajax(USER_LABEL_GET,param,function (obj_json) {
     if(obj_json.code===0){
       for (let i = 0; i < obj_json.userlabel.length; i++) {
-        labelidlist.push(obj_json.userlabel[i].label_id)
+        labelidlist.push({"label_id":obj_json.userlabel[i].label_id,"label_name":obj_json.userlabel[i].label_name})
       }
       labelid_html = "";
       for (let i = 0; i < labelidlist.length; i++) {
-        labelid_html += "<li><a href='javascript:;'>" +labelidlist[i]+"</a></li>"
+        labelid_html += "<li><a data-bind='"+labelidlist[i].label_id+"' href='javascript:;'>" +(labelidlist[i].label_name===""?labelidlist[i].label_id:labelidlist[i].label_name)+"</a></li>"
       }
       $(".label_input .dropdown-menu").html(labelid_html);
     }
   });
 
 
-  $("input[name=done]").each(function () {
+  $("#unauthorized input[name=done]").each(function () {
     if ($(this).prop("checked")) {
       templist.push($(this).attr("data-sessionid"))
     }
@@ -845,7 +1044,7 @@ function auth_btn() {
       var code = obj_json.code;
       if (code === 0) {
         alert("授权成功");
-        $("#unauthorized .breadcrumb li").each(function () {
+        $("#unauthorized .breadcrumb li.active").each(function () {
           $(this).text("").hide()
         });
         $("#allcheck").prop("checked", false);
@@ -948,32 +1147,48 @@ function RenderOnlineTerminalExecTable(cb_data) {
       "seq":cb_data.data[i].seq,
       "cmd":cb_data.cmd
     };
+    // cb_data.data[i].seq = -1;
+    let term = cb_data.data[i].term;
     bproto_ajax(SEND_SERVER_CMD,param,function (obj_json) {
       if(obj_json.code===0){
-        $("#onlineTerminal .exec_content tr[data-bind="+cb_data.data[i].term+"] .sendstatus").html(`<span class="fa fa-check-square">`)
+        $("#onlineTerminal .exec_content tr[data-bind="+term+"] .sendstatus").html("<span class='fa fa-check-square'></span>")
       }
       isover+=1;
     })
   }
-  // id = setInterval(function () {
-  //     if(isover===cb_data.data.length){
-  //       console.log(isover);
-  //       clearInterval(id);
-  //       getcmd_response(cb_data.data);
-  //     }
-  // },1000);
+  id = setInterval(function () {
+      if(isover===cb_data.data.length){
+        // console.log(isover);
+        clearInterval(id);
+        Retrygetcmd_response(cb_data.data);
+      }
+  },2000);
 }
 
 function Retrygetcmd_response(data) {
+  let tempdata = JSON.parse(JSON.stringify(data));
+  for (let i = 0; i < tempdata.length; i++) {
+    tempdata[i].seq=-1;
+  }
   let param ={
     'access_token':access_token,
-    "query":[{"term":data.term,"seq":data.seq}]
+    "query":tempdata
   };
   bproto_ajax(GET_SERVER_CMD_RESPONSE,param,function(obj_json){
-    let callmsg = "";
+    let callmsg = [];
     if(obj_json.code===0){
       if(obj_json.response.length>0&&obj_json.response[0].response){
-        callmsg = obj_json.response[0].response;
+        callmsg = obj_json.response;
+        for (let i = 0; i < callmsg.length; i++) {
+          for (let j = 0; j <data.length; j++) {
+            if(callmsg[i].seq===data[j].seq){
+              $("#onlineTerminal .exec_content tr[data-bind="+callmsg[i].term+"] .callmsg").html(callmsg[i].response);
+            }
+          }
+        }
+        console.log(obj_json)
+
+
       }else{
 
       }

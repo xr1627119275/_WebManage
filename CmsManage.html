@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS管理</title>
+
+  <link rel="stylesheet" href="/static/xr/css/font-awesome.css">
+  <link rel="stylesheet" href="/static/xr/css/sidebar-menu.css">
+  <!---->
+
+  <link href="/static/xr/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/xr/css/base.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <![endif]-->
+  <script src="//cdn.jsdelivr.net/npm/bluebird@3.5.3/js/browser/bluebird.min.js"></script>
+  <script src="/static/xr/js/jquery.min.js"></script>
+  <script src="/static/xr/js/jquery.cookie.js"></script>
+  <script src="/static/xr/js/bprotocol.js"></script>
+  <script src="/static/xr/js/conf.js"></script>
+  <script src="/static/xr/js/sidebar-menu.js"></script>
+  <script src="/static/xr/js/base.js"></script>
+
+  <style>
+    .spantip{
+      color: rgba(0,0,0,.5);
+    }
+    fieldset{padding:.35em .625em .35em;margin:0 2px;border:1px solid silver}
+
+    legend{padding:.5em;border:0;width:auto;font-weight: 700}
+
+    .pageSelect{
+      outline: none;
+      height: 31px!important;
+      font-size: 14px;
+      display: inline-block;
+      padding: 5px 14px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 15px
+    }
+    .cmslist_pager,.black_pager,.white_pager {
+      padding: 0 10px 0 240px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 60px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+<aside class="main-sidebar">
+  <section class="sidebar">
+    <ul class="sidebar-menu">
+      <li class="header">管理系统</li>
+      <!--授权管理-->
+      <li class="treeview">
+        <a href="index2.html">
+          <i class="fa fa-window-restore"></i>
+          <span>设备管理</span>
+          <i class="fa fa-angle-right pull-right"></i>
+        </a>
+        <ul class="treeview-menu menu-open">
+          <li><a href="#unauthorized" onclick="changeContent(this)" data-bind="#unauthorized"><i
+                  class="fa fa-circle-o"></i> 未授权设备 </a></li>
+          <li><a href="#authorized" onclick="changeContent(this)" data-bind="#authorized"><i class="fa fa-circle-o"></i>
+            已授权设备 </a></li>
+          <li><a href="#onlineTerminal" onclick="changeContent(this)" data-bind="#onlineTerminal"><i
+                  class="fa fa-circle-o"></i> 在线设备 </a></li>
+        </ul>
+      </li>
+      <!--授权管理-->
+
+      <!--CMS管理-->
+      <li class="treeview active">
+        <a href="javascript:;">
+          <i class="fa fa-briefcase"></i>
+          <span>CMS管理</span>
+          <i class="fa fa-angle-down pull-right"></i>
+        </a>
+        <ul class="treeview-menu menu-open">
+          <li><a href="#cmslist" onclick="changeContent(this)" data-bind="#cmslist"><i class="fa fa-circle-o"></i> CMS设备
+          </a></li>
+          <li><a href="#black_white" onclick="changeContent(this)" data-bind="#black_white"><i
+                  class="fa fa-circle-o"></i> 黑白名单管理 </a></li>
+        </ul>
+      </li>
+      <!--CMS管理-->
+
+      <!--证书管理-->
+      <li class="treeview">
+        <a href="CertManage.html">
+          <i class="fa fa-window-restore"></i>
+          <span>证书管理</span>
+          <i class="fa fa-angle-right pull-right"></i>
+        </a>
+        <ul class="treeview-menu" style="display: none;">
+          <li><a href="#"><i class="fa fa-circle-o"></i> 用户列表 </a></li>
+
+        </ul>
+      </li>
+      <!--证书管理-->
+
+      <!--认证标签管理-->
+      <li class="treeview">
+        <a href="LabelManage.html">
+          <i class="fa fa-tags"></i>
+          <span>认证标签管理</span>
+          <i class="fa fa-angle-right pull-right"></i>
+        </a>
+        <ul class="treeview-menu" style="display: none;">
+          <li><a href="#"><i class="fa fa-circle-o"></i> 用户列表 </a></li>
+
+        </ul>
+      </li>
+      <!--认证标签管理-->
+
+      <!--用户管理-->
+      <li class="treeview">
+        <a href="UserManage2.html">
+          <i class="fa fa-user-o"></i>
+          <span>用户管理</span>
+          <i class="fa fa-angle-right pull-right"></i>
+        </a>
+        <ul class="treeview-menu" style="display: none;">
+          <li><a href="#"><i class="fa fa-circle-o"></i> 用户列表</a></li>
+
+        </ul>
+      </li>
+      <!--用户管理-->
+    </ul>
+  </section>
+</aside>
+<section class="main-content">
+  <header>
+    <ul class="clearfix">
+      <li><a href="#">Test</a></li>
+      <li class="user"><a href="#" id="username" data-toggle="dropdown" style="color:#1a2226">用户名 <i
+              class="fa fa-angle-down"></i></a>
+        <ul class="a_list">
+          <li><a href="javascript:;" onclick="fun_api_logout()">退出</a></li>
+        </ul>
+      </li>
+    </ul>
+  </header>
+
+  <section class="content" id="cmslist">
+
+    <!--CMS信息-->
+    <div class="cmslistContent CmsContent">
+      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">CMS设备信息</div>
+      <div class="cmstablebox" style="width: 100%;height: 100%;overflow: auto;transition: all 0.5s ease 0s;">
+
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>管理</th>
+            <!--<th>ID</th>                   type-->
+            <th>CMS</th>                 <!--  id-->
+            <th>cms运行上线的设备数</th>               <!--    hardwaresn-->
+            <th>开启使用黑白名单</th>                 <!--  cpu-->
+            <th>Name</th>           <!--   randcode-->
+            <th>Domain</th>           <!--   randcode-->
+            <th>Agent</th>           <!--   randcode-->
+            <th>CU_CMD_PORT</th>           <!--   randcode-->
+            <th>PU_CMD_PORT</th>              <!--     hardwareprovider-->
+            <th>DB_HOST</th>               <!--    hardwareversion-->
+            <th>DB_PORT</th>              <!--     softwareprovider-->
+            <th>DB_USERNAME</th>               <!--    softwareversion-->
+            <th>Version</th>               <!--    imei-->
+          </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="cmslist_pager" style="height: 60px;">
+
+        <ul class="pager" style="margin-bottom: 0">
+          <li><a href="javascript:;" onclick="getCMSTerm_list(0)">首页</a></li>
+          <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSListPage,getCMSTerm_list)">上一页</a></li>
+          <li><a href="javascript:;"
+                 onclick="bindPager_Next(currentCMSListPage,currentCMSListPage_total,getCMSTerm_list)">下一页</a></li>
+          <li><a href="javascript:;" onclick="getCMSTerm_list(currentCMSListPage_total-1)">尾页</a></li>
+        </ul>
+
+      </div>
+    </div>
+    <!--CMS信息结束-->
+
+
+  </section>
+
+
+  <section class="content" id="black_white">
+
+    <!--CMS信息-->
+    <div class="cmslistContent black_whiteContent">
+      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">CMS设备黑白名单管理</div>
+      <div class="cmstablebox" style="width: 100%;height: 100%;overflow: auto;transition: all 0.5s ease 0s;">
+
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>管理</th>
+            <!--<th>ID</th>                   type-->
+            <th>CMS</th>                 <!--  id-->
+            <th>cms运行上线的设备数</th>               <!--    hardwaresn-->
+            <th>开启使用黑白名单</th>                 <!--  cpu-->
+            <th>Name</th>           <!--   randcode-->
+            <th>Domain</th>           <!--   randcode-->
+            <th>Agent</th>           <!--   randcode-->
+            <th>CU_CMD_PORT</th>           <!--   randcode-->
+            <th>PU_CMD_PORT</th>              <!--     hardwareprovider-->
+            <th>DB_HOST</th>               <!--    hardwareversion-->
+            <th>DB_PORT</th>              <!--     softwareprovider-->
+            <th>DB_USERNAME</th>               <!--    softwareversion-->
+            <th>Version</th>               <!--    imei-->
+          </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+      </div>
+
+
+      <div class="cmslist_pager" style="height: 60px;">
+
+        <ul class="pager" style="margin-bottom: 0">
+          <li><a href="javascript:;" onclick="getCMSTerm_list(0)">首页</a></li>
+          <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSListPage,getCMSTerm_list)">上一页</a></li>
+          <li><a href="javascript:;"
+                 onclick="bindPager_Next(currentCMSListPage,currentCMSListPage_total,getCMSTerm_list)">下一页</a></li>
+          <li><a href="javascript:;" onclick="getCMSTerm_list(currentCMSListPage_total-1)">尾页</a></li>
+        </ul>
+
+      </div>
+
+    </div>
+    <!--CMS信息结束-->
+
+
+    <!--黑白名单-->
+    <div class="BlackWhiteListContent black_whiteContent" style="display: none">
+      <div class="head">
+        <div class="back" onclick="Back('.black_whiteContent','.cmslistContent')">
+              <span class="fa fa-angle-left pull-left"
+                    style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+          <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+        </div>
+        <div class="title"
+             style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0 10px 0;color: #3c3c3c;">
+          黑白名单管理<!--<span>(当前使用白名单管理)</span>-->
+        </div>
+      </div>
+
+      <fieldset>
+        <legend>设备控制模式</legend>
+        <label><input type="radio" name="CMSbwManage" value="BlackList" class="form">黑名单模式<span class="spantip">(默认所有的设备都可以登录,在黑名单列表不允许上线)</span></label><br>
+        <label><input type="radio" name="CMSbwManage" value="WhiteList" class="form">白名单模式<span class="spantip">(针对设置的白名单设置才允许上线)</span></label><br>
+        <input type="button" class="btn btn-primary" style="margin-top: .35em" onclick="CMSUpdateBW()" value="保存">
+      </fieldset>
+      <!--<button type="button"  class="btn" style="background: #222d32;color: #ffffff;margin: 10px 0"-->
+      <!--onclick="CMSUpdateBW('WhiteList')"> 启动白名单-->
+      <!--</button>-->
+      <!--<button type="button"  class="btn" style="background: #222d32;color: #ffffff;margin: 10px 0"-->
+      <!--onclick="CMSUpdateBW('BlackList')"> 启动黑名单-->
+      <!--</button>-->
+      <!--添加黑白名单-->
+      <button type="button" id="AddBlack" class="btn" style="background: #222d32;color: #ffffff;margin: 10px 0"
+              onclick="ShowAddBlack_White()"> 添加黑白名单
+      </button>
+      <!--添加黑白名单-->
+      <div class="showBlackWhiteMsg">
+        <div>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#BlackList" aria-controls="BlackList" role="tab"
+                                                      data-toggle="tab">黑名单</a></li>
+            <li role="presentation"><a href="#WhiteList" aria-controls="WhiteList" role="tab" data-toggle="tab">白名单</a>
+            </li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="BlackList">
+
+              <div class="Blacktablebox"
+                   style="width: 100%;height: 100%;margin-top: 10px;overflow: auto;transition: all 0.5s ease 0s;">
+
+                <table class="table table-bordered">
+                  <thead>
+                  <tr>
+                    <th>控制模式</th>
+                    <th>CMS</th>                 <!--  id-->
+                    <th>Field_Type</th>           <!--   randcode-->
+                    <th>Field_Value</th>           <!--   randcode-->
+                    <th colspan="2">操作</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+
+              </div>
+
+              <div class="black_pager" style="height: 60px;">
+
+                <ul class="pager" style="margin-bottom: 0">
+                  <li>
+                    <select name="currentCMSBlackListPageSize" data-bind="showBlack_list" class="pageSelect input-sm">
+                      <option value="10">10条/页</option>
+                      <option value="20">20条/页</option>
+                      <option value="30">30条/页</option>
+                      <option value="40">40条/页</option>
+                      <option value="50">50条/页</option>
+                    </select>
+                  </li>
+                  <li><a href="javascript:;" onclick="getCMSBlack_list(0)">首页</a></li>
+                  <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSBlackListPage,getCMSBlack_list)">上一页</a></li>
+                  <li><a href="javascript:;"
+                         onclick="bindPager_Next(currentCMSBlackListPage,currentCMSBlackListPage_total,getCMSBlack_list)">下一页</a></li>
+                  <li><a href="javascript:;" onclick="getCMSBlack_list(currentCMSBlackListPage_total-1)">尾页</a></li>
+                </ul>
+
+              </div>
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="WhiteList">
+
+              <div class="Whitetablebox"
+                   style="width: 100%;height: 100%;margin-top: 10px;overflow: auto;transition: all 0.5s ease 0s;">
+                <table class="table table-bordered">
+                  <thead>
+                  <tr>
+                    <th>控制模式</th>
+                    <th>CMS</th>                 <!--  id-->
+                    <th>Field_Type</th>           <!--   randcode-->
+                    <th>Field_Value</th>           <!--   randcode-->
+                    <th colspan="2">操作</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+
+              </div>
+
+              <div class="white_pager" style="height: 60px;">
+
+                <ul class="pager" style="margin-bottom: 0">
+                  <li>
+                    <select name="currentCMSWhiteListPageSize" data-bind="showWhite_list" class="pageSelect input-sm">
+                      <option value="10">10条/页</option>
+                      <option value="20">20条/页</option>
+                      <option value="30">30条/页</option>
+                      <option value="40">40条/页</option>
+                      <option value="50">50条/页</option>
+                    </select>
+                  </li>
+                  <li><a href="javascript:;" onclick="getCMSWhite_list(0)">首页</a></li>
+                  <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSWhiteListPage,getCMSWhite_list)">上一页</a></li>
+                  <li><a href="javascript:;"
+                         onclick="bindPager_Next(currentCMSWhiteListPage,currentCMSWhiteListPage_total,getCMSWhite_list)">下一页</a></li>
+                  <li><a href="javascript:;" onclick="getCMSWhite_list(currentCMSWhiteListPage_total-1)">尾页</a></li>
+                </ul>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!--黑白名单结束-->
+  </section>
+
+</section>
+
+
+<!--添加黑白名单提示框-->
+<div class="modal fade" id="AddBlackWhite_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+  <div class="modal-dialog modal-md" role="document">
+
+    <!--添加字段验证-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" onclick="closeModal('#AddBlackWhite_Modal')" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title h4" style="text-align: center">添加黑白名单</h4>
+      </div>
+      <div class="modal-body" style="overflow: auto">
+        <table class="table addField table-bordered">
+          <thead>
+          <tr>
+            <th>控制模式</th>
+            <th>控制类型</th>                 <!--  id-->
+            <th>设置数据</th>               <!--    hardwaresn-->
+            <th>操作</th>               <!--    hardwaresn-->
+          </tr>
+          </thead>
+          <tbody>
+            <!--插入-->
+          </tbody>
+        </table>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="AddBWField()">添加到黑白名单</button>
+      </div>
+    </div>
+    <!--添加字段验证-->
+
+  </div>
+</div>
+<!--添加黑白名单提示框-->
+
+
+<!----------------------模板文件--------------------------->
+<!--CMS信息列表-->
+<script type="text/html" id="cmsListTemp">
+  {{each cms_list as value }}
+  <tr>
+    <td><a href="javascript:;" class="btn-link" onclick="showPu_list('{{value.cms}}')">查看CMS设备</a></td>
+    <!--<td>{{value.id}}</td>-->
+    <td>{{value.cms}}</td>
+    <td>{{value.max_pu_count}}</td>
+    <td>{{value.use_white_black_list_type==="WhiteList"?"白名单":"黑名单"}}</td>
+    <td>{{value.name}}</td>
+    <td>{{value.domain}}</td>
+    <td>{{value.agent}}</td>
+    <td>{{value.cu_cmd_port}}</td>
+    <td>{{value.pu_cmd_port}}</td>
+    <td>{{value.db_host}}</td>
+    <td>{{value.db_port}}</td>
+    <td>{{value.db_username}}</td>
+    <td>{{value.version}}</td>
+  </tr>
+  {{/each}}
+</script>
+
+<!--CMS信息列表-->
+<script type="text/html" id="cmsBlackWhiteListTemp">
+  {{each cms_list as value }}
+  <tr>
+    <td><a href="javascript:;" class="btn-link" onclick="showBlack_list('{{value.cms}}')">黑白名单管理</a></td>
+    <!--<td>{{value.id}}</td>-->
+    <td>{{value.cms}}</td>
+    <td>{{value.max_pu_count}}</td>
+    <td>{{value.use_white_black_list_type==="WhiteList"?"白名单":"黑名单"}}</td>
+    <td>{{value.name}}</td>
+    <td>{{value.domain}}</td>
+    <td>{{value.agent}}</td>
+    <td>{{value.cu_cmd_port}}</td>
+    <td>{{value.pu_cmd_port}}</td>
+    <td>{{value.db_host}}</td>
+    <td>{{value.db_port}}</td>
+    <td>{{value.db_username}}</td>
+    <td>{{value.version}}</td>
+  </tr>
+  {{/each}}
+</script>
+
+<!--黑名单列表-->
+<script type="text/html" id="BlackListTemp">
+  {{each list as value}}
+  <tr>
+    <td>黑名单</td>
+    <td>{{value.cms}}</td>
+    <td>
+      <span class="source">{{value.field_type.split("|")[1]}}</span>
+      <select name="" class="edit FieldSelectList input-sm" data-bind="{{value.field_type.split('|')[0]}}" style="margin: -8px 0;display: none;">
+
+      </select>
+    </td>
+    <td>
+      <span class="source">{{value.field_value}}</span>
+      <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.field_value}}">
+    </td>
+    <td>
+      <a href="javascript:;" class="source btn-link btn-primary" onclick="ShowEdit(this)">编辑</a>
+      <div class="edit" style="display: none">
+        <a href="javascript:;" class="btn-link btn-primary" onclick="DoEdit(this,'{{value.id}}','BlackList')">确认</a> |
+        <a href="javascript:;" class="btn-link btn-primary" onclick="HideEdit(this)">取消</a>
+      </div>
+
+    </td>
+    <td><a href="javascript:;" class="btn-link btn-primary" onclick="delB('{{value.id}}')">删除</a></td>
+  </tr>
+  {{/each}}
+</script>
+
+<!--白名单列表-->
+<script type="text/html" id="WhiteListTemp">
+  {{each list as value}}
+  <tr>
+    <td>白名单</td>
+    <td>{{value.cms}}</td>
+    <td>
+      <span class="source">{{value.field_type.split("|")[1]}}</span>
+      <select name="" class="edit FieldSelectList input-sm" data-bind="{{value.field_type.split('|')[0]}}" style="margin: -8px 0;display: none;">
+
+      </select>
+    </td>
+    <td>
+      <span class="source">{{value.field_value}}</span>
+      <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.field_value}}">
+    </td>
+    <td>
+      <a href="javascript:;" class="source btn-link btn-primary" onclick="ShowEdit(this)">编辑</a>
+      <div class="edit" style="display: none">
+        <a href="javascript:;" class="btn-link btn-primary" onclick="DoEdit(this,'{{value.id}}','WhiteList')">确认</a> |
+        <a href="javascript:;" class="btn-link btn-primary" onclick="HideEdit(this)">取消</a>
+      </div>
+
+    </td>
+    <td><a href="javascript:;" class="btn-link btn-primary" onclick="delW('{{value.id}}')">删除</a></td>
+  </tr>
+  {{/each}}
+</script>
+
+<script type="text/html" id="AddBalckWhiteSelect">
+  <tr class="hideTr" style="display: none">
+    <td>
+      <select name="" class="input-sm">
+        <option value="BlackList">黑名单</option>
+        <option value="WhiteList">白名单</option>
+      </select>
+    </td>
+    <td>
+      <select name="" class="FieldSelectList input-sm">
+      </select>
+    </td>
+    <td>
+      <input type="text" class="input-sm input_addfield" style="border: 1px solid #a9a9a9;" placeholder="请输入值"/>
+    </td>
+    <td>
+      <input type="button" class="btn btn-danger" value="删除" style="padding: 4px 12px" onclick="delBlackWhiteField(this)">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <select name="" class="input-sm">
+        <option value="BlackList">黑名单</option>
+        <option value="WhiteList">白名单</option>
+      </select>
+    </td>
+    <td>
+      <select name="" class="FieldSelectList input-sm">
+      </select>
+    </td>
+    <td>
+      <input type="text" class="input-sm input_addfield" style="border: 1px solid #a9a9a9;" placeholder="请输入值"/>
+    </td>
+    <td>
+      <input type="button" class="btn btn-danger" value="删除" style="padding: 4px 12px" onclick="delBlackWhiteField(this)">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <input type="button" class="btn btn-primary" value="添加一行" onclick="addTrField(this)">
+    </td>
+  </tr>
+
+</script>
+
+
+<!----------------------模板文件结束--------------------------->
+
+
+<script src="/static/xr/js/bootstrap.min.js"></script>
+<script src="/static/xr/js/template.js"></script>
+<script src="/static/xr/js/cmsmanage.js"></script>
+</body>
+</html>

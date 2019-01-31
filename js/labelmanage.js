@@ -74,18 +74,24 @@ function ShowAddUserLabel_modal(){
 
 //添加用户标签
 function addUserLabel() {
+    if($("#input_label_name").val()===""){
+        alert("请输入标签名称");
+        return;
+    }
     if($("#textarea_label_note").val()===""){
         alert("请输入描述信息");
         return;
     }
     param = {
         'access_token':access_token,
+        'userlabel_name':$("#input_label_name").val(),
         'userlabel_note':$("#textarea_label_note").val()
     }
     bproto_ajax(USER_LABEL_ADD,param,function (obj_json) {
         console.log(obj_json);
         if(obj_json.code===0){
             alert("添加成功");
+            $("#input_label_name").val("")
             $("#textarea_label_note").val("")
             closeModal('#UserLabelManage_modal');
             showUserLabel();
@@ -177,6 +183,10 @@ function ShowUpdateUserLabel_modal() {
 }
 //修改用户标签信息
 function UpdateUserLabel() {
+    if($("#update_input_label_name").val()===""){
+        alert("请输入标签名称");
+        return;
+    }
     if($("#update_textarea_label_note").val()===""){
         alert("请输入描述信息");
         return;
@@ -184,12 +194,14 @@ function UpdateUserLabel() {
     param = {
         'access_token':access_token,
         'userlabel_id':currentLabelId,
-        'userlabel_note':$("#update_textarea_label_note").val()
+        'userlabel_note':$("#update_textarea_label_note").val(),
+        'userlabel_name':$("#update_input_label_name").val()
     }
     bproto_ajax(USER_LABEL_UPDATE,param,function (obj_json) {
         console.log(obj_json);
         if(obj_json.code===0){
             alert("修改成功");
+            $("#update_input_label_name").val("")
             $("#update_textarea_label_note").val("")
             closeModal('#UserLabelManage_modal');
             showUserLabel();
