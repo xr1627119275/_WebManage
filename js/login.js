@@ -3,7 +3,7 @@ $(function () {
   bproto_ajax(GET_LOGIN_MSG_URL, param, function (obj_json) {
     console.log(obj_json);
     if (obj_json.code == 0) {
-      location.href = '/static/xr/index2.html';
+      location.href = '/static/';
     }
   });
   if ($.cookie('saveName')) {
@@ -31,7 +31,7 @@ $(function () {
 
   //回车检测
   $("#login_captcha_input").bind("keypress",function (e) {
-    if(e.keyCode === "13"){
+    if(e.keyCode === 13){
       login();
     }
   });
@@ -312,7 +312,7 @@ function login() {
           $.cookie('saveName',newstr+"|"+obj_json.username, {expires: 365, path: '/'});
         }
       }
-      location.href = "/static/xr/index2.html";
+      location.href = "/static/";
     } else {
       alert("用户名或密码错误");
     }

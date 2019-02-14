@@ -6,23 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CMS管理</title>
 
-  <link rel="stylesheet" href="/static/xr/css/font-awesome.css">
-  <link rel="stylesheet" href="/static/xr/css/sidebar-menu.css">
+  <link rel="stylesheet" href="/static/css/font-awesome.css">
+  <link rel="stylesheet" href="/static/css/sidebar-menu.css">
   <!---->
 
-  <link href="/static/xr/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/static/xr/css/base.css" rel="stylesheet">
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/base.css" rel="stylesheet">
   <!--[if lt IE 9]>
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
   <script src="//cdn.jsdelivr.net/npm/bluebird@3.5.3/js/browser/bluebird.min.js"></script>
-  <script src="/static/xr/js/jquery.min.js"></script>
-  <script src="/static/xr/js/jquery.cookie.js"></script>
-  <script src="/static/xr/js/bprotocol.js"></script>
-  <script src="/static/xr/js/conf.js"></script>
-  <script src="/static/xr/js/sidebar-menu.js"></script>
-  <script src="/static/xr/js/base.js"></script>
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.cookie.js"></script>
+  <script src="/static/js/bprotocol.js"></script>
+  <script src="/static/js/conf.js"></script>
+  <script src="/static/js/sidebar-menu.js"></script>
+  <script src="/static/js/base.js"></script>
 
   <style>
     .spantip{
@@ -32,16 +32,6 @@
 
     legend{padding:.5em;border:0;width:auto;font-weight: 700}
 
-    .pageSelect{
-      outline: none;
-      height: 31px!important;
-      font-size: 14px;
-      display: inline-block;
-      padding: 5px 14px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 15px
-    }
     .cmslist_pager,.black_pager,.white_pager {
       padding: 0 10px 0 240px;
       position: fixed;
@@ -59,9 +49,9 @@
       <li class="header">管理系统</li>
       <!--授权管理-->
       <li class="treeview">
-        <a href="index2.html">
+        <a href="index.html">
           <i class="fa fa-window-restore"></i>
-          <span>设备管理</span>
+          <span>终端管理</span>
           <i class="fa fa-angle-right pull-right"></i>
         </a>
         <ul class="treeview-menu menu-open">
@@ -121,7 +111,7 @@
 
       <!--用户管理-->
       <li class="treeview">
-        <a href="UserManage2.html">
+        <a href="UserManage.html">
           <i class="fa fa-user-o"></i>
           <span>用户管理</span>
           <i class="fa fa-angle-right pull-right"></i>
@@ -152,7 +142,7 @@
 
     <!--CMS信息-->
     <div class="cmslistContent CmsContent">
-      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">CMS设备信息</div>
+      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">CMS信息</div>
       <div class="cmstablebox" style="width: 100%;height: 100%;overflow: auto;transition: all 0.5s ease 0s;">
 
         <table class="table table-bordered">
@@ -160,18 +150,18 @@
           <tr>
             <th>管理</th>
             <!--<th>ID</th>                   type-->
-            <th>CMS</th>                 <!--  id-->
+            <th>CMS名称</th>            <!--   randcode-->
+            <th>CMS序列号</th>                 <!--  id-->
             <th>cms运行上线的设备数</th>               <!--    hardwaresn-->
             <th>开启使用黑白名单</th>                 <!--  cpu-->
-            <th>Name</th>           <!--   randcode-->
-            <th>Domain</th>           <!--   randcode-->
-            <th>Agent</th>           <!--   randcode-->
-            <th>CU_CMD_PORT</th>           <!--   randcode-->
-            <th>PU_CMD_PORT</th>              <!--     hardwareprovider-->
-            <th>DB_HOST</th>               <!--    hardwareversion-->
-            <th>DB_PORT</th>              <!--     softwareprovider-->
-            <th>DB_USERNAME</th>               <!--    softwareversion-->
-            <th>Version</th>               <!--    imei-->
+            <th>域名</th>           <!--   randcode-->
+            <th>代理</th>           <!--   randcode-->
+            <th>CU_CMD端口</th>           <!--   randcode-->
+            <th>PU_CMD端口</th>              <!--     hardwareprovider-->
+            <th>数据库主机</th>               <!--    hardwareversion-->
+            <th>数据库端口</th>              <!--     softwareprovider-->
+            <th>数据库账号</th>               <!--    softwareversion-->
+            <th>版本</th>               <!--    imei-->
           </tr>
           </thead>
           <tbody>
@@ -184,6 +174,15 @@
       <div class="cmslist_pager" style="height: 60px;">
 
         <ul class="pager" style="margin-bottom: 0">
+          <li>
+            <select name="currentCMSListPageSize" data-bind="showCmsList" class="pageSelect input-sm">
+              <option value="10">10条/页</option>
+              <option value="20">20条/页</option>
+              <option value="30">30条/页</option>
+              <option value="40">40条/页</option>
+              <option value="50">50条/页</option>
+            </select>
+          </li>
           <li><a href="javascript:;" onclick="getCMSTerm_list(0)">首页</a></li>
           <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSListPage,getCMSTerm_list)">上一页</a></li>
           <li><a href="javascript:;"
@@ -195,6 +194,63 @@
     </div>
     <!--CMS信息结束-->
 
+    <!--CMS设备信息-->
+    <div class="cmsDevicelistContent CmsContent" style="display: none">
+      <!--<div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">CMS设备信息</div>-->
+      <div class="head">
+        <div class="back" onclick="Back('.CmsContent','.cmslistContent')">
+              <span class="fa fa-angle-left pull-left"
+                    style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+          <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+        </div>
+        <div class="title"
+             style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0 10px 0;color: #3c3c3c;">
+          PU设备信息
+        </div>
+      </div>
+      <div class="cmsDevicetablebox" style="width: 100%;height: 100%;overflow: auto;transition: all 0.5s ease 0s;">
+
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>PU名称</th>
+            <th>PU序列号</th>
+            <th>最后在线时间</th>
+            <th>最后离线时间</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="cmslist_pager" style="height: 60px;">
+
+        <ul class="pager" style="margin-bottom: 0">
+          <li>
+            <select name="currentCMSDevicePageSize" data-bind="RenderCmsDevice" class="pageSelect input-sm">
+              <option value="10">10条/页</option>
+              <option value="20">20条/页</option>
+              <option value="30">30条/页</option>
+              <option value="40">40条/页</option>
+              <option value="50">50条/页</option>
+            </select>
+          </li>
+          <li><a href="javascript:;" onclick="getCMSPuDevice_list(0)">首页</a></li>
+          <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSListPage,getCMSTerm_list)">上一页</a></li>
+          <li><a href="javascript:;"
+                 onclick="bindPager_Next(currentCMSDevicePage,currentCMSDevicePage_total,getCMSTerm_list)">下一页</a></li>
+          <li><a href="javascript:;" onclick="getCMSPuDevice_list(currentCMSDevicePage_total-1)">尾页</a></li>
+        </ul>
+
+      </div>
+    </div>
+    <!--CMS设备信息结束-->
+
+
 
   </section>
 
@@ -202,7 +258,7 @@
   <section class="content" id="black_white">
 
     <!--CMS信息-->
-    <div class="cmslistContent black_whiteContent">
+    <div class="bwcmslistContent black_whiteContent">
       <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">CMS设备黑白名单管理</div>
       <div class="cmstablebox" style="width: 100%;height: 100%;overflow: auto;transition: all 0.5s ease 0s;">
 
@@ -211,18 +267,18 @@
           <tr>
             <th>管理</th>
             <!--<th>ID</th>                   type-->
-            <th>CMS</th>                 <!--  id-->
+            <th>CMS名称</th>            <!--   randcode-->
+            <th>CMS序列号</th>                 <!--  id-->
             <th>cms运行上线的设备数</th>               <!--    hardwaresn-->
             <th>开启使用黑白名单</th>                 <!--  cpu-->
-            <th>Name</th>           <!--   randcode-->
-            <th>Domain</th>           <!--   randcode-->
-            <th>Agent</th>           <!--   randcode-->
-            <th>CU_CMD_PORT</th>           <!--   randcode-->
-            <th>PU_CMD_PORT</th>              <!--     hardwareprovider-->
-            <th>DB_HOST</th>               <!--    hardwareversion-->
-            <th>DB_PORT</th>              <!--     softwareprovider-->
-            <th>DB_USERNAME</th>               <!--    softwareversion-->
-            <th>Version</th>               <!--    imei-->
+            <th>域名</th>           <!--   randcode-->
+            <th>代理</th>           <!--   randcode-->
+            <th>CU_CMD端口</th>           <!--   randcode-->
+            <th>PU_CMD端口</th>              <!--     hardwareprovider-->
+            <th>数据库主机</th>               <!--    hardwareversion-->
+            <th>数据库端口</th>              <!--     softwareprovider-->
+            <th>数据库账号</th>               <!--    softwareversion-->
+            <th>版本</th>               <!--    imei-->
           </tr>
           </thead>
           <tbody>
@@ -252,7 +308,7 @@
     <!--黑白名单-->
     <div class="BlackWhiteListContent black_whiteContent" style="display: none">
       <div class="head">
-        <div class="back" onclick="Back('.black_whiteContent','.cmslistContent')">
+        <div class="back" onclick="Back('.black_whiteContent','.bwcmslistContent')">
               <span class="fa fa-angle-left pull-left"
                     style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
           <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
@@ -301,7 +357,7 @@
                   <thead>
                   <tr>
                     <th>控制模式</th>
-                    <th>CMS</th>                 <!--  id-->
+                    <th>CMS序列号</th>                 <!--  id-->
                     <th>Field_Type</th>           <!--   randcode-->
                     <th>Field_Value</th>           <!--   randcode-->
                     <th colspan="2">操作</th>
@@ -344,7 +400,7 @@
                   <thead>
                   <tr>
                     <th>控制模式</th>
-                    <th>CMS</th>                 <!--  id-->
+                    <th>CMS序列号</th>                 <!--  id-->
                     <th>Field_Type</th>           <!--   randcode-->
                     <th>Field_Value</th>           <!--   randcode-->
                     <th colspan="2">操作</th>
@@ -383,7 +439,6 @@
         </div>
 
       </div>
-
     </div>
     <!--黑白名单结束-->
   </section>
@@ -436,12 +491,12 @@
 <script type="text/html" id="cmsListTemp">
   {{each cms_list as value }}
   <tr>
-    <td><a href="javascript:;" class="btn-link" onclick="showPu_list('{{value.cms}}')">查看CMS设备</a></td>
+    <td><a href="javascript:;" class="btn-link" onclick="showDeviceMsg('{{value.cms}}')">查看CMS设备</a></td>
     <!--<td>{{value.id}}</td>-->
+    <td>{{value.name}}</td>
     <td>{{value.cms}}</td>
     <td>{{value.max_pu_count}}</td>
     <td>{{value.use_white_black_list_type==="WhiteList"?"白名单":"黑名单"}}</td>
-    <td>{{value.name}}</td>
     <td>{{value.domain}}</td>
     <td>{{value.agent}}</td>
     <td>{{value.cu_cmd_port}}</td>
@@ -455,15 +510,28 @@
 </script>
 
 <!--CMS信息列表-->
+<script type="text/html" id="cmsDeviceListTemp">
+  {{each pu_list as value }}
+  <tr>
+    <td>{{value.puid}}</td>
+    <td>{{value.puname}}</td>
+    <td>{{value.serialnumber}}</td>
+    <td>{{value.last_online_time}}</td>
+    <td>{{value.last_offline_time}}</td>
+  </tr>
+  {{/each}}
+</script>
+
+<!--CMS信息列表-->
 <script type="text/html" id="cmsBlackWhiteListTemp">
   {{each cms_list as value }}
   <tr>
     <td><a href="javascript:;" class="btn-link" onclick="showBlack_list('{{value.cms}}')">黑白名单管理</a></td>
     <!--<td>{{value.id}}</td>-->
+    <td>{{value.name}}</td>
     <td>{{value.cms}}</td>
     <td>{{value.max_pu_count}}</td>
     <td>{{value.use_white_black_list_type==="WhiteList"?"白名单":"黑名单"}}</td>
-    <td>{{value.name}}</td>
     <td>{{value.domain}}</td>
     <td>{{value.agent}}</td>
     <td>{{value.cu_cmd_port}}</td>
@@ -583,8 +651,8 @@
 <!----------------------模板文件结束--------------------------->
 
 
-<script src="/static/xr/js/bootstrap.min.js"></script>
-<script src="/static/xr/js/template.js"></script>
-<script src="/static/xr/js/cmsmanage.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/template.js"></script>
+<script src="/static/js/cmsmanage.js"></script>
 </body>
 </html>

@@ -3,6 +3,11 @@ currentCMSListPage = 0; //初始化授权设备当前页数
 currentCMSListPageSize = 20; // 初始化授权设备每页获取数据
 
 
+//初始化CMS设备页数数据
+currentCMSDevicePage_total = 0;
+currentCMSDevicePage = 0;
+currentCMSDevicePageSize = 20;
+
 //初始化黑名单页数数据
 currentCMSBlackListPage_total = 0;
 currentCMSBlackListPage = 0;
@@ -45,16 +50,16 @@ function changeContent(target) {
 function showCmsList() {
   param = {
     "access_token": access_token,
-    'page': currentCMSListPage,
+    'page': 0,
     'user_id': CurrentUserId,
     'page_size': currentCMSListPageSize,
     'filter': {"type": "CMS"}
   };
   AjaxPost(GET_USER_TERMINAL_LIST, param).then(function (obj_json) {
-    if (obj_json.terminal_list.length === 0) {
-      alert("已经是最后一页");
-      return;
-    }
+    // if (obj_json.terminal_list.length === 0) {
+    //   alert("已经是最后一页");
+    //   return;
+    // }
     currentCMSListPage = obj_json.page;
     // currentCMSListPageSize = obj_json.page_size;
     currentCMSListPage_total = obj_json.page_total;
@@ -68,15 +73,47 @@ function showCmsList() {
   }).then(
       function (obj_json) {
         $("#cmslist .cmslistContent .cmstablebox tbody").html(template("cmsListTemp", obj_json))
-        $("#black_white .cmslistContent .cmstablebox tbody").html(template("cmsBlackWhiteListTemp", obj_json))
+        $("#black_white .bwcmslistContent .cmstablebox tbody").html(template("cmsBlackWhiteListTemp", obj_json))
       }
   )
 }
 
+//查看cmsPu设备信息
+function showDeviceMsg(cms){
+  currentCMS = cms;
+
+  $("#cmslist .CmsContent").hide();
+  $("#cmslist .cmsDevicelistContent").show();
+
+  RenderCmsDevice()
+}
+
+//渲染CMSPu设备table
+function RenderCmsDevice() {
+  var param = {
+    "access_token": access_token,
+    "term": currentCMS,
+    "page": 0,
+    "page_size": currentCMSDevicePageSize
+  }
+  AjaxPost(GET_CMS_PU_LIST,param)
+      .then(function (obj_json) {
+
+        currentCMSDevicePage = obj_json.page;
+        currentCMSDevicePage_total = obj_json.page_total;
+
+        $("#cmslist .CmsContent .cmsDevicetablebox tbody").html(template("cmsDeviceListTemp", obj_json))
+      })
+}
+
+
+
+
+
 //CMS黑白名单CMS列表
 function showBlack_White_list() {
   $("#black_white .black_whiteContent").hide();
-  $("#black_white .cmslistContent").show()
+  $("#black_white .bwcmslistContent").show();
   param = {
     "access_token": access_token,
     'page': currentCMSListPage,
@@ -85,10 +122,10 @@ function showBlack_White_list() {
     'filter': {"type": "CMS"}
   };
   AjaxPost(GET_USER_TERMINAL_LIST, param).then(function (obj_json) {
-    if (obj_json.terminal_list.length === 0) {
-      alert("已经是最后一页");
-      return;
-    }
+    // if (obj_json.terminal_list.length === 0) {
+    //   alert("已经是最后一页");
+    //   return;
+    // }
     currentCMSListPage = obj_json.page;
     // currentCMSListPageSize = obj_json.page_size;
     currentCMSListPage_total = obj_json.page_total;
@@ -102,7 +139,7 @@ function showBlack_White_list() {
   }).then(
       function (obj_json) {
         $("#cmslist .cmslistContent .cmstablebox tbody").html(template("cmsListTemp", obj_json))
-        $("#black_white .cmslistContent .cmstablebox tbody").html(template("cmsBlackWhiteListTemp", obj_json))
+        $("#black_white .bwcmslistContent .cmstablebox tbody").html(template("cmsBlackWhiteListTemp", obj_json))
 
       }
   )
@@ -130,7 +167,7 @@ function bindPager_Next(target_page,total_page,func) {
   func(target_page);
 }
 
-//根据page页数获取在线设备
+//根据page页数获取CMS信息
 function getCMSTerm_list(page) {
 
   GetUserMsg_CallBack(function () {
@@ -162,12 +199,32 @@ function getCMSTerm_list(page) {
     }).then(
         function (obj_json) {
           $("#cmslist .cmslistContent .cmstablebox tbody").html(template("cmsListTemp", obj_json))
-          $("#black_white .cmslistContent .cmstablebox tbody").html(template("cmsBlackWhiteListTemp", obj_json))
+          $("#black_white .bwcmslistContent .cmstablebox tbody").html(template("cmsBlackWhiteListTemp", obj_json))
 
         }
     )
 
   })
+}
+
+//根据page页数获取CMSPu设备信息
+function getCMSPuDevice_list(page) {
+  var param = {
+    "access_token": access_token,
+    "term": currentCMS,
+    "page": page,
+    "page_size": currentCMSDevicePageSize
+  }
+  AjaxPost(GET_CMS_PU_LIST,param)
+      .then(function (obj_json) {
+        if(obj_json.pu_list.length===0){
+          alert("已经是最后一页");
+          return;
+        }
+        currentCMSDevicePage = obj_json.page;
+        currentCMSDevicePage_total = obj_json.page_total;
+        $("#cmslist .CmsContent .cmsDevicetablebox tbody").html(template("cmsDeviceListTemp", obj_json))
+      })
 }
 
 //根据page页数获取黑名单
@@ -275,6 +332,7 @@ function CMSUpdateBW() {
 
 
 
+
 //展示黑名单列表
 function showBlack_list(cms) {
   currentCMS = cms;
@@ -315,7 +373,7 @@ function showBlack_list(cms) {
       })
     }
 
-  })
+  });
 
 
   showWhite_list(currentCMS);

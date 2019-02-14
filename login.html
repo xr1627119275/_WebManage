@@ -6,15 +6,15 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>登录</title>
-  <link rel="stylesheet" media="screen" href="/static/xr/css/style.css">
-  <link rel="stylesheet" type="text/css" href="/static/xr/css/base.css"/>
-  <link rel="stylesheet" type="text/css" href="/static/xr/css/bootstrap.min.css">
+  <link rel="stylesheet" media="screen" href="/static/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/base.css"/>
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
   <!--[if lt IE 9]>
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
-  <script src="/static/xr/js/jquery.min.js"></script>
-  <script src="/static/xr/js/bootstrap.min.js"></script>
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
 
   <script>
     function CloseModal() {
@@ -39,7 +39,7 @@
     </div>
     {% csrf_token %}
     <div class="login-center clearfix">
-      <div class="login-center-img"><img src="/static/xr/images/name.png"/></div>
+      <div class="login-center-img"><img src="/static/images/name.png"/></div>
       <div class="login-center-input" style="position: relative">
         <input  type="text" name="" id="username" value=""  autocomplete="off" placeholder="请输入您的用户名/邮箱" onfocus="this.placeholder=''"
                onblur="this.placeholder='请输入您的用户名/邮箱'"/>
@@ -57,7 +57,7 @@
       </div>
     </div>
     <div class="login-center clearfix">
-      <div class="login-center-img"><img src="/static/xr/images/password.png"/></div>
+      <div class="login-center-img"><img src="/static/images/password.png"/></div>
       <div class="login-center-input">
         <input type="password" id="password" name="" value="" placeholder="请输入您的密码"
                onfocus="this.placeholder=''"
@@ -66,7 +66,7 @@
       </div>
     </div>
     <div class="login-center clearfix">
-      <div class="login-center-img"><img src="/static/xr/images/login_captcha.png"/></div>
+      <div class="login-center-img"><img src="/static/images/login_captcha.png"/></div>
       <div class="login-center-input">
         <input style="width: 70%;float: left" type="text" id="login_captcha_input" name="" value=""
                placeholder="请输入验证码"
@@ -107,7 +107,7 @@
     </div>
     {% csrf_token %}
     <div class="login-center clearfix">
-      <div class="login-center-img"><img src="/static/xr/images/name.png"/></div>
+      <div class="login-center-img"><img src="/static/images/name.png"/></div>
       <div class="login-center-input">
         <input type="text" name="" id="reg_username" value="" placeholder="请输入您的用户名"
                onfocus="this.placeholder=''"
@@ -116,7 +116,7 @@
       </div>
     </div>
     <div class="login-center clearfix">
-      <div class="login-center-img"><img src="/static/xr/images/email.png"/></div>
+      <div class="login-center-img"><img src="/static/images/email.png"/></div>
       <div class="login-center-input">
         <input type="email" name="" id="reg_email" value="" placeholder="请输入您的邮箱" onfocus="this.placeholder=''"
                onblur="this.placeholder='请输入您的邮箱'" data-bind="#reg_email_pop" data-msg="请输入您的邮箱"/>
@@ -124,7 +124,7 @@
       </div>
     </div>
     <div class="login-center clearfix">
-      <div class="login-center-img"><img src="/static/xr/images/password.png"/></div>
+      <div class="login-center-img"><img src="/static/images/password.png"/></div>
       <div class="login-center-input">
         <input type="password" id="reg_password" name="" value="" placeholder="请输入您的密码"
                onfocus="this.placeholder=''"
@@ -133,7 +133,7 @@
       </div>
     </div>
     <div class="login-center clearfix">
-      <div class="login-center-img"><img src="/static/xr/images/password.png"/></div>
+      <div class="login-center-img"><img src="/static/images/password.png"/></div>
       <div class="login-center-input">
         <input type="password" id="reg_password_again" name="" value="" placeholder="请再次输入您的密码"
                onfocus="this.placeholder=''"
@@ -185,10 +185,10 @@
 </div>
 <!-- 提示框 -->
 
-<script src="/static/xr/js/jquery.cookie.js"></script>
-<script src="/static/xr/js/conf.js"></script>
-<script src="/static/xr/js/bprotocol.js"></script>
-<script src="/static/xr/js/login.js"></script>
+<script src="/static/js/jquery.cookie.js"></script>
+<script src="/static/js/conf.js"></script>
+<script src="/static/js/bprotocol.js"></script>
+<script src="/static/js/login.js"></script>
 
 </body>
 </html>
