@@ -323,10 +323,12 @@ function CMSUpdateBW() {
   var bw = $("input[name=CMSbwManage]:checked").val();
   var mxdevice = $("input[name=MaxDevices]").val();
   AjaxPost(UPDATE_CMS_INFO,{"access_token": access_token,
-    "term": currentCMS,"cms":{"use_list_type":bw}}).then(function (obj_json) {
+    "term": currentCMS,"cms":{"use_list_type":bw,"max_pu_count":parseInt(mxdevice)}}).then(function (obj_json) {
     if(obj_json.code===0){
       $("input[value="+bw+"][name=CMSbwManage]").prop("checked",true)
       $("input[name=MaxDevices]").val(mxdevice)
+    }else{
+      alert("保存失败"+obj_json.code)
     }
   })
 }
@@ -379,6 +381,18 @@ function showBlack_list(cms) {
 
 
   showWhite_list(currentCMS);
+}
+
+
+//显示添加黑白名单提示框
+function ShowAddBlack_White() {
+  $("#AddBlackWhite_Modal").modal("show");
+  $("#AddBlackWhite_Modal .addField tbody").html($("#AddBalckWhiteSelect").html());
+  $("#AddBlackWhite_Modal .modal-body").css('maxHeight', $(window).height() * 0.6);
+  RenderSelectField(function () {
+    //null
+  })
+
 }
 
 //展示白名单列表
@@ -535,7 +549,7 @@ function DoEdit(target,id,BW){
     "update_list":[{
       "id":parseInt(id),
       "cms":currentCMS,
-      "item_type":"BlackList",
+      "item_type":BW,
       "field_type":$(target).parent().parent().parent().find(".FieldSelectList option:selected").val(),
       'field_value':val
     }]
@@ -661,33 +675,7 @@ function ShowUpdateUserLabel_modal() {
   $(".UpdateLabel_content").show();
 }
 
-//修改用户标签信息
-function UpdateUserLabel() {
-  if ($("#update_input_label_name").val() === "") {
-    alert("请输入标签名称");
-    return;
-  }
-  if ($("#update_textarea_label_note").val() === "") {
-    alert("请输入描述信息");
-    return;
-  }
-  param = {
-    'access_token': access_token,
-    'userlabel_id': currentLabelId,
-    'userlabel_note': $("#update_textarea_label_note").val(),
-    'userlabel_name': $("#update_input_label_name").val()
-  }
-  bproto_ajax(USER_LABEL_UPDATE, param, function (obj_json) {
-    console.log(obj_json);
-    if (obj_json.code === 0) {
-      alert("修改成功");
-      $("#update_input_label_name").val("")
-      $("#update_textarea_label_note").val("")
-      closeModal('#UserLabelManage_modal');
-      showUserLabel();
-    }
-  })
-}
+
 
 
 //将数组中英文翻译

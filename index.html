@@ -140,7 +140,7 @@
       left:50%;
       top:50px;
       width: 600px;
-      padding: 100px 0px 0;
+      padding: 50px 0px 0;
 
       height: 500px;
       background-color: rgba(0, 0, 0, .0);
@@ -437,7 +437,7 @@
           <th>描述</th>
           <th>硬件供应商</th>              <!--     hardwareprovider-->
           <th>硬件SN</th>               <!--    hardwaresn-->
-          <th>硬件版本</th>               <!--    hardwareversion-->
+          <th class="table_td" style="max-width:60px">硬件版本</th>               <!--    hardwareversion-->
           <th>软件供应商</th>              <!--     softwareprovider-->
           <th>软件版本</th>               <!--    softwareversion-->
           <th>CPU</th>                 <!--  cpu-->
@@ -934,13 +934,13 @@
 
 
 <!--发送命令给在线设备-->
-<div class="terminal noselect" unselectable="on" style="display: none">
-  <div class="terminal_content noselect" unselectable="on">
-    <div class="hd noselect">
+<div class="terminal" style="display: none">
+  <div class="terminal_content " >
+    <div class="hd ">
       <div class="fr" onclick="closeTerminal()"><span style="line-height: 28px" class="fa fa-remove"></span></div>
     </div>
-    <p class="noselect" unselectable="on" style="text-align:center;height: 40px;line-height: 40px;font-size: 20px;color: #ffffff;background-color:#000;">Welcome to Terminal</p>
-    <div class="body noselect" style="overflow-y: auto">
+    <p class="" unselectable="on" style="text-align:center;height: 40px;line-height: 40px;font-size: 20px;color: #ffffff;background-color:#000;">Welcome to Terminal</p>
+    <div class="body " style="overflow-y: auto">
       <p><span class="terminal_Prefix"></span><input type="text"></p>
     </div>
   </div>

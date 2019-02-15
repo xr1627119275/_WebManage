@@ -36,26 +36,51 @@ online_account_ishide = false;
 current_cb_data = {"cmd": "", "data": []};
 
 MoveTime = 2;
+ 
+//双击table Th逻辑
+ $("body").on("dblclick","th",function () {
+  var index = $(this)[0].cellIndex;
+  console.log(index)
+  let el = $(this).parent().parent().parent().find("td:nth-child("+(index+1)+")");
+  let maxwidth = $(this).text().length*15;
+  if(!$(this)[0].dbclick){
+    el.addClass("table_td").css("maxWidth",maxwidth)
+    el.each(function(){$(this).attr("title",$(this).text())})
+  }else{
+    el.removeClass("table_td").css("maxWidth","")
+  }
+  $(this)[0].dbclick = !$(this)[0].dbclick
+})
 
 
-$(document).mousedown(function (e) {
+ 
+
+
+//终端弹出框
+$(".terminal_content").mousedown(function (e) {
   e.preventDefault();
   startX = e.pageX - $(".terminal_content").offset().left - $(".terminal_content").width()/2;
   startY = e.pageY -$(".terminal_content").offset().top;
   isend = true;
   $(".terminal_content").bind('mousemove', move);
-  console.log("mouseDown")
 });
 
-$(document).mouseup(function (e) {
+$(".terminal_content").mouseup(function (e) {
   e.preventDefault();
   $(".terminal_content").unbind('mousemove', move)
 })
 
-$(document).mouseup(function (e) {
+$(".terminal_content").mouseup(function (e) {
   e.preventDefault();
   $(".terminal_content").unbind('mousemove', move);
 });
+
+$(".terminal").click(function (e) {
+  if(e.target===$(this)[0]){
+    closeTerminal();
+  }
+})
+//终端弹出框结束
 
 
 function move(e) {
@@ -202,11 +227,13 @@ function fun_get_register_list() {
       $("#unauthorized table tbody").html(html);
       update_ip();
       UnAuth_List_Search();
+      RenderTable_Th("#unauthorized");
     }
   })
 }
 
 function update_ip() {
+  
   $(".iphost").each(function () {
     let that;
     that= this;
@@ -289,6 +316,7 @@ function fun_get_authterm_list() {
       var html = template('authorizedTemp', obj_json);
       $("#authorized .tablebox_authterm table tbody").html(html);
       Auth_List_Search();
+      RenderTable_Th("#authorized");
     }
   })
 }
@@ -316,6 +344,7 @@ function fun_get_online_terminal_list() {
 
       // console.log(obj_json);
       RenderOnlineTerminalTable(obj_json);
+      RenderTable_Th("#onlineTerminal");
     }
   })
 }
@@ -1505,6 +1534,20 @@ function showAddField_modal(data) {
 }
 
 
+//处理table中Th 合并
+function RenderTable_Th(target) {
+  $(target+" th").each(function (i,ele) {
+    $(this).attr("title","双击展开列表")
+    if(i>3){
+      let el = $(this).parent().parent().parent().find("td:nth-child("+(i+1)+")");
+      el.addClass("table_td").css("maxWidth",$(this).text().length*15)
+      el.each(function(){$(this).attr("title",$(this).text())})
+      $(this)[0].dbclick = true;
+    }
+  })
+}
+
+
 //将数组中英文翻译
 function Module_fields_Name2Chinese(list) {
 
@@ -1568,7 +1611,6 @@ function Module_fields_Name2Chinese(list) {
   }
 
 }
-
 
 function closeModal(target) {
   $(target).modal("hide");
