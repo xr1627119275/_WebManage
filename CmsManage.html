@@ -73,7 +73,7 @@
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu menu-open">
-          <li><a href="#cmslist" onclick="changeContent(this)" data-bind="#cmslist"><i class="fa fa-circle-o"></i> CMS设备
+          <li><a href="#cmslist" onclick="changeContent(this)" data-bind="#cmslist"><i class="fa fa-circle-o"></i> CMS设备列表
           </a></li>
           <li><a href="#black_white" onclick="changeContent(this)" data-bind="#black_white"><i
                   class="fa fa-circle-o"></i> 黑白名单管理 </a></li>
@@ -323,7 +323,12 @@
         <legend>设备控制模式</legend>
         <label><input type="radio" name="CMSbwManage" value="BlackList" class="form">黑名单模式<span class="spantip">(默认所有的设备都可以登录,在黑名单列表不允许上线)</span></label><br>
         <label><input type="radio" name="CMSbwManage" value="WhiteList" class="form">白名单模式<span class="spantip">(针对设置的白名单设置才允许上线)</span></label><br>
-        <input type="button" class="btn btn-primary" style="margin-top: .35em" onclick="CMSUpdateBW()" value="保存">
+        <hr style="margin: 5px 0"/>
+        <div class="form-group form-inline" style="margin-bottom:5px">
+          <label for="MaxDevices">设备最大上限数</label>
+          <input type="number" name="MaxDevices"  id="MaxDevices"  onkeydown="this.value=this.value.replace(/-/g,'');" oninput="this.value=this.value.replace(/-/g,'');" class="form-control"  placeholder="">
+        </div>
+        <input type="button" class="btn btn-primary" onclick="CMSUpdateBW()" value="保存">
       </fieldset>
       <!--<button type="button"  class="btn" style="background: #222d32;color: #ffffff;margin: 10px 0"-->
       <!--onclick="CMSUpdateBW('WhiteList')"> 启动白名单-->

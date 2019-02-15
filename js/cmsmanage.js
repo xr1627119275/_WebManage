@@ -321,11 +321,12 @@ $(".pageSelect").change(function () {
 //更新CMS设备使用的是黑白名单
 function CMSUpdateBW() {
   var bw = $("input[name=CMSbwManage]:checked").val();
-
+  var mxdevice = $("input[name=MaxDevices]").val();
   AjaxPost(UPDATE_CMS_INFO,{"access_token": access_token,
     "term": currentCMS,"cms":{"use_list_type":bw}}).then(function (obj_json) {
     if(obj_json.code===0){
       $("input[value="+bw+"][name=CMSbwManage]").prop("checked",true)
+      $("input[name=MaxDevices]").val(mxdevice)
     }
   })
 }
@@ -340,6 +341,7 @@ function showBlack_list(cms) {
   AjaxPost(GET_CMS_INFO,{"access_token":access_token,"cms_list":[cms]}).then(function (obj_json) {
     if(obj_json.cms_list.length>0){
         $("input[value="+obj_json.cms_list[0].use_white_black_list_type+"][name=CMSbwManage]").prop("checked",true)
+        $("input[name=MaxDevices]").val(obj_json.cms_list[0].max_pu_count)
       }
   });
 
@@ -448,17 +450,6 @@ function RenderSelectField(func) {
 
 }
 
-
-//显示添加用户标签提示框
-function ShowAddBlack_White() {
-  $("#AddBlackWhite_Modal").modal("show");
-  $("#AddBlackWhite_Modal .addField tbody").html($("#AddBalckWhiteSelect").html());
-  $("#AddBlackWhite_Modal .modal-body").css('maxHeight', $(window).height() * 0.6);
-  RenderSelectField(function () {
-    //null
-  })
-
-}
 
 //添加一行黑白名单
 function addTrField(target) {

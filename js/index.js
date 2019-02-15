@@ -35,34 +35,40 @@ online_account_ishide = false;
 
 current_cb_data = {"cmd": "", "data": []};
 
-
 MoveTime = 2;
 
-$(".terminal>.terminal_content>.hd").mousedown(function (e) {
-  startX = e.offsetX;
-  startY = e.offsetY;
-  $(".terminal>.terminal_content>.hd").bind('mousemove', move);
+
+$(document).mousedown(function (e) {
+  e.preventDefault();
+  startX = e.pageX - $(".terminal_content").offset().left - $(".terminal_content").width()/2;
+  startY = e.pageY -$(".terminal_content").offset().top;
+  isend = true;
+  $(".terminal_content").bind('mousemove', move);
+  console.log("mouseDown")
 });
 
-$(".terminal>.terminal_content>.hd").mouseup(function (e) {
-  $(".terminal>.terminal_content>.hd").unbind('mousemove', move);
+$(document).mouseup(function (e) {
+  e.preventDefault();
+  $(".terminal_content").unbind('mousemove', move)
+})
+
+$(document).mouseup(function (e) {
+  e.preventDefault();
+  $(".terminal_content").unbind('mousemove', move);
 });
 
 
 function move(e) {
-
-    moveX = $(".terminal_content").offset().left + e.offsetX - startX;
-    moveY = $(".terminal_content").offset().top + e.offsetY - startY;
-    moveX < 2 ? moveX = 0 : moveX
-    moveY < 2 ? moveY = 0 : moveY
-    $(".terminal_content").offset({
-      "left": moveX,
-      "top": moveY
-    });
-
-
+    if(isend){
+      isend = false;
+      moveX = e.pageX - startX ;
+      moveY = e.pageY - startY;
+      moveX <= $(".terminal_content").width()/2 ? moveX = $(".terminal_content").width()/2 : moveX
+      moveY <= -100 ? moveY = -100 : moveY
+      $(".terminal_content").css({"left":moveX,"top":moveY})
+      isend = true
+    }
 }
-
 
 //提前获取用户信息，并回调
 function GetUserMsg_CallBack(func) {
