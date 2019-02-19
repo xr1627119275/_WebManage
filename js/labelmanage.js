@@ -40,8 +40,14 @@ function getUserLabel() {
     param = {'access_token':access_token,"username":CurrentUser};
 
     bproto_ajax(USER_LABEL_GET,param,function (obj_json) {
-        console.log(obj_json);
-        RenderUserLabel(obj_json);
+        // console.log(obj_json);
+        if(!window.CurrentUserId){
+            access_token = $.cookie("access_token");
+            var param = {"access_token": access_token};
+            RenderUserLabel(obj_json);
+        }else{
+            RenderUserLabel(obj_json);
+        }
         RenderQrcode();
     })
 }
@@ -53,14 +59,20 @@ function RenderUserLabel(list){
     //     list.certs[i].ValidityBegin_ = list.certs[i].ValidityBegin.replace(" ","T");
     //     list.certs[i].ValidityEnd_ = list.certs[i].ValidityEnd.replace(" ","T");
     // }
+
     $("#labelList .showUserLabel table tbody").html(template('labelList_template',list))
 }
 //渲染二维码
 function RenderQrcode(){
     $(".showqrcode").each(function(){
-        var tttt = $(this).text();
+        var body = {"code":0};
+        body["label_id"] = toUtf8(toUtf8($(this).text()));
+        body["label_name"] = toUtf8($(this).attr("data-bindname").trim())
+        body["label_note"] = toUtf8($(this).attr("data-bindnote").trim())
+        body["user"] = toUtf8(CurrentUser)
+        body["user_id"] = toUtf8(CurrentUserId)
         $(this).text("");
-        $(this).qrcode({width:128,height:128,text:tttt})
+        $(this).qrcode({text:JSON.stringify(body)})
     })
 }
 
@@ -207,6 +219,27 @@ function UpdateUserLabel() {
             showUserLabel();
         }
     })
+}
+
+//汉字转UTF8
+function toUtf8(str) {
+    var out, i, len, c;
+    out = "";
+    len = str.length;
+    for (i = 0; i < len; i++) {
+        c = str.charCodeAt(i);
+        if ((c >= 0x0001) && (c <= 0x007F)) {
+            out += str.charAt(i);
+        } else if (c > 0x07FF) {
+            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+            out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+        } else {
+            out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+        }
+    }
+    return out;
 }
 
 function closeModal(target){

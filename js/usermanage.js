@@ -10,6 +10,7 @@ currentCert = ""; //初始化证书号
 
 ModalShowList = [];
 
+allUsers = [];//初始化所有用户信息
 
 switch (location.hash) {
   case "#userslistManage":
@@ -439,6 +440,7 @@ function updateCert(target) {
   }
 }
 
+
 //展示选择用户页面
 function showUpdateCertTimes(target) {
   current_certId = $(target).attr("data-bind");
@@ -451,6 +453,9 @@ function showUpdateCertTimes(target) {
       }
     }
     var html = template('Select_usersList', {"users": users});
+    for (let index = 0; index < users.length; index++) {      
+      allUsers[users[index].username]=users[index].user_id
+    }
     $("#UserModal .SelectUser .users").html(html);
     $("#UserModal #myModalLabel").text("选择用户");
     $("#UserModal .modal-dialog").removeClass("modal-lg").addClass("modal-md");
@@ -458,6 +463,13 @@ function showUpdateCertTimes(target) {
     $(".modalTable").hide();
     $(".SelectUser").show();
     ModalShowList.push({target: $(".SelectUser"), title: $("#UserModal #myModalLabel").text()});
+
+    //li选择用户click
+    $(".SelectUser .users .dropdown-menu").on("click","li",function () {
+      $("#user_id").val($(this).find("a").text())
+      $("#user_id").attr("data-bind",$(this).attr("data-bind"))
+    })
+
   });
 }
 
@@ -466,18 +478,21 @@ function UpdateCertTimes() {
     alert("次数不能为空");
     return;
   }
-  if (!($("input[name='selectuser_radio']:checked").val())) {
+  if (!($("#user_id").val())) {
     alert("请选择用户");
     return;
   }
-
+  if(!allUsers[$("#user_id").val()]){
+    alert("用户不存在");
+    return;
+  }
   if (CurrentUser === "admin") {
     current_certId = "null";
   }
   param = {
     "access_token": access_token,
     "cert_id_from": current_certId,
-    "user_id_to": $("input[name='selectuser_radio']:checked").val(),
+    "user_id_to": allUsers[$("#user_id").val()],
     "times": parseInt($("#updateTimes").val())
   };
   bproto_ajax(ISSUE_UESER_CERT, param, function (obj_json) {

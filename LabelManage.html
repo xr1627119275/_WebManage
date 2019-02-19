@@ -318,7 +318,11 @@
             <td style="height: 52px;line-height:52px;"><input type="radio" name="cb_label" data-bind="{{value.label_id}}"/></td>
             <td style="line-height:52px;">{{value.label_name}}</td>
             <td style="display: none">{{value.User_id}}</td>
-            <td style="height: 52px;line-height:52px;position: relative;"><span >{{value.label_id}}<div class="showqrcode" style="background-color:#fff;">{{value.label_id}}</div></span></td>
+            <td style="height: 52px;line-height:52px;position: relative;"><span>{{value.label_id}}<div class="showqrcode" style="background-color:#fff;"  
+                data-bindid = "{{value.labe}}" 
+                data-bindname = "{{value.label_name}}"
+                data-bindnote = "{{value.label_note}}"
+                >{{value.label_id}}</div></span></td>
             <td><textarea class="form-control textarea_label_note" style="resize: none;cursor: text;" disabled rows="2" >{{value.label_note}}</textarea></td>
         </tr>
     {{/each}}
