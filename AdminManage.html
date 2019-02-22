@@ -135,8 +135,47 @@
     </header>
 
     <section id="ServerConfig" class="content">
+        <style>
+            .mytab{
+                height: 50px;
+            }
+            .mytab ul{
+                height: 100%;
+            }
+            .mytab ul li {
+                display: block;
+                float: left;
+                height: 40px;
+                width: 130px;
+                background-color: #222d32
+            }
+            .mytab ul li div:nth-child(1){
+                display: inline-block;
+                height: 100%;
+                width: 100%;
+                line-height: 40px;
+                text-align: center;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+                margin: 0 auto;
+            }
+            
+            .mytab ul li:nth-child(n+2){
+                background-color:#978b8b
+            }
+        </style>
         <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">服务器配置</div>
-        
+        <div class="mytab">
+            <ul>
+                <li>
+                    <div>认证服务器</div>
+                </li>
+                <li>
+                    <div>代理服务器</div>
+                </li>
+            </ul>
+        </div>
         <table class="table table-striped  table-bordered">
             <thead>
                 <tr>

@@ -667,15 +667,39 @@
         <h4 class="modal-title h4" id="AddCertLabel" style="text-align: center">颁布证书</h4>
       </div>
       <div class="modal-body">
-        <div class="form-inline">
+        <!-- <div class="form-inline">
             <label class="mylabel">证书类型</label><br>
             <select class="form-control addtermtype">
-              <option value="PU">PU</option>
-              <option value="MPU">MPU</option>
-              <option value="CU">CU</option>
-              <option value="CMS">CMS</option>
-              <option value="UA">UA</option>
+              <option value="PU     ">PU</option>
+              <option value="MPU     ">MPU</option>
+              <option value="CU      ">CU</option>
+              <option value="CMS    ">CMS</option>
+              <option value="UA     ">UA</option>
+              <option value="MPU     ">MCU</option>
+              <option value="MPUPro">MCUPro</option>
             </select>
+        </div> -->
+        <div class="form-inline">
+              <label class="mylabel">选择证书类型</label><br>
+              <div class="input-group addtermtype">
+                <input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
+                       class="h34 form-control" id="user_id" placeholder="请输入证书类型"/>
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
+                          aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li data-bind="PU"><a href="#">PU</a></li>
+                    <li data-bind="MPU"><a href="#">MPU</a></li>
+                    <li data-bind="CU"><a href="#">CU</a></li>
+                    <li data-bind="CMS"><a href="#">CMS</a></li>
+                    <li data-bind="UA"><a href="#">UA</a></li>
+                    <li data-bind="MPU"><a href="#">MPU</a></li>
+                    <li data-bind="MPUPro"><a href="#">MPUPro</a></li>
+                  </ul>
+                </div>
+              </div> 
         </div>
         <div class="form-inline">
           <label for="Times" class="mylabel">证书授权次数</label><br>

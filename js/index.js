@@ -432,6 +432,9 @@ function getAuthTerm_list(page) {
   var search_val = $("#authorized .search input").val();
 
   if (search_val.length > 0) {
+    if(!isNaN(search_input)){
+      search_input = parseInt(search_input)
+    }
     sortlist[$("#authorized .search .search-btn").attr("data-bind")] = search_val
   }
   param = {
@@ -533,6 +536,9 @@ $('.search input[type=text]').bind('keyup', function (event) {
 function btn_search(target) {
   var select_val = $(target).attr("data-bind");
   var search_input = $(target).parent().prev().val();
+  if(!isNaN(search_input)){
+    search_input = parseInt(search_input)
+  }
   if (select_val === "") {
     alert('请选择搜索名称')
     return;
@@ -559,27 +565,28 @@ function btn_search(target) {
           $("#unauthorized table tbody").html(html);
           update_ip();
           UnAuth_List_Search();
+          RenderTable_Th("#unauthorized")
         }
       });
       break;
     case "authorized":
-      // param = {
-      //   "access_token":access_token,
-      //   'page':0,
-      //   'user_id':CurrentUserId,
-      //   'page_size':currentAuthTermPageSize,
-      //   'filter':filter
-      // };
-      // bproto_ajax(GET_USER_TERMINAL_LIST,param,function (obj_json) {
-      //   if(obj_json.code===0){
-      //     currentAuthTermPage = obj_json.page;
-      //     currentAuthTermPage_total = obj_json.page_total;
-      //     var html = template('authorizedTemp', obj_json);
-      //     $("#authorized .tablebox_authterm table tbody").html(html);
-      //     Auth_List_Search();
-      //   }
-      // });
-      getAuthTerm_list(0);
+      param = {
+        "access_token": access_token,
+        'user_id': CurrentUserId,
+        'page': page,
+        "page_size": currentAuthTermPageSize,
+        'filter': filter
+      };
+      bproto_ajax(GET_USER_TERMINAL_LIST, param, function (obj_json) {
+        if (obj_json.code === 0) {
+          currentAuthTermPage = obj_json.page;
+          currentAuthTermPage_total = obj_json.page_total;
+          var html = template('authorizedTemp', obj_json);
+          $("#authorized .tablebox_authterm table tbody").html(html);
+          Auth_List_Search();
+          RenderTable_Th("#authorized")
+        }
+      })
       break;
     case "onlineTerminal":
       param = {
@@ -601,6 +608,7 @@ function btn_search(target) {
 
           // console.log(obj_json);
           RenderOnlineTerminalTable(obj_json);
+          RenderTable_Th("#onlineTerminal")
         }
       })
       break;

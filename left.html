@@ -8,12 +8,14 @@
       <i class="fa fa-angle-right pull-right"></i>
     </a>
     <ul class="treeview-menu menu-open">
-      <li><a href="#unauthorizedPage" onclick="changeContent(this)" data-bind="#unauthorized"><i class="fa fa-circle-o"></i>
-          未授权设备 </a></li>
+      <li><a href="#unauthorizedPage" onclick="changeContent(this)" data-bind="#unauthorized"><i
+            class="fa fa-circle-o"></i> 未授权终端 </a></li>
       <li><a href="#authorizedPage" onclick="changeContent(this)" data-bind="#authorized"><i class="fa fa-circle-o"></i>
-          已授权设备 </a></li>
+          已授权终端 </a></li>
       <li><a href="#onlineTerminalPage" onclick="changeContent(this)" data-bind="#onlineTerminal"><i
-            class="fa fa-circle-o"></i> 在线设备 </a></li>
+            class="fa fa-circle-o"></i> 在线终端 </a></li>
+      <li><a href="#TerminalVerifyPage" onclick="changeContent(this)" data-bind="#TerminalVerify"><i
+            class="fa fa-circle-o"></i> 设备型号验证 </a></li>
     </ul>
   </li>
   <!--授权管理-->
@@ -43,7 +45,9 @@
       <i class="fa fa-angle-right pull-right"></i>
     </a>
     <ul class="treeview-menu" style="display: none;">
-      <li><a href="#"><i class="fa fa-circle-o"></i> 用户列表 </a></li>
+      <li><a href="#certList" onclick="changeContent(this)" data-bind="#certList"><i class="fa fa-circle-o"></i> 证书列表
+        </a></li>
+
 
     </ul>
   </li>
@@ -71,8 +75,14 @@
       <i class="fa fa-angle-right pull-right"></i>
     </a>
     <ul class="treeview-menu" style="display: none;">
-      <li><a href="#"><i class="fa fa-circle-o"></i> 用户列表</a></li>
-
+      <li>
+        <a href="#userslistManage" onclick="changeContent(this)" data-bind="#userslistManage"><i
+            class="fa fa-circle-o"></i> 用户列表 </a>
+      </li>
+      <li>
+        <a href="#certslistManage" onclick="changeContent(this)" data-bind="#certslistManage"><i
+            class="fa fa-circle-o"></i> 用户证书管理 </a>
+      </li>
     </ul>
   </li>
   <!--用户管理-->
@@ -101,7 +111,8 @@
       <i class="fa fa-angle-right pull-right"></i>
     </a>
     <ul class="treeview-menu menu-open" style="display: none;">
-      <li><a href="#ServerConfigPage" onclick="changeContent(this)" data-bind="#ServerConfig"><i class="fa fa-circle-o"></i>
+      <li><a href="#ServerConfigPage" onclick="changeContent(this)" data-bind="#ServerConfig"><i
+            class="fa fa-circle-o"></i>
           服务器配置</a></li>
     </ul>
   </li>

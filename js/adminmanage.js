@@ -28,7 +28,6 @@ function showServerManage() {
 
     var param = {
         'access_token':access_token,
-
     }
     bproto_ajax(GET_CONFIG_INFO,param,function (obj_json) {
         console.log(obj_json)

@@ -307,6 +307,7 @@
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
+            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
           </ul>
         </div><!-- /btn-group -->
         <span class="fa fa-remove " onclick="remove_input(this)" data-info="unauthorized"
@@ -353,7 +354,7 @@
           <th>#</th>
           <th>类型</th>               <!--    type-->
           <th>ID</th>                 <!--  id-->
-          <th>RandCode</th>           <!--   randcode-->
+          <th>认证码</th>           <!--   randcode-->
           <th>状态</th>           <!--   randcode-->
           <th>注册时间</th>           <!--   randcode-->
           <th>描述</th>
@@ -523,6 +524,8 @@
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
+            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
+
           </ul>
         </div><!-- /btn-group -->
         <span class="fa fa-remove " onclick="remove_input(this)" data-info="authorized"
@@ -569,7 +572,7 @@
           <!--<th>#</th>-->
           <th>类型</th>               <!--    type-->
           <th>ID</th><!--  id-->
-          <!--<th>RandCode</th>           &lt;!&ndash;   randcode&ndash;&gt;-->
+          <th>认证码</th>           <!--   randcode-->
           <th>描述</th>                 <!--  desc-->
           <th>型号验证</th>               <!--   modelnumber-->
           <th>序列号</th>             <!--   serialnumber-->
@@ -646,6 +649,7 @@
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
             </ul>
           </div><!-- /btn-group -->
           <span class="fa fa-remove " onclick="remove_input(this)" data-info="onlineTerminal"
@@ -699,7 +703,7 @@
             <th>#</th>
             <th>类型</th>               <!--    type-->
             <th>ID</th><!--  id-->
-            <!--<th>RandCode</th>           &lt;!&ndash;   randcode&ndash;&gt;-->
+            <th>认证码</th>           <!--   randcode-->
             <th>描述</th>                 <!--  desc-->
             <th>型号验证</th>               <!--   modelnumber-->
             <th>序列号</th>             <!--   serialnumber-->
@@ -956,7 +960,7 @@
     <td><input type="checkbox" name="done" data-sessionid="{{value.sessionid}}"></td>
     <td>{{value.type}}</td>
     <td>{{value.id}}</td>
-    <td>{{value.randcode}}</td>
+    <td>{{value.authcode}}</td>
     <td>{{value.online?"在线":"离线"}}</td>
     <td>{{value.reg_datetime}}</td>
     <td>{{value.desc}}</td>
@@ -988,7 +992,7 @@
     <!--<td><input type="checkbox" name="done" data-sessionid="{{value.sessionid}}"></td>-->
     <td>{{value.Type}}</td>
     <td>{{value.CLI_ID}}</td>
-    <!--<td>{{value.randcode}}</td>-->
+    <td>{{value.AuthCode}}</td>
     <td>{{value.Desc}}</td>
     <td>{{value.ModuleNumber}}</td>
     <td>{{value.SerialNumber}}</td>
@@ -1019,7 +1023,7 @@
     <td><input type="checkbox" name="done" data-bind="{{value.SerialNumber}}"></td>
     <td>{{value.Type}}</td>
     <td>{{value.CLI_ID}}</td>
-    <!--<td>{{value.randcode}}</td>-->
+    <td>{{value.AuthCode}}</td>
     <td>{{value.Desc}}</td>
     <td>{{value.ModuleNumber}}</td>
     <td>{{value.SerialNumber}}</td>

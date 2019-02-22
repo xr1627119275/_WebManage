@@ -209,8 +209,20 @@ function addUserCert(target) {
   $("#AddCert").modal("show");
 }
 
+
+$(".addtermtype").on("click","li",function () {  
+  var type = $(this).attr("data-bind")
+  $(".addtermtype input").val(type)
+})
+
+
 //给用户添加证书提交
 function AddCert_Modal() {
+  if($(".addtermtype input").val() === ""){
+    alert("请输入证书类型");
+    return;
+  }
+
   if ($("#Times").val() === "") {
     $("#Times").popover("show");
     return;
@@ -227,7 +239,7 @@ function AddCert_Modal() {
     "user_id_to": currentUserId,
     "times": times,
     'duration': days,
-    'issue_term_type' : $(".addtermtype option:selected").val()
+    'issue_term_type' : $(".addtermtype input").val()
   };
   bproto_ajax(ADMIN_ISSUE_UESER_CERT, param, function (obj_json) {
     if (obj_json.code === 0) {
