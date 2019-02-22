@@ -98,3 +98,8 @@ UPDATE_BLACK_WHITE_LIST_FILTER = '/api/v1/update_black_white_list_filter/'; //�
 
 GET_BLACK_WHITE_LIST_FILTER = '/api/v1/get_black_white_list_filter/';//获取CMS黑白名单 (条件筛选)
 
+
+
+GET_CONFIG_INFO =  '/api/v1/config/get_config_info/'; //获取配置信息列表
+
+UPDATE_CONFIG_INFO = '/api/v1/config/update_config_info/'; //添加/修改/删除 配置信息

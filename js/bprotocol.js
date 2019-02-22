@@ -11,7 +11,7 @@ function AjaxPost(url,data,list) {
                 data: JSON.stringify(data),
                 success: function (data,textStatus) {
                     if(data.code&&data.code===-1&&data.msg==="not login"){
-                        alert("回话已过期，请重新登录");
+                        alert("会话已过期，请重新登录");
                         location.href = '/';
                     }else{
                         resolve(data);
@@ -39,6 +39,7 @@ function bproto_ajax(post_url, post_data, on_success, on_error) {
         data: JSON.stringify(post_data),
         success: function (data,textStatus) {
             if(data.code&&data.code===-1&&data.msg==="not login"){
+                alert("会话已过期，请重新登录");
                 location.href = '/';
             }else{
                 on_success(data);

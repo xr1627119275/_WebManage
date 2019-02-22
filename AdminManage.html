@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>认证标签管理</title>
+    <title>管理员中心</title>
 
     <link rel="stylesheet" href="/static/css/font-awesome.css">
     <link rel="stylesheet" href="/static/css/sidebar-menu.css">
@@ -53,13 +53,13 @@
     <script src="/static/js/conf.js"></script>
     <script src="/static/js/sidebar-menu.js"></script>
     <script src="/static/js/base.js"></script>
-
+    
 
 </head>
 <body>
 <aside class="main-sidebar">
     <section class="sidebar">
-        
+            
     </section>
 </aside>
 <section class="main-content">
@@ -134,50 +134,23 @@
         </ul>
     </header>
 
-    <section id="labelList" class="content labelList">
-        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">认证标签信息</div>
-        <button type="button" id="addUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="ShowAddUserLabel_modal()"> 添加认证标签 </button>
-        <button type="button" id="removeUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="RemoveUserLabel()"> 删除认证标签 </button>
-        <button type="button" id="updateUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="ShowUpdateUserLabel_modal()"> 修改认证标签信息 </button>
-        <div class="search pull-right" style="padding-right: 20px">
-            <label class="mylabel">搜索标签</label>
-            <input type="text" style="border-radius: 10px;display: inline-block;width: 200px;padding: 0 20px"  placeholder="请输入描述信息" class="form-control">
-        </div>
-        <div class="showUserLabel">
-            <style>
-                .showUserLabel td span{
-                    position: relative;
-                }
-                .showUserLabel .showqrcode{
-                    position: absolute;
-                    top:50%;
-                    left:105%;
-                    transform: translateY(-50%);
-                    display: none;
-                }
-                .showUserLabel td span:hover > .showqrcode {
-                    display: block;
-                }
-
-            </style>
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>
-                            #
-                            <!--<input type="checkbox" id="labelList_all_cb">-->
-                        </th>
-                        <th>标签名称</th>
-                        <th style="display: none">UserId</th>
-                        <th>标签ID</th>
-                        <th>描述信息</th>
-                    </tr>
-                </thead>
-                <tbody >
-
-                </tbody>
-            </table>
-        </div>
+    <section id="ServerConfig" class="content">
+        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">服务器配置</div>
+        
+        <table class="table table-striped  table-bordered">
+            <thead>
+                <tr>
+                    <th>服务器类型</th>
+                    <th>配置参数</th>
+                    <th>配置值</th>
+                    <th>描述</th>
+                    <th colspan="2">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
     </section>
 
 </section>
@@ -239,17 +212,13 @@
 
 
 
-<script id="labelList_template" type="text/html">
+<script id="ServerConfigTemp" type="text/html">
     {{each userlabel as value i}}
         <tr>
             <td style="height: 52px;line-height:52px;"><input type="radio" name="cb_label" data-bind="{{value.label_id}}"/></td>
             <td style="line-height:52px;">{{value.label_name}}</td>
             <td style="display: none">{{value.User_id}}</td>
-            <td style="height: 52px;line-height:52px;position: relative;"><span>{{value.label_id}}<div class="showqrcode" style="background-color:#fff;"  
-                data-bindid = "{{value.labe}}" 
-                data-bindname = "{{value.label_name}}"
-                data-bindnote = "{{value.label_note}}"
-                >{{value.label_id}}</div></span></td>
+            <td style="height: 52px;line-height:52px;position: relative;"><span >{{value.label_id}}<div class="showqrcode" style="background-color:#fff;">{{value.label_id}}</div></span></td>
             <td><textarea class="form-control textarea_label_note" style="resize: none;cursor: text;" disabled rows="2" >{{value.label_note}}</textarea></td>
         </tr>
     {{/each}}
@@ -259,7 +228,6 @@
 <script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/template.js"></script>
 <script src="/static/js/jquery.qrcode.min.js"></script>
-<script src="/static/js/labelmanage.js"></script>
+<script src="/static/js/adminmanage.js"></script>
 </body>
 </html>
- 

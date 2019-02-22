@@ -37,6 +37,7 @@ th,td {
     text-overflow:ellipsis;
     word-break:keep-all;
     white-space:nowrap;
+    vertical-align: middle;
 }
 th{
     font-weight: 600;
@@ -66,7 +67,7 @@ th{
 
 
 .main-sidebar {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100%;
@@ -216,6 +217,10 @@ th{
     border-radius: 15px
 }
 
+
+.my-link{
+    color:#3071A9!important;
+}
 .noselect_del {
 
     -webkit-touch-callout: none; /* iOS Safari */

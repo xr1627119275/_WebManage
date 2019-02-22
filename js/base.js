@@ -20,6 +20,7 @@ function fun_api_logout() {
   param = {'access_token': access_token};
   bproto_ajax(LOGOUT_URL, param, function (obj_json) {
     $.removeCookie("access_token", {path: '/'});
+    $.removeCookie("csrftoken", {path: '/'});
     access_token = '';
     location.href = "/";
     console.log(obj_json)
@@ -40,6 +41,20 @@ function GetUserMsg_CallBack(func){
   }else{
     func();
   }
+}
+
+
+function showWhitchSlider(i){
+  GetUserMsg_CallBack(function () {
+    $(".sidebar").load("/static/left.html",function () {
+      if(CurrentUser!="admin"){
+        $(".sidebar-menu>li").eq(7).remove()
+      }
+      $(".sidebar-menu>li").removeClass("active").eq(i).addClass("active").find("ul").show()
+      $(".sidebar .active").find("i").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down")
+    })
+  })
+  
 }
 
 //根据ip获取地理位置

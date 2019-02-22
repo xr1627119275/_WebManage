@@ -1,14 +1,17 @@
 
 
-showWhitchSlider(4)
+showWhitchSlider(6);
 
 switch (location.hash) {
-    case "#labelList":
-        changeContent($("a[data-bind=#labelList]")[0]);
+    case "#OwnMsgPage":
+        changeContent($("a[data-bind=#OwnMsg]")[0]);
+        break;
+    case "#OtherPage":
+        changeContent($("a[data-bind=#Other]")[0]);    
         break;
     default:
-        location.hash="#labelList";
-        changeContent($("a[data-bind=#labelList]")[0]);
+        location.hash="#OwnMsgPage";
+        changeContent($("a[data-bind=#OwnMsg]")[0]);
 }
 
 //切换导航
@@ -16,53 +19,50 @@ function changeContent(target) {
     var targetId = $(target).attr("data-bind");
     $(".content").hide();
     $(targetId).show();
-    if($(target)[0]==$("a[data-bind=#labelList]")[0]){
-        showUserLabel()
+    if($(target)[0]==$("a[data-bind=#OwnMsg]")[0]){
+        showUserMsg()
     }
 }
 
 
-//展示用户标签信息
-function showUserLabel() {
-    $("#labelList").show()
+//展示用户个人信息
+function showUserMsg() {
     if(window.CurrentUser===undefined){
         bproto_ajax(GET_LOGIN_MSG_URL, {'access_token':access_token}, function (obj_json) {
             if (obj_json.code != 0) {
                 location.href = '/';
             }
             CurrentUser = obj_json.username;
-            getUserLabel();
+            getUserMsg();
         })
     }else {
-        getUserLabel();
+        getUserMsg();
     }
 }
-function getUserLabel() {
+function getUserMsg() {
+    $("#OwnMsg").show()
+    param = {'access_token':access_token};
 
-    param = {'access_token':access_token,"username":CurrentUser};
-
-    bproto_ajax(USER_LABEL_GET,param,function (obj_json) {
-        // console.log(obj_json);
-        if(!window.CurrentUserId){
-            access_token = $.cookie("access_token");
-            var param = {"access_token": access_token};
-            RenderUserLabel(obj_json);
-        }else{
-            RenderUserLabel(obj_json);
-        }
-        RenderQrcode();
+    bproto_ajax(GET_USERLIST_URL,param,function (obj_json) {
+        if(obj_json.code===0){
+            var usermsg = {};
+            for (var i = 0; i < obj_json.users.length; i++) {
+                if(obj_json.users[i].username===CurrentUser){
+                    usermsg = obj_json.users[i];
+                    RenderUsertable(usermsg)
+                }
+            }
+        }        
     })
 }
 
 
 //渲染用户标签列表
-function RenderUserLabel(list){
-    // for (let i = 0; i < list.certs.length; i++) {
-    //     list.certs[i].ValidityBegin_ = list.certs[i].ValidityBegin.replace(" ","T");
-    //     list.certs[i].ValidityEnd_ = list.certs[i].ValidityEnd.replace(" ","T");
-    // }
-
-    $("#labelList .showUserLabel table tbody").html(template('labelList_template',list))
+function RenderUsertable(usermsg){
+    $(".username").text(usermsg.username)
+    $(".nickname span").text(usermsg.nickname==null?"无":usermsg.nickname)
+    $(".email span").text(usermsg.email)
+    $(".cellphone span").text(usermsg.cellphone==null?"无":usermsg.cellphone)
 }
 //渲染二维码
 function RenderQrcode(){

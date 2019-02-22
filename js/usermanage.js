@@ -1,6 +1,9 @@
 page_size = 10;//分页查询默认每页数据
+currentCertsPageSize = 10;//初始化显示用户证书每页页数
 currentCertsPage = 0;//初始化显示用户证书当前页数
-currentCertsPage_total = 0;//初始化显示用户证书总页数
+currentCertsPage_total = 0;//初始化显示用户证书总页数\
+
+currentCerts2TermPageSize = 10;//初始化显示用户证书颁布的设备每页页数
 currentCerts2TermPage = 0; //初始化证书颁布的设备当前页数
 currentCerts2TermPage_total = 0;//初始化证书颁布的设备总页数
 
@@ -11,6 +14,9 @@ currentCert = ""; //初始化证书号
 ModalShowList = [];
 
 allUsers = [];//初始化所有用户信息
+
+
+showWhitchSlider(5)
 
 switch (location.hash) {
   case "#userslistManage":
@@ -156,6 +162,7 @@ function getUserList(func) {
 
 //展示用户列表
 function showUserList() {
+  $("#userslistManage").show()
   if (cacheUserslist.length === 0) {
     getUserList(function (list) {
       $("#userslistManage table tbody").html(template('userListTemp', {"users": cacheUserslist}));
@@ -219,7 +226,8 @@ function AddCert_Modal() {
     'access_token': access_token,
     "user_id_to": currentUserId,
     "times": times,
-    'duration': days
+    'duration': days,
+    'issue_term_type' : $(".addtermtype option:selected").val()
   };
   bproto_ajax(ADMIN_ISSUE_UESER_CERT, param, function (obj_json) {
     if (obj_json.code === 0) {
@@ -242,7 +250,7 @@ function showUserCerts(target) {
     "access_token": access_token,
     "username": username,
     "page": 0,
-    "page_size": page_size
+    "page_size": currentCertsPageSize
   };
   bproto_ajax(GET_USERCERTS_URL, param, function (obj_json) {
     if (obj_json.code === 0 && obj_json.certs.length > 0) {
@@ -295,6 +303,28 @@ function addUserLabel() {
 }
 
 
+
+
+//上一页
+function bindPager_Previous(target_page, func) {
+  if (target_page === 0) {
+    alert("已经是第一页了");
+    return
+  }
+  target_page -= 1;
+  func(target_page);
+}
+
+//下一页
+function bindPager_Next(target_page, total_page, func) {
+  if (total_page === 0 || target_page === total_page - 1) {
+    alert("已经是最后一页了");
+    return;
+  }
+  target_page += 1;
+  func(target_page);
+}
+
 //根据page页数获取证书数据
 function getCerts_list(page) {
   if (page < 0) {
@@ -304,14 +334,16 @@ function getCerts_list(page) {
     "access_token": access_token,
     "username": username,
     "page": page,
-    "page_size": 10
+    "page_size": currentCertsPageSize
   };
   bproto_ajax(GET_USERCERTS_URL, param, function (obj_json) {
     if (obj_json.code === 0 && obj_json.certs.length > 0) {
       // "page": 0,    "page_size": 5,    "page_total": 86
       currentCertsPage = obj_json.page;
+      currentCertsPage_total = obj_json.page_total
       obj_json.userid = userid;
       RenderCertTable(obj_json);
+      // RenderCert2TermTable(obj_json);
     }
   });
 }
@@ -325,15 +357,23 @@ function getCerts2Term_list(page) {
     "access_token": access_token,
     "cert": currentCert,
     "page": page,
-    "page_size": 10
+    "page_size": currentCerts2TermPageSize
   };
   bproto_ajax(GET_CERT_TERMINAL_URL, param, function (obj_json) {
     if (obj_json.code === 0) {
+      if(obj_json.terminals.length===0){
+        currentCerts2TermPage_total = obj_json.page;
+        alert("已经是最后一页了");
+        return;
+      }
       currentCerts2TermPage = obj_json.page;
+      currentCerts2TermPage_total = obj_json.page_total;
       RenderCert2TermTable(obj_json);
     }
   })
 }
+
+
 
 
 //绑定证书certs分页按钮
@@ -386,7 +426,7 @@ function RenderCertTable(list) {
 
 //渲染证书颁布的设备table
 function RenderCert2TermTable(list) {
-  $(".showCert table tbody").html(template('termList', list))
+  $(".showCert2Term table tbody").html(template('termList', list))
 }
 
 //修改用户证书
@@ -403,8 +443,20 @@ function updateCert(target) {
     });
 
     $(target).css("backgroundColor", "#000").val("确认").css("color", "#fff");
+
+    var parentcertid = $(allSelects[2]).attr("data-bind");
     allSelects.prev().hide().end().show();
-    allInputDates.prev().hide().end().show();
+    if(parentcertid){
+      // bproto_ajax(GET_USERCERTS_URL,)
+      $(allSelects[2]).prev().show().end().hide();
+    }else{
+
+    }
+
+    //除了admin其他用户不可以修改时间
+    if(CurrentUser==="admin"){
+      allInputDates.prev().hide().end().show();
+    }
     allSelects.each(function () {
       $(this).find("option[value=" + $(this).prev().text() + "]").prop("selected", true)
     });
@@ -460,6 +512,7 @@ function showUpdateCertTimes(target) {
     $("#UserModal #myModalLabel").text("选择用户");
     $("#UserModal .modal-dialog").removeClass("modal-lg").addClass("modal-md");
     $("#UserModal").modal("show");
+    $("#updateTimes").val("");
     $(".modalTable").hide();
     $(".SelectUser").show();
     ModalShowList.push({target: $(".SelectUser"), title: $("#UserModal #myModalLabel").text()});
@@ -487,7 +540,7 @@ function UpdateCertTimes() {
     return;
   }
   if (CurrentUser === "admin") {
-    current_certId = "null";
+    // current_certId = "null";
   }
   param = {
     "access_token": access_token,
@@ -496,7 +549,10 @@ function UpdateCertTimes() {
     "times": parseInt($("#updateTimes").val())
   };
   bproto_ajax(ISSUE_UESER_CERT, param, function (obj_json) {
-    console.log(obj_json);
+    if(obj_json.code===0){
+      alert("转移成功");
+      $("#UserModal").modal("hide");
+    }
   })
 }
 
@@ -508,7 +564,7 @@ function showTerminal(cert) {
     "access_token": access_token,
     "cert": currentCert,
     "page": 0,
-    "page_size": page_size
+    "page_size": currentCerts2TermPageSize
   };
   bproto_ajax(GET_CERT_TERMINAL_URL, param, function (obj_json) {
     if (obj_json.code === 0) {

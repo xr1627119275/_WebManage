@@ -3,6 +3,7 @@ $(function () {
   bproto_ajax(GET_LOGIN_MSG_URL, param, function (obj_json) {
     console.log(obj_json);
     if (obj_json.code == 0) {
+      
       location.href = '/static/';
     }
   });
@@ -570,7 +571,7 @@ function clickChange() {
   }
   cxt.fillStyle = 'red';
   cxt.font = 'bold 28px Arial';
-  cxt.fillText(rand(), 25, 25); //把rand()生成的随机数文本填充到canvas中
+  cxt.fillText(rand(), 15, 25); //把rand()生成的随机数文本填充到canvas中
 }
 
 clickChange();

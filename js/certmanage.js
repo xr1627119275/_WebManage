@@ -6,6 +6,8 @@ currentCerts2TermPage_total = 0;//初始化证书颁布的设备总页数
 
 currentCert = ""; //初始化证书号
 
+showWhitchSlider(3);
+
 $(window).resize(function () {
     $("aside").height($(document).height())
 }).trigger("resize");
@@ -32,6 +34,8 @@ function changeContent(target) {
 
 //显示用户证书
 function showUserCerts() {
+    $(".content").hide()
+    $("#certList").show()
     if(window.CurrentUser===undefined){
         bproto_ajax(GET_LOGIN_MSG_URL, {'access_token':access_token}, function (obj_json) {
             if (obj_json.code != 0) {

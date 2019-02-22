@@ -36,7 +36,9 @@ online_account_ishide = false;
 current_cb_data = {"cmd": "", "data": []};
 
 MoveTime = 2;
- 
+
+showWhitchSlider(1)
+
 //双击table Th逻辑
  $("body").on("dblclick","th",function () {
   var index = $(this)[0].cellIndex;
@@ -208,6 +210,8 @@ function changeContent(target) {
 
 //获取未授权列表
 function fun_get_register_list() {
+  $(".content").hide();
+  $("#unauthorized").show()
   unauth_account_ishide = false;
   $("#unauthorized .dropdown-menu li:nth-child(1)").click();
   $("#unauthorized input").val("");
@@ -350,7 +354,7 @@ function fun_get_online_terminal_list() {
 }
 
 
-//在线设备上一页设备
+//上一页
 function bindPager_Previous(target_page, func) {
   if (target_page === 0) {
     alert("已经是第一页了");
@@ -360,7 +364,7 @@ function bindPager_Previous(target_page, func) {
   func(target_page);
 }
 
-//在线设备下一页设备
+//下一页
 function bindPager_Next(target_page, total_page, func) {
   if (total_page === 0 || target_page === total_page - 1) {
     alert("已经是最后一页了");
@@ -1166,7 +1170,7 @@ function Terminal_show() {
 
 }
 
-
+//终端输入命令逻辑
 $(".terminal").on('keydown','input',function (e) {
   if(e.keyCode===13){
     if($(this).val()===""){
@@ -1187,26 +1191,39 @@ $(".terminal").on('keydown','input',function (e) {
       'access_token': access_token,
       "term": term,
       "seq": current_cb_data.data[0].seq,
-      "cmd": $(this).val()
+      "cmd": JSON.stringify({"method":"command","data":$(this).val()})
     };
 
     bproto_ajax(SEND_SERVER_CMD, param, function (obj_json) {
       if (obj_json.code === 0) {
-        AjaxPost(GET_SERVER_CMD_RESPONSE,{'access_token':access_token,'query':[{"term":current_cb_data.data[0].term,'seq':-1}]}).then(function (obj_json) {
-          let data = '';
-          for (let i = 0; i < obj_json.response.length; i++) {
-            data +=  "<p>"+obj_json.response[i].response+"</p>";
+        var trytimes = 0;
+        var id = setInterval(function () {
+          if(trytimes>5){
+            clearInterval(id)
           }
-          $(".terminal .body").append(data +
-              '<p><span class="terminal_Prefix">'+$(".terminal_Prefix:eq(0)").text()+'</span><input type="text"></p>');
-          $(".terminal .body input").each(function (i) {
-            if(i===$(".terminal .body input").length-1){
-              $(this).focus();
+          AjaxPost(GET_SERVER_CMD_RESPONSE,{'access_token':access_token,'query':[{"term":current_cb_data.data[0].term,'seq':-1}]}).then(function (obj_json) {
+            if(obj_json.code===-4){
+              trytimes+=1;
               return;
             }
-            $(this).attr("disabled",true);
-          });
-        })
+            let data = '';
+            for (let i = 0; i < obj_json.response.length; i++) {
+              data +=  "<p>"+obj_json.response[i].response+"</p>";
+            }
+            $(".terminal .body").append(data +
+                '<p><span class="terminal_Prefix">'+$(".terminal_Prefix:eq(0)").text()+'</span><input type="text"></p>');
+            $(".terminal .body input").each(function (i) {
+              if(i===$(".terminal .body input").length-1){
+                $(this).focus();
+                return;
+              }
+              $(this).attr("disabled",true);
+            });
+
+            clearInterval(id);
+          })
+        },2000)
+        
       }
     })
   }
@@ -1254,7 +1271,7 @@ function exec_show() {
   $("#onlineTerminal .exec_content table tbody").html(html);
 }
 
-//渲染在线设备发送命令table
+//渲染在线多设备发送命令table
 function SendExecMsg(msg) {
   var isover = 0;
   var id = 0;
@@ -1267,7 +1284,9 @@ function SendExecMsg(msg) {
   }
   $(".sendmsg").html(msg);
 
-  $(".callmsg,.sendstatus").html('<span class="fa fa-refresh fa-spin"></span>');
+  $(".callmsg").html('<span class="fa fa-refresh fa-spin"></span>\
+  <textarea class="getmsg form-control" style="display:none;resize: none;cursor: text;" disabled="" rows="2"></textarea>')
+  $(".sendstatus").html('<span class="fa fa-refresh fa-spin"></span>');
 
 
   for (let i = 0; i < current_cb_data.data.length; i++) {
@@ -1276,7 +1295,7 @@ function SendExecMsg(msg) {
       'access_token': access_token,
       "term": current_cb_data.data[i].term,
       "seq": current_cb_data.data[i].seq,
-      "cmd": msg
+      "cmd": JSON.stringify({"method":"command","data":msg})
     };
     // cb_data.data[i].seq = -1;
     let term = current_cb_data.data[i].term;
@@ -1305,28 +1324,38 @@ function Retrygetcmd_response(data) {
     'access_token': access_token,
     "query": tempdata
   };
-  bproto_ajax(GET_SERVER_CMD_RESPONSE, param, function (obj_json) {
-    let callmsg = [];
-    if (obj_json.code === 0) {
-      if (obj_json.response.length > 0 && obj_json.response[0].response) {
-        callmsg = obj_json.response;
-        for (let i = 0; i < callmsg.length; i++) {
-          for (let j = 0; j < data.length; j++) {
-            if (callmsg[i].seq === data[j].seq) {
-              $("#onlineTerminal .exec_content tr[data-bind=" + callmsg[i].term + "] .callmsg").html(callmsg[i].response);
+
+  var trytimes = 0;
+  var id = setInterval(function () {
+    if(trytimes>5){
+      clearInterval(id)
+    }
+    bproto_ajax(GET_SERVER_CMD_RESPONSE, param, function (obj_json) {
+      let callmsg = [];
+      if (obj_json.code === 0) {
+        if (obj_json.response.length > 0 && obj_json.response[0].response) {
+          callmsg = obj_json.response;
+          for (let i = 0; i < callmsg.length; i++) {
+            for (let j = 0; j < data.length; j++) {
+              if (callmsg[i].seq === data[j].seq) {
+                // $(".callmsg .fa").remove()
+                console.log(callmsg[i])
+                $("#onlineTerminal .exec_content tr[data-bind=" + callmsg[i].term + "] .callmsg span").remove()
+                $("#onlineTerminal .exec_content tr[data-bind=" + callmsg[i].term + "] .callmsg .getmsg").show().append(callmsg[i].response);
+              }
             }
           }
+          clearInterval(id)
+        } else {
+
         }
-        console.log(obj_json)
-
-
-      } else {
-
+      } else if (obj_json.code === -4) {
+        trytimes+=1;
       }
-    } else if (obj_json.code === -4) {
+    })
+  },1000)
 
-    }
-  })
+  
 
 }
 
