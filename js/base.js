@@ -10,7 +10,11 @@ bproto_ajax(GET_LOGIN_MSG_URL, param, function (obj_json) {
   }
   CurrentUser = obj_json.username;
   CurrentUserId = obj_json.user_id;
-  $("#username").css("color", "#4b646f").html(obj_json.username + ' <i class="fa fa-angle-down"></i>');
+
+  $("header").load("/static/header.html",function () {  
+    $("#username").css("color", "#4b646f").html(obj_json.username + ' <i class="fa fa-angle-down"></i>');
+  })
+
 });
 
 $.sidebarMenu($('.sidebar-menu'));
@@ -77,5 +81,9 @@ function IP2address(ip, callback) {
   })
 }
 
-
+//返回按钮
+function Back(target1,target2){
+  $(target1).hide();
+  $(target2).show();
+}
 

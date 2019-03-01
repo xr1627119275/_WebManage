@@ -11,15 +11,16 @@ showWhitchSlider(3);
 $(window).resize(function () {
     $("aside").height($(document).height())
 }).trigger("resize");
-
-switch (location.hash) {
-    case "#certList":
-        changeContent($("a[data-bind=#certList]")[0]);
-        break;
-    default:
-        location.hash = "#certList";
-        changeContent($("a[data-bind=#certList]")[0]);
-}
+window.addEventListener('load',function () { 
+    switch (location.hash) {
+        case "#certList":
+            changeContent($("a[data-bind=#certList]")[0]);
+            break;
+        default:
+            location.hash = "#certList";
+            changeContent($("a[data-bind=#certList]")[0]);
+    }
+})
 
 //切换导航
 function changeContent(target) {

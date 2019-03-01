@@ -144,15 +144,7 @@
       }
     </style>
     <header>
-      <ul class="clearfix">
-        <li><a href="#">Test</a></li>
-        <li class="user"><a href="#" id="username" data-toggle="dropdown" style="color:#1a2226">用户名 <i
-              class="fa fa-angle-down"></i></a>
-          <ul class="a_list">
-            <li><a href="javascript:;" onclick="fun_api_logout()">退出</a></li>
-          </ul>
-        </li>
-      </ul>
+      
     </header>
 
     <section id="certList" class="content">
@@ -163,6 +155,7 @@
           <thead>
             <tr>
               <th>SerialNumber</th>
+              <th>颁布设备类型</th>
               <th>类型</th>
               <th style="display: none">Mode</th>
               <th>状态</th>
@@ -203,6 +196,7 @@
     <tr>
 
         <td>{{value.SerialNumber}}</td>
+        <td>{{value.IssueTermType}}</td>
         <td>
             <span>{{value.Type}}</span>
             <select style="display: none" name="Type" class="certType">

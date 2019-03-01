@@ -31,6 +31,7 @@ Module_FiledLists = {};//分类验证字段
 cacheIp = [];//缓存IP地址
 
 unauth_account_ishide = false;
+auth_account_ishide = false;
 online_account_ishide = false;
 
 current_cb_data = {"cmd": "", "data": []};
@@ -42,7 +43,7 @@ showWhitchSlider(1)
 //双击table Th逻辑
  $("body").on("dblclick","th",function () {
   var index = $(this)[0].cellIndex;
-  console.log(index)
+  // console.log(index)
   let el = $(this).parent().parent().parent().find("td:nth-child("+(index+1)+")");
   let maxwidth = $(this).text().length*15;
   if(!$(this)[0].dbclick){
@@ -118,33 +119,37 @@ function GetUserMsg_CallBack(func) {
 $(window).resize(function () {
   // $(".tablebox").height($(window).height() - $(".account").height() - $(".tablebox").offset().top-60);
   $(".tablebox").height($(window).height() - parseInt(unauth_account_ishide ? "" + $("#unauthorized .account").height() : "0") - $(".tablebox").offset().top - 60);
-  $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top);
+  $(".tablebox_authterm").height($(window).height() - parseInt(auth_account_ishide ? "" + $("#authorized .account").height() : "0") - $(".tablebox_authterm").offset().top - 60);
+  // $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top);
   $(".tablebox_online").height($(window).height() - parseInt(online_account_ishide ? "" + $("#onlineTerminal .account").height() : "0") - $(".tablebox_online").offset().top - 60);
   // console.log("change")
 }).trigger("resize");
 
-switch (location.hash) {
-  case "#unauthorizedPage":
-    changeContent($("a[data-bind=#unauthorized]")[0]);
-    $(".tablebox").height($(window).height() - parseInt(unauth_account_ishide ? "" + $("#unauthorized .account").height() : "0") - $(".tablebox").offset().top - 60);
-    break;
-  case "#authorizedPage":
-    changeContent($("a[data-bind=#authorized]")[0]);
-    $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top);
-    break;
-  case "#onlineTerminalPage":
-    changeContent($("a[data-bind=#onlineTerminal]")[0]);
-    $(".tablebox_online").height($(window).height() - parseInt(online_account_ishide ? "" + $("#onlineTerminal .account").height() : "0") - $(".tablebox_online").offset().top - 60);
-    break;
-  case "#TerminalVerifyPage":
-    changeContent($("a[data-bind=#TerminalVerify]")[0]);
-    break;
-  default:
-    location.href = "#unauthorizedPage";
-    changeContent($("a[data-bind=#unauthorized]")[0]);
-    $(".tablebox").height($(window).height() - parseInt(unauth_account_ishide ? "" + $("#unauthorized .account").height() : "0") - $(".tablebox").offset().top - 60);
+window.addEventListener('load',function () { 
+  switch (location.hash) {
+    case "#unauthorizedPage":
+      changeContent($("a[data-bind=#unauthorized]")[0]);
+      $(".tablebox").height($(window).height() - parseInt(unauth_account_ishide ? "" + $("#unauthorized .account").height() : "0") - $(".tablebox").offset().top - 60);
+      break;
+    case "#authorizedPage":
+      changeContent($("a[data-bind=#authorized]")[0]);
+      $(".tablebox_authterm").height($(window).height() - parseInt(auth_account_ishide ? "" + $("#authorized .account").height() : "0") - $(".tablebox_authterm").offset().top - 60);
 
-}
+      break;
+    case "#onlineTerminalPage":
+      changeContent($("a[data-bind=#onlineTerminal]")[0]);
+      $(".tablebox_online").height($(window).height() - parseInt(online_account_ishide ? "" + $("#onlineTerminal .account").height() : "0") - $(".tablebox_online").offset().top - 60);
+      break;
+    case "#TerminalVerifyPage":
+      changeContent($("a[data-bind=#TerminalVerify]")[0]);
+      break;
+    default:
+      location.href = "#unauthorizedPage";
+      changeContent($("a[data-bind=#unauthorized]")[0]);
+      $(".tablebox").height($(window).height() - parseInt(unauth_account_ishide ? "" + $("#unauthorized .account").height() : "0") - $(".tablebox").offset().top - 60);
+
+  }
+})
 
 //数组去重
 Array.prototype.unique = function () {
@@ -375,19 +380,20 @@ function bindPager_Next(target_page, total_page, func) {
 }
 
 //根据page页数获取未授权设备
-function getUnAuthTerm_list(page) {
+function getUnAuthTerm_list(page,target) {
   if (page < 0) {
     page = 0
   }
   var sortlist = {};
-  $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function () {
-    if ($(this).text().length > 0) {
+  $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function (i,el) {
+    if ($(this).text().length > 0 && el!=$("#unauthorized .Receive")[0]) {
       sortlist[$(this).attr("data-info")] = $(this).text()
     }
   });
 
   var search_val = $("#unauthorized .search input").val();
 
+  
   if (search_val.length > 0) {
     sortlist[$("#unauthorized .search .search-btn").attr("data-bind")] = search_val
   }
@@ -398,33 +404,38 @@ function getUnAuthTerm_list(page) {
     'user_id': CurrentUserId,
     'page': page,
     "page_size": currentUnAuthTermPageSize,
-    'filters': sortlist
+    'filter': sortlist
   };
   bproto_ajax(GET_REGISTER_URL, param, function (obj_json) {
     if (obj_json.code === 0) {
-      if (obj_json.registers.length === 0) {
+
+      
+      if (obj_json.registers.length === 0&&target===undefined) {
         alert("已经是最后一页了");
         return;
       }
+      
+      
       currentUnAuthTermPage_total = obj_json.page_total;
       currentUnAuthTermPage = obj_json.page;
       var html = template('unauthorizedTemp', obj_json);
       $("#unauthorized table tbody").html(html);
       update_ip();
       UnAuth_List_Search();
+      RenderTable_Th("#unauthorized")
     }
   })
 }
 
 
 //根据page页数获取已授权设备
-function getAuthTerm_list(page) {
+function getAuthTerm_list(page,target) {
   if (page < 0) {
     page = 0
   }
   var sortlist = {};
   $("#authorized .breadcrumb li:nth-child(n+2)").each(function () {
-    if ($(this).text().length > 0) {
+    if ($(this).text().length > 0 && el!=$("#authorized .Receive")[0]) {
       sortlist[$(this).attr("data-info")] = $(this).text()
     }
   });
@@ -446,7 +457,7 @@ function getAuthTerm_list(page) {
   };
   bproto_ajax(GET_USER_TERMINAL_LIST, param, function (obj_json) {
     if (obj_json.code === 0) {
-      if (obj_json.terminal_list.length === 0) {
+      if (obj_json.terminal_list.length === 0&&target===undefined) {
         alert("已经是最后一页了");
         return;
       }
@@ -455,13 +466,14 @@ function getAuthTerm_list(page) {
       var html = template('authorizedTemp', obj_json);
       $("#authorized .tablebox_authterm table tbody").html(html);
       Auth_List_Search();
+      RenderTable_Th("#authorized")
     }
   })
 }
 
 
 //根据page页数获取在线设备
-function getOnlineTerm_list(page) {
+function getOnlineTerm_list(page,target) {
 
   GetUserMsg_CallBack(function () {
     if (page < 0) {
@@ -469,7 +481,7 @@ function getOnlineTerm_list(page) {
     }
     var sortlist = {};
     $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function () {
-      if ($(this).text().length > 0) {
+      if ($(this).text().length > 0 && el!=$("#onlineTerminal .Receive")[0]) {
         sortlist[$(this).attr("data-info")] = $(this).text()
       }
     });
@@ -489,13 +501,14 @@ function getOnlineTerm_list(page) {
     bproto_ajax(GET_USER_ONLINE_TERMINAL_URL, param, function (obj_json) {
       if (obj_json.code === 0) {
         // "page": 0,    "page_size": 5,    "page_total": 86
-        if (obj_json.terminal_list.length === 0) {
+        if (obj_json.terminal_list.length === 0&&target===undefined) {
           alert("已经是最后一页了");
           return;
         }
         currentOnlineTermPage = obj_json.page;
         currentOnlineTermPage_total = obj_json.page_total;
         RenderOnlineTerminalTable(obj_json);
+        RenderTable_Th("#onlineTerminal")
       }
     });
   })
@@ -547,9 +560,16 @@ function btn_search(target) {
     return;
   }
   var filter = {};
+
+  
   filter[select_val] = search_input;
   switch ($(target).attr("data-info")) {
     case "unauthorized":
+      $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function (i,el) {
+        if ($(this).text().length > 0 && el!=$("#unauthorized .Receive")[0]) {
+          filter[$(this).attr("data-info")] = $(this).text()
+        }
+      });
       var param = {
         "access_token": access_token,
         'user_id': CurrentUserId,
@@ -570,10 +590,15 @@ function btn_search(target) {
       });
       break;
     case "authorized":
+      $("#authorized .breadcrumb li:nth-child(n+2)").each(function (i,el) {
+        if ($(this).text().length > 0 && el!=$("#authorized .Receive")[0]) {
+          filter[$(this).attr("data-info")] = $(this).text()
+        }
+      });
       param = {
         "access_token": access_token,
         'user_id': CurrentUserId,
-        'page': page,
+        'page': 0,
         "page_size": currentAuthTermPageSize,
         'filter': filter
       };
@@ -589,6 +614,11 @@ function btn_search(target) {
       })
       break;
     case "onlineTerminal":
+      $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function (i,el) {
+        if ($(this).text().length > 0 && el!=$("#onlineTerminal .Receive")[0]) {
+          filter[$(this).attr("data-info")] = $(this).text()
+        }
+      });
       param = {
         "access_token": access_token,
         "page": 0,
@@ -621,13 +651,13 @@ function remove_input(target) {
   $(target).next().val("");
   switch ($(target).attr("data-info")) {
     case "unauthorized":
-      getUnAuthTerm_list(0);
+      getUnAuthTerm_list(0,"search");
       break;
     case "authorized":
-      getAuthTerm_list(0);
+      getAuthTerm_list(0,"search");
       break;
     case "onlineTerminal":
-      getOnlineTerm_list(0);
+      getOnlineTerm_list(0,"search");
       break;
   }
 }
@@ -688,8 +718,7 @@ function applyAuthSort() {
   authHardwareproviderlist.forEach(function (value) {
     $("#authorized .hardwaresort").append("<li><a href='javascript:;'>" + value + "</a></li>");
   });
-  $(".tablebox_authterm").height($(window).height() - $(".Auth_pager").height() - $(".tablebox_authterm").offset().top);
-
+  $(".tablebox_authterm").height($(window).height() - parseInt(auth_account_ishide ? "" + $("#authorized .account").height() : "0") - $(".tablebox_authterm").offset().top - 60);
 }
 
 //在线设备页面的渲染检索功能div
@@ -722,10 +751,14 @@ function SetSortItem(content, target, func) {
     }
     func()
   });
-  $(content + " .breadcrumb").on('click', 'li.active', function () {
-    $(this).text("").hide();
-    func();
-  })
+
+  if(!$(content + " .breadcrumb")[0].hasClick){
+    $(content + " .breadcrumb").on('click', 'li.active', function () {
+      $(this).text("").hide();
+      func();
+    })
+    $(content + " .breadcrumb")[0].hasClick = true;
+  }
 
 }
 
@@ -795,8 +828,8 @@ bindSortItem();
 //根据未授权检索要求重新渲染数据
 function updateUnauthorizedSort() {
   var sortlist = {};
-  $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function () {
-    if ($(this).text().length > 0) {
+  $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function (i,el) {
+    if ($(this).text().length > 0 && el!=$("#unauthorized .Receive")[0]) {
       sortlist[$(this).attr("data-info")] = $(this).text()
     }
   });
@@ -822,6 +855,7 @@ function updateUnauthorizedSort() {
       $("#unauthorized table tbody").html(html);
       update_ip();
       UnAuth_List_Search();
+      RenderTable_Th("#unauthorized");
     }
   })
 
@@ -831,8 +865,8 @@ function updateUnauthorizedSort() {
 //根据已授权检索要求重新渲染数据
 function updateAuthorizedSort() {
   var sortlist = {};
-  $("#authorized .breadcrumb li:nth-child(n+2)").each(function () {
-    if ($(this).text().length > 0) {
+  $("#authorized .breadcrumb li:nth-child(n+2)").each(function (i,el) {
+    if ($(this).text().length > 0 && el!=$("#authorized .Receive")[0]) {
       sortlist[$(this).attr("data-info")] = $(this).text()
     }
   });
@@ -856,6 +890,7 @@ function updateAuthorizedSort() {
       var html = template('authorizedTemp', obj_json);
       $("#authorized .tablebox_authterm table tbody").html(html);
       Auth_List_Search();
+      RenderTable_Th("#authorized");
     }
   })
 }
@@ -864,8 +899,8 @@ function updateAuthorizedSort() {
 //根据在线检索要求重新渲染数据
 function updateOnlineSort() {
   var sortlist = {};
-  $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function () {
-    if ($(this).text().length > 0) {
+  $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function (i,el) {
+    if ($(this).text().length > 0 && el!=$("#onlineTerminal .Receive")[0]) {
       sortlist[$(this).attr("data-info")] = $(this).text()
     }
   });
@@ -887,6 +922,7 @@ function updateOnlineSort() {
       currentOnlineTermPage = obj_json.page;
       currentOnlineTermPage_total = obj_json.page_total;
       RenderOnlineTerminalTable(obj_json);
+      RenderTable_Th("#onlineTerminal");
     }
   })
 }
@@ -952,6 +988,17 @@ function checkboxClick() {
     });
   });
 
+  setCheckboxClick("#authorized", function () {
+    auth_account_ishide = false;
+    $(".tablebox_authterm").height($(window).height() - parseInt(auth_account_ishide ? "" + $("#authorized .account").height() : "0") - $(".tablebox_authterm").offset().top - 60);
+    $("#authorized .account").slideUp(500);
+  }, function () {
+    auth_account_ishide = true;
+    $(".tablebox_authterm").height($(window).height() - parseInt(auth_account_ishide ? "" + $("#authorized .account").height() : "0") - $(".tablebox_authterm").offset().top - 60);
+    $("#authorized .account").slideDown(500, function () {
+    });
+  });
+
   //
   setCheckboxClick("#onlineTerminal .table_content", function () {
     online_account_ishide = false;
@@ -970,7 +1017,7 @@ checkboxClick();
 
 //授权提示框里下拉列表点击逻辑
 $(".cert_input .dropdown-menu").on("click", 'li a', function () {
-  $("#cert_id").val($(this).text().split("(")[0]);
+  $("#cert_id").val($(this).find("span.certid").text());
 });
 $(".label_input .dropdown-menu").on("click", 'li a', function () {
   $("#label_id").val($(this).attr("data-bind"));
@@ -1028,12 +1075,13 @@ function auth_show() {
       for (let i = 0; i < obj_json.certs.length; i++) {
         certidlist.push({
           "id": obj_json.certs[i].SerialNumber,
-          "Times": parseInt(obj_json.certs[i].MaxIssueTimes - obj_json.certs[i].IssueTimes)
+          "Times": parseInt(obj_json.certs[i].MaxIssueTimes - obj_json.certs[i].IssueTimes),
+          "Type" : obj_json.certs[i].IssueTermType?obj_json.certs[i].IssueTermType:"未知"
         });
       }
       certid_html = "";
       for (let i = 0; i < certidlist.length; i++) {
-        certid_html += "<li><a style='display: inline-block' href='javascript:;'>" + certidlist[i].id + "<span style='padding-right: 20px'>(剩余次数:" + certidlist[i].Times + ")</span></a></li>"
+        certid_html += "<li><a style='display: inline-block' href='javascript:;'><span style='text-align:center;display:inline-block;width:70px'>(类型:"+certidlist[i].Type+")</span><span class='certid'>"+certidlist[i].id+"</span><span style='padding-right: 20px'>(剩余次数:" + certidlist[i].Times + ")</span></a></li>"
       }
       $(".cert_input .dropdown-menu").html(certid_html);
 
@@ -1648,6 +1696,39 @@ function Module_fields_Name2Chinese(list) {
   }
 
 }
+
+
+function DelTerm() {  
+  var isCheck = false;
+  var term_list = [];
+  $("#authorized  input[name=done]").each(function () {
+    if ($(this).prop("checked")) {
+      isCheck = true;
+      term_list.push($(this).attr("data-bind"))
+    }
+  });
+
+  if(!isCheck){
+    alert("请选择终端");
+    return;
+  }
+
+  var param = {
+    "access_token":access_token,
+    "user_id":CurrentUserId,
+    "term_list":term_list
+  }
+  bproto_ajax(DEL_TERM,param,function (obj_json) {  
+    if(obj_json.code===0){
+      alert("取消授权成功");
+      fun_get_authterm_list();
+    }else{
+      alert(obj_json.code+"取消授权失败");
+    }
+  });
+
+}
+
 
 function closeModal(target) {
   $(target).modal("hide");

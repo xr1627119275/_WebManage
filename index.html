@@ -117,14 +117,14 @@
       width: 100%;
     }
 
-    .Auth_pager {
+    /* .Auth_pager {
       padding: 0 10px 0 240px;
       position: fixed;
       bottom: 0;
       left: 0;
       height: 60px;
       width: 100%;
-    }
+    } */
 
     .terminal {
       background: rgba(66, 66, 66, .8);
@@ -272,19 +272,11 @@
     }
   </style>
   <header>
-    <ul class="clearfix">
-      <li><a href="#">Test</a></li>
-      <li class="user"><a href="#" id="username" data-toggle="dropdown" style="color:#1a2226">用户名 <i
-              class="fa fa-angle-down"></i></a>
-        <ul class="a_list">
-          <li><a href="javascript:;" onclick="fun_api_logout()">退出</a></li>
-        </ul>
-      </li>
-    </ul>
+    
   </header>
 
   <!--未授权页面-->
-  <section class="content" id="unauthorized">
+  <section class="content" id="unauthorized"  style="display: none">
 
     <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">未授权设备</div>
 
@@ -294,7 +286,8 @@
           <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false"><span class="text">请选择</span> <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li>
+            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
+            <!-- <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li> -->
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="serialnumber">序列号</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
@@ -307,7 +300,6 @@
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
           </ul>
         </div><!-- /btn-group -->
         <span class="fa fa-remove " onclick="remove_input(this)" data-info="unauthorized"
@@ -360,7 +352,7 @@
           <th>描述</th>
           <th>硬件供应商</th>              <!--     hardwareprovider-->
           <th>硬件SN</th>               <!--    hardwaresn-->
-          <th class="table_td" style="max-width:60px">硬件版本</th>               <!--    hardwareversion-->
+          <th>硬件版本</th>               <!--    hardwareversion-->
           <th>软件供应商</th>              <!--     softwareprovider-->
           <th>软件版本</th>               <!--    softwareversion-->
           <th>CPU</th>                 <!--  cpu-->
@@ -371,7 +363,7 @@
           <th>系统版本</th>         <!--     osversion-->
           <th>型号验证</th>               <!--   modelnumber-->
           <th>序列号</th>             <!--   serialnumber-->
-          <th>SessionID</th>          <!-- sessionid-->
+          <!--<th>SessionID</th>           sessionid-->
           <th>用户认证标签</th>          <!-- userlabel-->
           <th>客户端IP</th>          <!-- clienthost-->
         </tr>
@@ -511,7 +503,8 @@
           <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false"><span class="text">请选择</span> <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li>
+            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
+            <!-- <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li> -->
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="serialnumber">序列号</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
@@ -524,7 +517,6 @@
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
 
           </ul>
         </div><!-- /btn-group -->
@@ -565,11 +557,15 @@
                                                                aria-hidden="true"></span></li>
     </ol>
 
-    <div class="tablebox_authterm" style="width: 100%;overflow: auto;transition: all 0.5s ease 0s;">
+    <div class="tablebox_authterm" style="float:left;width: 100%;overflow: auto;transition: all 0.5s ease 0s;">
       <table class="table table-striped table-bordered">
         <thead>
         <tr>
-          <!--<th>#</th>-->
+            <th>
+              <!-- <input type="checkbox" name='all_auth_ck'> -->
+              #
+            </th>
+            <!--<th>#</th>-->
           <th>类型</th>               <!--    type-->
           <th>ID</th><!--  id-->
           <th>认证码</th>           <!--   randcode-->
@@ -600,9 +596,12 @@
       </table>
     </div>
 
-    <div class="Auth_pager" style="height: 60px;">
+    
+    <div class="bottom">
 
-      <ul class="pager" style="margin-bottom: 0">
+    <div class="Auth_pager">
+
+      <ul class="pager" style="margin-bottom: 10px">
         <li>
           <select name="currentAuthTermPageSize" data-bind="fun_get_authterm_list" class="pageSelect input-sm">
             <option value="10">10条/页</option>
@@ -620,6 +619,24 @@
       </ul>
 
     </div>
+
+    <!--底部授权部分-->
+    <div class="account" style="display: none">
+
+        <div class="fl">
+          <input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/><span>全选/全不选</span>&nbsp;&nbsp;
+          <span class="checkNum" style="visibility: hidden">已选</span>
+
+        </div>
+        <div class="fr">
+          <!-- <a class="authorize" onclick="auth_delete()" href="javascript:;"
+             style="float: left;background-color:#b75050;margin-right: 10px">删除</a>-->
+          <a class="authorize" onclick="DelTerm()" href="javascript:;" style="float: left">取消授权</a> 
+        </div>
+
+      </div>
+      <!--底部授权部分结束-->
+    </div>
   </section>
   <!--授权页面结束-->
 
@@ -636,7 +653,8 @@
             <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false"><span class="text">请选择</span> <span class="caret"></span></button>
             <ul class="dropdown-menu">
-              <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
+              <!-- <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li> -->
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="serialnumber">序列号</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
@@ -649,7 +667,6 @@
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
-              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
             </ul>
           </div><!-- /btn-group -->
           <span class="fa fa-remove " onclick="remove_input(this)" data-info="onlineTerminal"
@@ -977,7 +994,7 @@
     <td>{{value.osversion}}</td>
     <td>{{value.modelnumber}}</td>
     <td>{{value.serialnumber}}</td>
-    <td>{{value.sessionid}}</td>
+    <!-- <td>{{value.sessionid}}</td> -->
     <td>{{value.userlabel}}</td>
     <td class="iphost">{{value.clienthost}}</td>
   </tr>
@@ -989,7 +1006,7 @@
 <script id="authorizedTemp" type="text/html">
   {{each terminal_list as value i}}
   <tr>
-    <!--<td><input type="checkbox" name="done" data-sessionid="{{value.sessionid}}"></td>-->
+    <td><input type="checkbox" name="done" data-bind="{{value.SerialNumber}}"></td>
     <td>{{value.Type}}</td>
     <td>{{value.CLI_ID}}</td>
     <td>{{value.AuthCode}}</td>

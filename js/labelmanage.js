@@ -2,14 +2,16 @@
 
 showWhitchSlider(4)
 
-switch (location.hash) {
-    case "#labelList":
-        changeContent($("a[data-bind=#labelList]")[0]);
-        break;
-    default:
-        location.hash="#labelList";
-        changeContent($("a[data-bind=#labelList]")[0]);
-}
+window.addEventListener('load',function () { 
+    switch (location.hash) {
+        case "#labelList":
+            changeContent($("a[data-bind=#labelList]")[0]);
+            break;
+        default:
+            location.hash="#labelList";
+            changeContent($("a[data-bind=#labelList]")[0]);
+    }
+})
 
 //切换导航
 function changeContent(target) {

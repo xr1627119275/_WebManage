@@ -48,6 +48,10 @@ AUTHORIZE_URL = "/api/v1/auth_register2/"; //授权设备
 
 AUTHORIZE_BY_CERT_URL = "/api/v1/auth_register_by_cert/"; //通过证书授权设备
 
+DEL_TERM = "/api/v1/del_term/"; //删除终端
+
+
+
 
 
 ADD_USER_URL = "/api/v1/user/add_user/";//添加用户
@@ -103,3 +107,29 @@ GET_BLACK_WHITE_LIST_FILTER = '/api/v1/get_black_white_list_filter/';//获取CMS
 GET_CONFIG_INFO =  '/api/v1/config/get_config_info/'; //获取配置信息列表
 
 UPDATE_CONFIG_INFO = '/api/v1/config/update_config_info/'; //添加/修改/删除 配置信息
+
+
+
+
+GET_GROUP_AUTHORITY_LIST = "/api/v1/user/get_group_authority_list/"; //用户组权限
+
+GET_GROUP_AUTHORITY = "/api/v1/user/get_group_authority/";//获取组权限列表
+
+UPDATE_GROUP_AUTHORITY = "/api/v1/user/update_group_authority/";//增加/修改/删除 组权限
+
+GET_GROUP_LIST = "/api/v1/user/get_group_list/";//获取用户组
+
+UPDATE_GROUP_LIST = "/api/v1/user/update_group_list/";//添加/修改/删除 组信息
+
+GET_GROUP_USER_LIST = "/api/v1/user/get_group_user_list/";//获取用户组
+
+UPDATE_GROUP_USER_LIST = "/api/v1/user/update_group_user_list/";//修改用户的所在组
+
+
+
+
+
+
+
+
+

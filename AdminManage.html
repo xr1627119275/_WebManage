@@ -1,272 +1,765 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理员中心</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理员中心</title>
 
-    <link rel="stylesheet" href="/static/css/font-awesome.css">
-    <link rel="stylesheet" href="/static/css/sidebar-menu.css">
+  <link rel="stylesheet" href="/static/css/font-awesome.css">
+  <link rel="stylesheet" href="/static/css/sidebar-menu.css">
 
-    <style type="text/css">
-        .main-sidebar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            min-height: 100%;
-            width: 230px;
-            z-index: 810;
-            background-color: #222d32;
-        }
-        .main-content{
-            position: absolute;
-            width: 100%;
-            padding-left: 230px;
-            top: 0;
-            right: 0;
-        }
+  <style type="text/css">
+    .main-sidebar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      min-height: 100%;
+      width: 230px;
+      z-index: 810;
+      background-color: #222d32;
+    }
 
-        /*主体部分*/
-        section  .content {
-            width: 100%;
-            padding: 0 20px;
-        }
-        /*主体部分*/
-        .table th, .table td {
-            text-align: center;
-        }
+    .main-content {
+      position: absolute;
+      width: 100%;
+      padding-left: 230px;
+      top: 0; 
+      right: 0;
+    }
 
-    </style>
-    <!---->
+    /*主体部分*/
+    section .content {
+      width: 100%;
+      padding: 0 20px;
+    }
 
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/base.css" rel="stylesheet">
-    <!--[if lt IE 9]>
+    /*主体部分*/
+    .table th,
+    .table td {
+      text-align: center;
+    }
+  </style>
+  <!---->
+
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/base.css" rel="stylesheet">
+  <!--[if lt IE 9]>
     <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/jquery.cookie.js"></script>
-    <script src="/static/js/bprotocol.js"></script>
-    <script src="/static/js/conf.js"></script>
-    <script src="/static/js/sidebar-menu.js"></script>
-    <script src="/static/js/base.js"></script>
-    
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.cookie.js"></script>
+  <script src="/static/js/bprotocol.js"></script>
+  <script src="/static/js/conf.js"></script>
+  <script src="/static/js/sidebar-menu.js"></script>
+  <script src="/static/js/base.js"></script>
+
 
 </head>
+
 <body>
-<aside class="main-sidebar">
+  <aside class="main-sidebar">
     <section class="sidebar">
-            
+
     </section>
-</aside>
-<section class="main-content">
+  </aside>
+  <section class="main-content">
     <style>
-        .main-content>header{
-            width: 100%;
-            height: 60px;
-            background: #1a2226;
-        }
-        .main-content>header>ul{
-            margin-right: 30px;
-            float: right;
-        }
-        .main-content>header li{
-            float: left;
-        }
-        .main-content>header>ul>li>a{
-            display: block;
-            height: 60px;
-            padding: 10px 25px 10px 15px;
-            font-size: 16px;
-            line-height: 40px;
-            font-weight: 700;
-            color: #4b646f;
+      .main-content>header {
+        width: 100%;
+        height: 60px;
+        background: #1a2226;
+      }
 
-        }
-        .main-content>header>ul>li:last-child{
-            position: relative;
-        }
-        li.user:hover .a_list{
-            display: block;
-        }
+      .main-content>header>ul {
+        margin-right: 30px;
+        float: right;
+      }
 
-        .a_list{
-            display: none;
-            padding: 5px 0;
-            position: absolute;
-            right: 0;
-            border:1px solid #cccccc;
-            border-radius: 3px;
-            top: 56px;
-            background-color: #fff;
-            width: 100%;
+      .main-content>header li {
+        float: left;
+      }
 
-        }
-        .a_list li{
-            width: 100%;
+      .main-content>header>ul>li>a {
+        display: block;
+        height: 60px;
+        padding: 10px 25px 10px 15px;
+        font-size: 16px;
+        line-height: 40px;
+        font-weight: 700;
+        color: #4b646f;
 
-        }
-        .a_list li:hover{
-            background-color: #cccccc;
-        }
-        .a_list li>a{
-            display: block;
-            height: 30px;
-            color: #000;
-            line-height: 30px;
-            font-size: 14px;
-            width: 100%;
-            text-align: center;
+      }
 
-        }
+      .main-content>header>ul>li:last-child {
+        position: relative;
+      }
+
+      li.user:hover .a_list {
+        display: block;
+      }
+
+      .a_list {
+        display: none;
+        padding: 5px 0;
+        position: absolute;
+        right: 0;
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+        top: 56px;
+        background-color: #fff;
+        width: 100%;
+
+      }
+
+      .a_list li {
+        width: 100%;
+
+      }
+
+      .a_list li:hover {
+        background-color: #cccccc;
+      }
+
+      .a_list li>a {
+        display: block;
+        height: 30px;
+        color: #000;
+        line-height: 30px;
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+
+      }
     </style>
     <header>
-        <ul class="clearfix">
-            <li><a href="#">Test</a></li>
-            <li class="user"><a href="#" id="username" data-toggle="dropdown" style="color:#1a2226">用户名 <i class="fa fa-angle-down"></i></a>
-                <ul class="a_list">
-                    <li><a href="javascript:;" onclick="fun_api_logout()">退出</a></li>
-                </ul>
-            </li>
-        </ul>
+      
     </header>
 
-    <section id="ServerConfig" class="content">
-        <style>
-            .mytab{
-                height: 50px;
-            }
-            .mytab ul{
-                height: 100%;
-            }
-            .mytab ul li {
-                display: block;
-                float: left;
-                height: 40px;
-                width: 130px;
-                background-color: #222d32
-            }
-            .mytab ul li div:nth-child(1){
-                display: inline-block;
-                height: 100%;
-                width: 100%;
-                line-height: 40px;
-                text-align: center;
-                color: #fff;
-                font-size: 16px;
-                cursor: pointer;
-                margin: 0 auto;
-            }
-            
-            .mytab ul li:nth-child(n+2){
-                background-color:#978b8b
-            }
-        </style>
-        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">服务器配置</div>
-        <div class="mytab">
-            <ul>
-                <li>
-                    <div>认证服务器</div>
-                </li>
-                <li>
-                    <div>代理服务器</div>
-                </li>
-            </ul>
-        </div>
-        <table class="table table-striped  table-bordered">
-            <thead>
-                <tr>
-                    <th>服务器类型</th>
-                    <th>配置参数</th>
-                    <th>配置值</th>
-                    <th>描述</th>
-                    <th colspan="2">操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
+    <section id="ServerConfig" class="content"  style="display:none">
+      <style>
+        .mytab {
+          height: 50px;
+        }
+
+        .mytab ul {
+          height: 100%;
+          width: 260px;
+          margin: 0 auto;
+        }
+
+        .mytab ul li {
+          display: block;
+          float: left;
+          height: 40px;
+          width: 130px;
+          background-color: #978b8b
+          
+        }
+
+        .mytab ul li.active{
+          background-color: #222d32
+        }
+        .mytab ul li div:nth-child(1) {
+          display: inline-block;
+          height: 100%;
+          width: 100%;
+          line-height: 40px;
+          text-align: center;
+          color: #fff;
+          font-size: 16px;
+          cursor: pointer;
+          margin: 0 auto;
+        }
+
+        
+      </style>
+      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">服务器配置</div>
+      <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
+        onclick="ShowAddUserLabel_modal()"> 添加配置信息 </button>
+      <div class="mytab">
+        <ul>
+          <li class="active" data-bind="AAAServer">
+            <div>认证服务器</div>
+          </li>
+          <li data-bind="AAAServerProxy">
+            <div>代理服务器</div>
+          </li>
+        </ul>
+      </div>
+      <table class="table table-striped  table-bordered">
+        <thead>
+          <tr>
+            <th>服务器类型</th>
+            <th>配置参数</th>
+            <th>配置值</th>
+            <th>描述</th>
+            <th colspan="2">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
     </section>
 
-</section>
+    <section id="UserGroup" class="content"  style="display:none">
+      <div class="body usergrouplist">
+        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组管理</div>
+        <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
+          onclick="adduserGroup()"> 新建用户组 </button>
 
+          <table class="table table_usergroup table-striped  table-bordered">
+              <thead>
+                <tr>
+                  <th>用户组名称</th>
+                  <th colspan="3">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+      
+              </tbody>
+            </table>
 
-<!--添加用戶标签输入框-->
-<div class="modal fade" id="UserLabelManage_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      </div>
+        
+      <div class="body addgroud" style="display:none">
+        <style>
+          .addbody{
+            padding: 20px 20px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 2px #ccc;
+          }
+          .addbody>.hd{
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+          }
+          .addbody>.hd>ul li{
+            float: left;
+            font-size: 20px;
+          }
+          .addbody>.hd>ul li:nth-child(odd)>span.quan{
+            line-height: 27px;
+            width: 27px;
+            height: 27px;
+            display: inline-block;
+            border: 1px solid #006eff;
+            border-radius: 50%;
+            margin-right: 10px;
+            color: #006eff;
+          }
+          .addbody>.hd>ul li:nth-child(odd)>span.quan::before{
+            display: inline-block;
+            width: 25px;
+            line-height: 25px;
+            text-align: center;
+          }
+          .addbody>.hd>ul li:nth-child(even){
+            padding: 0 30px;
+            line-height: 30px;
+          }
+          .addbody>.bd{
+            padding: 20px 0;
+            border-bottom: 1px solid #ccc;
+          }
+          .addbody.step1 .bd>div>input,.addbody.step3 .bd input{
+            line-height: normal;
+            border: 1px solid #006eff;
+            outline: 0;
+          }
+          .addbody.step1 .bd>div:first-child input,.addbody.step3 .bd input{
+            padding: 5px 10px;
+            height: 30px;
+            width: 180px;
+          }
+          .addbody.step1 .bd>div:last-child textarea{
+            border: 1px solid #006eff;
+            outline: 0;
+            width: 300px;
+            height: 88px;
+            padding: 5px 10px;
+            resize: none;
+          }
+          .addbody>.bottom{
+            padding: 20px 0 0 0;
+          }
+          .addbody>.bottom>input[type=button]{
+              background-color: #006eff;
+              width: 76px;
+              height: 30px;
+              text-align: center;
+              line-height: 30px;
+              color: #fff;
+              border: 1px solid #006eff;
+              outline: 0;
+          }
+          .bd>div:nth-child(odd){
+              border: 1px solid #ccc;
+              height: 300px;
+          }
+          .bd>div:nth-child(n+2){
+            padding: 0 20px;
+          }
+          .bd>div:nth-child(n+2) span{
+            line-height: 300px;
+          }
+          .bd input[type=checkbox]
+          {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            /* vertical-align: middle; */
+            outline: 0;
+            -webkit-appearance: none;
+            border: 1px solid #bbb;
+            box-sizing: border-box;
+            background-color: #fff;
+          }
+          .addbody .table th,.addbody .table td{
+            text-align: left;
+          }
+          .bd input[type=checkbox]:checked
+          {
+            background-image: url(/static/images/cam-201901231024.svg);
+            ;background-color: #006eff;
+            border-color: #006eff;
+            background-position: 81.16% 40.63%;
+            background-size: 2185.714285714286% 2157.1428571428573%;
+            ;background-repeat: no-repeat
+          }
+          .bd th,.bd td{
+            text-align: left;
+          }
+          .bd span.cancle{
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-image: url(/static/images/cam-201901231024.svg);
+            ;background-position: 62.41% 74.48%;
+            background-size: 1912.5% 1887.5%;
+            ;background-repeat: no-repeat;
+          }
 
-    <div class="modal-dialog modal-md" role="document">
-        <!--添加用户标签-->
-            <div class="modal-content AddLabel_content">
-                <div class="modal-header">
-                    <button type="button" class="close" onclick="closeModal('#UserLabelManage_modal')" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title h4" id="" style="text-align: center">添加授权标签</h4>
-                </div>
-
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="mylabel">用户授权标签名称</label>
-                        <input class="form-control" id="input_label_name" placeholder="请填写描述信息"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="mylabel">用户授权标签描述信息</label>
-                        <textarea class="form-control" id="textarea_label_note" rows="3" placeholder="请填写描述信息"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="addUserLabel()">添加</button>
-                </div>
+          .addbody .step3 {
+            color:#ccc;
+          }
+        </style>
+        <div class="back clearfix" onclick="Back('.body','.usergrouplist')">
+            <span class="fa fa-angle-left pull-left"
+                  style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+            <span class="pull-left" style="font-size: 18px;font-weight: 700; line-height: 40px;">新建用户组</span>
+        </div>
+        <!-- 步骤1 -->
+        <div class="addbody step1">
+            <div class="hd">
+              <ul class="clearfix">
+                <li><span class="quan fa fa-check"></span>填写组信息</li>
+                <li><span class="fa fa-arrow-circle-right"></span></li>
+                <li><span class="quan fa fa-check" style="visibility: hidden"></span>关联权限</li>
+                <li><span class="fa fa-arrow-circle-right"></span></li>
+                <li><span class="quan fa fa-check" style="visibility: hidden"></span>审阅</li>
+              </ul>
             </div>
-        <!--添加用户标签-->
 
-        <!--更新用户标签-->
-            <div class="modal-content UpdateLabel_content">
-                <div class="modal-header">
-                    <button type="button" class="close" onclick="closeModal('#UserLabelManage_modal')" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title h4" id="LabelManage_title" style="text-align: center">修改授权标签</h4>
-                </div>
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <label class="mylabel">用户授权标签名称</label>
-                        <input class="form-control" id="update_input_label_name" placeholder="请填写描述信息"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="mylabel">用户授权标签描述信息</label>
-                        <textarea class="form-control" id="update_textarea_label_note" rows="3" placeholder="请更改描述信息"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="UpdateUserLabel()">修改</button>
-                </div>
+            <div class="bd clearfix">
+              <div class="" style="height: 50px;">
+                <p style="display: inline-block;width: 200px;"><span>用户组名</span><span style="color:red">*</span></p>
+                <input type="text" placeholder="请输入用户组名">
+              </div>
+              <div class="">
+                  <p style="vertical-align: top;display: inline-block;width: 200px;"><span>备注</span><span style="color:red">*</span></p>
+                  <textarea type="text" placeholder="请输入备注"></textarea>
+              </div>
             </div>
-        <!--更新用户标签-->
+
+            <div class="bottom">
+              <input type="button" value="下一步" onclick="addGroupNext('.step2')">
+            </div>
+        </div>
+        <!-- 步骤1 -->
+
+        <!-- 步骤2 -->
+        <div class="addbody step2" style="display:none;">
+            <div class="hd">
+                <ul class="clearfix">
+                  <li><span class="quan fa fa-check" ></span>填写组信息</li>
+                  <li><span class="fa fa-arrow-circle-right"></span></li>
+                  <li><span class="quan fa fa-check"></span>关联权限</li>
+                  <li><span class="fa fa-arrow-circle-right"></span></li>
+                  <li><span class="quan fa fa-check" style="visibility: hidden"></span>审阅</li>
+                </ul>
+              </div>
+              <div class="bd" style="display: flex;">
+                  <div style="flex: 1;overflow: auto" class="fl">
+                      <table class="table from">
+                          <thead>
+                            <tr>
+                              <th style="max-width:30px"></th>
+                              <th>用户组权限</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              <!-- <tr class="">
+                                <td style="text-align:center"><input  type="checkbox" name="" id="" data-bind="GET_USER_LIST"></td>
+                                <td class="data">GET_USER_LIST</td>
+                              </tr> -->
+                          </tbody>
+                        </table>
+                  </div>
+                  <div  class="fl">
+                    <span class="fa fa-chevron-circle-left"></span>
+                    <span class="fa fa-chevron-circle-right"></span>
+                  </div>
+                  <div style="flex: 1;overflow: auto" class="fl">
+                      <table class="table to">
+                          <thead>
+                            <tr>
+                              <th>用户组权限</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!-- <tr>
+                              <td></td>
+                              <td style="vertical-align: middle; text-align:right"><span class="cancle"></span></td>
+                            </tr> -->
+                          </tbody>
+                        </table>
+                  </div>
+              </div>
+              
+              <div class="bottom">
+                  <input type="button" value="下一步" onclick="addGroupNext('.step3')">
+                </div>
+        </div>
+        <!-- 步骤2 -->
+
+        <!-- 步骤3 -->
+        <div class="addbody step3" style="display:none;">
+            <div class="hd">
+                <ul class="clearfix">
+                  <li><span class="quan fa fa-check"></span>填写组信息</li>
+                  <li><span class="fa fa-arrow-circle-right"></span></li>
+                  <li><span class="quan fa fa-check"></span>关联权限</li>
+                  <li><span class="fa fa-arrow-circle-right"></span></li>
+                  <li><span class="quan fa fa-check"></span>审阅</li>
+                </ul>
+            </div>
+
+            <div class="bd clearfix">
+                
+                <div class="groupname" style="height: 50px;">
+                    <p style="display: inline-block;width: 200px;vertical-align: top"><span >组名称</span></p>
+                    <input class="p_edit" style="display:none"  type="text" placeholder="请输入用户组名">
+                    <span class="p_text">用户组名</span> <i style="cursor: pointer" onclick="showEdit(this)" class="fa p_text fa-pencil"></i>
+                    <a class="p_edit my-link" onclick="p_do(this)" href="javascript:;" style="display:none">确认</a>
+                    <a class="p_edit my-link" onclick="p_cancle(this)" href="javascript:;" style="display:none">取消</a>
+  
+                  </div>
+                <div class="groupnote" style="height: 50px;">
+                  <p  style="display: inline-block;width: 200px;vertical-align: top"><span >备注</span></p>
+                  <input class="p_edit" style="display:none" type="text" placeholder="请输入备注">
+                  <span class="p_text">备注</span> <i style="cursor: pointer" onclick="showEdit(this)" class="fa p_text fa-pencil"></i>
+                  <a class="p_edit my-link" onclick="p_do(this)" href="javascript:;" style="display:none">确认</a>
+                  <a class="p_edit my-link" onclick="p_cancle(this)" href="javascript:;" style="display:none">取消</a>
+                </div>
+
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <th>用户组权限</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr style="text-align:center">
+                            <td>权限名</td>
+                          </tr>                          
+                      </tbody>
+                    </table>
+            </div>
+
+            <div class="bottom">
+                <input type="button" value="返回" onclick="Back('.addbody','.step2')">
+                <input type="button" value="完成" onclick="adduserGroupFinsh()">
+              </div>
+
+        </div>
+        <!-- 步骤3 -->
+      </div>
+      
+      <div class="body usermanage"  style="display:none">
+        
+        <table class="table userlistTable table-striped table-bordered">
+            <div class="back clearfix" onclick="Back('.body','.usergrouplist')">
+                <span class="fa fa-angle-left pull-left"
+                      style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+                <span class="pull-left" style="font-size: 18px;font-weight: 700; line-height: 40px;">用户组用户信息</span>
+            </div>
+            <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
+              onclick="AddGroup_User()"> 添加用户 </button>
+            <thead>
+                <tr>
+                  <th>用户名称</th>
+                  <th colspan="2">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+        </table>
+
+      </div>
+    </section>
+  </section>
+
+
+  <!--添加服务器配置提示框-->
+  <div class="modal fade" id="ServerConfig_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog modal-xs" style="width: 750px" role="document">
+      <!--服务器配置-->
+      <div class="modal-content AddServerConfig_content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#ServerConfig_modal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title h4" id="" style="text-align: center">添加服务器配置</h4>
+        </div>
+
+        <div class="modal-body">
+          <table class="table table-striped addField table-bordered">
+            <thead>
+              <tr>
+                <th>服务器</th>
+                <th>配置参数</th>
+                <th>配置值</th>
+                <th>描述</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!--插入-->
+
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="AddServerConfig()">添加配置</button>
+        </div>
+      </div>
+      <!--添加用户标签-->
+
+      <!--更新用户标签-->
+      <div class="modal-content UpdateLabel_content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#UserLabelManage_modal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title h4" id="LabelManage_title" style="text-align: center">修改授权标签</h4>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label class="mylabel">用户授权标签名称</label>
+            <input class="form-control" id="update_input_label_name" placeholder="请填写描述信息" />
+          </div>
+          <div class="form-group">
+            <label class="mylabel">用户授权标签描述信息</label>
+            <textarea class="form-control" id="update_textarea_label_note" rows="3" placeholder="请更改描述信息"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" onclick="UpdateUserLabel()">修改</button>
+        </div>
+      </div>
+      <!--更新用户标签-->
     </div>
-</div>
-<!--添加用戶标签输入框-->
+  </div>
+  <!--添加用戶标签输入框-->
 
 
+  <div class="modal fade" id="UserGrounpManage_modal" tabindex="-1" role="dialog">
+
+      <div class="modal-dialog modal-xs" style="width: 750px" role="document">
+        <!-- 添加组用户 -->
+        <div class="modal-content UserManage">
+          <div class="modal-header">
+            <button type="button" class="close" onclick="closeModal('#UserGrounpManage_modal')" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title h4" id="" style="text-align: center">添加用户</h4>
+          </div>
+  
+          <div class="modal-body">
+              <div class="bd" style="display: flex;">
+                  <div style="flex: 1;overflow: auto" class="fl">
+                      <table class="table from">
+                          <thead>
+                            <tr>
+                              <th style="max-width:20px"></th>
+                              <th >用户信息</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                <td style="text-align:center"><input  type="checkbox" name="" id="" data-bind="Admin"></td>
+                                <td class="data">Admin</td>
+                              </tr>
+                          </tbody>
+                        </table>
+                  </div>
+                  <div  class="fl">
+                    <span class="fa fa-chevron-circle-left"></span>
+                    <span class="fa fa-chevron-circle-right"></span>
+                  </div>
+                  <div style="flex: 1;overflow: auto" class="fl">
+                      <table class="table to">
+                          <thead>
+                            <tr>
+                              <th>用户信息</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!-- <tr>
+                              <td></td>
+                              <td style="vertical-align: middle; text-align:right"><span class="cancle"></span></td>
+                            </tr> -->
+                          </tbody>
+                        </table>
+                  </div>
+              </div>
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" onclick="">添加配置</button>
+          </div>
+        </div>
+        <!-- 添加组用户 -->
+      </div>
+  </div>
+
+
+<!-- #################################################ScriptTemp############################################## -->
+
+
+<!-- 添加配置信息Select -->
+  <script type="text/html" id="AddServerConfigSelect">
+    <tr class="hideTr" style="display: none">
+      <td>
+        <select name="" class="selectserver input-sm">
+          <option value="AAAServer">认证服务器</option>
+          <option value="AAAServerProxy">代理服务器</option>
+        </select>
+      </td>
+      <td>
+        <!-- <select name="" class="ConfigKeySelectList input-sm">
+          <option value="login_expire">login_expire</option>
+        </select> -->
+        <input type="text" class="input-sm input_addconfigkey" style="border: 1px solid #a9a9a9;"
+          placeholder="请输入配置参数" />
+      </td>
+      <td>
+        <input type="text" class="input-sm input_addconfigval" style="border: 1px solid #a9a9a9;"
+          placeholder="请输入配置值" />
+      </td>
+      <td>
+        <input type="text" class="input-sm input_desc" style="border: 1px solid #a9a9a9;"
+          placeholder="请输描述信息" />
+      </td>
+      <td>
+        <input type="button" class="btn btn-danger" value="删除" style="padding: 4px 12px"
+          onclick="delServerConfigField(this)">
+      </td>
+    </tr>
+      <tr>
+        <td>
+          <select name="" class="selectserver input-sm">
+            <option value="AAAServer">认证服务器</option>
+            <option value="AAAServerProxy">代理服务器</option>
+          </select>
+        </td>
+        <td>
+            <!-- <select name="" class="ConfigKeySelectList input-sm">
+              <option value="login_expire">login_expire</option>
+            </select> -->
+            <input type="text" class="input-sm input_addconfigkey" style="border: 1px solid #a9a9a9;"
+              placeholder="请输入配置参数" />
+          </td>
+          <td>
+            <input type="text" class="input-sm input_addconfigval" style="border: 1px solid #a9a9a9;"
+              placeholder="请输入配置值" />
+          </td>
+          <td>
+            <input type="text" class="input-sm input_desc" style="border: 1px solid #a9a9a9;"
+              placeholder="请输描述信息" />
+          </td>
+          <td>
+            <input type="button" class="btn btn-danger" value="删除" style="padding: 4px 12px"
+              onclick="delServerConfigField(this)">
+        </td>
+      </tr>
+      <tr>
+          <td colspan="5">
+            <input type="button" class="btn btn-primary" value="添加一行" onclick="addTrField(this)">
+          </td>
+      </tr>
+  </script>
+<!-- 添加配置信息Select -->
 
 <script id="ServerConfigTemp" type="text/html">
-    {{each userlabel as value i}}
+    {{each config_list as value i}}
         <tr>
-            <td style="height: 52px;line-height:52px;"><input type="radio" name="cb_label" data-bind="{{value.label_id}}"/></td>
-            <td style="line-height:52px;">{{value.label_name}}</td>
-            <td style="display: none">{{value.User_id}}</td>
-            <td style="height: 52px;line-height:52px;position: relative;"><span >{{value.label_id}}<div class="showqrcode" style="background-color:#fff;">{{value.label_id}}</div></span></td>
-            <td><textarea class="form-control textarea_label_note" style="resize: none;cursor: text;" disabled rows="2" >{{value.label_note}}</textarea></td>
+          <td>{{value.server_type}}</td>
+          <td>
+            <span class="source">{{value.config_key}}</span>
+            <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.config_key}}">
+          </td>
+          <td>
+            <span class="source">{{value.config_value}}</span>
+            <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.config_value}}">
+          </td>
+          <td>
+            <span class="source">{{value.config_desc}}</span>
+            <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.config_desc}}">
+            
+          </td>
+          <td>
+              <a href="javascript:;" id="test" class="source  btn-link btn-primary my-link" style="color:#3071A9"
+               >编辑</a>
+              <!-- <a href="javascript:;" class="source  btn-link btn-primary my-link" style="color:#3071A9"
+               onclick="ShowEdit(this)">编辑</a>  -->
+              <div class="edit" style="display: none">
+                <a href="javascript:;" class="my-link btn-link btn-primary" onclick="DoEdit(this,'{{value.item_id}}')">确认</a> |
+                <a href="javascript:;" class="my-link btn-link btn-primary" onclick="HideEdit(this)">取消</a>
+              </div>
+          </td>
+          <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="delConfig('{{value.item_id}}')">删除</a></td>
         </tr>
     {{/each}}
 </script>
 
+<script id="usergrouplistTemp" type="text/html">
+  {{each group_list as value i}}
+      <tr>
+        <td>{{value}}</td>
+        <td>
+            <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value}}')"
+             >用户管理</a>
+          </td>
+        <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">权限管理</a></td>
+        <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">删除</a></td>
+      </tr>
+  {{/each}}
+</script>
+<!-- #################################################ScriptTemp############################################## -->
 
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/template.js"></script>
-<script src="/static/js/jquery.qrcode.min.js"></script>
-<script src="/static/js/adminmanage.js"></script>
+
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/template.js"></script>
+  <script src="/static/js/jquery.qrcode.min.js"></script>
+  <script src="/static/js/adminmanage.js"></script>
 </body>
+
 </html>

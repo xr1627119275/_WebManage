@@ -238,3 +238,9 @@ th{
 not supported by any browser */
 
 }
+
+
+.back,.back>span{
+    cursor: pointer;
+}
+

@@ -44,19 +44,19 @@ $(window).resize(function() {
   // $(".tablebox_online").height($(window).height() - parseInt(online_account_ishide ? "" + $("#onlineTerminal .account").height() : "0") - $(".tablebox_online").offset().top - 60);
   // console.log("change")
 // }).trigger("resize");
-
-switch (location.hash) {
-  case "#cmslist":
-    changeContent($("a[data-bind=#cmslist]")[0]);
-    break;
-  case "#black_white":
-    changeContent($("a[data-bind=#black_white]")[0]);
-    break;
-  default:
-    location.hash = "#cmslist";
-    changeContent($("a[data-bind=#cmslist]")[0]);
-}
-
+window.addEventListener('load',function () { 
+  switch (location.hash) {
+    case "#cmslist":
+      changeContent($("a[data-bind=#cmslist]")[0]);
+      break;
+    case "#black_white":
+      changeContent($("a[data-bind=#black_white]")[0]);
+      break;
+    default:
+      location.hash = "#cmslist";
+      changeContent($("a[data-bind=#cmslist]")[0]);
+  }
+})
 //切换导航
 function changeContent(target) {
   var targetId = $(target).attr("data-bind");
@@ -562,14 +562,18 @@ function AddBWField() {
   var add_list = [];
   var length = $("#AddBlackWhite_Modal .addField tbody tr:nth-child(n+2)").length;
   var num = 1;
+  var isNUll = false;
 
   $("#AddBlackWhite_Modal .addField tbody tr:nth-child(n+2)").each(function () {
     if($(this).find(".input_addfield").val()===""){
-      alert("请填写数据");
-      return;
+      isNUll = true;
     }
   });
-
+  
+  if(isNUll){
+    alert("请填写数据");
+    return;
+  }
 
   $("#AddBlackWhite_Modal .addField tbody tr:nth-child(n+2)").each(function () {
     if(num===length){

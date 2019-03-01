@@ -18,34 +18,41 @@ allUsers = [];//初始化所有用户信息
 
 showWhitchSlider(5)
 
-switch (location.hash) {
-  case "#userslistManage":
-    changeContent($("a[data-bind=#userslistManage]")[0]);
-    break;
-  case "#certslistManage":
-    changeContent($("a[data-bind=#certslistManage]")[0]);
-    break;
-  case "#termslistManage":
-    changeContent($("a[data-bind=#termslistManage]")[0]);
-    break;
-  case "#TerminalVerify":
-    changeContent($("a[data-bind=#TerminalVerify]")[0]);
-    break;
-  default:
-    location.href = "#userslist";
-    changeContent($("a[data-bind=#userslistManage]")[0]);
-}
+window.addEventListener('load',function () {  
+  switch (location.hash) {
+      case "#userslistManage":
+        changeContent($("a[data-bind=#userslistManage]")[0]);
+        break;
+      case "#certslistManage":
+        // alert("1is");
+        changeContent($("a[data-bind=#certslistManage]")[0]);
+        break;
+      case "#termslistManage":
+        changeContent($("a[data-bind=#termslistManage]")[0]);
+        break;
+      case "#TerminalVerify":
+        changeContent($("a[data-bind=#TerminalVerify]")[0]);
+        break;
+      default:
+        location.href = "#userslistManage";
+        changeContent($("a[data-bind=#userslistManage]")[0]);
+        break
+    }
+})
+  
+
 
 //切换导航
 function changeContent(target) {
   var targetId = $(target).attr("data-bind");
-  $(".content>div").hide();
+  $(".content").hide();
   // $(".right a").removeClass("active");
   // $(target).addClass("active");
   $(targetId).show();
-  if ($(target)[0] == $("a[data-bind=#userslistManage]")[0]) {
+  if (target === $("a[data-bind=#userslistManage]")[0]) {
     showUserList();
-  } else if ($(target)[0] == $("a[data-bind=#certslistManage]")[0]) {
+  } else if (target === $("a[data-bind=#certslistManage]")[0]) {
+    // alert("2is");
     showCertsManage();
   } else if ($(target)[0] == $("a[data-bind=#termslistManage]")[0]) {
     showTermsManage();
@@ -162,6 +169,7 @@ function getUserList(func) {
 
 //展示用户列表
 function showUserList() {
+  $(".content").hide();
   $("#userslistManage").show()
   if (cacheUserslist.length === 0) {
     getUserList(function (list) {
@@ -175,8 +183,10 @@ function showUserList() {
 
 //展示用户证书管理
 function showCertsManage() {
+  $(".content").hide();
+  $("#certslistManage").show();
   $(".certsManageContent").hide();
-  $(".certsManageContent.usersTable").show();
+  $(".certsManageContent.usersTable").show()
   if (cacheUserslist.length === 0) {
     getUserList(function (list) {
       $("#certslistManage table tbody").html(template('certslistTemp', {"users": list}));

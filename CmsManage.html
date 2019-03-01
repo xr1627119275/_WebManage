@@ -50,18 +50,10 @@
 </aside>
 <section class="main-content">
   <header>
-    <ul class="clearfix">
-      <li><a href="#">Test</a></li>
-      <li class="user"><a href="#" id="username" data-toggle="dropdown" style="color:#1a2226">用户名 <i
-              class="fa fa-angle-down"></i></a>
-        <ul class="a_list">
-          <li><a href="javascript:;" onclick="fun_api_logout()">退出</a></li>
-        </ul>
-      </li>
-    </ul>
+    
   </header>
 
-  <section class="content" id="cmslist">
+  <section class="content" id="cmslist"   style="display: none">
 
     <!--CMS信息-->
     <div class="cmslistContent CmsContent">
@@ -217,6 +209,15 @@
       <div class="cmslist_pager" style="height: 60px;">
 
         <ul class="pager" style="margin-bottom: 0">
+            <li>
+                <select name="currentCMSListPage" data-bind="showBlack_White_list" class="pageSelect input-sm">
+                  <option value="10">10条/页</option>
+                  <option value="20">20条/页</option>
+                  <option value="30">30条/页</option>
+                  <option value="40">40条/页</option>
+                  <option value="50">50条/页</option>
+                </select>
+              </li>
           <li><a href="javascript:;" onclick="getCMSTerm_list(0)">首页</a></li>
           <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSListPage,getCMSTerm_list)">上一页</a></li>
           <li><a href="javascript:;"
@@ -498,7 +499,7 @@
       <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.field_value}}">
     </td>
     <td>
-      <a href="javascript:;" class="source my-link btn-link btn-primary" onclick="ShowEdit(this)">编辑</a>
+      <a href="javascript:;" c lass="source my-link btn-link btn-primary" onclick="ShowEdit(this)">编辑</a>
       <div class="edit" style="display: none">
         <a href="javascript:;" class="my-link btn-link btn-primary" onclick="DoEdit(this,'{{value.id}}','BlackList')">确认</a> |
         <a href="javascript:;" class="my-link btn-link btn-primary" onclick="HideEdit(this)">取消</a>

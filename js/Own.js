@@ -1,18 +1,19 @@
 
 
 showWhitchSlider(6);
-
-switch (location.hash) {
-    case "#OwnMsgPage":
-        changeContent($("a[data-bind=#OwnMsg]")[0]);
-        break;
-    case "#OtherPage":
-        changeContent($("a[data-bind=#Other]")[0]);    
-        break;
-    default:
-        location.hash="#OwnMsgPage";
-        changeContent($("a[data-bind=#OwnMsg]")[0]);
-}
+window.addEventListener('load',function () { 
+    switch (location.hash) {
+        case "#OwnMsgPage":
+            changeContent($("a[data-bind=#OwnMsg]")[0]);
+            break;
+        case "#OtherPage":
+            changeContent($("a[data-bind=#Other]")[0]);    
+            break;
+        default:
+            location.hash="#OwnMsgPage";
+            changeContent($("a[data-bind=#OwnMsg]")[0]);
+    }
+})
 
 //切换导航
 function changeContent(target) {
