@@ -186,6 +186,9 @@ function fun_api_logout() {
 
 //切换导航
 function changeContent(target) {
+  $(target).parent().parent().find("li").removeClass("active");
+  $(target).parent().addClass("active")
+  
   var targetId = $(target).attr("data-bind");
   $(".content").hide();
   // $(".right a").removeClass("active");
@@ -1496,7 +1499,7 @@ function showAddModuleField_modal() {
 }
 
 
-//删除型号验证
+//删除验证型号
 function RemoveModuleField() {
   var isCheck = false;
   $("input[name=cb_termlist]").each(function () {
@@ -1660,6 +1663,9 @@ function Module_fields_Name2Chinese(list) {
         case "Type":
           list.module_fields[i].FieldName = list.module_fields[i].FieldName + "|类型";
           break;
+        case "DeviceModuleNumber":
+          list.module_fields[i].FieldName = list.module_fields[i].FieldName + "|设备型号";
+          break;
         default:
           list.module_fields[i].FieldName = list.module_fields[i].FieldName + "|" + list.module_fields[i].FieldName;
       }
@@ -1688,6 +1694,9 @@ function Module_fields_Name2Chinese(list) {
           break;
         case "Type":
           list.fields[i] = list.fields[i] + "|类型";
+          break;
+        case "DeviceModuleNumber":
+          list.fields[i] = list.fields[i] + "|设备型号";
           break;
         default:
           list.fields[i] = list.fields[i] + "|" + list.fields[i];

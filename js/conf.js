@@ -79,6 +79,11 @@ USER_LABEL_DEL  = "/api/v1/user/user_label_del/"; //用户标签删除
 USER_LABEL_UPDATE  = "/api/v1/user/user_label_update/"; //用户标签修改
 
 
+GET_REMARK = "/api/v1/get_remark/";//获取备注
+
+UPDATE_REMARK = "/api/v1/update_remark/"; //更新备注
+
+
 
 GET_MODULE_FIELDS = "/api/v1/get_module_fields/";//设备字段验证列表
 

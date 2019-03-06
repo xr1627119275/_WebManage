@@ -17,7 +17,7 @@ bproto_ajax(GET_LOGIN_MSG_URL, param, function (obj_json) {
 
 });
 
-$.sidebarMenu($('.sidebar-menu'));
+// $.sidebarMenu($('.sidebar-menu'));
 
 // 退出
 function fun_api_logout() {
@@ -56,6 +56,7 @@ function showWhitchSlider(i){
       }
       $(".sidebar-menu>li").removeClass("active").eq(i).addClass("active").find("ul").show()
       $(".sidebar .active").find("i").eq(1).removeClass("fa-angle-right").addClass("fa-angle-down")
+      $(".treeview-menu").eq(i-1).find("li").eq(0).addClass("active")
     })
   })
   
@@ -80,6 +81,13 @@ function IP2address(ip, callback) {
     }
   })
 }
+
+
+$(function () {  
+  $('.modal').on('shown.bs.modal', function () {
+    $(this).find("input").eq(0).focus();
+  })
+})
 
 //返回按钮
 function Back(target1,target2){

@@ -7,6 +7,8 @@ addGroupNote = "";
 FromPermission = [];
 ToPermission = [];
 
+currentGroup = "";
+
 showWhitchSlider(7);
 
 window.addEventListener('load',changeHashPage)
@@ -14,7 +16,7 @@ window.addEventListener('load',changeHashPage)
 function changeHashPage(){
   switch (location.hash) {
     case "#ServerConfigPage":
-    changeContent($("a[data-bind=#ServerConfig]")[0]);
+      changeContent($("a[data-bind=#ServerConfig]")[0]);
       break;
     case "#UserGroupPage":
     changeContent($("a[data-bind=#UserGroup]")[0]);
@@ -46,6 +48,10 @@ function changeHashPage(){
 
 //切换导航
 function changeContent(target) {
+  
+  $(target).parent().parent().find("li").removeClass("active");
+  $(target).parent().addClass("active")
+
   var targetId = $(target).attr("data-bind");
   $(".content").hide();
   $(targetId).show();
@@ -139,8 +145,20 @@ function ShowAddUserLabel_modal() {
   $(".modal-content").hide();
   $(".AddServerConfig_content").show();
   $(".AddServerConfig_content tbody").html($("#AddServerConfigSelect").html());
+  setDropdown();
   $(".selectserver option[value=" + currentAddConfig + "]").prop("selected", true);
 }
+
+function setDropdown() {  
+  
+  $("#ServerConfig_modal .dropdown-menu").on("click",'li a',function () {  
+    $(".input_addconfigkey").val($(this).attr('data-bind'));
+  })
+}
+
+
+
+
 
 
 //添加一行黑白名单
@@ -352,7 +370,7 @@ function addGroupNext(target){
 } 
 
 //权限转移
-function setTableCk() {
+function setPermissionTableCk() {
   $(".addbody.step2").on("click","input[type=checkbox]",function () {  
     var ischeckd = $(this).prop("checked");
     var permission = $(this).attr("data-bind")
@@ -407,7 +425,7 @@ function setTableCk() {
   })
 
 }
-setTableCk();
+setPermissionTableCk();
 
 function showEdit(target) {
   $(target).parent().find(".p_text").hide();
@@ -475,6 +493,7 @@ function adduserGroupFinsh(){
 
 //用户组对应的用户列表
 function showUserGroupUserList(target){
+  currentGroup = target;
   $("#UserGroup .body").hide();
   $("#UserGroup .usermanage").show();
 
@@ -495,9 +514,125 @@ function AddGroup_User(){
   $("#UserGrounpManage_modal .modal-content").hide();
   $("#UserGrounpManage_modal .UserManage").show();
   
+  adduserlist = [];
+  $("#UserGrounpManage_modal .UserManage .to tbody,#UserGrounpManage_modal .UserManage .from tbody ").html("");
+  bproto_ajax(GET_USERLIST_URL,{'access_token':access_token},function (obj_json) {  
+    RenderAddUserTable(obj_json.users);
+  })
+
+} 
+
+function RenderAddUserTable(list) {  
+  var html = "";
+  for (var i = 0; i < list.length; i++) {
+    html = html+"<tr>\
+            <td style='text-align:center'><input  type='checkbox' data-bind='"+list[i].username+"'></td>\
+            <td class='data'>"+(list[i].nickname?list.nickname:list[i].username)+"</td>\
+            <td class='data'>"+list[i].username+"</td>\
+          </tr>";
+  }
+  $("#UserGrounpManage_modal .UserManage .from tbody").html(html);
+}
+
+adduserlist = []
+//权限转移
+function setAddUserTableCk() {
+  $("#UserGrounpManage_modal .UserManage .from").on("click","input[type=checkbox]",function () {  
+    var ischeckd = $(this).prop("checked");
+    var user = $(this).attr("data-bind")
+    var ishave = false;
+
+    $(this).parent().parent().hasClass("active")?$(this).parent().parent().removeClass("active"):$(this).parent().parent().addClass("active")
+
+    if(ischeckd){
+      for (var i = 0; i < adduserlist.length; i++) {
+        if(user===adduserlist[i]){
+          ishave = true;
+        }
+      }
+
+      if(!ishave){
+        adduserlist.push(user);
+        $("#UserGrounpManage_modal .UserManage .to tbody").append("<tr data-bind='"+user+"' class='active'>\
+        <td>"+$(this).parent().parent().find(".data").eq(0).text()+"</td>\
+        <td style='vertical-align: middle; text-align:right'><span class='cancle'></span></td></tr>");
+      }
+    }else{
+      $("#UserGrounpManage_modal .UserManage .to tbody tr").each(function (el,i) {  
+        if($(this).attr("data-bind")===user){
+          ishave = true;
+          $(".table.to tbody tr[data-bind="+user+"]").remove()
+          var index ;
+          for (var i = 0; i < adduserlist.length; i++) {
+            if(user===adduserlist[i]){
+              index = i;
+            }
+          }
+          if(index!=undefined){
+            delete adduserlist[index];
+            adduserlist.length -= 1; 
+          }
+        }
+      })
+    }
+  })
+
+  $("#UserGrounpManage_modal .UserManage .to ").on("click","span.cancle",function () {  
+    var user = $(this).parent().parent().attr("data-bind");
+    // var index ;
+    //       for (var i = 0; i < ToPermission.length; i++) {
+    //         if(permission===ToPermission[i]){
+    //           index = i;
+    //         }
+    //       }
+    //       if(index!=undefined){
+    //         delete ToPermission[index];
+    //       }
+    $("#UserGrounpManage_modal .UserManage .from input[data-bind="+user+"]").click()
+  })
 
 }
 
+setAddUserTableCk();
+
+
+//提示框添加用户按钮
+function addGroup_User_modal(){
+  var update_list = [];
+  if(!adduserlist[0]){
+    alert("请选择用户");
+    return;
+  }
+  for (var i = 0; i < adduserlist.length; i++) {
+    update_list.push({
+      'user_name': adduserlist[i],
+      'group_name': currentGroup
+    })
+  }
+
+  bproto_ajax(UPDATE_GROUP_USER_LIST,{'access_token':access_token,'update_list':update_list},function (obj_json) {  
+    if(obj_json.code===0){
+      alert("添加用户成功");
+      $("#UserGrounpManage_modal").modal("hide");
+    }
+  });
+}
+
+
+
+//删除用户组
+function del_group(target){
+  var param = {
+    'access_token':access_token,
+    "del_list": [target]
+  }
+  bproto_ajax(UPDATE_GROUP_LIST,param,function (obj_json) {
+    if(obj_json.code===0){
+      alert("删除成功");
+      showUserGroupManage();
+    }
+  })
+}
 
 
 function closeModal(target) {

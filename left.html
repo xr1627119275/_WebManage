@@ -15,7 +15,7 @@
       <li><a href="#onlineTerminalPage" onclick="changeContent(this)" data-bind="#onlineTerminal"><i
             class="fa fa-circle-o"></i> 在线终端 </a></li>
       <li><a href="#TerminalVerifyPage" onclick="changeContent(this)" data-bind="#TerminalVerify"><i
-            class="fa fa-circle-o"></i> 设备型号验证 </a></li>
+            class="fa fa-circle-o"></i> 设备验证型号 </a></li>
     </ul>
   </li>
   <!--授权管理-->
@@ -44,7 +44,7 @@
       <span>证书管理</span>
       <i class="fa fa-angle-right pull-right"></i>
     </a>
-    <ul class="treeview-menu" style="display: none;">
+    <ul class="treeview-menu menu-open" style="display: none;">
       <li><a href="#certList" onclick="changeContent(this)" data-bind="#certList"><i class="fa fa-circle-o"></i> 证书列表
         </a></li>
 
@@ -60,7 +60,7 @@
       <span>认证标签管理</span>
       <i class="fa fa-angle-right pull-right"></i>
     </a>
-    <ul class="treeview-menu">
+    <ul class="treeview-menu menu-open">
       <li><a href="#labelList" onclick="changeContent(this)" data-bind="#labelList"><i class="fa fa-circle-o"></i>
           认证标签信息 </a></li>
     </ul>
@@ -74,7 +74,7 @@
       <span>用户管理</span>
       <i class="fa fa-angle-right pull-right"></i>
     </a>
-    <ul class="treeview-menu" style="display: none;">
+    <ul class="treeview-menu menu-open" style="display: none;">
       <li>
         <a href="#userslistManage" onclick="changeContent(this)" data-bind="#userslistManage"><i
             class="fa fa-circle-o"></i> 用户列表 </a>
@@ -83,6 +83,9 @@
         <a href="#certslistManage" onclick="changeContent(this)" data-bind="#certslistManage"><i
             class="fa fa-circle-o"></i> 用户证书管理 </a>
       </li>
+      <li><a href="#UserGroupPage" onclick="changeContent(this)" data-bind="#UserGroupManage"><i
+        class="fa fa-circle-o"></i>
+      用户组管理</a></li>
     </ul>
   </li>
   <!--用户管理-->

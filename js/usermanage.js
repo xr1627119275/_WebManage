@@ -27,8 +27,8 @@ window.addEventListener('load',function () {
         // alert("1is");
         changeContent($("a[data-bind=#certslistManage]")[0]);
         break;
-      case "#termslistManage":
-        changeContent($("a[data-bind=#termslistManage]")[0]);
+      case "#UserGroupManage":
+        changeContent($("a[data-bind=#UserGroupManage]")[0]);
         break;
       case "#TerminalVerify":
         changeContent($("a[data-bind=#TerminalVerify]")[0]);
@@ -44,6 +44,9 @@ window.addEventListener('load',function () {
 
 //切换导航
 function changeContent(target) {
+  $(target).parent().parent().find("li").removeClass("active");
+  $(target).parent().addClass("active")
+  
   var targetId = $(target).attr("data-bind");
   $(".content").hide();
   // $(".right a").removeClass("active");
@@ -52,8 +55,10 @@ function changeContent(target) {
   if (target === $("a[data-bind=#userslistManage]")[0]) {
     showUserList();
   } else if (target === $("a[data-bind=#certslistManage]")[0]) {
-    // alert("2is");
     showCertsManage();
+  } else if (target === $("a[data-bind=#UserGroupManage]")[0]) {
+    GetUserMsg_CallBack(showUserGroupManage);
+
   } else if ($(target)[0] == $("a[data-bind=#termslistManage]")[0]) {
     showTermsManage();
   }
@@ -154,7 +159,7 @@ $("#yearduration").blur(function () {
 
 //获得用户信息
 function getUserList(func) {
-  param = {"access_token": ""};
+  param = {"access_token": access_token};
   bproto_ajax(GET_USERLIST_URL, param, function (obj_json) {
     cacheUserslist = obj_json.users;
     for (let i = 0; i < cacheUserslist.length; i++) {
@@ -162,7 +167,25 @@ function getUserList(func) {
         cacheUserslist[i].OwnerUserGroup_id = "无"
       }
     }
-    func(cacheUserslist);
+
+    var searchlist = {"access_token":access_token,'list':[]};
+    for(var i=0;i<cacheUserslist.length;i++){
+      searchlist.list.push({
+        'target_type':'user',
+        'target_id':cacheUserslist[i].user_id
+      })
+    }
+
+    bproto_ajax(GET_REMARK,searchlist,function (obj_json) {  
+      for(var i=0;i<obj_json.list.length;i++){
+        for(var j=0;j<cacheUserslist.length;j++){
+          if(cacheUserslist[j].user_id===obj_json.list[i].target_id){
+            cacheUserslist[j]['rename'] = obj_json.list[i].rename;
+          }
+        }
+      }
+      func(cacheUserslist);
+    })
   });
 }
 
@@ -180,6 +203,37 @@ function showUserList() {
   }
 
 }
+
+//编辑按钮逻辑
+function ShowEdit(target) {
+  $(target).parent().parent().find(".edit").show();
+  $(target).parent().parent().find(".source").hide();
+  $(target).parent().parent().find(".disable").prop("disabled",false);
+  $(target).parent().parent().find(".disable").focus();
+}
+function HideEdit(target){
+  $(target).parent().parent().parent().find(".source").show();
+  $(target).parent().parent().parent().find(".edit").hide();
+  $(target).parent().parent().find(".disable").val($(target).parent().parent().find(".disable").attr("data-bind"));
+  $(target).parent().parent().find(".disable").prop("disabled",true);
+}
+
+function DoBeizhu(target) {  
+  var val = $(target).parent().parent().find(".disable").val();
+  
+  var param = {
+    "access_token":access_token,
+    "update_list":{
+      "target_type":'user',
+      "target_id": $(target).attr("data-bind"),
+      "rename":val 
+    }
+  }
+  bproto_ajax(UPDATE_REMARK,param,function(obj_json){
+    console.log(obj_json);
+  })
+}
+
 
 //展示用户证书管理
 function showCertsManage() {
@@ -667,34 +721,90 @@ function closeModal() {
 
 }
 
+//显示用户组列表
+function showUserGroupManage() {  
+  $(".content").hide();
+  $("#UserGroupManage").show();
+  var param = {
+    'access_token':access_token
+  }
+  bproto_ajax(GET_GROUP_LIST,param,function (obj_json) {  
+    if(obj_json.code===0){
+      if(!obj_json.group_list.length){
+        return;
+      }
+      var mydata = {"group_list":[]};
+      for (var i = 0; i < obj_json.group_list.length; i++) {
+        if(CurrentUserId===obj_json.group_list[i].master_user_id){
+          mydata.group_list.push(obj_json.group_list[i])
+        }
+      }
+
+      if(mydata.group_list.length===0){
+        $("#UserGroupManage .other_table").hide();
+      }else{
+        $("#UserGroupManage .other_table").show();
+        $("#UserGroupManage .owngroup_table tbody").html(template("own_usergrouplistTemp",mydata));
+      }
+      $("#UserGroupManage .ingroup_table tbody").html(template("in_usergrouplistTemp",obj_json));
+    }
+  })
+
+}
+//添加用户组提示框
+function adduserGroup_Modal(){
+  $("#AddUserGroupModal").modal("show")
+  $("#AddUserGroupModal input").val("");
+}
+//添加用户组按钮
+function addusergroup() {
+  var name = $("#addgroupname").val();
+  var note = $("#addgroupnote").val();
+  if(name===""||note===""){
+    alert("用户组名称和备注信息不能为空");
+    return;
+  }
+
+  var param = {
+    "access_token": access_token,
+    "add_list": [{
+        'name': name,
+        'note': note
+    }]
+  }
+  bproto_ajax(UPDATE_GROUP_LIST,param,function(obj_json){
+    if(obj_json.code===0){
+        alert("添加成功");
+        $("#AddUserGroupModal").modal("hide");
+        showUserGroupManage();
+    }
+  })
+}
+
+//删除用户组
+function del_group(id){
+  var param = {
+    'access_token':access_token,
+    "del_list": [id]
+  }
+  bproto_ajax(UPDATE_GROUP_LIST,param,function (obj_json) {
+    if(obj_json.code===0){
+      alert("删除成功");
+      showUserGroupManage();
+    }
+  })
+}
+
+
+
 //关闭添加证书的提示框
 function closeAddCertModal() {
   $("#AddCert input").popover("hide");
   $("#AddCert").modal("hide");
 }
 
-
-//添加用户
-function addUser() {
-
-  param = {
-    'access_token': access_token,
-    "username": $("form.add .username").val(),
-    "password": $("form.add .password").val()
-  };
-  bproto_ajax(ADD_USER_URL, param, function (obj_json) {
-    if (obj_json.code === 0) {
-      alert("添加成功")
-
-    } else if (obj_json.code === -1) {
-      alert("用户已存在，请重新添加")
-    }
-
-  }, function () {
-    console.log("Error:" + obj_json)
-  });
-  $("form.add .username").val("");
-  $("form.add .password").val("")
+function closeModal(target) {
+  $(target).modal("hide");
 }
 
 

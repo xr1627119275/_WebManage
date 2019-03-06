@@ -296,6 +296,85 @@
     </section>
     <!--用户证书管理结束-->
 
+    <!-- 用户组管理 -->
+    <section class="content" id="UserGroupManage" style="display:none">
+        <div class="body usergrouplist">
+          <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组管理</div>
+          <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
+            onclick="adduserGroup_Modal()"> 新建用户组 </button>
+
+            <div class="panel panel-info">
+              <!-- Default panel contents -->
+              <div class="panel-heading" style="font-size:20px;font-weight: 500">所在用户组</div>
+                
+            
+              <table class="ingroup_table table table_usergroup table-striped  table-bordered">
+                  <thead>
+                    <tr>
+                      <th>用户组名称</th>
+                      <th colspan="2">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+          
+                  </tbody>
+                </table>
+            </div>  
+
+
+            
+            <div class="panel panel-info other_table" style="display:none">
+              <!-- Default panel contents -->
+              <div class="panel-heading" style="font-size:20px;font-weight: 500">创建的用户组</div>
+
+              <table class="owngroup_table table table_usergroup table-striped  table-bordered">
+                  <thead>
+                    <tr>
+                      <th>用户组名称</th>
+                      <th style="width:100px" colspan="3">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+          
+                  </tbody>
+              </table>
+            </div>
+              
+
+        </div>
+          
+        
+        <div class="body usermanage"  style="display:none">
+            <div class="head">
+                <div class="back" onclick="Back('.body','.usergrouplist')">
+                  <span class="fa fa-angle-left pull-left" style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+                  <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+                </div>
+                <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组用户信息</div>
+            </div>
+          <table class="table userlistTable table-striped table-bordered">
+              
+              <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
+                onclick="AddGroup_User()"> 添加用户 </button>
+              <thead>
+                  <tr>
+                    <th>用户名称</th>
+                    <th colspan="2">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+  
+                </tbody>
+          </table>
+  
+        </div>
+      </section>
+
+      <!-- 用户组管理 -->
+
+
+
+
     <!--用户设备管理-->
     <div id="termslistManage" style="display: none">
 
@@ -313,7 +392,7 @@
               <th>昵称</th>
               <th>账号</th>
               <th>设备信息</th>
-              <!--<th>设备型号验证信息</th>-->
+              <!--<th>设备验证型号信息</th>-->
             </tr>
           </thead>
           <tbody>
@@ -335,10 +414,10 @@
         </div>
         <button type="button" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 20px"
           onclick="showAddModuleField_modal()">
-          添加型号验证
+          添加验证型号
         </button>
         <button type="button" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 20px"
-          onclick="RemoveModuleField()"> 删除型号验证
+          onclick="RemoveModuleField()"> 删除验证型号
         </button>
         <div class="showTermVerify" style="width: 100%;height: 100%;overflow: auto;margin-bottom: 60px">
           <table class="table table-striped table-bordered">
@@ -419,7 +498,7 @@
                       <th>系统ID</th> <!--    osid-->
                       <th>系统类型</th> <!--     ostype-->
                       <th>系统版本</th> <!--     osversion-->
-                      <th>型号验证</th> <!--   modelnumber-->
+                      <th>验证型号</th> <!--   modelnumber-->
                       <th>序列号</th> <!--   serialnumber-->
                       <!-- <th>SessionID</th>          sessionid-->
                       <!--<th>ClientHost</th>         -->
@@ -576,7 +655,7 @@
                           <th>系统ID</th> <!--    osid-->
                           <th>系统类型</th> <!--     ostype-->
                           <th>系统版本</th> <!--     osversion-->
-                          <th>型号验证</th> <!--   modelnumber-->
+                          <th>验证型号</th> <!--   modelnumber-->
                           <th>序列号</th> <!--   serialnumber-->
                           <th>SessionID</th> <!-- sessionid-->
                           <th>认证标签</th> <!-- userlabel-->
@@ -621,10 +700,10 @@
             <div class="modalTable TermVerifyTable" style="display: none">
               <button type="button" id="addModuleVerify" class="btn"
                 style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddModuleField_modal()">
-                添加型号验证
+                添加验证型号
               </button>
               <button type="button" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 20px"
-                onclick="RemoveModuleField()"> 删除型号验证
+                onclick="RemoveModuleField()"> 删除验证型号
               </button>
               <div class="showTermVerify" style="width: 100%;height: 100%;overflow: auto;margin-bottom: 60px">
                 <table class="table table-striped table-bordered">
@@ -758,6 +837,36 @@
     <!--选择用户输入框-->
 
 
+    
+    <!--选择用户输入框-->
+    <div class="modal fade" id="AddUserGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+        <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" onclick="closeModal('#AddUserGroupModal')" aria-label="Close"><span
+                  aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title h4" id="SelectUserLabel" style="text-align: center">添加用户组</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="addgroupname" class="mylabel">用户组名称</label>
+                    <input type="text" class="form-control" id="addgroupname" placeholder="请输入用户组名称">
+                  </div>
+                  <div class="form-group">
+                    <label for="addgroupnote" class="mylabel">用户组备注信息</label>
+                    <input type="text" class="form-control" id="addgroupnote" placeholder="请输入用户组备注信息">
+                  </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" onclick="addusergroup()">提交</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--选择用户输入框-->
+
     <!--------------模板Script---------------------------------------------------------------->
 
     <!--获取用户模板-->
@@ -770,8 +879,13 @@
     <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" data-userid="{{value.user_id}}" onclick="showUserCerts(this)">查看</a></td>-->
     <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" data-user="{{value.username}}" onclick="addUserCert(this)">添加证书</a></td>-->
     <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" onclick="showUserLabel(this)">查看</a></td>-->
-    <td><textarea class="form-control" id="" disabled rows="1" style="cursor: text;resize: none">备注信息</textarea></td>
-    <td><a class="my-link" href="#" >添加备注</a></td>
+    <td><textarea class="form-control disable"  disabled rows="1" style="cursor: text;resize: none" data-bind="{{value.rename}}">{{value.rename}}</textarea></td>
+    <td> 
+      <a class="my-link source" href="javascript:;" onclick="ShowEdit(this)">添加备注</a>
+      <a class="edit my-link" href="javascript:;" style="display:none" data-bind="{{value.user_id}}" onclick="DoBeizhu(this)">确认</a>
+      &nbsp;
+      <a class="edit my-link" href="javascript:;" style="display:none" onclick="HideEdit(this)">取消</a>
+    </td>
     <!--data-toggle="modal" data-target="#myModal"-->
   </tr>
   {{/each}}
@@ -784,9 +898,9 @@
   <tr>
     <td>{{value.nickname?value.nickname:value.username}}</td>
     <td>{{value.username}}</td>
-    <td><a href="javascript:;" class="btn-link my-link"  data-bind="{{value.username}}" data-userid="{{value.user_id}}"
+    <td style="width:150px"><a href="javascript:;" class="btn-link my-link"  data-bind="{{value.username}}" data-userid="{{value.user_id}}"
            onclick="showUserCerts(this)">管理证书</a></td>
-    <td><a href="javascript:;" class="btn-link my-link" data-bind="{{value.user_id}}" data-user="{{value.username}}"
+    <td style="width:150px"><a href="javascript:;" class="btn-link my-link" data-bind="{{value.user_id}}" data-user="{{value.username}}"
            onclick="addUserCert(this)">颁布证书</a></td>
   </tr>
   {{/each}}
@@ -810,7 +924,7 @@
     <!--termslist获取设备管理-->
 
     <!--获取用户证书模板-->
-    <script id="certList" type="text/html">
+<script id="certList" type="text/html">
   <!--SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",-->
   <!--"Type": "Registered",-->
   <!--"Mode": "UnKnowType",-->
@@ -940,7 +1054,7 @@
           <div class="modal-header">
             <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')"
               aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title h4" style="text-align: center">添加型号验证</h4>
+            <h4 class="modal-title h4" style="text-align: center">添加验证型号</h4>
           </div>
           <div class="modal-body">
 
@@ -971,7 +1085,7 @@
           <div class="modal-header">
             <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')"
               aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title h4" style="text-align: center">型号验证列表</h4>
+            <h4 class="modal-title h4" style="text-align: center">验证型号列表</h4>
           </div>
           <div class="modal-body">
             <div class="tablebox_TerminalVerify_Field" style="width: 100%;overflow: auto">
@@ -1002,6 +1116,37 @@
     </div>
     <!--设备字段验证提示输入框-->
 
+    <!-- 添加用户群组 -->
+    <script id="in_usergrouplistTemp" type="text/html">
+      {{each group_list as value i}}
+          <tr>
+            <td >{{value.name}}</td>
+            <td  style="width:300px">
+                <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value.id}}')">用户管理</a>
+              </td>
+            <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">用户管理</a></td> -->
+            <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="del_group('{{value}}')">删除</a></td> -->
+          </tr>
+      {{/each}}
+    </script>
+    <!-- --------------------------------------------- -->
+    <script id="own_usergrouplistTemp" type="text/html">
+      {{each group_list as value i}}
+          <tr>
+            <td>{{value.name}}</td>
+            <!-- |{{value.master_user_id}} -->
+            <td style="width:100px">
+                <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value.id}}')">用户管理</a>
+            </td>
+            <td style="width:100px">
+                <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value.id}}')">修改组信息</a>
+            </td>
+            <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">用户管理</a></td> -->
+            <td style="width:100px"><a href="javascript:;" class="my-link btn-link btn-primary" onclick="del_group('{{value.id}}')">删除</a></td>
+          </tr>
+      {{/each}}
+    </script>
+    <!-- 添加用户群组 -->
 
     <!--------------模板Script结束---------------------------------------------------------------->
 

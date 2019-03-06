@@ -177,7 +177,7 @@
 
         
       </style>
-      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">服务器配置</div>
+      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">服务器参数配置</div>
       <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
         onclick="ShowAddUserLabel_modal()"> 添加配置信息 </button>
       <div class="mytab">
@@ -193,7 +193,7 @@
       <table class="table table-striped  table-bordered">
         <thead>
           <tr>
-            <th>服务器类型</th>
+            <!-- <th>服务器类型</th> -->
             <th>配置参数</th>
             <th>配置值</th>
             <th>描述</th>
@@ -296,14 +296,14 @@
               border: 1px solid #006eff;
               outline: 0;
           }
-          .bd>div:nth-child(odd){
+          .switch .bd>div:nth-child(odd){
               border: 1px solid #ccc;
               height: 300px;
           }
-          .bd>div:nth-child(n+2){
-            padding: 0 20px;
+          .switch .bd>div:nth-child(n+2){
+            /* padding: 0 20px; */
           }
-          .bd>div:nth-child(n+2) span{
+          .switch .bd>div:nth-child(n+2) span{
             line-height: 300px;
           }
           .bd input[type=checkbox]
@@ -347,11 +347,16 @@
             color:#ccc;
           }
         </style>
-        <div class="back clearfix" onclick="Back('.body','.usergrouplist')">
-            <span class="fa fa-angle-left pull-left"
-                  style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
-            <span class="pull-left" style="font-size: 18px;font-weight: 700; line-height: 40px;">新建用户组</span>
+
+        <div class="head">
+            <div class="back" onclick="Back('.body','.usergrouplist')">
+              <span class="fa fa-angle-left pull-left" style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+              <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+            </div>
+            <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">新建用户组</div>
         </div>
+
+        
         <!-- 步骤1 -->
         <div class="addbody step1">
             <div class="hd">
@@ -369,7 +374,7 @@
                 <p style="display: inline-block;width: 200px;"><span>用户组名</span><span style="color:red">*</span></p>
                 <input type="text" placeholder="请输入用户组名">
               </div>
-              <div class="">
+              <div class="" style="">
                   <p style="vertical-align: top;display: inline-block;width: 200px;"><span>备注</span><span style="color:red">*</span></p>
                   <textarea type="text" placeholder="请输入备注"></textarea>
               </div>
@@ -382,7 +387,7 @@
         <!-- 步骤1 -->
 
         <!-- 步骤2 -->
-        <div class="addbody step2" style="display:none;">
+        <div class="addbody step2 switch" style="display:none;">
             <div class="hd">
                 <ul class="clearfix">
                   <li><span class="quan fa fa-check" ></span>填写组信息</li>
@@ -491,13 +496,15 @@
       </div>
       
       <div class="body usermanage"  style="display:none">
-        
+          <div class="head">
+              <div class="back" onclick="Back('.body','.usergrouplist')">
+                <span class="fa fa-angle-left pull-left" style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+                <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+              </div>
+              <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组用户信息</div>
+          </div>
         <table class="table userlistTable table-striped table-bordered">
-            <div class="back clearfix" onclick="Back('.body','.usergrouplist')">
-                <span class="fa fa-angle-left pull-left"
-                      style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
-                <span class="pull-left" style="font-size: 18px;font-weight: 700; line-height: 40px;">用户组用户信息</span>
-            </div>
+            
             <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
               onclick="AddGroup_User()"> 添加用户 </button>
             <thead>
@@ -590,23 +597,28 @@
             <h4 class="modal-title h4" id="" style="text-align: center">添加用户</h4>
           </div>
   
-          <div class="modal-body">
+          <div class="modal-body switch">
               <div class="bd" style="display: flex;">
                   <div style="flex: 1;overflow: auto" class="fl">
+                    <div>
+                        <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="Email"> -->
                       <table class="table from">
                           <thead>
                             <tr>
                               <th style="max-width:20px"></th>
+                              <th >备注</th>
                               <th >用户信息</th>
                             </tr>
                           </thead>
                           <tbody>
-                              <tr>
+                              <!-- <tr>
                                 <td style="text-align:center"><input  type="checkbox" name="" id="" data-bind="Admin"></td>
                                 <td class="data">Admin</td>
-                              </tr>
+                              </tr> -->
                           </tbody>
                         </table>
+                    </div>
+                      
                   </div>
                   <div  class="fl">
                     <span class="fa fa-chevron-circle-left"></span>
@@ -633,7 +645,7 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" onclick="">添加配置</button>
+            <button type="button" class="btn btn-success" onclick="addGroup_User_modal()">添加用户</button>
           </div>
         </div>
         <!-- 添加组用户 -->
@@ -684,8 +696,25 @@
             <!-- <select name="" class="ConfigKeySelectList input-sm">
               <option value="login_expire">login_expire</option>
             </select> -->
-            <input type="text" class="input-sm input_addconfigkey" style="border: 1px solid #a9a9a9;"
-              placeholder="请输入配置参数" />
+            <!-- <input type="text" class="input-sm input_addconfigkey" style="border: 1px solid #a9a9a9;"
+              placeholder="请输入配置参数" /> -->
+              <div class="input-group">
+                  <input type="text" class="input-sm input_addconfigkey form-control" style="border: 1px solid #a9a9a9;" placeholder="请输入配置参数">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" style="
+                      width: 30px;
+                      height: 30px;
+                      line-height: 14px;
+                      margin-left: -2px;
+                      text-align: center;
+                "><span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li><a href="javascript:;" data-bind="login_expire">login_expire</a></li>
+                      <!-- <li role="separator" class="divider"></li> -->
+                    </ul>
+                  </div><!-- /btn-group -->
+                </div><!-- /input-group -->
+
           </td>
           <td>
             <input type="text" class="input-sm input_addconfigval" style="border: 1px solid #a9a9a9;"
@@ -711,7 +740,7 @@
 <script id="ServerConfigTemp" type="text/html">
     {{each config_list as value i}}
         <tr>
-          <td>{{value.server_type}}</td>
+          <!-- <td>{{value.server_type}}</td> -->
           <td>
             <span class="source">{{value.config_key}}</span>
             <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.config_key}}">
@@ -725,17 +754,17 @@
             <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.config_desc}}">
             
           </td>
-          <td>
-              <a href="javascript:;" id="test" class="source  btn-link btn-primary my-link" style="color:#3071A9"
-               >编辑</a>
-              <!-- <a href="javascript:;" class="source  btn-link btn-primary my-link" style="color:#3071A9"
-               onclick="ShowEdit(this)">编辑</a>  -->
+          <td  style="width:100px">
+              <!-- <a href="javascript:;" id="test" class="source  btn-link btn-primary my-link" style="color:#3071A9"
+               >编辑</a> -->
+              <a href="javascript:;" class="source  btn-link btn-primary my-link" style="color:#3071A9"
+               onclick="ShowEdit(this)">编辑</a> 
               <div class="edit" style="display: none">
                 <a href="javascript:;" class="my-link btn-link btn-primary" onclick="DoEdit(this,'{{value.item_id}}')">确认</a> |
                 <a href="javascript:;" class="my-link btn-link btn-primary" onclick="HideEdit(this)">取消</a>
               </div>
           </td>
-          <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="delConfig('{{value.item_id}}')">删除</a></td>
+          <td  style="width:100px"><a href="javascript:;" class="my-link btn-link btn-primary" onclick="delConfig('{{value.item_id}}')">删除</a></td>
         </tr>
     {{/each}}
 </script>
@@ -743,13 +772,13 @@
 <script id="usergrouplistTemp" type="text/html">
   {{each group_list as value i}}
       <tr>
-        <td>{{value}}</td>
-        <td>
-            <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value}}')"
+        <td>{{value.name}}</td>
+        <td style="width:100px">
+            <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value.id}}')"
              >用户管理</a>
           </td>
-        <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">权限管理</a></td>
-        <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">删除</a></td>
+        <td style="width:100px"><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">权限管理</a></td>
+        <td style="width:100px"><a href="javascript:;" class="my-link btn-link btn-primary" onclick="del_group('{{value.id}}')">删除</a></td>
       </tr>
   {{/each}}
 </script>

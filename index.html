@@ -292,7 +292,7 @@
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="type">类型</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">型号验证</a></li>
+            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">验证型号</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="imei">IMEI</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwareprovider">硬件供应商</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwaresn">硬件SN</a></li>
@@ -361,7 +361,7 @@
           <th>系统ID</th>              <!--    osid-->
           <th>系统类型</th>             <!--     ostype-->
           <th>系统版本</th>         <!--     osversion-->
-          <th>型号验证</th>               <!--   modelnumber-->
+          <th>验证型号</th>               <!--   modelnumber-->
           <th>序列号</th>             <!--   serialnumber-->
           <!--<th>SessionID</th>           sessionid-->
           <th>用户认证标签</th>          <!-- userlabel-->
@@ -509,7 +509,7 @@
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="type">类型</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">型号验证</a></li>
+            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">验证型号</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="imei">IMEI</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwareprovider">硬件供应商</a></li>
             <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwaresn">硬件SN</a></li>
@@ -570,7 +570,7 @@
           <th>ID</th><!--  id-->
           <th>认证码</th>           <!--   randcode-->
           <th>描述</th>                 <!--  desc-->
-          <th>型号验证</th>               <!--   modelnumber-->
+          <th>验证型号</th>               <!--   modelnumber-->
           <th>序列号</th>             <!--   serialnumber-->
           <th>硬件供应商</th>              <!--     hardwareprovider-->
           <th>硬件SN</th>               <!--    hardwaresn-->
@@ -659,7 +659,7 @@
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="type">类型</a></li>
-              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">型号验证</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">验证型号</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="imei">IMEI</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwareprovider">硬件供应商</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwaresn">硬件SN</a></li>
@@ -722,7 +722,7 @@
             <th>ID</th><!--  id-->
             <th>认证码</th>           <!--   randcode-->
             <th>描述</th>                 <!--  desc-->
-            <th>型号验证</th>               <!--   modelnumber-->
+            <th>验证型号</th>               <!--   modelnumber-->
             <th>序列号</th>             <!--   serialnumber-->
             <th>硬件供应商</th>              <!--     hardwareprovider-->
             <th>硬件SN</th>               <!--    hardwaresn-->
@@ -848,9 +848,9 @@
 
   <!--设备型号认证页面-->
   <section class="content" id="TerminalVerify" style="display: none">
-    <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">设备型号验证</div>
+    <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">设备验证型号</div>
     <button type="button" id="addModuleVerify" class="btn"
-            style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddModuleField_modal()"> 添加型号验证
+            style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddModuleField_modal()"> 添加验证型号
     </button>
 
 
@@ -861,7 +861,7 @@
           <!--<th>
               <input type="checkbox" style="vertical-align: top" id="TerminalVerify_all_cb">#
           </th>-->
-          <th>型号验证名称</th>
+          <th>验证型号名称</th>
           <th>验证列表</th>
           <!--<th>验证</th>-->
         </tr>
@@ -901,7 +901,7 @@
       <div class="modal-header">
         <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title h4" style="text-align: center">添加型号验证</h4>
+        <h4 class="modal-title h4" style="text-align: center">添加验证型号</h4>
       </div>
       <div class="modal-body">
 
@@ -932,14 +932,14 @@
       <div class="modal-header">
         <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title h4" style="text-align: center">型号验证列表</h4>
+        <h4 class="modal-title h4" style="text-align: center">验证型号列表</h4>
       </div>
       <div class="modal-body">
         <button type="button" id="" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 20px"
-                onclick="RemoveModuleField()"> 删除型号验证
+                onclick="RemoveModuleField()"> 删除验证型号
         </button>
         <button type="button" id="addVerify" class="btn"
-                style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddField_modal()"> 添加型号验证
+                style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddField_modal()"> 添加验证型号
         </button>
         <div class="tablebox_TerminalVerify_Field" style="width: 100%;overflow: auto">
           <table class="table table-striped table-bordered">
@@ -1108,7 +1108,7 @@
 <!--设备验证列表字段模板文件结束-->
 
 
-<!--设备型号验证字段名称列表-->
+<!--设备验证型号字段名称列表-->
 <script id="ModuleFieldNameTemp" type="text/html">
   {{ each fields as value i}}
   <div class="" style="display:inline-block;width: 130px;">
@@ -1117,7 +1117,7 @@
 
   {{/each}}
 </script>
-<!--设备型号验证字段名称列表-->
+<!--设备验证型号字段名称列表-->
 
 
 <script src="/static/js/bootstrap.min.js"></script>

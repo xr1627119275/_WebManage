@@ -24,6 +24,9 @@ window.addEventListener('load',function () {
 
 //切换导航
 function changeContent(target) {
+  $(target).parent().parent().find("li").removeClass("active");
+  $(target).parent().addClass("active")
+  
     var targetId = $(target).attr("data-bind");
     $(".content").hide();
     $(targetId).show();
