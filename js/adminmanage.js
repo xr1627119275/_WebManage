@@ -499,7 +499,7 @@ function showUserGroupUserList(target){
 
   var param = {
     'access_token':access_token,
-    'group':target
+    'group_id':target
   }
   bproto_ajax(GET_GROUP_USER_LIST,param,function (obj_json) {  
     if(obj_json.code===0){
@@ -619,9 +619,30 @@ function addGroup_User_modal(){
 }
 
 
+//显示用户权限管理页面
+function showPermissionManage(target){
+  currentGroup = target;
+  $("#UserGroup .body").hide();
+  $("#UserGroup .PermissionManage").show();
+
+  var param = {
+    'access_token':access_token,
+    'group_id':target
+  }
+  bproto_ajax(GET_GROUP_AUTHORITY,param,function (obj_json) {  
+    if(obj_json.code===0){
+      console.log(obj_json)
+    }
+  })
+}
+
 
 //删除用户组
 function del_group(target){
+  var isdel = confirm("确认删除用户组");
+    if(isdel===false){
+        return
+    }
   var param = {
     'access_token':access_token,
     "del_list": [target]

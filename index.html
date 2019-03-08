@@ -203,7 +203,7 @@
 </aside>
 
 <section class="main-content">
-  <style>
+  <!-- <style>
     .main-content > header {
       width: 100%;
       height: 60px;
@@ -270,7 +270,7 @@
       text-align: center;
 
     }
-  </style>
+  </style> -->
   <header>
     
   </header>
@@ -847,15 +847,15 @@
 
 
   <!--设备型号认证页面-->
-  <section class="content" id="TerminalVerify" style="display: none">
+  <section class="content" id="TerminalVerify" style="display: none;width: 100%">
     <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">设备验证型号</div>
-    <button type="button" id="addModuleVerify" class="btn"
-            style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddModuleField_modal()"> 添加验证型号
-    </button>
-
 
     <div class="tablebox_TerminalVerify" style="width: 100%;overflow: auto">
-      <table class="table table-striped table-bordered">
+      <div style="width:50%;margin: 0 auto">
+        <button type="button" id="addModuleVerify" class="btn"
+            style="background: #222d32;color: #ffffff;display:block;margin-bottom: 10px" onclick="showAddModuleField_modal()"> 添加验证型号
+        </button>
+        <table class="table table-striped table-bordered">
         <thead>
         <tr>
           <!--<th>
@@ -870,6 +870,8 @@
 
         </tbody>
       </table>
+      </div>
+        
     </div>
   </section>
   <!--设备型号认证结束-->
@@ -936,13 +938,13 @@
       </div>
       <div class="modal-body">
         <button type="button" id="" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 20px"
-                onclick="RemoveModuleField()"> 删除验证型号
+                onclick="RemoveModuleField()"> 删除验证项
         </button>
         <button type="button" id="addVerify" class="btn"
-                style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddField_modal()"> 添加验证型号
+                style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddField_modal()"> 添加验证项
         </button>
         <div class="tablebox_TerminalVerify_Field" style="width: 100%;overflow: auto">
-          <table class="table table-striped table-bordered">
+          <table class="table table-striped table-bordered" >
             <thead>
             <tr>
               <th>
@@ -974,7 +976,7 @@
 <script id="unauthorizedTemp" type="text/html">
   {{each registers as value i}}
   <tr>
-    <td><input type="checkbox" name="done" data-sessionid="{{value.sessionid}}"></td>
+    <td><input type="checkbox" name="done" data-code="{{value.authcode}}" data-sessionid="{{value.sessionid}}"></td>
     <td>{{value.type}}</td>
     <td>{{value.id}}</td>
     <td>{{value.authcode}}</td>
@@ -994,9 +996,9 @@
     <td>{{value.osversion}}</td>
     <td>{{value.modelnumber}}</td>
     <td>{{value.serialnumber}}</td>
-    <!-- <td>{{value.sessionid}}</td> -->
+    <!-- <td>{{value.sessionid}}</td> --> 
     <td>{{value.userlabel}}</td>
-    <td class="iphost">{{value.clienthost}}</td>
+    <td class="iphost" data-ip="{{value.clienthost.replace(/\./g,'_')}}">{{value.clienthost}}</td>
   </tr>
   {{/each}}
 </script>
@@ -1006,7 +1008,7 @@
 <script id="authorizedTemp" type="text/html">
   {{each terminal_list as value i}}
   <tr>
-    <td><input type="checkbox" name="done" data-bind="{{value.SerialNumber}}"></td>
+    <td><input type="checkbox" name="done"  data-bind="{{value.SerialNumber}}"></td>
     <td>{{value.Type}}</td>
     <td>{{value.CLI_ID}}</td>
     <td>{{value.AuthCode}}</td>

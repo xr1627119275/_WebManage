@@ -131,7 +131,7 @@
         <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">认证标签信息</div>
         <button type="button" id="addUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="ShowAddUserLabel_modal()"> 添加认证标签 </button>
         <button type="button" id="removeUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="RemoveUserLabel()"> 删除认证标签 </button>
-        <button type="button" id="updateUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="ShowUpdateUserLabel_modal()"> 修改认证标签信息 </button>
+        <!-- <button type="button" id="updateUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="ShowUpdateUserLabel_modal()"> 修改认证标签信息 </button> -->
         <div class="search pull-right" style="padding-right: 20px">
             <label class="mylabel">搜索标签</label>
             <input type="text" style="border-radius: 10px;display: inline-block;width: 200px;padding: 0 20px"  placeholder="请输入描述信息" class="form-control">
@@ -164,6 +164,7 @@
                         <th style="display: none">UserId</th>
                         <th>标签ID</th>
                         <th>描述信息</th>
+                        <th colspan="2">操作</th>
                     </tr>
                 </thead>
                 <tbody >
@@ -235,15 +236,24 @@
 <script id="labelList_template" type="text/html">
     {{each userlabel as value i}}
         <tr>
-            <td style="height: 52px;line-height:52px;"><input type="radio" name="cb_label" data-bind="{{value.label_id}}"/></td>
-            <td style="line-height:52px;">{{value.label_name}}</td>
+            <td style="height: 52px;line-height:52px;"><input type="checkbox" name="cb_label" data-bind="{{value.label_id}}"/></td>
+            <td style="line-height:52px;">
+                <span class="source">{{value.label_name}}</span>
+                <input type="text" class="form-control edit label_name"  style="display:none" data-bind="{{value.label_name}}" value="{{value.label_name}}">
+            </td>
             <td style="display: none">{{value.User_id}}</td>
             <td style="height: 52px;line-height:52px;position: relative;"><span>{{value.label_id}}<div class="showqrcode" style="background-color:#fff;"  
-                data-bindid = "{{value.labe}}" 
+                data-bindid = "{{value.labe}}"
                 data-bindname = "{{value.label_name}}"
                 data-bindnote = "{{value.label_note}}"
                 >{{value.label_id}}</div></span></td>
-            <td><textarea class="form-control textarea_label_note" style="resize: none;cursor: text;" disabled rows="2" >{{value.label_note}}</textarea></td>
+            <td><textarea class="disable form-control textarea_label_note" style="resize: none;cursor: text;" data-bind="{{value.label_note}}" disabled rows="2" >{{value.label_note}}</textarea></td>
+            <td>
+                <a href="javascript:;" class="my-link source" onclick="ShowEdit(this)">修改</a>
+                <a href="javascript:;" class="my-link edit" onclick="UpdateUserLabel('{{value.label_id}}',this)" style="display:none">确认</a>
+                <a href="javascript:;" class="my-link edit" onclick="HideEdit(this)" style="display:none">取消</a>
+            </td>
+            <td><a href="javascript:;" onclick="RemoveOneUserLabel('{{value.label_id}}')" class="my-link">删除</a></td>
         </tr>
     {{/each}}
 </script>

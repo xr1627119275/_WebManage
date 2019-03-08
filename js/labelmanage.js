@@ -151,9 +151,47 @@ function checkboxClick() {
 }
 // checkboxClick();
 
+//编辑按钮逻辑
+function ShowEdit(target) {
+    $(target).parent().parent().find(".edit").show();
+    $(target).parent().parent().find(".source").hide();
+    $(target).parent().parent().find(".disable").prop("disabled",false);
+    $(target).parent().parent().find(".disable").focus();
+  }
+  function HideEdit(target){
+    $(target).parent().parent().parent().find(".source").show();
+    $(target).parent().parent().parent().find(".edit").hide();
+    $(target).parent().parent().find(".disable").val($(target).parent().parent().find(".disable").attr("data-bind"));
+    $(target).parent().parent().find("input.edit").val($(target).parent().parent().find("input.edit").attr("data-bind"));
+    $(target).parent().parent().find(".disable").prop("disabled",true);
+  }
+
+//删除一个用户标签
+function RemoveOneUserLabel(id) {
+    var isdel = confirm("确认删除");
+    if(isdel===false){
+        return
+    }
+     
+    param = {
+        'access_token': access_token,
+        'userlabels': [id]
+    };
+    bproto_ajax(USER_LABEL_DEL,param,function (obj_json) {
+        console.log(obj_json);
+        if(obj_json.code===0){
+            alert("删除成功");
+            showUserLabel();
+        }
+    })
+}
 
 //删除用户标签
 function RemoveUserLabel() {
+    var isdel = confirm("确认删除");
+    if(isdel===false){
+        return
+    }
     var isCheck = false;
     var userlabels = [];
     $("input[name=cb_label]").each(function () {
@@ -201,32 +239,30 @@ function ShowUpdateUserLabel_modal() {
     $(".UpdateLabel_content").show();
 }
 //修改用户标签信息
-function UpdateUserLabel() {
-    if($("#update_input_label_name").val()===""){
-        alert("请输入标签名称");
+function UpdateUserLabel(id,target) {
+    var name = $(target).parent().parent().find('.label_name').val();
+    var note = $(target).parent().parent().find('textarea').val();
+
+    if(name===""){
+        alert("标签名称不能为空");
         return;
     }
-    if($("#update_textarea_label_note").val()===""){
-        alert("请输入描述信息");
-        return;
-    }
+
     param = {
         'access_token':access_token,
-        'userlabel_id':currentLabelId,
-        'userlabel_note':$("#update_textarea_label_note").val(),
-        'userlabel_name':$("#update_input_label_name").val()
+        'userlabel_id':id,
+        'userlabel_note':name,
+        'userlabel_name':note
     }
     bproto_ajax(USER_LABEL_UPDATE,param,function (obj_json) {
         console.log(obj_json);
         if(obj_json.code===0){
             alert("修改成功");
-            $("#update_input_label_name").val("")
-            $("#update_textarea_label_note").val("")
-            closeModal('#UserLabelManage_modal');
             showUserLabel();
         }
     })
 }
+
 
 //汉字转UTF8
 function toUtf8(str) {

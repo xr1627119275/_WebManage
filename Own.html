@@ -149,7 +149,7 @@
           text-align: left;
           padding-left: 50px;
         }
-        .modify span{
+        .modify span,.modify input:first-child{
           width: 18em;
           vertical-align: middle;
           display: inline-block;
@@ -184,30 +184,34 @@
               <tr>
                 <td>昵称:</td>
                 <td class="modify nickname">
-                    <span></span>
-                    <input type="text" class="form-control form-inline" value="" style="display:none"/>
-                    <input type="button" value="更改昵称" class="btn btn-success"/>
+                    <span class="source"></span>
+                    <input type="text" class="nickname_val edit form-control form-inline" value="" style="display:none"/>
+                    <input type="button" value="更改昵称" onclick="ShowEdit(this)" class="source btn btn-success"/>
+                    
+                    <input type="button" value="确认" onclick="nodify_nickname(this)"   style="display: none" class="edit btn btn-success"/>
+                    <input type="button" value="取消" onclick="HideEdit(this)" style="display: none" class="edit btn btn-danger"/>
+                   
                 </td>
               </tr>
               <tr>
                 <td>邮箱:</td>
                 <td class="modify email">
                     <span></span>
-                    <input type="button" value="更改邮箱" class="btn btn-success"/>
+                    <input type="button" value="更改邮箱" style="display:none"  class="btn btn-success"/>
                 </td>
               </tr>
               <tr>
                 <td>手机号码:</td>
                 <td class="modify cellphone">
                   <span></span>
-                  <input type="button" value="修改手机号码" class="btn btn-success"/>
+                  <input type="button" value="修改手机号码" style="display:none" class="btn btn-success"/>
                 </td>
               </tr>
               <tr>
                 <td>密码:</td>
                 <td class="modify password">
                   <span>**********</span>
-                  <input type="button" value="修改密码" class="btn btn-success"/>
+                  <input type="button" value="修改密码" onclick="showupdatePassword_Modal()" class="btn btn-success"/>
                 </td>
               </tr>
             </tbody>
@@ -223,61 +227,43 @@
   </section>
 
 
-  <!--添加用戶标签输入框-->
-  <div class="modal fade" id="UserLabelManage_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <!--修改用户密码输入框-->
+  <div class="modal fade" id="updatePassword_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
     <div class="modal-dialog modal-md" role="document">
-      <!--添加用户标签-->
-      <div class="modal-content AddLabel_content">
+      <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" onclick="closeModal('#UserLabelManage_modal')" aria-label="Close"><span
+          <button type="button" class="close" onclick="closeModal('#updatePassword_Modal')" aria-label="Close"><span
               aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title h4" id="" style="text-align: center">添加授权标签</h4>
-        </div>
-
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="mylabel">用户授权标签名称</label>
-            <input class="form-control" id="input_label_name" placeholder="请填写描述信息" />
-          </div>
-
-          <div class="form-group">
-            <label class="mylabel">用户授权标签描述信息</label>
-            <textarea class="form-control" id="textarea_label_note" rows="3" placeholder="请填写描述信息"></textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" onclick="addUserLabel()">添加</button>
-        </div>
-      </div>
-      <!--添加用户标签-->
-
-      <!--更新用户标签-->
-      <div class="modal-content UpdateLabel_content">
-        <div class="modal-header">
-          <button type="button" class="close" onclick="closeModal('#UserLabelManage_modal')" aria-label="Close"><span
-              aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title h4" id="LabelManage_title" style="text-align: center">修改授权标签</h4>
+          <h4 class="modal-title h4" id="" style="text-align: center">修改用户密码</h4>
         </div>
         <div class="modal-body">
-
-          <div class="form-group">
-            <label class="mylabel">用户授权标签名称</label>
-            <input class="form-control" id="update_input_label_name" placeholder="请填写描述信息" />
+          <div class="">
+            <label class="mylabel">原始密码</label>
+            <input type="password" class="form-control" id="oldpassword" placeholder="请输入原密码" />
+            <span class="password_tip oldpassword_tip" style="display:none;color: red;text-align: center">请输入密码</span>
           </div>
-          <div class="form-group">
-            <label class="mylabel">用户授权标签描述信息</label>
-            <textarea class="form-control" id="update_textarea_label_note" rows="3" placeholder="请更改描述信息"></textarea>
+          <div class="">
+            <label class="mylabel">新密码</label>
+            <input type="password" class="form-control" id="new1password" placeholder="请输入新密码">
+            <span class="password_tip new1password_tip" style="display:none;color: red;text-align: center">请输入密码</span>
           </div>
+          <div style="margin-bottom:10px">
+            <label class="mylabel">重复新密码</label>
+            <input type="password" class="form-control" id="new2password"  placeholder="请再次输入新密码">
+            <span class="password_tip new2password_tip" style="display:none;color: red;text-align: center">请输入密码</span>
+          </div>
+          <button class="btn btn-success" onclick="updatePassword()" style="display:block;margin:0 auto">修改密码</button>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" onclick="UpdateUserLabel()">修改</button>
+          <button type="button" class="btn btn-default" onclick="closeModal('#updatePassword_Modal')">取消</button>
         </div>
       </div>
-      <!--更新用户标签-->
+      
     </div>
   </div>
-  <!--添加用戶标签输入框-->
+  <!--修改用户密码输入框-->
+
 
 
 

@@ -77,6 +77,7 @@ function IP2address(ip, callback) {
       callback(JSON.stringify({"status": -1}))
     },  //错误执行方法
     success: function (obj_json) {
+      // console.log(obj_json);
       callback(obj_json);
     }
   })

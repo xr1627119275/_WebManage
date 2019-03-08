@@ -26,7 +26,7 @@
       position: absolute;
       width: 100%;
       padding-left: 230px;
-      top: 0; 
+      top: 0;
       right: 0;
     }
 
@@ -136,10 +136,10 @@
       }
     </style>
     <header>
-      
+
     </header>
 
-    <section id="ServerConfig" class="content"  style="display:none">
+    <section id="ServerConfig" class="content" style="display:none">
       <style>
         .mytab {
           height: 50px;
@@ -157,12 +157,12 @@
           height: 40px;
           width: 130px;
           background-color: #978b8b
-          
         }
 
-        .mytab ul li.active{
+        .mytab ul li.active {
           background-color: #222d32
         }
+
         .mytab ul li div:nth-child(1) {
           display: inline-block;
           height: 100%;
@@ -174,8 +174,6 @@
           cursor: pointer;
           margin: 0 auto;
         }
-
-        
       </style>
       <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">服务器参数配置</div>
       <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
@@ -206,42 +204,45 @@
       </table>
     </section>
 
-    <section id="UserGroup" class="content"  style="display:none">
+    <section id="UserGroup" class="content" style="display:none">
       <div class="body usergrouplist">
         <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组管理</div>
-        <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
-          onclick="adduserGroup()"> 新建用户组 </button>
+        <button type="button" id="addUserLabel" class="btn"
+          style="background: #222d32;color: #ffffff;margin-bottom: 10px" onclick="adduserGroup()"> 新建用户组 </button>
 
-          <table class="table table_usergroup table-striped  table-bordered">
-              <thead>
-                <tr>
-                  <th>用户组名称</th>
-                  <th colspan="3">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-      
-              </tbody>
-            </table>
+        <table class="table table_usergroup table-striped  table-bordered">
+          <thead>
+            <tr>
+              <th>用户组名称</th>
+              <th colspan="3">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
 
       </div>
-        
+
       <div class="body addgroud" style="display:none">
         <style>
-          .addbody{
+          .addbody {
             padding: 20px 20px;
             border: 1px solid #ccc;
             box-shadow: 2px 2px 2px #ccc;
           }
-          .addbody>.hd{
+
+          .addbody>.hd {
             padding-bottom: 20px;
             border-bottom: 1px solid #ccc;
           }
-          .addbody>.hd>ul li{
+
+          .addbody>.hd>ul li {
             float: left;
             font-size: 20px;
           }
-          .addbody>.hd>ul li:nth-child(odd)>span.quan{
+
+          .addbody>.hd>ul li:nth-child(odd)>span.quan {
             line-height: 27px;
             width: 27px;
             height: 27px;
@@ -251,31 +252,39 @@
             margin-right: 10px;
             color: #006eff;
           }
-          .addbody>.hd>ul li:nth-child(odd)>span.quan::before{
+
+          .addbody>.hd>ul li:nth-child(odd)>span.quan::before {
             display: inline-block;
             width: 25px;
             line-height: 25px;
             text-align: center;
           }
-          .addbody>.hd>ul li:nth-child(even){
+
+          .addbody>.hd>ul li:nth-child(even) {
             padding: 0 30px;
             line-height: 30px;
           }
-          .addbody>.bd{
+
+          .addbody>.bd {
             padding: 20px 0;
             border-bottom: 1px solid #ccc;
           }
-          .addbody.step1 .bd>div>input,.addbody.step3 .bd input{
+
+          .addbody.step1 .bd>div>input,
+          .addbody.step3 .bd input {
             line-height: normal;
             border: 1px solid #006eff;
             outline: 0;
           }
-          .addbody.step1 .bd>div:first-child input,.addbody.step3 .bd input{
+
+          .addbody.step1 .bd>div:first-child input,
+          .addbody.step3 .bd input {
             padding: 5px 10px;
             height: 30px;
             width: 180px;
           }
-          .addbody.step1 .bd>div:last-child textarea{
+
+          .addbody.step1 .bd>div:last-child textarea {
             border: 1px solid #006eff;
             outline: 0;
             width: 300px;
@@ -283,31 +292,36 @@
             padding: 5px 10px;
             resize: none;
           }
-          .addbody>.bottom{
+
+          .addbody>.bottom {
             padding: 20px 0 0 0;
           }
-          .addbody>.bottom>input[type=button]{
-              background-color: #006eff;
-              width: 76px;
-              height: 30px;
-              text-align: center;
-              line-height: 30px;
-              color: #fff;
-              border: 1px solid #006eff;
-              outline: 0;
+
+          .addbody>.bottom>input[type=button] {
+            background-color: #006eff;
+            width: 76px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            color: #fff;
+            border: 1px solid #006eff;
+            outline: 0;
           }
-          .switch .bd>div:nth-child(odd){
-              border: 1px solid #ccc;
-              height: 300px;
+
+          .switch .bd>div:nth-child(odd) {
+            border: 1px solid #ccc;
+            height: 300px;
           }
-          .switch .bd>div:nth-child(n+2){
+
+          .switch .bd>div:nth-child(n+2) {
             /* padding: 0 20px; */
           }
-          .switch .bd>div:nth-child(n+2) span{
+
+          .switch .bd>div:nth-child(n+2) span {
             line-height: 300px;
           }
-          .bd input[type=checkbox]
-          {
+
+          .bd input[type=checkbox] {
             width: 16px;
             height: 16px;
             cursor: pointer;
@@ -318,206 +332,279 @@
             box-sizing: border-box;
             background-color: #fff;
           }
-          .addbody .table th,.addbody .table td{
+
+          .addbody .table th,
+          .addbody .table td {
             text-align: left;
           }
-          .bd input[type=checkbox]:checked
-          {
+
+          .bd input[type=checkbox]:checked {
             background-image: url(/static/images/cam-201901231024.svg);
-            ;background-color: #006eff;
+            ;
+            background-color: #006eff;
             border-color: #006eff;
             background-position: 81.16% 40.63%;
             background-size: 2185.714285714286% 2157.1428571428573%;
-            ;background-repeat: no-repeat
+            ;
+            background-repeat: no-repeat
           }
-          .bd th,.bd td{
+
+          .bd th,
+          .bd td {
             text-align: left;
           }
-          .bd span.cancle{
+
+          .bd span.cancle {
             display: inline-block;
             width: 16px;
             height: 16px;
             background-image: url(/static/images/cam-201901231024.svg);
-            ;background-position: 62.41% 74.48%;
+            ;
+            background-position: 62.41% 74.48%;
             background-size: 1912.5% 1887.5%;
-            ;background-repeat: no-repeat;
+            ;
+            background-repeat: no-repeat;
           }
 
           .addbody .step3 {
-            color:#ccc;
+            color: #ccc;
           }
         </style>
 
         <div class="head">
-            <div class="back" onclick="Back('.body','.usergrouplist')">
-              <span class="fa fa-angle-left pull-left" style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
-              <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
-            </div>
-            <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">新建用户组</div>
+          <div class="back" onclick="Back('.body','.usergrouplist')">
+            <span class="fa fa-angle-left pull-left"
+              style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+            <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+          </div>
+          <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">
+            新建用户组</div>
         </div>
 
-        
+
         <!-- 步骤1 -->
         <div class="addbody step1">
-            <div class="hd">
-              <ul class="clearfix">
-                <li><span class="quan fa fa-check"></span>填写组信息</li>
-                <li><span class="fa fa-arrow-circle-right"></span></li>
-                <li><span class="quan fa fa-check" style="visibility: hidden"></span>关联权限</li>
-                <li><span class="fa fa-arrow-circle-right"></span></li>
-                <li><span class="quan fa fa-check" style="visibility: hidden"></span>审阅</li>
-              </ul>
-            </div>
+          <div class="hd">
+            <ul class="clearfix">
+              <li><span class="quan fa fa-check"></span>填写组信息</li>
+              <li><span class="fa fa-arrow-circle-right"></span></li>
+              <li><span class="quan fa fa-check" style="visibility: hidden"></span>关联权限</li>
+              <li><span class="fa fa-arrow-circle-right"></span></li>
+              <li><span class="quan fa fa-check" style="visibility: hidden"></span>审阅</li>
+            </ul>
+          </div>
 
-            <div class="bd clearfix">
-              <div class="" style="height: 50px;">
-                <p style="display: inline-block;width: 200px;"><span>用户组名</span><span style="color:red">*</span></p>
-                <input type="text" placeholder="请输入用户组名">
-              </div>
-              <div class="" style="">
-                  <p style="vertical-align: top;display: inline-block;width: 200px;"><span>备注</span><span style="color:red">*</span></p>
-                  <textarea type="text" placeholder="请输入备注"></textarea>
-              </div>
+          <div class="bd clearfix">
+            <div class="" style="height: 50px;">
+              <p style="display: inline-block;width: 200px;"><span>用户组名</span><span style="color:red">*</span></p>
+              <input type="text" placeholder="请输入用户组名">
             </div>
+            <div class="" style="">
+              <p style="vertical-align: top;display: inline-block;width: 200px;"><span>备注</span><span
+                  style="color:red">*</span></p>
+              <textarea type="text" placeholder="请输入备注"></textarea>
+            </div>
+          </div>
 
-            <div class="bottom">
-              <input type="button" value="下一步" onclick="addGroupNext('.step2')">
-            </div>
+          <div class="bottom">
+            <input type="button" value="下一步" onclick="addGroupNext('.step2')">
+          </div>
         </div>
         <!-- 步骤1 -->
 
         <!-- 步骤2 -->
         <div class="addbody step2 switch" style="display:none;">
-            <div class="hd">
-                <ul class="clearfix">
-                  <li><span class="quan fa fa-check" ></span>填写组信息</li>
-                  <li><span class="fa fa-arrow-circle-right"></span></li>
-                  <li><span class="quan fa fa-check"></span>关联权限</li>
-                  <li><span class="fa fa-arrow-circle-right"></span></li>
-                  <li><span class="quan fa fa-check" style="visibility: hidden"></span>审阅</li>
-                </ul>
-              </div>
-              <div class="bd" style="display: flex;">
-                  <div style="flex: 1;overflow: auto" class="fl">
-                      <table class="table from">
-                          <thead>
-                            <tr>
-                              <th style="max-width:30px"></th>
-                              <th>用户组权限</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                              <!-- <tr class="">
+          <div class="hd">
+            <ul class="clearfix">
+              <li><span class="quan fa fa-check"></span>填写组信息</li>
+              <li><span class="fa fa-arrow-circle-right"></span></li>
+              <li><span class="quan fa fa-check"></span>关联权限</li>
+              <li><span class="fa fa-arrow-circle-right"></span></li>
+              <li><span class="quan fa fa-check" style="visibility: hidden"></span>审阅</li>
+            </ul>
+          </div>
+          <div class="bd" style="display: flex;">
+            <div style="flex: 1;overflow: auto" class="fl">
+              <table class="table from">
+                <thead>
+                  <tr>
+                    <th style="max-width:30px"></th>
+                    <th>用户组权限</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr class="">
                                 <td style="text-align:center"><input  type="checkbox" name="" id="" data-bind="GET_USER_LIST"></td>
                                 <td class="data">GET_USER_LIST</td>
                               </tr> -->
-                          </tbody>
-                        </table>
-                  </div>
-                  <div  class="fl">
-                    <span class="fa fa-chevron-circle-left"></span>
-                    <span class="fa fa-chevron-circle-right"></span>
-                  </div>
-                  <div style="flex: 1;overflow: auto" class="fl">
-                      <table class="table to">
-                          <thead>
-                            <tr>
-                              <th>用户组权限</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <!-- <tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="fl">
+              <span class="fa fa-chevron-circle-left"></span>
+              <span class="fa fa-chevron-circle-right"></span>
+            </div>
+            <div style="flex: 1;overflow: auto" class="fl">
+              <table class="table to">
+                <thead>
+                  <tr>
+                    <th>用户组权限</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr>
                               <td></td>
                               <td style="vertical-align: middle; text-align:right"><span class="cancle"></span></td>
                             </tr> -->
-                          </tbody>
-                        </table>
-                  </div>
-              </div>
-              
-              <div class="bottom">
-                  <input type="button" value="下一步" onclick="addGroupNext('.step3')">
-                </div>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bottom">
+            <input type="button" value="下一步" onclick="addGroupNext('.step3')">
+          </div>
         </div>
         <!-- 步骤2 -->
 
         <!-- 步骤3 -->
         <div class="addbody step3" style="display:none;">
-            <div class="hd">
-                <ul class="clearfix">
-                  <li><span class="quan fa fa-check"></span>填写组信息</li>
-                  <li><span class="fa fa-arrow-circle-right"></span></li>
-                  <li><span class="quan fa fa-check"></span>关联权限</li>
-                  <li><span class="fa fa-arrow-circle-right"></span></li>
-                  <li><span class="quan fa fa-check"></span>审阅</li>
-                </ul>
+          <div class="hd">
+            <ul class="clearfix">
+              <li><span class="quan fa fa-check"></span>填写组信息</li>
+              <li><span class="fa fa-arrow-circle-right"></span></li>
+              <li><span class="quan fa fa-check"></span>关联权限</li>
+              <li><span class="fa fa-arrow-circle-right"></span></li>
+              <li><span class="quan fa fa-check"></span>审阅</li>
+            </ul>
+          </div>
+
+          <div class="bd clearfix">
+
+            <div class="groupname" style="height: 50px;">
+              <p style="display: inline-block;width: 200px;vertical-align: top"><span>组名称</span></p>
+              <input class="p_edit" style="display:none" type="text" placeholder="请输入用户组名">
+              <span class="p_text">用户组名</span> <i style="cursor: pointer" onclick="showEdit(this)"
+                class="fa p_text fa-pencil"></i>
+              <a class="p_edit my-link" onclick="p_do(this)" href="javascript:;" style="display:none">确认</a>
+              <a class="p_edit my-link" onclick="p_cancle(this)" href="javascript:;" style="display:none">取消</a>
+
+            </div>
+            <div class="groupnote" style="height: 50px;">
+              <p style="display: inline-block;width: 200px;vertical-align: top"><span>备注</span></p>
+              <input class="p_edit" style="display:none" type="text" placeholder="请输入备注">
+              <span class="p_text">备注</span> <i style="cursor: pointer" onclick="showEdit(this)"
+                class="fa p_text fa-pencil"></i>
+              <a class="p_edit my-link" onclick="p_do(this)" href="javascript:;" style="display:none">确认</a>
+              <a class="p_edit my-link" onclick="p_cancle(this)" href="javascript:;" style="display:none">取消</a>
             </div>
 
-            <div class="bd clearfix">
-                
-                <div class="groupname" style="height: 50px;">
-                    <p style="display: inline-block;width: 200px;vertical-align: top"><span >组名称</span></p>
-                    <input class="p_edit" style="display:none"  type="text" placeholder="请输入用户组名">
-                    <span class="p_text">用户组名</span> <i style="cursor: pointer" onclick="showEdit(this)" class="fa p_text fa-pencil"></i>
-                    <a class="p_edit my-link" onclick="p_do(this)" href="javascript:;" style="display:none">确认</a>
-                    <a class="p_edit my-link" onclick="p_cancle(this)" href="javascript:;" style="display:none">取消</a>
-  
-                  </div>
-                <div class="groupnote" style="height: 50px;">
-                  <p  style="display: inline-block;width: 200px;vertical-align: top"><span >备注</span></p>
-                  <input class="p_edit" style="display:none" type="text" placeholder="请输入备注">
-                  <span class="p_text">备注</span> <i style="cursor: pointer" onclick="showEdit(this)" class="fa p_text fa-pencil"></i>
-                  <a class="p_edit my-link" onclick="p_do(this)" href="javascript:;" style="display:none">确认</a>
-                  <a class="p_edit my-link" onclick="p_cancle(this)" href="javascript:;" style="display:none">取消</a>
-                </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>用户组权限</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="text-align:center">
+                  <td>权限名</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-                  <table class="table">
-                      <thead>
-                        <tr>
-                          <th>用户组权限</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                          <tr style="text-align:center">
-                            <td>权限名</td>
-                          </tr>                          
-                      </tbody>
-                    </table>
-            </div>
-
-            <div class="bottom">
-                <input type="button" value="返回" onclick="Back('.addbody','.step2')">
-                <input type="button" value="完成" onclick="adduserGroupFinsh()">
-              </div>
+          <div class="bottom">
+            <input type="button" value="返回" onclick="Back('.addbody','.step2')">
+            <input type="button" value="完成" onclick="adduserGroupFinsh()">
+          </div>
 
         </div>
         <!-- 步骤3 -->
       </div>
-      
-      <div class="body usermanage"  style="display:none">
-          <div class="head">
-              <div class="back" onclick="Back('.body','.usergrouplist')">
-                <span class="fa fa-angle-left pull-left" style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
-                <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
-              </div>
-              <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组用户信息</div>
-          </div>
-        <table class="table userlistTable table-striped table-bordered">
-            
-            <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
-              onclick="AddGroup_User()"> 添加用户 </button>
-            <thead>
-                <tr>
-                  <th>用户名称</th>
-                  <th colspan="2">操作</th>
-                </tr>
-              </thead>
-              <tbody>
 
-              </tbody>
+      <div class="body usermanage" style="display:none">
+        <div class="head">
+          <div class="back" onclick="Back('.body','.usergrouplist')">
+            <span class="fa fa-angle-left pull-left"
+              style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+            <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+          </div>
+          <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">
+            用户组用户信息</div>
+        </div>
+        <table class="table userlistTable table-striped table-bordered">
+
+          <button type="button" id="addUserLabel" class="btn"
+            style="background: #222d32;color: #ffffff;margin-bottom: 10px" onclick="AddGroup_User()"> 添加用户 </button>
+          <thead>
+            <tr>
+              <th>用户名称</th>
+              <th colspan="2">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
         </table>
 
+      </div>
+
+      <div class="body PermissionManage" style="display:none">
+        <div class="head">
+            <div class="back" onclick="Back('.body','.usergrouplist')">
+              <span class="fa fa-angle-left pull-left"
+                style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+              <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+            </div>
+            <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">
+              用户组权限管理</div>
+          </div>
+
+        <div class="switch">
+          <div class="bd" style="display: flex;">
+            <div style="flex: 1;overflow: auto" class="fl">
+              <div>
+                <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="Email"> -->
+                <table class="table from">
+                  <thead>
+                    <tr>
+                      <th style="max-width:20px"></th>
+                      <th>权限名</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- <tr>
+                          <td style="text-align:center"><input  type="checkbox" name="" id="" data-bind="Admin"></td>
+                          <td class="data">Admin</td>
+                        </tr> -->
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+            <div class="fl">
+              <span class="fa fa-chevron-circle-left"></span>
+              <span class="fa fa-chevron-circle-right"></span>
+            </div>
+            <div style="flex: 1;overflow: auto" class="fl">
+              <table class="table to">
+                <thead>
+                  <tr>
+                    <th>权限名</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr>
+                        <td></td>
+                        <td style="vertical-align: middle; text-align:right"><span class="cancle"></span></td>
+                      </tr> -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </section>
@@ -588,75 +675,75 @@
 
   <div class="modal fade" id="UserGrounpManage_modal" tabindex="-1" role="dialog">
 
-      <div class="modal-dialog modal-xs" style="width: 750px" role="document">
-        <!-- 添加组用户 -->
-        <div class="modal-content UserManage">
-          <div class="modal-header">
-            <button type="button" class="close" onclick="closeModal('#UserGrounpManage_modal')" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title h4" id="" style="text-align: center">添加用户</h4>
-          </div>
-  
-          <div class="modal-body switch">
-              <div class="bd" style="display: flex;">
-                  <div style="flex: 1;overflow: auto" class="fl">
-                    <div>
-                        <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="Email"> -->
-                      <table class="table from">
-                          <thead>
-                            <tr>
-                              <th style="max-width:20px"></th>
-                              <th >备注</th>
-                              <th >用户信息</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                              <!-- <tr>
+    <div class="modal-dialog modal-xs" style="width: 750px" role="document">
+      <!-- 添加组用户 -->
+      <div class="modal-content UserManage">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#UserGrounpManage_modal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title h4" id="" style="text-align: center">添加用户</h4>
+        </div>
+
+        <div class="modal-body switch">
+          <div class="bd" style="display: flex;">
+            <div style="flex: 1;overflow: auto" class="fl">
+              <div>
+                <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="Email"> -->
+                <table class="table from">
+                  <thead>
+                    <tr>
+                      <th style="max-width:20px"></th>
+                      <th>备注</th>
+                      <th>用户信息</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- <tr>
                                 <td style="text-align:center"><input  type="checkbox" name="" id="" data-bind="Admin"></td>
                                 <td class="data">Admin</td>
                               </tr> -->
-                          </tbody>
-                        </table>
-                    </div>
-                      
-                  </div>
-                  <div  class="fl">
-                    <span class="fa fa-chevron-circle-left"></span>
-                    <span class="fa fa-chevron-circle-right"></span>
-                  </div>
-                  <div style="flex: 1;overflow: auto" class="fl">
-                      <table class="table to">
-                          <thead>
-                            <tr>
-                              <th>用户信息</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <!-- <tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+            <div class="fl">
+              <span class="fa fa-chevron-circle-left"></span>
+              <span class="fa fa-chevron-circle-right"></span>
+            </div>
+            <div style="flex: 1;overflow: auto" class="fl">
+              <table class="table to">
+                <thead>
+                  <tr>
+                    <th>用户信息</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr>
                               <td></td>
                               <td style="vertical-align: middle; text-align:right"><span class="cancle"></span></td>
                             </tr> -->
-                          </tbody>
-                        </table>
-                  </div>
-              </div>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" onclick="addGroup_User_modal()">添加用户</button>
-          </div>
         </div>
-        <!-- 添加组用户 -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="addGroup_User_modal()">添加用户</button>
+        </div>
       </div>
+      <!-- 添加组用户 -->
+    </div>
   </div>
 
 
-<!-- #################################################ScriptTemp############################################## -->
+  <!-- #################################################ScriptTemp############################################## -->
 
 
-<!-- 添加配置信息Select -->
+  <!-- 添加配置信息Select -->
   <script type="text/html" id="AddServerConfigSelect">
     <tr class="hideTr" style="display: none">
       <td>
@@ -735,9 +822,9 @@
           </td>
       </tr>
   </script>
-<!-- 添加配置信息Select -->
+  <!-- 添加配置信息Select -->
 
-<script id="ServerConfigTemp" type="text/html">
+  <script id="ServerConfigTemp" type="text/html">
     {{each config_list as value i}}
         <tr>
           <!-- <td>{{value.server_type}}</td> -->
@@ -769,20 +856,20 @@
     {{/each}}
 </script>
 
-<script id="usergrouplistTemp" type="text/html">
+  <script id="usergrouplistTemp" type="text/html">
   {{each group_list as value i}}
       <tr>
         <td>{{value.name}}</td>
         <td style="width:100px">
-            <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value.id}}')"
+            <a href="javascript:;" class=" my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value.id}}')"
              >用户管理</a>
           </td>
-        <td style="width:100px"><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">权限管理</a></td>
-        <td style="width:100px"><a href="javascript:;" class="my-link btn-link btn-primary" onclick="del_group('{{value.id}}')">删除</a></td>
+        <td style="width:100px"><a href="javascript:;" class="my-link " onclick="showPermissionManage('{{value.id}}')">权限管理</a></td>
+        <td style="width:100px"><a href="javascript:;" class="my-link " onclick="del_group('{{value.id}}')">删除</a></td>
       </tr>
   {{/each}}
 </script>
-<!-- #################################################ScriptTemp############################################## -->
+  <!-- #################################################ScriptTemp############################################## -->
 
 
   <script src="/static/js/bootstrap.min.js"></script>

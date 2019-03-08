@@ -15,6 +15,7 @@ ModalShowList = [];
 
 allUsers = [];//初始化所有用户信息
 
+currentGroupID = '';//当前用户组ID
 
 showWhitchSlider(5)
 
@@ -81,80 +82,89 @@ function bindSwitch() {
 
 // bindSwitch();
 
-
-$("#Times").popover({
-  html: true,
-  trigger: "manual",
-  content: '<div id="Times_pop">请输入证书授权次数</div>',
-  container: 'body',
-  animation: false
-});
-$("#dayduration").popover({
-  html: true,
-  trigger: "manual",
-  content: '<div id="dayduration_pop">请输入证书授权时效(可单选)</div>',
-  container: 'body',
-  animation: false
-});
-
-$("#addUserLabel").popover(
-    {
-      html: true,
-      trigger: "manual",
-      title: "请扫描二维码",
-      content: "<div id='userlabelqrcode'></div>",
-      container: 'body',
-    }
-);
+$(function () {  
+  $("#Times").popover({
+    html: true,
+    trigger: "manual",
+    content: '<div id="Times_pop">请输入证书授权次数</div>',
+    container: 'body',
+    animation: false
+  });
+  $("#dayduration").popover({
+    html: true,
+    trigger: "manual",
+    content: '<div id="dayduration_pop">请输入证书授权时效(可单选)</div>',
+    container: 'body',
+    animation: false
+  });
+})
 
 
-verifTarget("#Times");
+// $("#addUserLabel").popover(
+//     {
+//       html: true,
+//       trigger: "manual",
+//       title: "请扫描二维码",
+//       content: "<div id='userlabelqrcode'></div>",
+//       container: 'body',
+//     }
+// );
 
+
+
+verifTarget("#Times")
+verifTarget("#yearduration")
+verifTarget("#dayduration")
 function verifTarget(target) {
   $(target).on("input", function () {
     if ($(target).val().length > 0) {
       $(target).popover("hide");
-    } else {
-      $(target).popover("show");
-    }
+    } 
+    // else {
+    //   $(target).popover("show");
+    // }
   });
   $(target).blur(function () {
-    if ($(target).val().length > 0) {
-      $(target).popover("hide");
-    } else {
+    if ($(target).val().length == 0) {
       $(target).popover("show");
+      $(target).focus();
     }
+    // if ($(target).val().length > 0) {
+    //   $(target).popover("hide");
+    // } else {
+    //   $(target).popover("show");
+    // }
   });
 }
 
-$("#dayduration").on("input", function () {
-  if ($("#dayduration").val().length > 0 || $("#yearduration").val().length > 0) {
-    $("#dayduration").popover("hide");
-  } else {
-    $("#dayduration").popover("show");
-  }
-});
-$("#dayduration").blur(function () {
-  if ($("#dayduration").val().length > 0 || $("#yearduration").val().length > 0) {
-    $("#dayduration").popover("hide");
-  } else {
-    $("#dayduration").popover("show");
-  }
-});
-$("#yearduration").on("input", function () {
-  if ($("#dayduration").val().length > 0 || $("#yearduration").val().length > 0) {
-    $("#dayduration").popover("hide");
-  } else {
-    $("#dayduration").popover("show");
-  }
-});
-$("#yearduration").blur(function () {
-  if ($("#dayduration").val().length > 0 || $("#yearduration").val().length > 0) {
-    $("#dayduration").popover("hide");
-  } else {
-    $("#dayduration").popover("show");
-  }
-});
+// $("#dayduration").on("input", function () {
+//   if ($("#dayduration").val().length > 0 || $("#yearduration").val().length > 0) {
+//     $("#dayduration").popover("hide");
+//   } else {
+//     $("#dayduration").popover("show");
+//   }
+// });
+// $("#dayduration").blur(function () {
+//   if ($("#dayduration").val().length > 0 || $("#yearduration").val().length > 0) {
+//     $("#dayduration").popover("hide");
+//   } else {
+//     $("#dayduration").popover("show");
+//   }
+// });
+// $("#yearduration").on("input", function () {
+//   if ($("#dayduration").val().length > 0 || $("#yearduration").val().length > 0) {
+//     $("#dayduration").popover("hide");
+//   } else {
+//     $("#dayduration").popover("show");
+//   }
+// });
+// $("#yearduration").blur(function () {
+//   if ($("#dayduration").val().length > 0 || $("#yearduration").val().length > 0) {
+//     $("#dayduration").popover("hide");
+//   } else {
+//     $("#dayduration").popover("show");
+//   }
+// });
 
 
 //获得用户信息
@@ -218,19 +228,22 @@ function HideEdit(target){
   $(target).parent().parent().find(".disable").prop("disabled",true);
 }
 
+
 function DoBeizhu(target) {  
   var val = $(target).parent().parent().find(".disable").val();
   
   var param = {
     "access_token":access_token,
-    "update_list":{
+    "update_list":[{
       "target_type":'user',
       "target_id": $(target).attr("data-bind"),
       "rename":val 
-    }
+    }]
   }
   bproto_ajax(UPDATE_REMARK,param,function(obj_json){
-    console.log(obj_json);
+    if(obj_json.code===0){
+      alert("修改成功");
+    }
   })
 }
 
@@ -271,6 +284,7 @@ function addUserCert(target) {
   $("#AddCert input").val("");
   $("#AddCertLabel").text($(target).attr("data-user") + " 颁布证书");
   $("#AddCert").modal("show");
+  $(".addtermtype input").focus();
 }
 
 
@@ -505,20 +519,28 @@ function RenderCert2TermTable(list) {
   $(".showCert2Term table tbody").html(template('termList', list))
 }
 
+
+
 //修改用户证书
 function updateCert(target) {
+  $(target).next().on("click",function () {  
+    getCerts_list(currentCertsPage);
+  })
+
   var allSelects = $(target).parent().parent().find("td select");
   var allInputDates = $(target).parent().parent().find("td input[type=datetime-local]");
   if (!target.isClick) {
     //获取当前行的select，让他们显示出来
-    $(".updateCert").css("backgroundColor", "#ddd").val("修改").css("color", "#000");
+    $(".updateCert").text("修改")
+    $(target).next().hide();
     $(".updateCert").parent().parent().find("td select,td input[type=datetime-local]").prev().show().end().hide();
 
     $(".updateCert").each(function () {
       $(this)[0].isClick = false;
     });
 
-    $(target).css("backgroundColor", "#000").val("确认").css("color", "#fff");
+    $(target).text("确认");
+    $(target).next().show();
 
     var parentcertid = $(allSelects[2]).attr("data-bind");
     allSelects.prev().hide().end().show();
@@ -529,6 +551,9 @@ function updateCert(target) {
 
     }
 
+
+    
+
     //除了admin其他用户不可以修改时间
     if(CurrentUser==="admin"){
       allInputDates.prev().hide().end().show();
@@ -537,6 +562,12 @@ function updateCert(target) {
       $(this).find("option[value=" + $(this).prev().text() + "]").prop("selected", true)
     });
     target.isClick = true;
+
+
+    $(".updateCert_cancel").on("click",function () {  
+      getCerts_list(currentCertsPage);
+    })
+
   } else {
     var ValidityBegin = allInputDates.parent().find(".ValidityBegin").val();
     var ValidityEnd = allInputDates.parent().find(".ValidityEnd").val();
@@ -551,17 +582,18 @@ function updateCert(target) {
     };
     bproto_ajax("/api/v1/update_cert/", param, function (obj_json) {
       if (obj_json.code === 0) {
-        $(target).css("backgroundColor", "#ddd").val("修改").css("color", "#000");
+        $(target).text("修改")
+        $(target).next().hide();
         getCerts_list(currentCertsPage);
         alert("更改成功")
       } else if (obj_json.code === -2) {
         alert("更改失败,权限不足");
-        $(target).css("backgroundColor", "#ddd").val("修改").css("color", "#000");
+        $(target).text("修改")
+        $(target).next().hide();
         getCerts_list(currentCertsPage);
       } else {
         alert("更改失败");
       }
-
       // allSelects.show();
       // allSelects.prev().hide();
     })
@@ -731,6 +763,7 @@ function showUserGroupManage() {
   bproto_ajax(GET_GROUP_LIST,param,function (obj_json) {  
     if(obj_json.code===0){
       if(!obj_json.group_list.length){
+        $("#UserGroupManage .ingroup_table tbody").html("")
         return;
       }
       var mydata = {"group_list":[]};
@@ -746,7 +779,9 @@ function showUserGroupManage() {
         $("#UserGroupManage .other_table").show();
         $("#UserGroupManage .owngroup_table tbody").html(template("own_usergrouplistTemp",mydata));
       }
+
       $("#UserGroupManage .ingroup_table tbody").html(template("in_usergrouplistTemp",obj_json));
+      
     }
   })
 
@@ -781,11 +816,247 @@ function addusergroup() {
   })
 }
 
-//删除用户组
-function del_group(id){
+
+//退出用户组
+function exitGroup(id) {
+  var isdel = confirm("确认退出用户组");
+    if(isdel===false){
+        return
+    }
   var param = {
     'access_token':access_token,
-    "del_list": [id]
+    'group_id':id
+  }
+  bproto_ajax(EXIT_GROUP,param,function (obj_json) {  
+    if(obj_json.code===0){
+      alert("退出成功");
+      showUserGroupManage();
+    }
+  })
+}
+
+
+//修改用户组信息
+function updateGroupClick(target,id){
+  var name = $(target).parent().parent().find(".g_name").val()
+  var note = $(target).parent().parent().find(".g_note").val()
+  // console.log(name,note);
+  
+  if(name===""){
+    alert("用户组名称不能为空");
+    return;
+  }
+  var param = {
+    'access_token':access_token,
+    'update_list':[{
+      'id': id,
+      'name': name,
+      'note': note
+    }]
+  }
+  bproto_ajax(UPDATE_GROUP_LIST,param,function (obj_json) {  
+    if(obj_json.code===0){
+      alert("修改成功");
+      showUserGroupManage();
+    }
+  });
+
+}
+
+//存在的用户组对应的用户列表
+function showOtherUserGroupUserList(id){
+  currentGroupID = id;
+  $("#UserGroupManage .body").hide();
+  $("#UserGroupManage .Otherusermanage").show();
+
+  var param = {
+    'access_token':access_token,
+    'group_id':id
+  }
+  bproto_ajax(GET_GROUP_USER_LIST,param,function (obj_json) {  
+    if(obj_json.code===0){
+      var Userslist =  obj_json.user_list;
+      var searchlist = {"access_token":access_token,'list':[]};
+      for(var i=0;i<Userslist.length;i++){
+        searchlist.list.push({
+          'target_type':'user',
+          'target_id':Userslist[i].user_id
+        })
+      }
+
+      bproto_ajax(GET_REMARK,searchlist,function (obj_json) {  
+        if(obj_json.code===0){
+          for(var i=0;i<obj_json.list.length;i++){
+            for(var j=0;j<Userslist.length;j++){
+              if(Userslist[j].user_id===obj_json.list[i].target_id){
+                Userslist[j]['rename'] = obj_json.list[i].rename;
+              }
+            }
+          }      
+          $("#UserGroupManage .Otherusermanage .table tbody").html(template('OtherusermanageTemp',{'group_list':Userslist}))
+        }
+
+      })
+
+    }
+  })
+}
+
+
+//自己创建的用户组对应的用户列表
+function showOwnerUserGroupUserList(id){
+  currentGroupID = id;
+  $("#UserGroupManage .body").hide();
+  $("#UserGroupManage .Ownerusermanage").show();
+
+  var param = {
+    'access_token':access_token,
+    'group_id':id
+  }
+  bproto_ajax(GET_GROUP_USER_LIST,param,function (obj_json) {  
+    if(obj_json.code===0){
+      var Userslist =  obj_json.user_list;
+      var searchlist = {"access_token":access_token,'list':[]};
+      for(var i=0;i<Userslist.length;i++){
+        searchlist.list.push({
+          'target_type':'user',
+          'target_id':Userslist[i].user_id
+        })
+      }
+
+      bproto_ajax(GET_REMARK,searchlist,function (obj_json) {  
+        if(obj_json.code===0){
+          for(var i=0;i<obj_json.list.length;i++){
+            for(var j=0;j<Userslist.length;j++){
+              if(Userslist[j].user_id===obj_json.list[i].target_id){
+                Userslist[j]['rename'] = obj_json.list[i].rename;
+              }
+            }
+          }          
+          $("#UserGroupManage .Ownerusermanage tbody").html(template('OwnerusermanageTemp',{'group_list':Userslist}))
+        }
+
+      })
+
+    }
+  })
+}
+
+//自己创建的用户组移出用户
+function remove_group(name){
+  var isdel = confirm("确认将"+name+"移出用户组?");
+    if(isdel===false){
+        return
+  }
+  var param = {
+    'access_token':access_token,
+    "del_list": [{   // del_list 管理员, 群的拥有者
+      'user_name': name,
+      'group_id': currentGroupID
+    }]
+  }
+  bproto_ajax(UPDATE_GROUP_USER_LIST,param,function (obj_json) {  
+    if(obj_json.code===0){
+      alert("移出用户成功");
+      showOwnerUserGroupUserList(currentGroupID);
+    }
+  })
+
+}
+
+//邀请码生成提示框
+function inviteUser_Group_Modal() {
+  $("#InviteUserGroupModal").modal("show");
+  $("#invite_code").hide();
+  $("#InviteUserGroupModal input").val("");
+  $("#invite_duration").val(30);
+}
+//邀请用户进组
+function inviteUser_Group(){
+  var duration = parseInt($("#invite_duration").val());
+  var param = {
+    'access_token':access_token,
+    "group_id": currentGroupID,
+    "duration": duration
+  }
+  bproto_ajax(JOIN_GROUP_INVITE,param,function (obj_json) {  
+    if(obj_json.code===0){
+      var code = obj_json.invite_code;
+      $("#invite_code").show().val(code);
+    }else{
+      $("#invite_code").show().val(obj_json.code+"$生成失败");
+    }
+  })
+}
+
+//加入群组提示框
+function AddInUser_Group_Modal() {
+  $("#AddInCodeUserGroupModal").modal("show");
+  $("#addin_code").hide();
+  $("#InviteUserGroupModal input").val("");
+  $("#AddInCodeUserGroupModal .group_msg").hide();
+  // $("#invite_duration").val(30);
+}
+
+//查看邀请码信息按钮
+function showGroupMsg() {  
+  var val = $("#addIn_code").val();
+  if(val===""){
+    $("#addIn_code").focus();
+    return;
+  }
+  var param = {
+    'access_token':access_token,
+    "invite_code":val
+  }
+  bproto_ajax(GET_GROUP_INVITE_INFO,param,function (obj_json) {  
+    if(obj_json.code===0){
+      $("#AddInCodeUserGroupModal .group_msg").show();
+      // if(obj_json.note===""){
+      //   $("#AddInCodeUserGroupModal .group_msg .group_name").text(obj_json.name)
+      // }else{
+      //   $("#AddInCodeUserGroupModal .group_msg .group_name").text(obj_json.note)
+      // }
+      $("#AddInCodeUserGroupModal .group_msg .group_name").text(obj_json.group_name)
+      $("#AddInCodeUserGroupModal .group_msg .group_master").text(obj_json.group_master)
+      $("#AddInCodeUserGroupModal .group_msg button").attr("onclick","addInGroup('"+val+"')")
+    }else{
+      alert(obj_json.code+"$邀请码无效");
+      $("#addIn_code").val("").focus();
+    }
+  })
+}
+
+//加入群组逻辑
+function addInGroup(invite_code) {
+  var param = {
+    'access_token':access_token,
+    'invite_code':invite_code
+  }
+
+  bproto_ajax(JOIN_GROUP,param,function (obj_json) {  
+    if(obj_json.code===0){
+      alert("加入成功");
+    }else if(obj_json.code===-5){
+      alert("已在群组");
+    }else{
+      alert(obj_json.code+"$加入失败");
+    }
+    closeModal('#AddInCodeUserGroupModal');
+    showUserGroupManage();
+  })
+}
+
+
+//删除用户组
+function del_group(target){
+  var isdel = confirm("确认删除用户组");
+  if(isdel===false){
+      return;
+  }
+  var param = {
+    'access_token':access_token,
+    "del_list": [target]
   }
   bproto_ajax(UPDATE_GROUP_LIST,param,function (obj_json) {
     if(obj_json.code===0){
@@ -794,7 +1065,6 @@ function del_group(id){
     }
   })
 }
-
 
 
 //关闭添加证书的提示框

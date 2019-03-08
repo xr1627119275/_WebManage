@@ -19,7 +19,7 @@ currentCMSWhiteListPage = 0;
 currentCMSWhiteListPageSize = 20;
 
 //默认添加黑名单
-currentAddBW = "BlackList";
+currentAddBW = "WhiteList";
 
 
 currentCMS = '';
@@ -61,7 +61,7 @@ window.addEventListener('load',function () {
 function changeContent(target) {
   $(target).parent().parent().find("li").removeClass("active");
   $(target).parent().addClass("active")
-  
+
   var targetId = $(target).attr("data-bind");
   $(".content").hide();
   $(targetId).show();
@@ -263,7 +263,6 @@ function getCMSTerm_list(page) {
         function (obj_json) {
           $("#cmslist .cmslistContent .cmstablebox tbody").html(template("cmsListTemp", obj_json))
           $("#black_white .bwcmslistContent .cmstablebox tbody").html(template("cmsBlackWhiteListTemp", obj_json))
-
         }
     )
 
@@ -393,7 +392,7 @@ function CMSUpdateBW() {
     "cms":{
       "use_list_type":bw,
       "max_pu_count":parseInt(mxdevice),
-      "max_online_pu_count":parseInt(mxdevice),
+      "max_online_pu_count":parseInt(mxonlinedevice),
     }
   }
   AjaxPost(UPDATE_CMS_INFO,param).then(function (obj_json) {
@@ -477,6 +476,18 @@ function showWhite_list(cms) {
   $(".Content").hide();
   $(".BlackWhiteContent").show()
 
+  AjaxPost(GET_CMS_INFO,{"access_token":access_token,"cms_list":[cms]}).then(function (obj_json) {
+    if(obj_json.cms_list.length>0){
+        $("input[value="+obj_json.cms_list[0].use_white_black_list_type+"][name=CMSbwManage]").prop("checked",true)
+        $("input[name=MaxDevices]").val(obj_json.cms_list[0].max_pu_count)
+        $("input[name=MaxOnlineDevices]").val(obj_json.cms_list[0].max_online_pu_count)
+      }
+  });
+
+
+  $("#black_white .black_whiteContent").hide();
+  $("#black_white .BlackWhiteListContent").show();
+  
   var param = {
     'access_token': access_token,
     'filter': {
@@ -508,11 +519,10 @@ function showWhite_list(cms) {
 
 $('.showBlackWhiteMsg a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
   if ($(".showBlackWhiteMsg ul li a:first-child")[0] === e.target) {
-    currentAddBW = "BlackList";
-  } else {
     currentAddBW = "WhiteList";
+  } else {
+    currentAddBW = "BlackList";
   }
-
 });
 
 //渲染黑白名单字段select
@@ -615,6 +625,8 @@ function ShowEdit(target) {
 function HideEdit(target){
   $(target).parent().parent().parent().find(".source").show();
   $(target).parent().parent().parent().find(".edit").hide();
+  $(target).parent().parent().parent().find("select.edit").val($(target).parent().parent().parent().find("select.edit").attr("data-bind"));
+  $(target).parent().parent().parent().find("input.edit").val($(target).parent().parent().parent().find("input.edit").attr("data-bind"));
 }
 
 //编辑确认按钮
@@ -648,22 +660,36 @@ function DoEdit(target,id,BW){
 
 //删除黑白名单
 function delW(id) {
+  var isdel = confirm("确认删除");
+    if(isdel===false){
+        return
+    }
   var param = {
     'access_token': access_token,
     'del_list': [id]
   };
   AjaxPost(UPDATE_BLACK_WHITE_LIST_FILTER, param).then(function (obj_json) {
+    if(obj_json.code===0){
+      alert("删除成功");
+    }
     showWhite_list(currentCMS);
   });
 
 }
 //删除黑白名单
 function delB(id) {
+  var isdel = confirm("确认删除");
+    if(isdel===false){
+        return
+    }
   var param = {
     'access_token': access_token,
     'del_list': [id]
   };
   AjaxPost(UPDATE_BLACK_WHITE_LIST_FILTER, param).then(function (obj_json) {
+    if(obj_json.code===0){
+      alert("删除成功");
+    }
     showBlack_list(currentCMS)
   });
 }

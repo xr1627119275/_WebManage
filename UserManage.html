@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/static/css/sidebar-menu.css">
 
   <style type="text/css">
-    .main-sidebar {
+    /* .main-sidebar {
       position: absolute;
       top: 0;
       left: 0;
@@ -30,12 +30,12 @@
       right: 0;
     }
 
-    /*主体部分*/
-    /* section .content {
+    主体部分
+    section .content {
       width: 100%;
       /* margin-top: 40px;
       padding: 0 20px;
-    } */
+    }
 
 
     section form.add {
@@ -43,7 +43,7 @@
       margin: 0 auto;
     }
 
-    /*主体部分*/
+    主体部分
     .table th,
     .table td {
       text-align: center;
@@ -57,7 +57,7 @@
 
     #UserModal .modal-body {
       padding-bottom: 0;
-    }
+    } */
 
     .certPager {
       padding: 0 10px 0 240px;
@@ -86,6 +86,7 @@
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
   <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
   <script src="/static/js/jquery.cookie.js"></script>
   <script src="/static/js/bprotocol.js"></script>
   <script src="/static/js/conf.js"></script>
@@ -212,7 +213,8 @@
     <!--用户证书管理-->
     <section class="content" id="certslistManage" style="display: none">
       <div class="certsManageContent usersTable">
-        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;display: block">用户证书管理
+        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;display: block">
+          用户证书管理
         </div>
         <div class="search" style="margin:20px 0 ">
           <label class="mylabel">搜索用户</label>
@@ -298,79 +300,118 @@
 
     <!-- 用户组管理 -->
     <section class="content" id="UserGroupManage" style="display:none">
-        <div class="body usergrouplist">
-          <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组管理</div>
-          <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
-            onclick="adduserGroup_Modal()"> 新建用户组 </button>
+      <div class="body usergrouplist">
+        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组管理</div>
+        <button type="button" class="btn"
+          style="background: #222d32;color: #ffffff;margin-bottom: 10px" onclick="adduserGroup_Modal()"> 创建用户组 </button>
+        <button type="button" class="btn"
+          style="background: #222d32;color: #ffffff;margin-bottom: 10px" onclick="AddInUser_Group_Modal()"> 加入用户组
+        </button>
 
-            <div class="panel panel-info">
-              <!-- Default panel contents -->
-              <div class="panel-heading" style="font-size:20px;font-weight: 500">所在用户组</div>
-                
-            
-              <table class="ingroup_table table table_usergroup table-striped  table-bordered">
-                  <thead>
-                    <tr>
-                      <th>用户组名称</th>
-                      <th colspan="2">操作</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-          
-                  </tbody>
-                </table>
-            </div>  
+        <div class="panel panel-info">
+          <!-- Default panel contents -->
+          <div class="panel-heading" style="font-size:20px;font-weight: 500">所在用户组</div>
 
 
-            
-            <div class="panel panel-info other_table" style="display:none">
-              <!-- Default panel contents -->
-              <div class="panel-heading" style="font-size:20px;font-weight: 500">创建的用户组</div>
+          <table class="ingroup_table table table_usergroup table-striped  table-bordered">
+            <thead>
+              <tr>
+                <th>用户组名称</th>
+                <th>用户组备注信息</th>
+                <th>用户组管理员</th>
+                <th colspan="2">操作</th>
+              </tr>
+            </thead>
+            <tbody>
 
-              <table class="owngroup_table table table_usergroup table-striped  table-bordered">
-                  <thead>
-                    <tr>
-                      <th>用户组名称</th>
-                      <th style="width:100px" colspan="3">操作</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-          
-                  </tbody>
-              </table>
-            </div>
-              
-
-        </div>
-          
-        
-        <div class="body usermanage"  style="display:none">
-            <div class="head">
-                <div class="back" onclick="Back('.body','.usergrouplist')">
-                  <span class="fa fa-angle-left pull-left" style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
-                  <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
-                </div>
-                <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组用户信息</div>
-            </div>
-          <table class="table userlistTable table-striped table-bordered">
-              
-              <button type="button" id="addUserLabel" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 10px"
-                onclick="AddGroup_User()"> 添加用户 </button>
-              <thead>
-                  <tr>
-                    <th>用户名称</th>
-                    <th colspan="2">操作</th>
-                  </tr>
-                </thead>
-                <tbody>
-  
-                </tbody>
+            </tbody>
           </table>
-  
         </div>
-      </section>
 
-      <!-- 用户组管理 -->
+
+
+        <div class="panel panel-info other_table" style="display:none">
+          <!-- Default panel contents -->
+          <div class="panel-heading" style="font-size:20px;font-weight: 500">创建的用户组</div>
+
+          <table class="owngroup_table table table_usergroup table-striped  table-bordered">
+            <thead>
+              <tr>
+                <th>用户组名称</th>
+                <th>用户组备注信息</th>
+                <th style="width:100px" colspan="3">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+
+
+      </div> 
+
+      <!-- 自己创建的用户组成员列表 -->
+      <div class="body Ownerusermanage" style="display:none">
+        <div class="head">
+          <div class="back" onclick="Back('.body','.usergrouplist')">
+            <span class="fa fa-angle-left pull-left"
+              style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+            <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+          </div>
+          <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">
+            用户组用户信息</div>
+        </div>
+        <table class="table userlistTable table-striped table-bordered">
+
+          <button type="button" class="btn"
+            style="background: #222d32;color: #ffffff;margin-bottom: 10px" onclick="inviteUser_Group_Modal()"> 邀请用户
+          </button>
+          <thead>
+            <tr>
+              <th>用户名称</th>
+              <th>备注</th>
+              <th>邮箱</th>
+              <th colspan="2">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+
+      </div>
+      <!-- 自己创建的用户组成员列表 -->
+
+      <!-- 自己加入的用户组成员列表 -->
+      <div class="body Otherusermanage" style="display:none">
+        <div class="head">
+          <div class="back" onclick="Back('.body','.usergrouplist')">
+            <span class="fa fa-angle-left pull-left"
+              style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+            <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+          </div>
+          <div class="title"  style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">
+            用户组用户信息</div>
+        </div>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>用户名称</th>
+              <th>备注</th>
+              <th>邮箱</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+
+      </div>
+      <!-- 自己加入的用户组成员列表 -->
+    </section>
+
+    <!-- 用户组管理 -->
 
 
 
@@ -449,7 +490,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" onclick="closeModal()" aria-label="Close"><span
+            <button type="button" class="close" onclick="closeModal('#UserModal')" aria-label="Close"><span
                 aria-hidden="true">&times;</span>
             </button>
             <h2 class="modal-title h2" id="myModalLabel" style="text-align: center">用户数据</h2>
@@ -725,7 +766,7 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" onclick="closeModal()">Close</button>
+            <button type="button" class="btn btn-default" onclick="closeModal('#UserModal')">Close</button>
             <!--<button type="button" class="btn btn-primary">Save changes</button>-->
           </div>
         </div>
@@ -764,8 +805,8 @@
             <div class="form-inline">
               <label class="mylabel">选择证书类型</label><br>
               <div class="input-group addtermtype">
-                <input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');" class="h34 form-control"
-                  id="user_id" placeholder="请输入证书类型" />
+                <input type="text" disabled onkeyup="this.value=this.value.replace(/[^\w_]/g,'');" class="h34 form-control"
+                  id="user_id" placeholder="请选择证书类型" />
                 <div class="input-group-btn">
                   <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -787,7 +828,7 @@
               <label for="Times" class="mylabel">证书授权次数</label><br>
               <input type="number" min="0" maxlength="4" onkeydown="this.value=this.value.replace(/-/g,'');"
                 oninput="this.value=this.value.replace(/-/g,'');" class="form-control" id="Times" data-bind="#Times_pop"
-                data-msg="请输入证书授权次数" placeholder="请输入证书授权次数">
+                data-_msg="请输入证书授权次数" placeholder="请输入证书授权次数">
             </div>
             <div class="form-inline">
               <label class="mylabel">证书授权时效</label><br>
@@ -800,7 +841,7 @@
               <div class="form-group">
                 <input type="number" min="0" maxlength="4" onkeydown="this.value=this.value.replace(/-/g,'');"
                   oninput="this.value=this.value.replace(/-/g,'');" class="form-control" id="dayduration"
-                  data-bind="#dayduration_pop" data-msg="请输入证书授权时效(可单选)" placeholder="请输入证书授权时效(日)">
+                  data-bind="#dayduration_pop" data-_msg="请输入证书授权时效(可单选)" placeholder="请输入证书授权时效(日)">
                 <label class="mylabel">日</label>
 
               </div>
@@ -837,35 +878,111 @@
     <!--选择用户输入框-->
 
 
-    
-    <!--选择用户输入框-->
+
+    <!--添加用户组输入框-->
     <div class="modal fade" id="AddUserGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
-        <div class="modal-dialog modal-md" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" onclick="closeModal('#AddUserGroupModal')" aria-label="Close"><span
-                  aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title h4" id="SelectUserLabel" style="text-align: center">添加用户组</h4>
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" onclick="closeModal('#AddUserGroupModal')" aria-label="Close"><span
+                aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title h4" style="text-align: center">添加用户组</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="addgroupname" class="mylabel">用户组名称</label>
+              <input type="text" class="form-control" id="addgroupname" placeholder="请输入用户组名称">
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="addgroupname" class="mylabel">用户组名称</label>
-                    <input type="text" class="form-control" id="addgroupname" placeholder="请输入用户组名称">
-                  </div>
-                  <div class="form-group">
-                    <label for="addgroupnote" class="mylabel">用户组备注信息</label>
-                    <input type="text" class="form-control" id="addgroupnote" placeholder="请输入用户组备注信息">
-                  </div>
+            <div class="form-group">
+              <label for="addgroupnote" class="mylabel">用户组备注信息</label>
+              <input type="text" class="form-control" id="addgroupnote" placeholder="请输入用户组备注信息">
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-success" onclick="addusergroup()">提交</button>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" onclick="addusergroup()">提交</button>
           </div>
         </div>
       </div>
-      <!--选择用户输入框-->
+    </div>
+    <!--添加用户组输入框-->
+
+    <!-- 邀请用户设置弹出框 -->
+    <div class="modal fade" id="InviteUserGroupModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" onclick="closeModal('#InviteUserGroupModal')" aria-label="Close"><span
+                aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title h4" style="text-align: center">生成邀请码</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="invite_duration" class="mylabel">邀请码有效时间(默认30分钟)</label>
+              <input type="number" onkeydown="this.value=this.value.replace(/-/g,'');"
+                oninput="this.value=this.value.replace(/-/g,'');" class="form-control" id="invite_duration"
+                placeholder="请输入邀请码有效时间">
+            </div>
+            <div class=" form-inline" style="display:flex">
+              <button type="button" class="btn btn-success" onclick="inviteUser_Group()">生成邀请码</button>
+              <input type="text" style="display: none;margin-left: 5px;flex:1" auto-complete="off" class="form-control"
+                id="invite_code">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="closeModal('#InviteUserGroupModal')">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 邀请用户设置弹出框 -->
+
+    <!-- 加入邀请码群组设置弹出框 -->
+    <div class="modal fade" id="AddInCodeUserGroupModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" onclick="closeModal('#AddInCodeUserGroupModal')"
+              aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title h4" style="text-align: center">加入用户组</h4>
+          </div>
+          <div class="modal-body">
+            <!-- <div class="form-group">
+                    <label for="invite_duration" class="mylabel"></label>
+                    <input type="number" onkeydown="this.value=this.value.replace(/-/g,'');" oninput="this.value=this.value.replace(/-/g,'');" class="form-control" id="invite_duration" placeholder="请输入邀请码有效时间">
+                </div> -->
+            <div class=" form-inline" style="display:flex">
+              <button type="button" class="btn btn-success" onclick="showGroupMsg()">查看群组信息</button>
+              <input type="text" style="margin-left: 5px;flex:1" auto-complete="off" placeholder="请输入邀请码"
+                class="form-control" id="addIn_code">
+            </div>
+
+            <div class="group_msg">
+              <div class="list-group" style="margin:10px 0">
+                <a href="javascript:;" class="list-group-item"><span
+                    style="display: inline-block;font-weight: 700;width: 50px">群名称</span><span
+                    class="group_name"></span></a>
+                <a href="javascript:;" class="list-group-item"><span
+                    style="display: inline-block;font-weight: 700;width: 50px">群&nbsp;&nbsp;&nbsp;&nbsp;主</span><span
+                    class="group_master"></span></a>
+              </div>
+              <div class="form-group" style="width: 100%;margin-bottom:0;text-align: center">
+                <button type="button" class="btn btn-success" style="margin:0 auto" onclick="addInGroup('')">加入</button>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="closeModal('#AddInCodeUserGroupModal')">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 加入邀请码群组设置弹出框 -->
 
     <!--------------模板Script---------------------------------------------------------------->
 
@@ -873,257 +990,200 @@
     <script id="userListTemp" type="text/html">
   {{each users as value}}
   <tr>
-    <td style="line-height: 34px">{{value.nickname?value.nickname:value.username}}</td>
-    <td style="line-height: 34px">{{value.username}}</td>
-    <td style="line-height: 34px">{{value.email}}</td>
-    <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" data-userid="{{value.user_id}}" onclick="showUserCerts(this)">查看</a></td>-->
-    <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" data-user="{{value.username}}" onclick="addUserCert(this)">添加证书</a></td>-->
-    <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" onclick="showUserLabel(this)">查看</a></td>-->
-    <td><textarea class="form-control disable"  disabled rows="1" style="cursor: text;resize: none" data-bind="{{value.rename}}">{{value.rename}}</textarea></td>
-    <td> 
-      <a class="my-link source" href="javascript:;" onclick="ShowEdit(this)">添加备注</a>
-      <a class="edit my-link" href="javascript:;" style="display:none" data-bind="{{value.user_id}}" onclick="DoBeizhu(this)">确认</a>
-      &nbsp;
-      <a class="edit my-link" href="javascript:;" style="display:none" onclick="HideEdit(this)">取消</a>
-    </td>
-    <!--data-toggle="modal" data-target="#myModal"-->
+  <td style="line-height: 34px">{{value.nickname?value.nickname:value.username}}</td>
+  <td style="line-height: 34px">{{value.username}}</td>
+  <td style="line-height: 34px">{{value.email}}</td>
+  <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" data-userid="{{value.user_id}}" onclick="showUserCerts(this)">查看</a></td>-->
+  <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" data-user="{{value.username}}" onclick="addUserCert(this)">添加证书</a></td>-->
+  <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" onclick="showUserLabel(this)">查看</a></td>-->
+  <td><textarea class="form-control disable"  disabled rows="1" style="cursor: text;resize: none" data-bind="{{value.rename}}">{{value.rename}}</textarea></td>
+  <td> 
+    <a class="my-link source" href="javascript:;" onclick="ShowEdit(this)">修改备注</a>
+    <a class="edit my-link" href="javascript:;" style="display:none" data-bind="{{value.user_id}}" onclick="DoBeizhu(this)">确认</a>
+    &nbsp;
+    <a class="edit my-link" href="javascript:;" style="display:none" onclick="HideEdit(this)">取消</a>
+  </td>
+  <!--data-toggle="modal" data-target="#myModal"-->
   </tr>
   {{/each}}
-</script>
+  </script>
     <!--获取用户模板结束-->
 
     <!--certslist获取证书管理-->
     <script id="certslistTemp" type="text/html">
-  {{each users as value}}
-  <tr>
-    <td>{{value.nickname?value.nickname:value.username}}</td>
-    <td>{{value.username}}</td>
-    <td style="width:150px"><a href="javascript:;" class="btn-link my-link"  data-bind="{{value.username}}" data-userid="{{value.user_id}}"
-           onclick="showUserCerts(this)">管理证书</a></td>
-    <td style="width:150px"><a href="javascript:;" class="btn-link my-link" data-bind="{{value.user_id}}" data-user="{{value.username}}"
-           onclick="addUserCert(this)">颁布证书</a></td>
-  </tr>
-  {{/each}}
-</script>
+    {{each users as value}}
+    <tr>
+      <td>{{value.nickname?value.nickname:value.username}}</td>
+      <td>{{value.username}}</td>
+      <td style="width:150px"><a href="javascript:;" class="btn-link my-link"  data-bind="{{value.username}}" data-userid="{{value.user_id}}"
+              onclick="showUserCerts(this)">管理证书</a></td>
+      <td style="width:150px"><a href="javascript:;" class="btn-link my-link" data-bind="{{value.user_id}}" data-user="{{value.username}}"
+              onclick="addUserCert(this)">颁布证书</a></td>
+    </tr>
+    {{/each}}
+  </script>
     <!--certslist获取证书管理-->
 
 
     <!--termslist获取设备管理-->
     <script id="termslistTemp" type="text/html">
-  {{each users as value}}
-  <tr>
-    <td>{{value.nickname?value.nickname:value.username}}</td>
-    <td>{{value.username}}</td>
-    <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="showAllTerms(this)">查看</a></td>-->
-    <td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="">查看</a></td>
-    <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="showTermsVerify(this)">查看</a>-->
-    <!--</td>-->
-  </tr>
-  {{/each}}
-</script>
+    {{each users as value}}
+    <tr>
+      <td>{{value.nickname?value.nickname:value.username}}</td>
+      <td>{{value.username}}</td>
+      <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="showAllTerms(this)">查看</a></td>-->
+      <td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="">查看</a></td>
+      <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="showTermsVerify(this)">查看</a>-->
+      <!--</td>-->
+    </tr>
+    {{/each}}
+  </script>
     <!--termslist获取设备管理-->
 
     <!--获取用户证书模板-->
-<script id="certList" type="text/html">
-  <!--SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",-->
-  <!--"Type": "Registered",-->
-  <!--"Mode": "UnKnowType",-->
-  <!--"State": "Normal",-->
-  <!--"Issuer_id": 3,-->
-  <!--"IssueDate": "2018-11-22 15:25:40",-->
-  <!--"ValidityBegin": "2018-11-22 15:25:40",-->
-  <!--"ValidityEnd": "2038-11-17 15:25:40",-->
-  <!--"IssueTimes": 1-->
-  {{each certs as value i}}
-  <tr>
+    <script id="certList" type="text/html">
+    <!--SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",-->
+    <!--"Type": "Registered",-->
+    <!--"Mode": "UnKnowType",-->
+    <!--"State": "Normal",-->
+    <!--"Issuer_id": 3,-->
+    <!--"IssueDate": "2018-11-22 15:25:40",-->
+    <!--"ValidityBegin": "2018-11-22 15:25:40",-->
+    <!--"ValidityEnd": "2038-11-17 15:25:40",-->
+    <!--"IssueTimes": 1-->
+    {{each certs as value i}}
+    <tr>
 
-    <td>{{value.SerialNumber}}</td>
-    <td>{{value.IssueTermType}}</td>
-    <td>
-      <span>{{value.Type}}</span>
-      <select style="display: none" name="Type" class="certType">
-        <option value="Trial">Trial</option>
-        <option value="Free">Free</option>
-        <option value="Unregistered">Unregistered</option>
-        <option value="Registered">Registered</option>
-      </select>
-    </td>
-    <td style="display: none">
-      <span>{{value.Mode}}</span>
-      <select style="display: none" name="Mode" class="certMode">
-        <option value="UnKnowType">UnKnowType</option>
-      </select>
-    </td>
-    <td>
-      <span>{{value.State}}</span>
-      <select style="display: none" data-bind="{{value.ParentCert}}" name="State" class="certState">
-        <option value="Normal">Normal</option>
-        <option value="Revoke">Revoke</option>
-      </select>
-    </td>
-    <td style="display: none">{{value.Issuer_id}}</td>
-    <td>{{value.IssueDate}}</td>
-    <td>
-      <span>{{value.ValidityBegin}}</span>
-      <input style="display: none" type="datetime-local" class="ValidityBegin" value="{{value.ValidityBegin_}}"/>
-    </td>
-    <td>
-      <span>{{value.ValidityEnd}}</span>
-      <input style="display: none" type="datetime-local" class="ValidityEnd" value="{{value.ValidityEnd_}}"/>
-    </td>
-    <td>{{value.IssueTimes}}</td>
-    <td>{{value.MaxIssueTimes}}</td>
-    <td style="display: none">{{value.ParentCert}}</td>
-    <td><input data-bind="{{value.SerialNumber}}" type="button" value="修改"
-               style="height: 20px;line-height: 20px;padding: 0 5px" class="updateCert" onclick="updateCert(this)"></td>
-    <td><input data-bind="{{value.SerialNumber}}" data-userid="{{userid}}" type="button" value="选择用户"
-               style="height: 20px;line-height: 20px;padding: 0 5px" onclick="showUpdateCertTimes(this)"></td>
-    <td><input type="button" value="查看"
-               style="height: 20px;line-height: 20px;padding: 0 5px" onclick="showTerminal('{{value.SerialNumber}}')">
-    </td>
-    <td><a class="my-link" href="#" onclick="">查看</a></td>
+      <td>{{value.SerialNumber}}</td>
+      <td>{{value.IssueTermType}}</td>
+      <td>
+        <span>{{value.Type}}</span>
+        <select style="display: none" name="Type" class="certType">
+          <option value="Trial">Trial</option>
+          <option value="Free">Free</option>
+          <option value="Unregistered">Unregistered</option>
+          <option value="Registered">Registered</option>
+        </select>
+      </td>
+      <td style="display: none">
+        <span>{{value.Mode}}</span>
+        <select style="display: none" name="Mode" class="certMode">
+          <option value="UnKnowType">UnKnowType</option>
+        </select>
+      </td>
+      <td>
+        <span>{{value.State}}</span>
+        <select style="display: none" data-bind="{{value.ParentCert}}" name="State" class="certState">
+          <option value="Normal">Normal</option>
+          <option value="Revoke">Revoke</option>
+        </select>
+      </td>
+      <td style="display: none">{{value.Issuer_id}}</td>
+      <td>{{value.IssueDate}}</td>
+      <td>
+        <span>{{value.ValidityBegin}}</span>
+        <input style="display: none" type="datetime-local" class="ValidityBegin" value="{{value.ValidityBegin_}}"/>
+      </td>
+      <td>
+        <span>{{value.ValidityEnd}}</span>
+        <input style="display: none" type="datetime-local" class="ValidityEnd" value="{{value.ValidityEnd_}}"/>
+      </td>
+      <td>{{value.IssueTimes}}</td>
+      <td>{{value.MaxIssueTimes}}</td>
+      <td style="display: none">{{value.ParentCert}}</td>
+      <td>
+        <!-- <input  type="button" value="修改"
+                style="height: 20px;line-height: 20px;padding: 0 5px" class="" onclick="updateCert(this)"> -->
 
-  </tr>
-  {{/each}}
-  <tr>
-</script>
+        <a href="javascript:;" class="my-link source updateCert" data-bind="{{value.SerialNumber}}" onclick="updateCert(this)">修改</a>
+        &nbsp;
+        <a href="javascript:;" class="my-link edit updateCert_cancel" style="display:none">取消</a>
+      </td>
+      <td>
+        <a href="javascript:;" data-bind="{{value.SerialNumber}}"  class="my-link"  data-userid="{{userid}}"
+                  onclick="showUpdateCertTimes(this)">选择用户</a>
+      </td>
+      <td>
+          <a href="javascript:;" class="my-link" onclick="showTerminal('{{value.SerialNumber}}')">查看</a>
+      </td>
+      <td><a class="my-link" href="#" onclick="">查看</a></td>
+
+    </tr>
+    {{/each}}
+    <tr>
+  </script>
     <!--获取用户证书模板结束-->
 
     <!--获取证书颁布设备-->
     <script id="termList" type="text/html">
-  {{each terminals as value i}}
-  <tr>
-    <!-- <td><input type="checkbox" name="done" data-sessionid=""></td> -->
-    <td>{{value.Type}}</td>
-    <td>{{value.CLI_ID}}</td>
-    <!--<td>{{value.randcode}}</td>-->
-    <td>{{value.HardwareProvider}}</td>
-    <td>{{value.HardwareSN}}</td>
-    <td>{{value.HardwareVersion}}</td>
-    <td>{{value.SoftwareProvider}}</td>
-    <td>{{value.SoftwareVersion}}</td>
-    <td>{{value.CPU}}</td>
-    <td>{{value.IMEI}}</td>
-    <td>{{value.MAC}}</td>
-    <td>{{value.OSID}}</td>
-    <td>{{value.OSType}}</td>
-    <td>{{value.OSVersion}}</td>
-    <td>{{value.ModuleNumber}}</td>
-    <td>{{value.SerialNumber}}</td>
-    <!--<td>{{value.sessionid}}</td>-->
-    <!--<td>{{value.clienthost}}</td>-->
-    <td>{{value.Desc}}</td>
-  </tr>
-  {{/each}}
-</script>
+    {{each terminals as value i}}
+    <tr>
+      <!-- <td><input type="checkbox" name="done" data-sessionid=""></td> -->
+      <td>{{value.Type}}</td>
+      <td>{{value.CLI_ID}}</td>
+      <!--<td>{{value.randcode}}</td>-->
+      <td>{{value.HardwareProvider}}</td>
+      <td>{{value.HardwareSN}}</td>
+      <td>{{value.HardwareVersion}}</td>
+      <td>{{value.SoftwareProvider}}</td>
+      <td>{{value.SoftwareVersion}}</td>
+      <td>{{value.CPU}}</td>
+      <td>{{value.IMEI}}</td>
+      <td>{{value.MAC}}</td>
+      <td>{{value.OSID}}</td>
+      <td>{{value.OSType}}</td>
+      <td>{{value.OSVersion}}</td>
+      <td>{{value.ModuleNumber}}</td>
+      <td>{{value.SerialNumber}}</td>
+      <!--<td>{{value.sessionid}}</td>-->
+      <!--<td>{{value.clienthost}}</td>-->
+      <td>{{value.Desc}}</td>
+    </tr>
+    {{/each}}
+  </script>
     <!--获取证书颁布设备结束-->
 
     <!--选择用户-->
     <script id="Select_usersList" type="text/html">
-  <div class="form-inline" style="text-align: center">
-    <div class="input">
-      <label class="mylabel">选择用户</label>
-      <div class="input-group">
-        <input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
-               class="h34 form-control" id="user_id" placeholder="请选择用户"/>
-        <div class="input-group-btn">
-          <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-right">
-    {{each users as value}}
-            <li data-bind="{{value.user_id}}"><a href="#">{{value.username}}</a></li>
-    {{/each}}
-          </ul>
+    <div class="form-inline" style="text-align: center">
+      <div class="input">
+        <label class="mylabel">选择用户</label>
+        <div class="input-group">
+          <input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
+                class="h34 form-control" id="user_id" placeholder="请选择用户"/>
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+      {{each users as value}}
+              <li data-bind="{{value.user_id}}"><a href="#">{{value.username}}</a></li>
+      {{/each}}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</script>
+  </script>
     <!--选择用户结束-->
 
 
-    <!--设备字段验证提示输入框-->
-    <div class="modal fade" id="ModuleFieldManage_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
-      <div class="modal-dialog modal-md" role="document">
-
-        <!--添加字段验证-->
-        <div class="modal-content addModuleField_content">
-          <div class="modal-header">
-            <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')"
-              aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title h4" style="text-align: center">添加验证型号</h4>
-          </div>
-          <div class="modal-body">
-
-            <label class="mylabel" style="text-align: center">型号备注</label>
-            <div class="form-group">
-              <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="备注"></textarea>
-            </div>
-
-            <label class="mylabel" style="text-align: center">验证类型</label>
-            <div class="selectFieldName" style="padding-left: 10px">
-
-            </div>
-
-            <!--<label class="mylabel" style="text-align: center">是否进行认证</label>-->
-            <!--<input type="radio" name="radio_verify" value="1" checked> 是-->
-            <!--<input type="radio" name="radio_verify" value="0"> 否-->
-            <br />
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" onclick="AddModuleField()">开启验证</button>
-          </div>
-        </div>
-        <!--添加字段验证-->
-
-        <!--显示字段验证-->
-        <div class="modal-content showModuleField_content" style="display: none">
-          <div class="modal-header">
-            <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')"
-              aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title h4" style="text-align: center">验证型号列表</h4>
-          </div>
-          <div class="modal-body">
-            <div class="tablebox_TerminalVerify_Field" style="width: 100%;overflow: auto">
-              <table class="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th>
-                      <!--<input type="checkbox" style="vertical-align: top" id="TerminalVerify_all_cb">-->
-                      #
-                    </th>
-                    <th>验证</th>
-                    <!--<th>验证</th>-->
-                  </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" onclick="closeModal('#ModuleFieldManage_Modal')">关闭</button>
-          </div>
-        </div>
-        <!--显示字段验证-->
-
-      </div>
-    </div>
-    <!--设备字段验证提示输入框-->
 
     <!-- 添加用户群组 -->
     <script id="in_usergrouplistTemp" type="text/html">
       {{each group_list as value i}}
           <tr>
-            <td >{{value.name}}</td>
-            <td  style="width:300px">
-                <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value.id}}')">用户管理</a>
-              </td>
+            <td>{{value.name}}</td>
+            <td>{{value.note}}</td>
+            <td>{{value.master_user}}</td>
+            <td  style="width:150px">
+                <a href="javascript:;" class=" my-link" style="color:#3071A9" onclick="showOtherUserGroupUserList('{{value.id}}')">用户管理</a>
+            </td>
+            <td  style="width:150px">
+                <a href="javascript:;" class=" my-link" style="color:#3071A9" onclick="exitGroup('{{value.id}}')">退出该群</a>
+            </td>
             <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">用户管理</a></td> -->
             <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="del_group('{{value}}')">删除</a></td> -->
           </tr>
@@ -1133,25 +1193,60 @@
     <script id="own_usergrouplistTemp" type="text/html">
       {{each group_list as value i}}
           <tr>
-            <td>{{value.name}}</td>
+            <td>
+              <span class="source">{{value.name}}</span>
+              <input type="text" class="edit form-control g_name" value="{{value.name}}"  style="display:none;">
+            </td>
+            <td>
+              <span class="source">{{value.note}}</span>
+              <input type="text" class="edit form-control g_note" value="{{value.note}}"  style="display:none;">
+            </td>
             <!-- |{{value.master_user_id}} -->
             <td style="width:100px">
-                <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value.id}}')">用户管理</a>
+                <a href="javascript:;" class="  my-link" style="color:#3071A9" onclick="showOwnerUserGroupUserList('{{value.id}}')">用户管理</a>
             </td>
             <td style="width:100px">
-                <a href="javascript:;" class=" btn-link btn-primary my-link" style="color:#3071A9" onclick="showUserGroupUserList('{{value.id}}')">修改组信息</a>
+                <a href="javascript:;" class="source my-link" style="color:#3071A9" onclick="ShowEdit(this)">修改组信息</a>
+                <a href="javascript:;" class="edit my-link" style="display:none;" onclick="updateGroupClick(this,'{{value.id}}')">确认</a>
+                &nbsp;
+                <a href="javascript:;" class="edit my-link" style="display:none;" onclick="HideEdit(this)">取消</a>
             </td>
             <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">用户管理</a></td> -->
-            <td style="width:100px"><a href="javascript:;" class="my-link btn-link btn-primary" onclick="del_group('{{value.id}}')">删除</a></td>
+            <td style="width:100px"><a href="javascript:;" class="my-link " onclick="del_group('{{value.id}}')">删除</a></td>
           </tr>
       {{/each}}
     </script>
     <!-- 添加用户群组 -->
 
+    <!-- 自己存在的群组中的成员 -->
+    <script id="OtherusermanageTemp" type="text/html">
+      {{each group_list as value i}}
+      <tr>
+        <td>{{value.username}}</td>
+        <td>{{value.rename?value.rename:value.username}}</td>
+        <td>{{value.email}}</td>
+      </tr>
+      {{/each}}
+    </script>
+    <!-- 自己存在的群组中的成员 -->
+
+    <!-- 自己创建的群组中的成员 -->
+    <script id="OwnerusermanageTemp" type="text/html">
+      {{each group_list as value i}}
+      <tr>
+        <td>{{value.username}}</td>
+        <td>{{value.rename?value.rename:value.username}}</td>
+        <td>{{value.email}}</td>
+        <td><a href="javascript:;" class="my-link" onclick="remove_group('{{value.username}}')">移出群组</a></td>
+      </tr>
+      {{/each}}
+    </script>
+    <!-- 自己创建的群组中的成员 -->
+
     <!--------------模板Script结束---------------------------------------------------------------->
 
 
-    <script src="/static/js/bootstrap.min.js"></script>
+    <!-- <script src="/static/js/combined.js"></script>  -->
     <script src="/static/js/template.js"></script>
     <script src="/static/js/usermanage.js"></script>
 </body>

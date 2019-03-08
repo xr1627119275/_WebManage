@@ -276,100 +276,100 @@
         <div>
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#BlackList" aria-controls="BlackList" role="tab"
+            <li role="presentation"  class="active"><a href="#WhiteList" aria-controls="WhiteList" role="tab" data-toggle="tab">白名单</a>
+            <li role="presentation"><a href="#BlackList" aria-controls="BlackList" role="tab"
                                                       data-toggle="tab">黑名单</a></li>
-            <li role="presentation"><a href="#WhiteList" aria-controls="WhiteList" role="tab" data-toggle="tab">白名单</a>
             </li>
           </ul>
 
           <!-- Tab panes -->
           <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="BlackList">
+              <div role="tabpanel" class="tab-pane active" id="WhiteList">
 
-              <div class="Blacktablebox"
-                   style="width: 100%;height: 100%;margin-top: 10px;overflow: auto;transition: all 0.5s ease 0s;">
+                  <div class="Whitetablebox"
+                       style="width: 100%;height: 100%;margin-top: 10px;overflow: auto;transition: all 0.5s ease 0s;">
+                    <table class="table table-striped table-bordered">
+                      <thead>
+                      <tr>
+                        <th>控制模式</th>
+                        <th>CMS序列号</th>                 <!--  id-->
+                        <th>Field_Type</th>           <!--   randcode-->
+                        <th>Field_Value</th>           <!--   randcode-->
+                        <th colspan="2">操作</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+    
+                      </tbody>
+                    </table>
+    
+                  </div>
+    
+                  <div class="white_pager" style="height: 60px;">
+    
+                    <ul class="pager" style="margin-bottom: 0">
+                      <li>
+                        <select name="currentCMSWhiteListPageSize" data-bind="showWhite_list" class="pageSelect input-sm">
+                          <option value="10">10条/页</option>
+                          <option value="20">20条/页</option>
+                          <option value="30">30条/页</option>
+                          <option value="40">40条/页</option>
+                          <option value="50">50条/页</option>
+                        </select>
+                      </li>
+                      <li><a href="javascript:;" onclick="getCMSWhite_list(0)">首页</a></li>
+                      <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSWhiteListPage,getCMSWhite_list)">上一页</a></li>
+                      <li><a href="javascript:;"
+                             onclick="bindPager_Next(currentCMSWhiteListPage,currentCMSWhiteListPage_total,getCMSWhite_list)">下一页</a></li>
+                      <li><a href="javascript:;" onclick="getCMSWhite_list(currentCMSWhiteListPage_total-1)">尾页</a></li>
+                    </ul>
+    
+                  </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="BlackList">
+                <div class="Blacktablebox"
+                    style="width: 100%;height: 100%;margin-top: 10px;overflow: auto;transition: all 0.5s ease 0s;">
 
-                <table class="table table-striped table-bordered">
-                  <thead>
-                  <tr>
-                    <th>控制模式</th>
-                    <th>CMS序列号</th>                 <!--  id-->
-                    <th>Field_Type</th>           <!--   randcode-->
-                    <th>Field_Value</th>           <!--   randcode-->
-                    <th colspan="2">操作</th>
-                  </tr>
-                  </thead>
-                  <tbody>
+                  <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                      <th>控制模式</th>
+                      <th>CMS序列号</th>                 <!--  id-->
+                      <th>Field_Type</th>           <!--   randcode-->
+                      <th>Field_Value</th>           <!--   randcode-->
+                      <th colspan="2">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                  </tbody>
-                </table>
+                    </tbody>
+                  </table>
+
+                </div>
+
+                <div class="black_pager" style="height: 60px;">
+
+                  <ul class="pager" style="margin-bottom: 0">
+                    <li>
+                      <select name="currentCMSBlackListPageSize" data-bind="showBlack_list" class="pageSelect input-sm">
+                        <option value="10">10条/页</option>
+                        <option value="20">20条/页</option>
+                        <option value="30">30条/页</option>
+                        <option value="40">40条/页</option>
+                        <option value="50">50条/页</option>
+                      </select>
+                    </li>
+                    <li><a href="javascript:;" onclick="getCMSBlack_list(0)">首页</a></li>
+                    <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSBlackListPage,getCMSBlack_list)">上一页</a></li>
+                    <li><a href="javascript:;"
+                          onclick="bindPager_Next(currentCMSBlackListPage,currentCMSBlackListPage_total,getCMSBlack_list)">下一页</a></li>
+                    <li><a href="javascript:;" onclick="getCMSBlack_list(currentCMSBlackListPage_total-1)">尾页</a></li>
+                  </ul>
+
+                </div>
 
               </div>
-
-              <div class="black_pager" style="height: 60px;">
-
-                <ul class="pager" style="margin-bottom: 0">
-                  <li>
-                    <select name="currentCMSBlackListPageSize" data-bind="showBlack_list" class="pageSelect input-sm">
-                      <option value="10">10条/页</option>
-                      <option value="20">20条/页</option>
-                      <option value="30">30条/页</option>
-                      <option value="40">40条/页</option>
-                      <option value="50">50条/页</option>
-                    </select>
-                  </li>
-                  <li><a href="javascript:;" onclick="getCMSBlack_list(0)">首页</a></li>
-                  <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSBlackListPage,getCMSBlack_list)">上一页</a></li>
-                  <li><a href="javascript:;"
-                         onclick="bindPager_Next(currentCMSBlackListPage,currentCMSBlackListPage_total,getCMSBlack_list)">下一页</a></li>
-                  <li><a href="javascript:;" onclick="getCMSBlack_list(currentCMSBlackListPage_total-1)">尾页</a></li>
-                </ul>
-
-              </div>
-
-            </div>
-            <div role="tabpanel" class="tab-pane" id="WhiteList">
-
-              <div class="Whitetablebox"
-                   style="width: 100%;height: 100%;margin-top: 10px;overflow: auto;transition: all 0.5s ease 0s;">
-                <table class="table table-striped table-bordered">
-                  <thead>
-                  <tr>
-                    <th>控制模式</th>
-                    <th>CMS序列号</th>                 <!--  id-->
-                    <th>Field_Type</th>           <!--   randcode-->
-                    <th>Field_Value</th>           <!--   randcode-->
-                    <th colspan="2">操作</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-
-                  </tbody>
-                </table>
-
-              </div>
-
-              <div class="white_pager" style="height: 60px;">
-
-                <ul class="pager" style="margin-bottom: 0">
-                  <li>
-                    <select name="currentCMSWhiteListPageSize" data-bind="showWhite_list" class="pageSelect input-sm">
-                      <option value="10">10条/页</option>
-                      <option value="20">20条/页</option>
-                      <option value="30">30条/页</option>
-                      <option value="40">40条/页</option>
-                      <option value="50">50条/页</option>
-                    </select>
-                  </li>
-                  <li><a href="javascript:;" onclick="getCMSWhite_list(0)">首页</a></li>
-                  <li><a href="javascript:;" onclick="bindPager_Previous(currentCMSWhiteListPage,getCMSWhite_list)">上一页</a></li>
-                  <li><a href="javascript:;"
-                         onclick="bindPager_Next(currentCMSWhiteListPage,currentCMSWhiteListPage_total,getCMSWhite_list)">下一页</a></li>
-                  <li><a href="javascript:;" onclick="getCMSWhite_list(currentCMSWhiteListPage_total-1)">尾页</a></li>
-                </ul>
-
-              </div>
-            </div>
+            
           </div>
 
         </div>
@@ -496,17 +496,17 @@
     </td>
     <td>
       <span class="source">{{value.field_value}}</span>
-      <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.field_value}}">
+      <input type="text" class="btn-sm edit" data-bind="{{value.field_value}}" style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.field_value}}">
     </td>
     <td>
-      <a href="javascript:;" c lass="source my-link btn-link btn-primary" onclick="ShowEdit(this)">编辑</a>
+      <a href="javascript:;" class="source my-link " onclick="ShowEdit(this)">编辑</a>
       <div class="edit" style="display: none">
-        <a href="javascript:;" class="my-link btn-link btn-primary" onclick="DoEdit(this,'{{value.id}}','BlackList')">确认</a> |
-        <a href="javascript:;" class="my-link btn-link btn-primary" onclick="HideEdit(this)">取消</a>
+        <a href="javascript:;" class="my-link " onclick="DoEdit(this,'{{value.id}}','BlackList')">确认</a> |
+        <a href="javascript:;" class="my-link " onclick="HideEdit(this)">取消</a>
       </div>
 
     </td>
-    <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="delB('{{value.id}}')">删除</a></td>
+    <td><a href="javascript:;" class="my-link " onclick="delB('{{value.id}}')">删除</a></td>
   </tr>
   {{/each}}
 </script>
@@ -525,17 +525,17 @@
     </td>
     <td>
       <span class="source">{{value.field_value}}</span>
-      <input type="text" class="btn-sm edit"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.field_value}}">
+      <input type="text" class="btn-sm edit"  data-bind="{{value.field_value}}"  style="margin: -8px 0;display: none;border: 1px solid #a9a9a9;" value="{{value.field_value}}">
     </td>
     <td>
-      <a href="javascript:;" class="source my-link btn-link btn-primary" onclick="ShowEdit(this)">编辑</a>
+      <a href="javascript:;" class="source my-link " onclick="ShowEdit(this)">编辑</a>
       <div class="edit" style="display: none">
-        <a href="javascript:;" class="my-link btn-link btn-primary" onclick="DoEdit(this,'{{value.id}}','WhiteList')">确认</a> |
-        <a href="javascript:;" class="my-link btn-link btn-primary" onclick="HideEdit(this)">取消</a>
+        <a href="javascript:;" class="my-link " onclick="DoEdit(this,'{{value.id}}','WhiteList')">确认</a> |
+        <a href="javascript:;" class="my-link " onclick="HideEdit(this)">取消</a>
       </div>
 
     </td>
-    <td><a href="javascript:;" class="btn-link btn-primary my-link" onclick="delW('{{value.id}}')">删除</a></td>
+    <td><a href="javascript:;" class=" my-link" onclick="delW('{{value.id}}')">删除</a></td>
   </tr>
   {{/each}}
 </script>

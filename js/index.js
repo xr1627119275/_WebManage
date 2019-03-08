@@ -244,30 +244,45 @@ function fun_get_register_list() {
   })
 }
 
-function update_ip() {
+// function update_ip() {
   
-  $(".iphost").each(function () {
-    let that;
-    that= this;
-    var ip = $(that).html();
-    if ((JSON.stringify(cacheIp).indexOf(ip)) != -1) {
-      for (let i = 0; i < cacheIp.length; i++) {
-        if (cacheIp[i].ip === ip) {
-          $(this).html(cacheIp[i].address);
-        }
-      }
-    } else {
-      IP2address(ip, function (json) {
-        let temp = {};
-        temp.ip = $(that).html();
-        $(that).html(json.data[0].location);
-        temp.address = json.data[0].location;
-        cacheIp.push(temp);
-      });
+//   $(".iphost").each(function () {
+//     let that;
+//     that= this;
+//     var ip = $(that).html();
+//     if ((JSON.stringify(cacheIp).indexOf(ip)) != -1) {
+//       for (let i = 0; i < cacheIp.length; i++) {
+//         if (cacheIp[i].ip === ip) {
+//           $(this).html(cacheIp[i].address);
+//         }
+//       }
+//     } else {
+//       IP2address(ip, function (json) {
+//         let temp = {};
+//         temp.ip = $(that).html();
+//         $(that).html(json.data[0].location);
+//         temp.address = json.data[0].location;
+//         cacheIp.push(temp);
+//       });
+//     }
+//   });
+// }
+
+function update_ip() {
+  var templist = [];
+  $(".iphost").each(function (i,el) {
+    templist.push($(this).attr("data-ip").replace(/\_/g,"."));
+
+    if(i==$(".iphost").length-1){
+      templist = templist.unique()
+      for(let i=0;i<templist.length;i++){
+        IP2address(templist[i], function (json) {
+          $("[data-ip="+templist[i].replace(/\./g,"_")+"]").html(json.data[0].location);
+        });
+      } 
     }
   });
 }
-
 
 //根据未授权列表数据 检索,去重
 function UnAuth_List_Search() {
@@ -437,7 +452,7 @@ function getAuthTerm_list(page,target) {
     page = 0
   }
   var sortlist = {};
-  $("#authorized .breadcrumb li:nth-child(n+2)").each(function () {
+  $("#authorized .breadcrumb li:nth-child(n+2)").each(function (i,el) {
     if ($(this).text().length > 0 && el!=$("#authorized .Receive")[0]) {
       sortlist[$(this).attr("data-info")] = $(this).text()
     }
@@ -483,7 +498,7 @@ function getOnlineTerm_list(page,target) {
       page = 0
     }
     var sortlist = {};
-    $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function () {
+    $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function (i,el) {
       if ($(this).text().length > 0 && el!=$("#onlineTerminal .Receive")[0]) {
         sortlist[$(this).attr("data-info")] = $(this).text()
       }
@@ -1029,6 +1044,11 @@ $(".label_input .dropdown-menu").on("click", 'li a', function () {
 
 //授权删除
 function auth_delete() {
+  var isdel = confirm("确认删除");
+    if(isdel===false){
+        return
+    }
+
   var templist = [];
   $("#unauthorized input[name=done]").each(function () {
     if ($(this).prop("checked")) {
@@ -1107,7 +1127,10 @@ function auth_show() {
 
   $("#unauthorized input[name=done]").each(function () {
     if ($(this).prop("checked")) {
-      templist.push($(this).attr("data-sessionid"))
+      templist.push({
+        "session_id":$(this).attr("data-sessionid"),
+        "auth_code":parseInt($(this).attr("data-code"))
+      })
     }
   });
   if (templist.length > 0) {
@@ -1501,6 +1524,10 @@ function showAddModuleField_modal() {
 
 //删除验证型号
 function RemoveModuleField() {
+  var isdel = confirm("确认删除");
+    if(isdel===false){
+        return
+    }
   var isCheck = false;
   $("input[name=cb_termlist]").each(function () {
     if ($(this).prop("checked")) {
@@ -1707,7 +1734,12 @@ function Module_fields_Name2Chinese(list) {
 }
 
 
-function DelTerm() {  
+function DelTerm() {
+  var isdel = confirm("确认取消授权");
+  if(isdel===false){
+      return
+  }
+
   var isCheck = false;
   var term_list = [];
   $("#authorized  input[name=done]").each(function () {

@@ -131,10 +131,18 @@ GET_GROUP_USER_LIST = "/api/v1/user/get_group_user_list/";//获取用户组
 UPDATE_GROUP_USER_LIST = "/api/v1/user/update_group_user_list/";//修改用户的所在组
 
 
+GET_GROUP_INVITE_INFO = "/api/v1/user/get_group_invite_info/";//获取邀请码用户组信息
+
+JOIN_GROUP_INVITE = "/api/v1/user/join_group_invite/";//邀请用户加入群组(仅群主), 返回邀请码
+
+JOIN_GROUP = "/api/v1/user/join_group/";//加入群组
+
+EXIT_GROUP = "/api/v1/user/exit_group/";//离开群组
 
 
 
 
+SET_USER_INFO = "/api/v1/user/set_user_info/";//修改用户信息
 
-
+API_UPDATE_PASSWORD = "/api/v1/api_update_password/"; //修改密码
 

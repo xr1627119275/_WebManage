@@ -353,7 +353,6 @@ function checkLength() {
   } else if (reg_username.val().length > 64) {
     reg_username.popover("show");
     $(reg_username.attr("data-bind")).html("用户名必须小于64位");
-
   } else {
     if (/[a-z]|[A-Z]/.test(reg_username.val())) {
       temp[0] = true;
