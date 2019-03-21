@@ -1,22 +1,22 @@
 currentCMSListPage_total = 0;//初始化授权设备总页数
 currentCMSListPage = 0; //初始化授权设备当前页数
-currentCMSListPageSize = 20; // 初始化授权设备每页获取数据
+currentCMSListPageSize = 1; // 初始化授权设备每页获取数据
 
-
+ 
 //初始化CMS设备页数数据
 currentCMSDevicePage_total = 0;
 currentCMSDevicePage = 0;
-currentCMSDevicePageSize = 20;
+currentCMSDevicePageSize = 1;
 
 //初始化黑名单页数数据
 currentCMSBlackListPage_total = 0;
 currentCMSBlackListPage = 0;
-currentCMSBlackListPageSize = 20;
+currentCMSBlackListPageSize = 1;
 
 //初始化白名单页数数据
 currentCMSWhiteListPage_total = 0;
 currentCMSWhiteListPage = 0;
-currentCMSWhiteListPageSize = 20;
+currentCMSWhiteListPageSize = 1;
 
 //默认添加黑名单
 currentAddBW = "WhiteList";
@@ -131,6 +131,14 @@ function showCmsList() {
       function (obj_json) {
         currentCMSListPage = obj_json.page;
         currentCMSListPage_total = obj_json.page_total;
+        $('.cmslistpage').paging({
+          nowPage: currentCMSListPage+1,
+          allPages: currentCMSListPage_total,
+          displayPage: 7,
+          callBack: function (now) {
+            getCMSTerm_list(now-1);
+          }
+        });
         $("#cmslist .cmslistContent .cmstablebox tbody").html(template("cmsListTemp", obj_json))
       }
   )
@@ -159,7 +167,14 @@ function RenderCmsDevice() {
 
         currentCMSDevicePage = obj_json.page;
         currentCMSDevicePage_total = obj_json.page_total;
-
+        $('.cmsDevicelistpage').paging({
+          nowPage: currentCMSDevicePage+1,
+          allPages: currentCMSDevicePage_total,
+          displayPage: 7,
+          callBack: function (now) {
+            getCMSPuDevice_list(now-1);
+          }
+        });
         $("#cmslist .CmsContent .cmsDevicetablebox tbody").html(template("cmsDeviceListTemp", obj_json))
       })
 }
@@ -297,7 +312,7 @@ function getCMSBlack_list(page) {
         currentCMSBlackListPage_total = obj_json.page_total;
 
         BW_fields_Name2Chinese(obj_json);
-        $("#black_white .BlackWhiteListContent .showBlackWhiteMsg .Blacktablebox tbody").html(template("BlackListTemp", obj_json))
+        $(".BlackWhiteListContent .showBlackWhiteMsg .Blacktablebox tbody").html(template("BlackListTemp", obj_json))
         RenderSelectField(function () {
           var target = $("#black_white .showBlackWhiteMsg .Blacktablebox .FieldSelectList");
           target.each(function () {
@@ -337,7 +352,7 @@ function getCMSWhite_list(page) {
         currentCMSWhiteListPage_total = obj_json.page_total;
 
         BW_fields_Name2Chinese(obj_json);
-        $("#black_white .BlackWhiteListContent .showBlackWhiteMsg .Whitetablebox tbody").html(template("BlackListTemp", obj_json))
+        $(".BlackWhiteListContent .showBlackWhiteMsg .Whitetablebox tbody").html(template("BlackListTemp", obj_json))
         $(".showBlackWhiteMsg .Blacktablebox,.showBlackWhiteMsg .Whitetablebox").height($(window).height() - $(".Whitetablebox").offset().top - 60);
         RenderSelectField(function () {
           var target = $("#black_white .showBlackWhiteMsg .Whitetablebox .FieldSelectList");
@@ -421,6 +436,14 @@ function showBlack_list(cms) {
       // currentCMSBlackListPageSize = obj_json.page_size;
       currentCMSBlackListPage_total = obj_json.page_total;
 
+      $('.Blacklistpage').paging({
+        nowPage: currentCMSBlackListPage+1,
+        allPages: currentCMSBlackListPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+          getCMSBlack_list(now-1);
+        }
+      });
       BW_fields_Name2Chinese(obj_json);
       $("#cmslist .BlackWhiteListContent .showBlackWhiteMsg .Blacktablebox tbody").html(template("BlackListTemp", obj_json))
 
@@ -484,6 +507,15 @@ function showWhite_list(cms) {
       currentCMSWhiteListPage = obj_json.page;
       // currentCMSBlackListPageSize = obj_json.page_size;
       currentCMSWhiteListPage_total = obj_json.page_total;
+
+      $('.Whitelistpage').paging({
+        nowPage: currentCMSWhiteListPage+1,
+        allPages: currentCMSWhiteListPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+          getCMSWhite_list(now-1);
+        }
+      });
 
       BW_fields_Name2Chinese(obj_json);
       $("#cmslist .BlackWhiteListContent .showBlackWhiteMsg .Whitetablebox tbody").html(template("WhiteListTemp", obj_json))
