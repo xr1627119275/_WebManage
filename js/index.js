@@ -555,7 +555,7 @@ function getAuthTerm_list(page, target) {
 
   if (search_val.length > 0) {
     if (!isNaN(search_input)) {
-      search_input = parseInt(search_input)
+      search_val = parseInt(search_val)
     }
     sortlist[$("#authorized .search .search-btn").attr("data-bind")] = search_val
   }
