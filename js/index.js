@@ -486,7 +486,7 @@ function getUnAuthTerm_list(page, target) {
 
   $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function (i, el) {
     if ($(this).text().length > 0 && el != $("#unauthorized .Receive")[0]) {
-      sortlist[$(this).attr("data-info")] = $(this).text()
+      sortlist[$(this).attr("data-info")] = $(this).attr("data-id")
     }
   });
 
@@ -535,7 +535,7 @@ function getAuthTerm_list(page, target) {
   var sortlist = {};
   $("#authorized .breadcrumb li:nth-child(n+2)").each(function (i, el) {
     if ($(this).text().length > 0 && el != $("#authorized .Receive")[0]) {
-      sortlist[$(this).attr("data-info")] = $(this).text()
+      sortlist[$(this).attr("data-info")] = $(this).attr("data-id")
     }
   });
 
@@ -595,7 +595,7 @@ function getOnlineTerm_list(page, target) {
     var sortlist = {};
     $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function (i, el) {
       if ($(this).text().length > 0 && el != $("#onlineTerminal .Receive")[0]) {
-        sortlist[$(this).attr("data-info")] = $(this).text()
+        sortlist[$(this).attr("data-info")] = $(this).attr("data-id")
       }
     });
 
