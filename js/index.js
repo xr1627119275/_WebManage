@@ -574,8 +574,8 @@ function getAuthTerm_list(page, target) {
   var search_val = $("#authorized .search input").val();
 
   if (search_val.length > 0) {
-    if (!isNaN(search_input)) {
-      search_input = parseInt(search_input)
+    if (!isNaN(search_val)) {
+      search_val = parseInt(search_val)
     }
     sortlist[$("#authorized .search .search-btn").attr("data-bind")] = search_val
   }
@@ -761,6 +761,16 @@ function btn_search(target) {
           currentAuthTermPage = obj_json.page;
           currentAuthTermPage_total = obj_json.page_total;
 
+          $('#paging.authpage').paging({
+            nowPage: currentAuthTermPage+1,
+            allPages: currentAuthTermPage_total,
+            displayPage: 7,
+            callBack: function (now) {
+                console.log(now-1);
+                getAuthTerm_list(now-1)
+            }
+          });
+
           var html = template('authorizedTemp', obj_json);
           $("#authorized .tablebox_authterm table tbody").html(html);
           Auth_List_Search();
@@ -909,7 +919,7 @@ function SetSortItem(content, target, func) {
       $(this).css("color", "red");
       $(content + " .breadcrumb li[data-bind=" + $(this).parent().parent().attr('data-bind') + "]").attr("data-id", $(this).attr("data-bind")).text($(this).text()).show()
     }
-    func()
+    func() 
   });
 
   if (!$(content + " .breadcrumb")[0].hasClick) {
@@ -949,7 +959,7 @@ function bindSortItem() {
   //     $("#unauthorized .breadcrumb li[data-bind=" + $(this).parent().parent().attr('data-bind') + "]").text($(this).text()).show()
   //   }
   //   updateUnauthorizedSort()
-  // });
+  // }); 
   // $("#unauthorized .hardwaresort").delegate("a", "click", function () {
   //   if ($(this).css("color") == "rgb(255, 0, 0)") {
   //     $(this).css("color", "#000");
@@ -1047,6 +1057,16 @@ function updateAuthorizedSort() {
     if (obj_json.code === 0) {
       currentAuthTermPage = obj_json.page;
       currentAuthTermPage_total = obj_json.page_total;
+
+      $('#paging.authpage').paging({
+        nowPage: currentAuthTermPage+1,
+        allPages: currentAuthTermPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+            console.log(now-1);
+            getAuthTerm_list(now-1)
+        }
+      });
 
       var html = template('authorizedTemp', obj_json);
       $("#authorized .tablebox_authterm table tbody").html(html);
