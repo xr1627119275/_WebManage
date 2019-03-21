@@ -178,14 +178,15 @@
     }
     /*在线设备分页部分*/
   </style>
-
+  <link href="/static/css/toastr.min.css" rel="stylesheet" />
 
   <!--[if lt IE 9]>
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
-  <script src="//cdn.jsdelivr.net/npm/bluebird@3.5.3/js/browser/bluebird.min.js"></script>
   <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/toastr.min.js"></script>
+
   <script src="/static/js/jquery.cookie.js"></script>
   <script src="/static/js/bprotocol.js"></script>
   <script src="/static/js/conf.js"></script>
@@ -271,6 +272,10 @@
 
     }
   </style> -->
+
+  <style>
+    
+  </style>
   <header>
     
   </header>
@@ -334,38 +339,49 @@
       <li class="active" data-bind="typesort" data-info="type" style="display: none"></li>
       <li class="active" data-bind="hardwaresort" data-info="hardwareprovider" style="display: none"></li>
       <li class="active" data-bind="softwaresort" data-info="softwareprovider" style="display: none"></li>
-      <li class="Receive fr" onclick="Receive(this)">收起筛选<span class="fa fa-angle-up pull-right"
+      <li class="Receive fr" onclick="Receive(this)"><span class='tip'>收起筛选</span><span class="fa fa-angle-up pull-right"
                                                                aria-hidden="true"></span></li>
     </ol>
 
-    <div class="tablebox" style="width: 100%;height: 100%;overflow: auto;transition: all 0.5s ease 0s;">
+    <div class="tablebox" style="width: 100%;height: 100%;transition: all 0.5s ease 0s;padding: 0 0 62x 0">
 
       <table class="table table-striped table-bordered">
         <thead>
-        <tr>
-          <th>#</th>
+        <tr >
+          <th><input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/></th> 
           <th>类型</th>               <!--    type-->
-          <th>ID</th>                 <!--  id-->
           <th>认证码</th>           <!--   randcode-->
+          <th>ID</th>                 <!--  id-->
           <th>状态</th>           <!--   randcode-->
           <th>注册时间</th>           <!--   randcode-->
           <th>描述</th>
-          <th>硬件供应商</th>              <!--     hardwareprovider-->
-          <th>硬件SN</th>               <!--    hardwaresn-->
-          <th>硬件版本</th>               <!--    hardwareversion-->
-          <th>软件供应商</th>              <!--     softwareprovider-->
-          <th>软件版本</th>               <!--    softwareversion-->
-          <th>CPU</th>                 <!--  cpu-->
-          <th>IMEI</th>               <!--    imei-->
-          <th>MAC</th>                <!--   mac-->
-          <th>系统ID</th>              <!--    osid-->
-          <th>系统类型</th>             <!--     ostype-->
-          <th>系统版本</th>         <!--     osversion-->
-          <th>验证型号</th>               <!--   modelnumber-->
-          <th>序列号</th>             <!--   serialnumber-->
-          <!--<th>SessionID</th>           sessionid-->
-          <th>用户认证标签</th>          <!-- userlabel-->
-          <th>客户端IP</th>          <!-- clienthost-->
+
+          <!-- <th class="unauth_section section1"></th>
+          <th class="unauth_section section1">硬件供应商</th>    
+          <th class="unauth_section section1">硬件SN</th>        
+          <th class="unauth_section section1">硬件版本</th>      
+          <th class="unauth_section section1">软件供应商</th>    
+          <th class="unauth_section section1">软件版本</th>      
+          <th class="unauth_section section1"></th>
+
+          <th class="unauth_section section2"></th>
+          <th class="unauth_section section2">CPU</th>              
+          <th class="unauth_section section2">IMEI</th>             
+          <th class="unauth_section section2">MAC</th>              
+          <th class="unauth_section section2">系统ID</th>           
+          <th class="unauth_section section2">系统类型</th>         
+          <th class="unauth_section section2">系统版本</th>         
+          <th class="unauth_section section2"></th>
+
+          <th class="unauth_section section3"></th>
+          <th class="unauth_section section3">验证型号</th>         
+          <th class="unauth_section section3">序列号</th>           
+          <th class="unauth_section section3">用户认证标签</th>     
+          <th class="unauth_section section3 ">客户端IP</th>        
+          <th class="unauth_section section3 ">客户端地址</th>      
+          <th class="unauth_section section3"></th> -->
+          <th>详情</th>
+          <th colspan="3">管理</th>
         </tr>
         </thead>
         <tbody>
@@ -402,7 +418,7 @@
       <div class="account" style="display: none">
 
         <div class="fl">
-          <input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/><span>全选/全不选</span>&nbsp;&nbsp;
+          <!-- <input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/><span>全选/全不选</span>&nbsp;&nbsp; -->
           <span class="checkNum" style="visibility: hidden">已选</span>
 
         </div>
@@ -448,8 +464,8 @@
                 <div class="cert_input">
                   <label class="mylabel"><span>&nbsp;&nbsp;</span>证书ID</label>
                   <div class="input-group">
-                    <input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
-                           class="h34 form-control w320" id="cert_id" placeholder="请输入证书编号"/>
+                    <input type="text" disabled onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
+                           class="h34 form-control w320" id="cert_id" placeholder="请选择证书"/>
                     <div class="input-group-btn">
                       <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
                               aria-haspopup="true" aria-expanded="false">
@@ -468,8 +484,8 @@
                 <div class="label_input" style="margin-top: 10px">
                   <label class="mylabel">认证标签</label>
                   <div class="input-group">
-                    <input type="text" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
-                           class="w320 h34 form-control" id="label_id" placeholder="请输入认证标签"/>
+                    <input type="text" disabled onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
+                           class="w320 h34 form-control" id="label_id" placeholder="请选择认证标签"/>
                     <div class="input-group-btn">
                       <button type="button" style="margin-left: -5px" class="btn btn-default dropdown-toggle h34"
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -494,7 +510,7 @@
   <!--未授权页面结束-->
 
   <!--授权页面-->
-  <section class="content" id="authorized" style="display: none">
+  <section class="content" id="authorized" style="display: none;">
     <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">已授权设备</div>
 
     <div class="search">
@@ -553,41 +569,43 @@
       <li class="active" data-bind="typesort" data-info="type" style="display: none"></li>
       <li class="active" data-bind="labelsort" data-info="userlabel" style="display: none"></li>
       <li class="active" data-bind="hardwaresort" data-info="hardwareprovider" style="display: none"></li>
-      <li class="Receive fr" onclick="Receive(this)">收起筛选<span class="fa fa-angle-up pull-right"
+      <li class="Receive fr" onclick="Receive(this)"><span class='tip'>收起筛选</span><span class="fa fa-angle-up pull-right"
                                                                aria-hidden="true"></span></li>
     </ol>
 
-    <div class="tablebox_authterm" style="float:left;width: 100%;overflow: auto;transition: all 0.5s ease 0s;">
-      <table class="table table-striped table-bordered">
+    <div class="tablebox_authterm" style="width:100%;height:100%;float:left;transition: all 0.5s ease 0s;;padding: 0 0 62x 0">
+      <table class="table table-striped table-bordered" style="padding-bottom:62px">
         <thead>
-        <tr>
+        <tr> 
             <th>
               <!-- <input type="checkbox" name='all_auth_ck'> -->
-              #
+              <input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/>
             </th>
             <!--<th>#</th>-->
           <th>类型</th>               <!--    type-->
-          <th>ID</th><!--  id-->
           <th>认证码</th>           <!--   randcode-->
-          <th>描述</th>                 <!--  desc-->
-          <th>验证型号</th>               <!--   modelnumber-->
-          <th>序列号</th>             <!--   serialnumber-->
-          <th>硬件供应商</th>              <!--     hardwareprovider-->
-          <th>硬件SN</th>               <!--    hardwaresn-->
-          <th>硬件版本</th>               <!--    hardwareversion-->
-          <th>软件供应商</th>              <!--     softwareprovider-->
-          <th>软件版本</th>               <!--    softwareversion-->
-          <th>用户标签</th>               <!--UserLabel-->
-          <th>CPU</th>                 <!--  cpu-->
-          <th>IMEI</th>               <!--    imei-->
-          <th>MAC</th>                <!--   mac-->
-          <th>系统ID</th>              <!--    osid-->
-          <th>系统类型</th>             <!--     ostype-->
-          <th>系统版本</th>         <!--     osversion-->
+          <th>ID</th><!--  id-->
+          <th>授权状态</th>
+          <th>在线状态</th>
+          <th>认证标签</th>                 <!--  desc-->
+          <th>终端备注</th>
+           <!-- <th>序列号</th>              serialnumber-->
+          <!-- <th class="auth_section section1">验证型号            </th>       
+          <th class="auth_section section1">用户标签            </th>       
+          <th class="auth_section section1">硬件供应商            </th>     
+          <th class="auth_section section1">硬件SN            </th>         
+          <th class="auth_section section1">硬件版本            </th>       
+          <th class="auth_section section1">软件供应商            </th>     
+          <th class="auth_section section1">软件版本            </th>       
 
-          <!--<th>SessionID</th>          &lt;!&ndash; sessionid&ndash;&gt;-->
-          <!--<th>用户认证标签</th>        &lt;!&ndash; userlabel&ndash;&gt;-->
-          <!--<th>客户端IP</th>         &lt;!&ndash; clienthost&ndash;&gt;-->
+          <th class="auth_section section2">CPU            </th>            
+          <th class="auth_section section2">IMEI            </th>           
+          <th class="auth_section section2">MAC            </th>            
+          <th class="auth_section section2">系统ID            </th>         
+          <th class="auth_section section2">系统类型            </th>       
+          <th class="auth_section section2">系统版本            </th>        -->
+          <th>详情</th>
+          <th colspan="3">管理</th>
         </tr>
         </thead>
         <tbody>
@@ -624,14 +642,16 @@
     <div class="account" style="display: none">
 
         <div class="fl">
-          <input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/><span>全选/全不选</span>&nbsp;&nbsp;
+          <!-- <span>全选/全不选</span>&nbsp;&nbsp; -->
           <span class="checkNum" style="visibility: hidden">已选</span>
 
         </div>
         <div class="fr">
           <!-- <a class="authorize" onclick="auth_delete()" href="javascript:;"
              style="float: left;background-color:#b75050;margin-right: 10px">删除</a>-->
-          <a class="authorize" onclick="DelTerm()" href="javascript:;" style="float: left">取消授权</a> 
+          <!-- <a class="authorize" onclick="showTermRemark()" href="javascript:;" style="float: left;margin-right: 10px">添加备注</a> -->
+          <a class="authorize" onclick="ResumeAuthTerm()" href="javascript:;" style="float: left;margin-right: 10px">恢复授权</a>
+          <a class="authorize" onclick="StopAuthTerm()" href="javascript:;" style="float: left">停用授权</a>
         </div>
 
       </div>
@@ -702,14 +722,14 @@
         <li class="active" data-bind="typesort" data-info="type" style="display: none"></li>
         <li class="active" data-bind="labelsort" data-info="userlabel" style="display: none"></li>
         <li class="active" data-bind="hardwaresort" data-info="hardwareprovider" style="display: none"></li>
-        <li class="Receive fr" onclick="Receive(this)">收起筛选<span class="fa fa-angle-up pull-right"
+        <li class="Receive fr" onclick="Receive(this)"><span class='tip'>收起筛选</span><span class="fa fa-angle-up pull-right"
                                                                  aria-hidden="true"></span></li>
       </ol>
       <!--<div class="head clearfix" style="padding-right: 20px">-->
 
       <!---->
       <!--</div>-->
-      <div class="tablebox_online" style="width: 100%;overflow: auto;transition: all 0.5s ease 0s;">
+      <div class="tablebox_online" style="width: 100%;transition: all 0.5s ease 0s;">
         <!--<button type="button" class="btn"-->
         <!--style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="">发送命令-->
         <!--</button>-->
@@ -717,29 +737,33 @@
         <table class="table table-striped table-bordered">
           <thead>
           <tr>
-            <th>#</th>
+            <th>
+                <input type="checkbox" name="allcheck" class="allcheck"/>
+            </th>
             <th>类型</th>               <!--    type-->
-            <th>ID</th><!--  id-->
             <th>认证码</th>           <!--   randcode-->
-            <th>描述</th>                 <!--  desc-->
-            <th>验证型号</th>               <!--   modelnumber-->
-            <th>序列号</th>             <!--   serialnumber-->
-            <th>硬件供应商</th>              <!--     hardwareprovider-->
-            <th>硬件SN</th>               <!--    hardwaresn-->
-            <th>硬件版本</th>               <!--    hardwareversion-->
-            <th>软件供应商</th>              <!--     softwareprovider-->
-            <th>软件版本</th>               <!--    softwareversion-->
-            <th>用户标签</th>               <!--UserLabel-->
-            <th>CPU</th>                 <!--  cpu-->
-            <th>IMEI</th>               <!--    imei-->
-            <th>MAC</th>                <!--   mac-->
-            <th>系统ID</th>              <!--    osid-->
-            <th>系统类型</th>             <!--     ostype-->
-            <th>系统版本</th>         <!--     osversion-->
+            <th>ID</th><!--  id-->
+            <th>终端备注</th>                 <!--  desc-->
+            <th>认证标签</th>       
+            <!--  <th>序列号</th>              serialnumber-->
 
-            <!--<th>SessionID</th>          &lt;!&ndash; sessionid&ndash;&gt;-->
-            <!--<th>用户认证标签</th>        &lt;!&ndash; userlabel&ndash;&gt;-->
-            <!--<th>客户端IP</th>         &lt;!&ndash; clienthost&ndash;&gt;-->
+            <!-- <th class="online_section section1">验证型号   </th>         
+            <th class="online_section section1">用户标签   </th>         
+            <th class="online_section section1">硬件供应商 </th>       
+            <th class="online_section section1">硬件SN      </th>           
+            <th class="online_section section1">硬件版本                   </th>         
+            <th class="online_section section1">软件供应商                   </th>       
+            <th class="online_section section1">软件版本                   </th>         
+
+            <th class="online_section section2">CPU                   </th>              
+            <th class="online_section section2">IMEI                   </th>             
+            <th class="online_section section2">MAC                   </th>              
+            <th class="online_section section2">系统ID                   </th>           
+            <th class="online_section section2">系统类型                   </th>         
+            <th class="online_section section2">系统版本                   </th>          -->
+         
+            <th>详情</th>
+            <th>管理</th>
           </tr>
           </thead>
           <tbody>
@@ -779,7 +803,7 @@
         <div class="account" style="display: none">
 
           <div class="fl">
-            <input type="checkbox" name="allcheck" class="allcheck"/><span>全选/全不选</span>&nbsp;&nbsp;
+            <!-- <span>全选/全不选</span>&nbsp;&nbsp; -->
             <span class="checkNum" style="visibility: hidden">已选</span>
           </div>
           <!--<textarea type="text" class="ta_msg form-control"-->
@@ -846,6 +870,8 @@
   <!--在线设备页面结束-->
 
 
+
+
   <!--设备型号认证页面-->
   <section class="content" id="TerminalVerify" style="display: none;width: 100%">
     <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">设备验证型号</div>
@@ -863,7 +889,7 @@
           </th>-->
           <th>验证型号名称</th>
           <th>验证列表</th>
-          <!--<th>验证</th>-->
+          <th>操作</th>
         </tr>
         </thead>
         <tbody>
@@ -878,11 +904,13 @@
 </section>
 
 
+
+
 <!--发送命令给在线设备-->
 <div class="terminal" style="display: none">
   <div class="terminal_content " >
     <div class="hd ">
-      <div class="fr" onclick="closeTerminal()"><span style="line-height: 28px" class="fa fa-remove"></span></div>
+      <div class="fr" onclick="closeTerminal()"><span style="cursor: auto;line-height: 28px" class="fa fa-remove"></span></div>
     </div>
     <p class="" unselectable="on" style="text-align:center;height: 40px;line-height: 40px;font-size: 20px;color: #ffffff;background-color:#000;">Welcome to Terminal</p>
     <div class="body " style="overflow-y: auto">
@@ -891,6 +919,37 @@
   </div>
 </div>
 <!--发送命令给在线设备-->
+
+
+<!--备注修改-->
+<div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="closeModal('#UserLabelManage_modal')" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title h4" id="" style="text-align: center">添加授权标签</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="mylabel">用户授权标签名称</label>
+                        <input class="form-control" id="input_label_name" placeholder="请填写描述信息"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="mylabel">用户授权标签描述信息</label>
+                        <textarea class="form-control" id="textarea_label_note" rows="3" placeholder="请填写描述信息"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="addUserLabel()">添加</button>
+                </div>
+            </div>
+    </div>
+</div>
+<!--备注修改-->
+            
 
 
 <!--设备字段验证提示输入框-->
@@ -907,9 +966,9 @@
       </div>
       <div class="modal-body">
 
-        <label class="mylabel beizhu" style="text-align: center">型号备注</label>
+        <label class="mylabel beizhu" style="text-align: center">型号名称</label>
         <div class="form-group beizhu">
-          <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="备注"></textarea>
+          <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="型号名称"></textarea>
         </div>
 
         <label class="mylabel" style="text-align: center">验证类型</label>
@@ -924,10 +983,41 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" onclick="AddModuleField()">开启验证</button>
+        <button type="button" class="btn btn-success" onclick="AddModuleField()">开启验证</button>
       </div>
     </div>
     <!--添加字段验证-->
+
+    <!--添加字段验证2-->
+    <div class="modal-content addField_content">
+      <div class="modal-header">
+        <button type="button" class="close" onclick="Back('#ModuleFieldManage_Modal .modal-content','.showModuleField_content')" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title h4" style="text-align: center">添加验证型号</h4>
+      </div>
+      <div class="modal-body">
+
+        <label class="mylabel beizhu" style="text-align: center">型号名称</label>
+        <div class="form-group beizhu">
+          <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="型号名称"></textarea>
+        </div>
+
+        <label class="mylabel" style="text-align: center">验证类型</label>
+        <div class="selectFieldName" style="padding-left: 10px">
+
+        </div>
+
+        <!--<label class="mylabel" style="text-align: center">是否进行认证</label>-->
+        <!--<input type="radio" name="radio_verify" value="1" checked> 是-->
+        <!--<input type="radio" name="radio_verify" value="0"> 否-->
+        <br/>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="AddModuleField()">开启验证</button>
+      </div>
+    </div>
+    <!--添加字段验证2-->
 
     <!--显示字段验证-->
     <div class="modal-content showModuleField_content" style="display: none">
@@ -937,7 +1027,7 @@
         <h4 class="modal-title h4" style="text-align: center">验证型号列表</h4>
       </div>
       <div class="modal-body">
-        <button type="button" id="" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 20px"
+        <button type="button" id="" class="btn btn-danger" style="margin-bottom: 20px"
                 onclick="RemoveModuleField()"> 删除验证项
         </button>
         <button type="button" id="addVerify" class="btn"
@@ -948,10 +1038,9 @@
             <thead>
             <tr>
               <th>
-                <!--<input type="checkbox" style="vertical-align: top" id="TerminalVerify_all_cb">-->
-                #
+                <input type="checkbox" id="TerminalVerify_all_cb">
               </th>
-              <th>验证</th>
+              <th>验证项</th>
               <!--<th>验证</th>-->
             </tr>
             </thead>
@@ -974,32 +1063,61 @@
 
 <!--未授权模板文件-->
 <script id="unauthorizedTemp" type="text/html">
+   
   {{each registers as value i}}
-  <tr>
-    <td><input type="checkbox" name="done" data-code="{{value.authcode}}" data-sessionid="{{value.sessionid}}"></td>
-    <td>{{value.type}}</td>
-    <td>{{value.id}}</td>
-    <td>{{value.authcode}}</td>
-    <td>{{value.online?"在线":"离线"}}</td>
-    <td>{{value.reg_datetime}}</td>
-    <td>{{value.desc}}</td>
-    <td>{{value.hardwareprovider}}</td>
-    <td>{{value.hardwaresn}}</td>
-    <td>{{value.hardwareversion}}</td>
-    <td>{{value.softwareprovider}}</td>
-    <td>{{value.softwareversion}}</td>
-    <td>{{value.cpu}}</td>
-    <td>{{value.imei}}</td>
-    <td>{{value.mac}}</td>
-    <td>{{value.osid}}</td>
-    <td>{{value.ostype}}</td>
-    <td>{{value.osversion}}</td>
-    <td>{{value.modelnumber}}</td>
-    <td>{{value.serialnumber}}</td>
-    <!-- <td>{{value.sessionid}}</td> --> 
-    <td>{{value.userlabel}}</td>
-    <td class="iphost" data-ip="{{value.clienthost.replace(/\./g,'_')}}">{{value.clienthost}}</td>
-  </tr>
+    
+    <tr style="position:relative">
+        <td><input type="checkbox" name="done" data-type="{{value.type}}" data-code="{{value.authcode}}" data-sessionid="{{value.sessionid}}"></td>
+        <td>{{value.type}}</td>
+        <td>{{value.authcode}}</td>
+        <td>{{value.id}}</td>
+        <td>{{value.online?"在线":"离线"}}</td>
+        <td>{{value.reg_datetime}}</td>
+        <td>{{value.desc}}</td>
+
+        <td class="more" style="width:100px;position:relative">
+          <button class="btn"  onclick="ShowOnlineTermAllMsg('{{value.serialnumber}}',this)">查看
+          </button>
+          <div class="msg_body" style="
+                  position:absolute;
+                  display:none;
+                  /* width:400px; */
+                  height:400px;
+                  overflow:auto;
+                  right:50%;
+                  /* background-color: red; */
+                  z-index:9999;
+                  /* bottom:0; */
+                ">
+                  <ul class="list-group" style="margin-bottom:0;text-align:left">
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件供应商</span>{{value.hardwareprovider}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件SN</span>{{value.hardwaresn}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件版本</span>{{value.hardwareversion}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">软件供应商</span>{{value.softwareprovider}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">软件版本</span>{{value.softwareversion}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">CPU</span>{{value.cpu}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">IMEI</span>{{value.imei}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">MAC</span>{{value.mac}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统ID</span>{{value.osid}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统类型</span>{{value.ostype}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{value.osversion}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">验证型号</span>{{value.modelnumber}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{value.serialnumber}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">用户认证标签</span>{{value.userlabel}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">客户端IP</span>{{value.clienthost}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">客户端地址</span><span class="iphost" data-ip="{{value.clienthost.replace(/\./g,'_')}}">{{value.clienthost}}</span></li>
+                  </ul>
+              </div>
+        </td>
+
+        <td style="width:100px">
+            <button class="btn" onclick="auth_show('{{value.sessionid}}','{{value.authcode}}','{{value.type}}')" href="javascript:;">授权</a>
+        </td>
+        <td style="width:100px">
+            <button class="btn btn-danger" onclick="auth_delete('{{value.sessionid}}')" href="javascript:;">删除</a>
+        </td>
+      </tr>
+    
   {{/each}}
 </script>
 <!--未授权模板结束-->
@@ -1007,30 +1125,68 @@
 <!--授权设备模板文件-->
 <script id="authorizedTemp" type="text/html">
   {{each terminal_list as value i}}
-  <tr>
-    <td><input type="checkbox" name="done"  data-bind="{{value.SerialNumber}}"></td>
-    <td>{{value.Type}}</td>
-    <td>{{value.CLI_ID}}</td>
-    <td>{{value.AuthCode}}</td>
-    <td>{{value.Desc}}</td>
-    <td>{{value.ModuleNumber}}</td>
-    <td>{{value.SerialNumber}}</td>
-    <td>{{value.HardwareProvider}}</td>
-    <td>{{value.HardwareSN}}</td>
-    <td>{{value.HardwareVersion}}</td>
-    <td>{{value.SoftwareProvider}}</td>
-    <td>{{value.SoftwareVersion}}</td>
-    <td>{{value.UserLabel}}</td>
-    <td>{{value.CPU}}</td>
-    <td>{{value.IMEI}}</td>
-    <td>{{value.MAC}}</td>
-    <td>{{value.OSID}}</td>
-    <td>{{value.OSType}}</td>
-    <td>{{value.OSVersion}}</td>
-    <!--<td>{{value.sessionid}}</td>-->
-    <!--<td>{{value.userlabel}}</td>-->
-    <!--<td class="iphost">{{value.clienthost}}</td>-->
-  </tr>
+  <tr class="{{value.auth_status==1?'warning':''}}">
+      <td><input type="checkbox" name="done"  data-bind="{{value.SerialNumber}}"></td>
+      <td>{{value.Type}}</td>
+      <td>{{value.AuthCode}}</td>
+      <td>{{value.CLI_ID}}</td>
+      <td>{{value.auth_status==0?'启用':value.auth_status==1?'暂停':'取消'}}</td>
+      <td>{{value.online?"在线":"离线"}}</td>
+      <td>{{value.UserLabelName}}</td>
+      <td>
+        <span class="source">{{value.remark}}</span>
+        <div class="edit" style="display:none">
+            <input type="text" class="form-control remark" data-bind="{{value.remark}}" value="{{value.remark}}">
+        </div>
+      </td>
+      <td class="more" style="position:relative;width:100px"  data-bind="">
+          <button class="btn" onclick="ShowOnlineTermAllMsg('{{value.SerialNumber}}',this)">查看
+          </button>
+          <div class="msg_body" style="
+                  position:absolute;
+                  display:none;
+                  /* width:400px; */
+                  height:400px;
+                  overflow:auto;
+                  right:50%;
+                  /* background-color: red; */
+                  z-index:9999;
+                  /* bottom:0; */
+                ">
+                  <ul class="list-group" style="margin-bottom:0;text-align:left">
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{value.SerialNumber}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">验证型号</span>{{value.ModuleNumber}}</li>
+                    <!-- <li class="list-group-item"><span style="display:inline-block;width:100px">用户标签</span>{{value.UserLabelName}}</li> -->
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">描述</span>{{value.Desc}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">硬件供应商</span>{{value.HardwareProvider}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">硬件SN</span>{{value.HardwareSN}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">硬件版本</span>{{value.HardwareVersion}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">软件供应商</span>{{value.SoftwareProvider}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">软件版本</span>{{value.SoftwareVersion}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">CPU</span>{{value.CPU}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">IMEI</span>{{value.IMEI}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">MAC</span>{{value.MAC}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">系统ID</span>{{value.OSID}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">系统类型</span>{{value.OSType}}</li>
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{value.OSVersion}}</li>
+
+                  </ul>
+              </div>
+        </td>
+        <td  style="width:100px">
+          <button href="javascrip:;" class="btn source" onclick='showTermRemark(this)'>修改备注</a>
+          <button class="btn btn-success edit" style="margin-right:10px;display:none" onclick="updateTermRemark(this,'{{value.SerialNumber}}')" href="javascript:;">确认</a>
+          <button class="btn btn-danger edit" style="display:none" onclick="CancelTermRemark(this)" href="javascript:;">取消</a>
+        </td>
+        <td  style="width:100px">
+            {{if value.auth_status!='1'}}
+              <button class="btn btn-danger" onclick="StopAuthTerm('{{value.SerialNumber}}')" href="javascript:;">停用</a>
+            {{/if}}
+            {{if value.auth_status=='1'}}
+              <button class="btn btn-success" onclick="ResumeAuthTerm('{{value.SerialNumber}}')" href="javascript:;">启用</a>
+            {{/if}}
+        </td>
+    </tr>
   {{/each}}
 </script>
 <!--授权设备模板结束-->
@@ -1039,29 +1195,59 @@
 <script id="onlineTermsTemp" type="text/html">
   {{each terminal_list as value i}}
   <tr>
-    <td><input type="checkbox" name="done" data-bind="{{value.SerialNumber}}"></td>
-    <td>{{value.Type}}</td>
-    <td>{{value.CLI_ID}}</td>
-    <td>{{value.AuthCode}}</td>
-    <td>{{value.Desc}}</td>
-    <td>{{value.ModuleNumber}}</td>
-    <td>{{value.SerialNumber}}</td>
-    <td>{{value.HardwareProvider}}</td>
-    <td>{{value.HardwareSN}}</td>
-    <td>{{value.HardwareVersion}}</td>
-    <td>{{value.SoftwareProvider}}</td>
-    <td>{{value.SoftwareVersion}}</td>
-    <td>{{value.UserLabel}}</td>
-    <td>{{value.CPU}}</td>
-    <td>{{value.IMEI}}</td>
-    <td>{{value.MAC}}</td>
-    <td>{{value.OSID}}</td>
-    <td>{{value.OSType}}</td>
-    <td>{{value.OSVersion}}</td>
-    <!--<td>{{value.sessionid}}</td>-->
-    <!--<td>{{value.userlabel}}</td>-->
-    <!--<td class="iphost">{{value.clienthost}}</td>-->
-  </tr>
+      <td><input type="checkbox" name="done" data-bind="{{value.SerialNumber}}"></td>
+      <td>{{value.Type}}</td>
+      <td>{{value.AuthCode}}</td>
+      <td>{{value.CLI_ID}}</td>
+      <td>
+          <span class="source">{{value.remark}}</span>
+          <div class="edit" style="display:none">
+              <input type="text" class="form-control remark" data-bind="{{value.remark}}" value="{{value.remark}}">
+              <a class="my-link" onclick="updateTermRemark(this,'{{value.SerialNumber}}')" href="javascript:;">确认</a>
+              <a class="my-link" onclick="CancelTermRemark(this)" href="javascript:;">取消</a>
+          </div>
+      </td>
+      <td>{{value.UserLabelName}}</td>
+      <!-- <td>{{value.SerialNumber}}</td> -->
+      <td class="more" style="width:100px;position:relative">
+          <button class="btn"  onclick="ShowOnlineTermAllMsg('{{value.SerialNumber}}',this)">查看
+          </button>
+          <div class="msg_body" style="
+                  position:absolute;
+                  display:none;
+                  /* width:400px; */
+                  height:400px;
+                  overflow:auto;
+                  right:50%;
+                  /* background-color: red; */
+                  z-index:9999;
+                  /* bottom:0; */
+                ">
+                  <ul class="list-group" style="margin-bottom:0;text-align:left">
+                    <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{value.SerialNumber}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">验证型号</span>{{value.ModuleNumber}}</li>
+                      <!-- <li class="list-group-item"><span style="display:inline-block;width:100px">用户标签</span>{{value.UserLabel}}</li> -->
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">描述</span>{{value.Desc}}</li>
+
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件供应商</span>{{value.HardwareProvider}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件SN</span>{{value.HardwareSN}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件版本</span>{{value.HardwareVersion}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">软件供应商</span>{{value.SoftwareProvider}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">软件版本</span>{{value.SoftwareVersion}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">CPU</span>{{value.CPU}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">IMEI</span>{{value.IMEI}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">MAC</span>{{value.MAC}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统ID</span>{{value.OSID}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统类型</span>{{value.OSType}}</li>
+                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{value.OSVersion}}</li>
+
+                  </ul>
+              </div>
+        </td>
+        <td  style="width:100px">
+          <button class="btn" onclick="exec_show('{{value.SerialNumber}}')" href="javascript:;">发送信息</a>
+        </td> 
+    </tr>
   {{/each}}
 </script>
 <!--在线设备模板结束-->
@@ -1090,9 +1276,9 @@
   <tr>
     <td>{{value}}</td>
     <td>
-      <button class="btn-link" data-bind="{{value}" onclick="showListModuleField_modal('{{value}}')">管理</button>
+     <button href="javascript:;" class="btn" data-bind="{{value}" onclick="showListModuleField_modal('{{value}}')">查看</button>
     </td>
-    <!--<td>{{value.Verify?"是":"否"}}</td>-->
+    <td><button href="javascript:;" class="btn btn-danger" data-bind="{{value}" onclick="DelListModuleFields('{{value}}')">删除</button></td>
   </tr>
   {{/each}}
 </script>
@@ -1102,7 +1288,7 @@
 <script id="TerminalVerify_FieldTemp" type="text/html">
   {{each module_fields as value i}}
   <tr>
-    <td><input type="radio" name="cb_termlist" data-bind="{{module}}"></td>
+    <td><input type="checkbox" name="cb_termlist" data-bind="{{module}}"></td>
     <td class="field" data-bind="{{value.split('|')[0]}}">{{value.split("|")[1]}}</td>
   </tr>
   {{/each}}

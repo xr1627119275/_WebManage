@@ -30,6 +30,9 @@ table{border-collapse: collapse;border-spacing: 0;}
     width: 992px;
     margin: 0 auto;
 }
+button{
+    outline: none!important;
+}
 .hidden{ overflow:hidden; }
 /*table中数据一行显示*/
 th,td {
@@ -62,6 +65,10 @@ th{
 }
 .w320{
     width: 320px!important;
+}
+
+mr20{
+    margin-right: 20px!important;
 }
 /*html { overflow-x: hidden; overflow-y: auto; }*/
 
@@ -127,7 +134,8 @@ section.content {
 
 .main-content>header{
     position: fixed;
-    width: 100%;
+    z-index: 20;
+    width: 120%;
     height: 60px;
     background: #1a2226;
 }
@@ -143,7 +151,7 @@ section.content {
 .main-content>header>ul>li>a{
     display: block;
     height: 60px;
-    padding: 10px 25px 10px 15px;
+    padding: 10px 20px 10px 15px;
     font-size: 16px;
     line-height: 40px;
     font-weight: 700;
@@ -161,12 +169,12 @@ li.user:hover .a_list{
     display: none;
     padding: 5px 0;
     position: absolute;
-    right: 0;
+    left: 0;
     border:1px solid #cccccc;
     border-radius: 3px;
     top: 56px;
     background-color: #fff;
-    width: 100%;
+    width: 100px;
 
 }
 .a_list li{
@@ -187,6 +195,10 @@ li.user:hover .a_list{
 
 }
 
+
+.head .title{
+    padding: 0 60px;
+}
 
 th{
     cursor: pointer;
@@ -222,6 +234,7 @@ th{
 
 
 .my-link{
+    cursor: pointer;
     color:#3071A9!important;
 }
 .noselect_del {
@@ -238,12 +251,31 @@ th{
 
     user-select: none; /* Non-prefixed version, currently
 
-not supported by any browser */
+    not supported by any browser */
 
 }
 
+
+.section2{
+    display: none;
+}
+
+.section3{
+    display: none;
+}
 
 .back,.back>span{
     cursor: pointer;
 }
 
+
+.msg_body{
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+.more li>span:first-child{
+    text-align: right!important;
+    font-weight: 700;
+    margin-right: 10px;
+}

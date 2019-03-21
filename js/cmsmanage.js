@@ -31,7 +31,7 @@ $(window).resize(function() {
     if(!resizeWaiter){
         resizeWaiter = true;
         setTimeout(function(){
-            $(".showBlackWhiteMsg .Blacktablebox,.showBlackWhiteMsg .Whitetablebox").height($(window).height() - $(".showBlackWhiteMsg .Blacktablebox").offset().top - 60);
+            $(".showBlackWhiteMsg .Blacktablebox,.showBlackWhiteMsg .Whitetablebox").height($(window).height() - $(".Whitetablebox").offset().top - 60);
             resizeWaiter = false;
         }, 500);
     }
@@ -73,25 +73,39 @@ function changeContent(target) {
 }
 
 //双击table Th逻辑
-$("body").on("dblclick","th",function () {
-  var index = $(this)[0].cellIndex;
-  console.log(index)
-  let el = $(this).parent().parent().parent().find("td:nth-child("+(index+1)+")");
-  let maxwidth = $(this).text().length*15;
-  if(!$(this)[0].dbclick){
-    el.addClass("table_td").css("maxWidth",maxwidth)
-    el.each(function(){$(this).attr("title",$(this).text())})
+// $("body").on("dblclick","th",function () {
+//   var index = $(this)[0].cellIndex;
+//   console.log(index)
+//   let el = $(this).parent().parent().parent().find("td:nth-child("+(index+1)+")");
+//   let maxwidth = $(this).text().length*15;
+//   if(!$(this)[0].dbclick){
+//     el.addClass("table_td").css("maxWidth",maxwidth)
+//     el.each(function(){$(this).attr("title",$(this).text())})
+//   }else{
+//     el.removeClass("table_td").css("maxWidth","")
+//   }
+//   $(this)[0].dbclick = !$(this)[0].dbclick
+// })
+
+ 
+$(".table ").on("click","td.more",function () {  
+  // console.log(($(this).offset().top-60),$(this).find(".msg_body").height());
+  if( ($(this).offset().top-60)> $(this).find(".msg_body").height() ){
+    $(this).find(".msg_body").css({"display":"block","bottom":"0"});
   }else{
-    el.removeClass("table_td").css("maxWidth","")
+    $(this).find(".msg_body").css({"display":"block","top":"0"});
+    // $(this).find(".msg_body").css({"display":"block","bottom":""});
+
   }
-  $(this)[0].dbclick = !$(this)[0].dbclick
 })
-
-
-
+ 
+$(".table ").on("mouseleave","td.more",function () {  
+  $(this).find(".msg_body").css("display","none");
+})
 
 //处理table中Th 合并
 function RenderTable_Th(target) {
+  return;
   $(target+" th").each(function (i,ele) {
     $(this).attr("title","双击展开列表")
     if(i>0){
@@ -107,34 +121,17 @@ function RenderTable_Th(target) {
 function showCmsList() {
   $(".content").hide();
   $("#cmslist").show();
-  param = {
+  var param = {
     "access_token": access_token,
     'page': 0,
     'user_id': CurrentUserId,
     'page_size': currentCMSListPageSize,
-    'filter': {"type": "CMS"}
   };
-  AjaxPost(GET_USER_TERMINAL_LIST, param).then(function (obj_json) {
-    // if (obj_json.terminal_list.length === 0) {
-    //   alert("已经是最后一页");
-    //   return;
-    // }
-    currentCMSListPage = obj_json.page;
-    // currentCMSListPageSize = obj_json.page_size;
-    currentCMSListPage_total = obj_json.page_total;
-
-    var templist = [];
-    for (let i = 0; i < obj_json.terminal_list.length; i++) {
-      templist.push(obj_json.terminal_list[i].SerialNumber);
-    }
-
-    return AjaxPost(GET_CMS_INFO, {'access_token': access_token, 'cms_list': templist})
-  }).then(
+  AjaxPost(GET_CMS_INFO_LIST, param).then(
       function (obj_json) {
+        currentCMSListPage = obj_json.page;
+        currentCMSListPage_total = obj_json.page_total;
         $("#cmslist .cmslistContent .cmstablebox tbody").html(template("cmsListTemp", obj_json))
-        RenderTable_Th("#cmslist .cmslistContent .cmstablebox")
-        // $("#black_white .bwcmslistContent .cmstablebox tbody").html(template("cmsBlackWhiteListTemp", obj_json))
-
       }
   )
 }
@@ -213,7 +210,7 @@ function showBlack_White_list() {
 //在线设备上一页设备
 function bindPager_Previous(target_page,func) {
   if (target_page === 0) {
-    alert("已经是第一页了");
+    toastr.info("已经是第一页了");
     return
   }
   target_page -= 1;
@@ -223,7 +220,7 @@ function bindPager_Previous(target_page,func) {
 //在线设备下一页设备
 function bindPager_Next(target_page,total_page,func) {
   if (total_page === 0 || target_page === total_page - 1) {
-    alert("已经是最后一页了");
+    toastr.info("已经是最后一页了");
     return;
   }
   target_page += 1;
@@ -242,28 +239,13 @@ function getCMSTerm_list(page) {
       'page': page,
       'user_id': CurrentUserId,
       'page_size': currentCMSListPageSize,
-      'filter': {"type": "CMS"}
     };
-    AjaxPost(GET_USER_TERMINAL_LIST, param).then(function (obj_json) {
-      if (obj_json.terminal_list.length === 0) {
-        alert("已经是最后一页");
-        return;
+    AjaxPost(GET_CMS_INFO_LIST, param).then(
+      function (obj_json) {
+        currentCMSListPage = obj_json.page;
+        currentCMSListPage_total = obj_json.page_total;
+        $("#cmslist .cmslistContent .cmstablebox tbody").html(template("cmsListTemp", obj_json))
       }
-      currentCMSListPage = obj_json.page;
-      // currentCMSListPageSize = obj_json.page_size;
-      currentCMSListPage_total = obj_json.page_total;
-
-      var templist = [];
-      for (let i = 0; i < obj_json.terminal_list.length; i++) {
-        templist.push(obj_json.terminal_list[i].SerialNumber);
-      }
-
-      return AjaxPost(GET_CMS_INFO, {'access_token': access_token, 'cms_list': templist})
-    }).then(
-        function (obj_json) {
-          $("#cmslist .cmslistContent .cmstablebox tbody").html(template("cmsListTemp", obj_json))
-          $("#black_white .bwcmslistContent .cmstablebox tbody").html(template("cmsBlackWhiteListTemp", obj_json))
-        }
     )
 
   })
@@ -280,7 +262,7 @@ function getCMSPuDevice_list(page) {
   AjaxPost(GET_CMS_PU_LIST,param)
       .then(function (obj_json) {
         if(obj_json.pu_list.length===0){
-          alert("已经是最后一页");
+          toastr.info("已经是最后一页");
           return;
         }
         currentCMSDevicePage = obj_json.page;
@@ -307,7 +289,7 @@ function getCMSBlack_list(page) {
     AjaxPost(GET_BLACK_WHITE_LIST_FILTER, param).then(function (obj_json) {
       if(obj_json.code===0){
         if (obj_json.list.length === 0) {
-          alert("已经是最后一页");
+          toastr.info("已经是最后一页");
           return;
         }
         currentCMSBlackListPage = obj_json.page;
@@ -318,7 +300,6 @@ function getCMSBlack_list(page) {
         $("#black_white .BlackWhiteListContent .showBlackWhiteMsg .Blacktablebox tbody").html(template("BlackListTemp", obj_json))
         RenderSelectField(function () {
           var target = $("#black_white .showBlackWhiteMsg .Blacktablebox .FieldSelectList");
-
           target.each(function () {
             $(this).find("option[value="+$(this).attr("data-bind")+"]").prop("selected",true);
           });
@@ -348,7 +329,7 @@ function getCMSWhite_list(page) {
     AjaxPost(GET_BLACK_WHITE_LIST_FILTER, param).then(function (obj_json) {
       if(obj_json.code===0){
         if (obj_json.list.length === 0) {
-          alert("已经是最后一页");
+          toastr.info("已经是最后一页");
           return;
         }
         currentCMSWhiteListPage = obj_json.page;
@@ -357,6 +338,7 @@ function getCMSWhite_list(page) {
 
         BW_fields_Name2Chinese(obj_json);
         $("#black_white .BlackWhiteListContent .showBlackWhiteMsg .Whitetablebox tbody").html(template("BlackListTemp", obj_json))
+        $(".showBlackWhiteMsg .Blacktablebox,.showBlackWhiteMsg .Whitetablebox").height($(window).height() - $(".Whitetablebox").offset().top - 60);
         RenderSelectField(function () {
           var target = $("#black_white .showBlackWhiteMsg .Whitetablebox .FieldSelectList");
 
@@ -399,9 +381,9 @@ function CMSUpdateBW() {
     if(obj_json.code===0){
       $("input[value="+bw+"][name=CMSbwManage]").prop("checked",true)
       $("input[name=MaxDevices]").val(mxdevice)
-      alert("保存成功")
+      toastr.success("保存成功")
     }else{
-      alert("保存失败"+obj_json.code)
+      toastr.error("保存失败"+obj_json.code)
     }
   })
 }
@@ -422,8 +404,8 @@ function showBlack_list(cms) {
   });
 
 
-  $("#black_white .black_whiteContent").hide();
-  $("#black_white .BlackWhiteListContent").show()
+  $("#cmslist .CmsContent").hide();
+  $("#cmslist .BlackWhiteListContent").show()
 
   var param = {
     'access_token': access_token,
@@ -440,10 +422,10 @@ function showBlack_list(cms) {
       currentCMSBlackListPage_total = obj_json.page_total;
 
       BW_fields_Name2Chinese(obj_json);
-      $("#black_white .BlackWhiteListContent .showBlackWhiteMsg .Blacktablebox tbody").html(template("BlackListTemp", obj_json))
+      $("#cmslist .BlackWhiteListContent .showBlackWhiteMsg .Blacktablebox tbody").html(template("BlackListTemp", obj_json))
 
       RenderSelectField(function () {
-        var target = $("#black_white .showBlackWhiteMsg .Blacktablebox .FieldSelectList");
+        var target = $("#cmslist .showBlackWhiteMsg .Blacktablebox .FieldSelectList");
 
         target.each(function () {
           $(this).find("option[value="+$(this).attr("data-bind")+"]").prop("selected",true);
@@ -485,8 +467,8 @@ function showWhite_list(cms) {
   });
 
 
-  $("#black_white .black_whiteContent").hide();
-  $("#black_white .BlackWhiteListContent").show();
+  $("#cmslist .black_whiteContent").hide();
+  $("#cmslist .BlackWhiteListContent").show();
   
   var param = {
     'access_token': access_token,
@@ -504,10 +486,10 @@ function showWhite_list(cms) {
       currentCMSWhiteListPage_total = obj_json.page_total;
 
       BW_fields_Name2Chinese(obj_json);
-      $("#black_white .BlackWhiteListContent .showBlackWhiteMsg .Whitetablebox tbody").html(template("WhiteListTemp", obj_json))
-
+      $("#cmslist .BlackWhiteListContent .showBlackWhiteMsg .Whitetablebox tbody").html(template("WhiteListTemp", obj_json))
+      $(".showBlackWhiteMsg .Blacktablebox,.showBlackWhiteMsg .Whitetablebox").height($(window).height() - $(".Whitetablebox").offset().top - 60);
       RenderSelectField(function () {
-        var target = $("#black_white .showBlackWhiteMsg .Whitetablebox .FieldSelectList");
+        var target = $("#cmslist .showBlackWhiteMsg .Whitetablebox .FieldSelectList");
 
         target.each(function () {
           $(this).find("option[value="+$(this).attr("data-bind")+"]").prop("selected",true);
@@ -584,7 +566,7 @@ function AddBWField() {
   });
   
   if(isNUll){
-    alert("请填写数据");
+    toastr.warning("请填写数据");
     return;
   }
 
@@ -607,7 +589,7 @@ function AddBWField() {
   };
   AjaxPost(UPDATE_BLACK_WHITE_LIST_FILTER, param).then(function (obj_json) {
     if (obj_json.code === 0) {
-      alert("添加成功");
+      toastr.success("添加成功");
       showBlack_list(currentCMS);
       showWhite_list(currentCMS);
       $("#AddBlackWhite_Modal").modal("hide");
@@ -627,13 +609,14 @@ function HideEdit(target){
   $(target).parent().parent().parent().find(".edit").hide();
   $(target).parent().parent().parent().find("select.edit").val($(target).parent().parent().parent().find("select.edit").attr("data-bind"));
   $(target).parent().parent().parent().find("input.edit").val($(target).parent().parent().parent().find("input.edit").attr("data-bind"));
+  $(target).parent().parent().find("input.edit").val($(target).parent().parent().find("input.edit").attr("data-bind"));
 }
 
 //编辑确认按钮
 function DoEdit(target,id,BW){
   var val = $(target).parent().parent().parent().find("input.edit").val()
   if(val===""){
-    alert("请输入修改后的值");
+    toastr.warning("请输入修改后的值");
     return;
   }
   var param ={
@@ -649,9 +632,34 @@ function DoEdit(target,id,BW){
 
   AjaxPost(UPDATE_BLACK_WHITE_LIST_FILTER,param).then(function (obj_json) {
     if(obj_json.code===0){
-      alert("更改成功");
+      toastr.success("更改成功");
       showBlack_list(currentCMS);
       showWhite_list(currentCMS);
+    }else{
+      toastr.error(obj_json.msg);
+    }
+  })
+}
+
+function updateCmsRemark(target,cms) {  
+  var val = $(target).parent().parent().find("input.edit").val();
+
+  var param = {
+    'access_token':access_token,
+    "update_list":[{
+        "target_type":"term",
+        "target_id":cms,
+        "rename":val
+      }]
+  }
+
+  bproto_ajax("/api/v1/update_remark/",param,function(obj_json){
+    if(obj_json.code==0){
+      toastr.success("修改备注成功");
+      getCMSTerm_list(currentCMSListPage);
+    }else{
+      toastr.error("修改备注失败"+obj_json.msg);
+      HideEdit(target);
     }
   })
 }
@@ -670,7 +678,10 @@ function delW(id) {
   };
   AjaxPost(UPDATE_BLACK_WHITE_LIST_FILTER, param).then(function (obj_json) {
     if(obj_json.code===0){
-      alert("删除成功");
+      toastr.success("删除成功");
+    }else{
+      toastr.error(obj_json.msg);
+
     }
     showWhite_list(currentCMS);
   });
@@ -688,7 +699,9 @@ function delB(id) {
   };
   AjaxPost(UPDATE_BLACK_WHITE_LIST_FILTER, param).then(function (obj_json) {
     if(obj_json.code===0){
-      alert("删除成功");
+      toastr.success("删除成功");
+    }else{
+      toastr.error(obj_json.msg);
     }
     showBlack_list(currentCMS)
   });
@@ -728,58 +741,6 @@ function checkboxClick() {
 
 // checkboxClick();
 
-
-//删除用户标签
-function RemoveUserLabel() {
-  var isCheck = false;
-  var userlabels = [];
-  $("input[name=cb_label]").each(function () {
-    if ($(this).prop("checked")) {
-      isCheck = true;
-      userlabels.push($(this).attr("data-bind"));
-    }
-  });
-  if (!isCheck) {
-    alert("请选择用户标签");
-    return;
-  }
-  param = {
-    'access_token': access_token,
-    'userlabels': userlabels
-  };
-  bproto_ajax(USER_LABEL_DEL, param, function (obj_json) {
-    console.log(obj_json);
-    if (obj_json.code === 0) {
-      alert("删除成功");
-      $("#labelList_all_cb").prop("checked", false);
-      showUserLabel();
-    }
-  })
-}
-
-//show修改用户标签信息提示框
-function ShowUpdateUserLabel_modal() {
-  var isCheck = false;
-  var label_note = "";
-  $("input[name=cb_label]").each(function () {
-    if ($(this).prop("checked")) {
-      isCheck = true;
-      label_note = $(this).parent().parent().find(".textarea_label_note").text();
-      currentLabelId = $(this).attr("data-bind");
-      return;
-    }
-  });
-
-  if (!isCheck) {
-    alert("请选择要修改的标签");
-    return;
-  }
-  $("#UserLabelManage_modal").modal("show");
-  $("#update_textarea_label_note").val(label_note);
-  $("#update_textarea_label_note").attr("placeholder", label_note);
-  $(".modal-content").hide();
-  $(".UpdateLabel_content").show();
-}
 
 
 

@@ -127,11 +127,11 @@ function ShowAddUserLabel_modal() {
 //添加用户标签
 function addUserLabel() {
   if ($("#input_label_name").val() === "") {
-    alert("请输入标签名称");
+    toastr.warning("请输入标签名称");
     return;
   }
   if ($("#textarea_label_note").val() === "") {
-    alert("请输入描述信息");
+    toastr.warning("请输入描述信息");
     return;
   }
   param = {
@@ -142,11 +142,13 @@ function addUserLabel() {
   bproto_ajax(USER_LABEL_ADD, param, function (obj_json) {
     console.log(obj_json);
     if (obj_json.code === 0) {
-      alert("添加成功");
+      toastr.success("添加成功");
       $("#input_label_name").val("")
       $("#textarea_label_note").val("")
       closeModal('#UserLabelManage_modal');
       showUserLabel();
+    }else{
+      toastr.error("添加失败"+obj_json.msg);
     }
   })
 }
@@ -229,9 +231,13 @@ function updatePassword() {
   }
   bproto_ajax(API_UPDATE_PASSWORD,param,function (obj_json) {  
     if(obj_json.code===0){
-      alert("修改成功");
+      alert("修改成功,请重新登录");
+      fun_api_logout();
       // showUserMsg();
       $("#updatePassword_Modal").modal("hide");
+      
+    }else{
+      toastr.error("修改失败"+obj_json.msg);
       
     }
   })

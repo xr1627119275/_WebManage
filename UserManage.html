@@ -81,11 +81,15 @@
 
   <link href="/static/css/bootstrap.min.css" rel="stylesheet">
   <link href="/static/css/base.css" rel="stylesheet">
+    <link href="/static/css/toastr.min.css" rel="stylesheet" />
   <!--[if lt IE 9]>
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
   <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/toastr.min.js"></script>
+
+
   <script src="/static/js/bootstrap.min.js"></script>
   <script src="/static/js/jquery.cookie.js"></script>
   <script src="/static/js/bprotocol.js"></script>
@@ -104,74 +108,7 @@
   </aside>
 
   <section class="main-content">
-    <style>
-      .main-content>header {
-        width: 100%;
-        height: 60px;
-        background: #1a2226;
-      }
-
-      .main-content>header>ul {
-        margin-right: 30px;
-        float: right;
-      }
-
-      .main-content>header li {
-        float: left;
-      }
-
-      .main-content>header>ul>li>a {
-        display: block;
-        height: 60px;
-        padding: 10px 25px 10px 15px;
-        font-size: 16px;
-        line-height: 40px;
-        font-weight: 700;
-        color: #4b646f;
-
-      }
-
-      .main-content>header>ul>li:last-child {
-        position: relative;
-      }
-
-      li.user:hover .a_list {
-        display: block;
-      }
-
-      .a_list {
-        display: none;
-        padding: 5px 0;
-        position: absolute;
-        right: 0;
-        border: 1px solid #cccccc;
-        border-radius: 3px;
-        top: 56px;
-        background-color: #fff;
-        width: 100%;
-
-      }
-
-      .a_list li {
-        width: 100%;
-
-      }
-
-      .a_list li:hover {
-        background-color: #cccccc;
-      }
-
-      .a_list li>a {
-        display: block;
-        height: 30px;
-        color: #000;
-        line-height: 30px;
-        font-size: 14px;
-        width: 100%;
-        text-align: center;
-
-      }
-    </style>
+    
     <header>
 
     </header>
@@ -181,14 +118,14 @@
 
 
     <!--显示用户列表-->
-    <section class="content" id="userslistManage" style="display:none">
+    <!-- <section class="content" id="userslistManage" style="display:none">
       <h1 style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户列表
       </h1>
-      <div class="search" style="margin:20px 0 ">
+       <div class="search" style="margin:20px 0 ">
         <label class="mylabel">搜索用户</label>
         <input type="text" style="border-radius: 10px;display: inline-block;width: 200px;padding: 0 20px"
           placeholder="请输入昵称/账号" class="form-control">
-      </div>
+      </div> 
 
       <table class="table table-striped table-bordered">
         <thead>
@@ -196,9 +133,7 @@
             <th>昵称</th>
             <th>账号</th>
             <th>邮箱</th>
-            <!--<th>证书信息</th>-->
-            <!--<th>颁布证书</th>-->
-            <!--<th>标签信息</th>-->
+            
             <th>备注</th>
             <th>操作</th>
           </tr>
@@ -207,99 +142,13 @@
 
         </tbody>
       </table>
-    </section>
+    </section> -->
     <!--显示用户列表结束-->
 
-    <!--用户证书管理-->
-    <section class="content" id="certslistManage" style="display: none">
-      <div class="certsManageContent usersTable">
-        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;display: block">
-          用户证书管理
-        </div>
-        <div class="search" style="margin:20px 0 ">
-          <label class="mylabel">搜索用户</label>
-          <input type="text" style="border-radius: 10px;display: inline-block;width: 200px;padding: 0 20px"
-            placeholder="请输入昵称/账号" class="form-control">
-        </div>
-        <table class="table table-striped table-bordered">
-          <thead>
-            <tr>
-              <th>昵称</th>
-              <th>账号</th>
-              <th colspan="2">证书管理</th>
-              <!-- <th>颁布证书</th> -->
-            </tr>
-          </thead>
-          <tbody>
-
-          </tbody>
-        </table>
-      </div>
-      <!--证书信息表格-->
-      <div class="certsManageContent certTable" style="display: none">
-        <div class="head">
-          <div class="back" onclick="Back('.certsManageContent','.usersTable')">
-            <span class="fa fa-angle-left pull-left"
-              style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
-            <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
-          </div>
-          <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">
-            用户证书管理
-          </div>
-        </div>
-        <div class="showCert" style="width: 100%;overflow: auto">
-          <table class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <!--"SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",
-                    "Type": "Registered",
-                    "Mode": "UnKnowType",
-                    "State": "Normal",
-                    "Issuer_id": 3,
-                    "IssueDate": "2018-11-22 15:25:40",
-                    "ValidityBegin": "2018-11-22 15:25:40",
-                    "ValidityEnd": "2038-11-17 15:25:40",
-                    "IssueTimes": 1-->
-                <th>SerialNumber</th>
-                <th>颁布设备类型</th>
-                <th>类型</th>
-                <th style="display: none">Mode</th>
-                <th>状态</th>
-                <th style="display: none">Issuer_id</th>
-                <th>颁发日期</th>
-                <th>生效日期</th>
-                <th>失效日期</th>
-                <th>颁布次数</th>
-                <th>最大颁布次数</th>
-                <th style="display: none">ParentCert</th>
-                <th>修改证书信息</th>
-                <th>证书授权次数转移</th>
-                <th>颁布的设备</th>
-                <th>上级证书</th>
-              </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-          </table>
-        </div>
-        <div class="certPager">
-          <ul class="pager" style="margin-bottom: 0">
-            <li><a href="javascript:;" onclick="getCerts_list(0)">首页</a></li>
-            <li><a href="javascript:;" onclick="bindPager_Previous(currentCertsPage,getCerts_list)">上一页</a></li>
-            <li><a href="javascript:;"
-                onclick="bindPager_Next(currentCertsPage,currentCertsPage_total,getCerts_list)">下一页</a></li>
-            <li><a href="javascript:;" onclick="getCerts_list(currentCertsPage_total-1)">尾页</a></li>
-          </ul>
-        </div>
-      </div>
-      <!--证书信息表格结束-->
-
-    </section>
-    <!--用户证书管理结束-->
+    
 
     <!-- 用户组管理 -->
-    <section class="content" id="UserGroupManage" style="display:none">
+    <section class="content" id="UserGroupManage">
       <div class="body usergrouplist">
         <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户组管理</div>
         <button type="button" class="btn"
@@ -422,11 +271,11 @@
       <div class="termsManageContent usersTable">
         <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">用户设备管理
         </div>
-        <div class="search" style="margin:20px 0 ">
+        <!-- <div class="search" style="margin:20px 0 ">
           <label class="mylabel">搜索用户</label>
           <input type="text" style="border-radius: 10px;display: inline-block;width: 200px;padding: 0 20px"
             placeholder="请输入昵称/账号" class="form-control">
-        </div>
+        </div> -->
         <table class="table table-striped table-bordered">
           <thead>
             <tr>
@@ -929,6 +778,7 @@
               <button type="button" class="btn btn-success" onclick="inviteUser_Group()">生成邀请码</button>
               <input type="text" style="display: none;margin-left: 5px;flex:1" auto-complete="off" class="form-control"
                 id="invite_code">
+              <button type="button" class="copy" class="btn btn-success" style="display: none" onclick="copy(this)">复制邀请码</button>
             </div>
 
           </div>
@@ -997,11 +847,11 @@
   <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" data-user="{{value.username}}" onclick="addUserCert(this)">添加证书</a></td>-->
   <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.user_id}}" onclick="showUserLabel(this)">查看</a></td>-->
   <td><textarea class="form-control disable"  disabled rows="1" style="cursor: text;resize: none" data-bind="{{value.rename}}">{{value.rename}}</textarea></td>
-  <td> 
-    <a class="my-link source" href="javascript:;" onclick="ShowEdit(this)">修改备注</a>
-    <a class="edit my-link" href="javascript:;" style="display:none" data-bind="{{value.user_id}}" onclick="DoBeizhu(this)">确认</a>
+  <td style="width:100px"> 
+    <button class="btn  source" href="javascript:;" onclick="ShowEdit(this)">修改备注</button>
+    <button class="edit btn btn-success" href="javascript:;" style="margin-right:10px;display:none" data-bind="{{value.user_id}}" onclick="DoBeizhu(this)">确认</button>
     &nbsp;
-    <a class="edit my-link" href="javascript:;" style="display:none" onclick="HideEdit(this)">取消</a>
+    <button class="edit btn btn-danger" href="javascript:;" style="display:none" onclick="HideEdit(this)">取消</button>
   </td>
   <!--data-toggle="modal" data-target="#myModal"-->
   </tr>
@@ -1015,10 +865,11 @@
     <tr>
       <td>{{value.nickname?value.nickname:value.username}}</td>
       <td>{{value.username}}</td>
-      <td style="width:150px"><a href="javascript:;" class="btn-link my-link"  data-bind="{{value.username}}" data-userid="{{value.user_id}}"
-              onclick="showUserCerts(this)">管理证书</a></td>
-      <td style="width:150px"><a href="javascript:;" class="btn-link my-link" data-bind="{{value.user_id}}" data-user="{{value.username}}"
-              onclick="addUserCert(this)">颁布证书</a></td>
+      <td>{{value.rename}}</td>
+      <td style="width:150px"><button href="javascript:;" class="btn"  data-bind="{{value.username}}" data-userid="{{value.user_id}}"
+              onclick="showUserCerts(this)">管理证书</button></td>
+      <td style="width:150px"><button href="javascript:;" class="btn" data-bind="{{value.user_id}}" data-user="{{value.username}}"
+              onclick="addUserCert(this)">颁布证书</button></td>
     </tr>
     {{/each}}
   </script>
@@ -1032,7 +883,7 @@
       <td>{{value.nickname?value.nickname:value.username}}</td>
       <td>{{value.username}}</td>
       <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="showAllTerms(this)">查看</a></td>-->
-      <td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="">查看</a></td>
+      <td style="width:100px"><button href="javascript:;" class="btn" data-bind="{{value.username}}" onclick="">查看</button></td>
       <!--<td><a href="javascript:;" class="btn-link" data-bind="{{value.username}}" onclick="showTermsVerify(this)">查看</a>-->
       <!--</td>-->
     </tr>
@@ -1179,10 +1030,10 @@
             <td>{{value.note}}</td>
             <td>{{value.master_user}}</td>
             <td  style="width:150px">
-                <a href="javascript:;" class=" my-link" style="color:#3071A9" onclick="showOtherUserGroupUserList('{{value.id}}')">用户管理</a>
+                <button href="javascript:;" class="btn " onclick="showOtherUserGroupUserList('{{value.id}}','{{value.name}}')">用户管理</button>
             </td>
             <td  style="width:150px">
-                <a href="javascript:;" class=" my-link" style="color:#3071A9" onclick="exitGroup('{{value.id}}')">退出该群</a>
+                <button href="javascript:;" class="btn btn-danger" onclick="exitGroup('{{value.id}}')">退出该群</button>
             </td>
             <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">用户管理</a></td> -->
             <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="del_group('{{value}}')">删除</a></td> -->
@@ -1203,16 +1054,16 @@
             </td>
             <!-- |{{value.master_user_id}} -->
             <td style="width:100px">
-                <a href="javascript:;" class="  my-link" style="color:#3071A9" onclick="showOwnerUserGroupUserList('{{value.id}}')">用户管理</a>
+                <button href="javascript:;" class=" btn" onclick="showOwnerUserGroupUserList('{{value.id}}','{{value.name}}')">用户管理</a>
             </td>
             <td style="width:100px">
-                <a href="javascript:;" class="source my-link" style="color:#3071A9" onclick="ShowEdit(this)">修改组信息</a>
-                <a href="javascript:;" class="edit my-link" style="display:none;" onclick="updateGroupClick(this,'{{value.id}}')">确认</a>
+                <button href="javascript:;" class="source btn"  onclick="ShowEdit(this)">修改组信息</a>
+                <button href="javascript:;" class="edit btn btn-success" style="display:none;margin-right:10px" onclick="updateGroupClick(this,'{{value.id}}')">确认</a>
                 &nbsp;
-                <a href="javascript:;" class="edit my-link" style="display:none;" onclick="HideEdit(this)">取消</a>
+                <button href="javascript:;" class="edit btn btn-danger" style="display:none;" onclick="HideEdit(this)">取消</a>
             </td>
             <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">用户管理</a></td> -->
-            <td style="width:100px"><a href="javascript:;" class="my-link " onclick="del_group('{{value.id}}')">删除</a></td>
+            <td style="width:100px"><button href="javascript:;" class="btn btn-danger" onclick="del_group('{{value.id}}')">删除</a></td>
           </tr>
       {{/each}}
     </script>
@@ -1220,24 +1071,32 @@
 
     <!-- 自己存在的群组中的成员 -->
     <script id="OtherusermanageTemp" type="text/html">
-      {{each group_list as value i}}
+      {{each user_list as value i}}
       <tr>
         <td>{{value.username}}</td>
-        <td>{{value.rename?value.rename:value.username}}</td>
+        <td>{{value.remark}}</td>
         <td>{{value.email}}</td>
       </tr>
       {{/each}}
     </script>
-    <!-- 自己存在的群组中的成员 -->
+    <!-- 自己存在的群组中的成员 --> 
 
     <!-- 自己创建的群组中的成员 -->
     <script id="OwnerusermanageTemp" type="text/html">
-      {{each group_list as value i}}
+      {{each user_list as value i}}
       <tr>
         <td>{{value.username}}</td>
-        <td>{{value.rename?value.rename:value.username}}</td>
+        <td>
+          <span class="source">{{value.remark}}</span>
+          <input type="text" style="display:none" data-bind='{{value.remark}}' class="remark form-control edit" value="{{value.remark}}"/>
+        </td>
         <td>{{value.email}}</td>
-        <td><a href="javascript:;" class="my-link" onclick="remove_group('{{value.username}}')">移出群组</a></td>
+        <td style="width:100px">
+          <button href="javascript:;" class="source btn" onclick="ShowEdit(this)">修改备注</button>
+          <button href="javascript:;" style="display:none;margin-right:10px" class="edit btn btn-success" onclick="Do_GroupUserBeizhu(this,'{{value.user_id}}')">确定</button>
+          <button href="javascript:;" style="display:none" class="edit btn btn-danger" onclick="HideEdit(this)">取消</button>
+        </td>
+        <td style="width:100px"><button href="javascript:;" class="btn btn-danger" onclick="remove_group('{{value.username}}')">移出群组</button></td>
       </tr>
       {{/each}}
     </script>

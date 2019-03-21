@@ -9,24 +9,29 @@
   <link rel="stylesheet" media="screen" href="/static/css/style.css">
   <link rel="stylesheet" type="text/css" href="/static/css/base.css"/>
   <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
-  <!--[if lt IE 9]>
+  <link rel="stylesheet" href="/static/css/font-awesome.css">
+    <link href="/static/css/toastr.min.css" rel="stylesheet" />
+<!--[if lt IE 9]>
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
+
   <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/toastr.min.js"></script>
+
   <script src="/static/js/bootstrap.min.js"></script>
 
   <script>
-    function CloseModal() {
-      $(".modal").modal("hide");
-      $("#captcha").val('');
-    }
+    // function CloseModal() {
+    //   $(".modal").modal("hide");
+    //   $("#captcha").val('');
+    // }
 
-    $(".modal").click(function (e) {
-      if (e.target == this) {
-        closeModal()
-      }
-    });
+    // $(".modal").click(function (e) {
+    //   if (e.target == this) {
+    //     closeModal()
+    //   }
+    // });
   </script>
 </head>
 <body>
@@ -86,10 +91,13 @@
       <div class="login-center-img">
         <input type="checkbox" name="" tabindex="36763" style="width: 15px;height: 15px;margin-top: 3px">
       </div>
-      <div class="login-center-input" style="line-height: 30px">
+      <div class=" fl" style="line-height: 30px">
         记住用户
       </div>
 
+      <div class="my-link fr"  style="line-height: 30px">
+          <a href="javascript:;" style="color:#3071A9" onclick="showGetBackPassword_Modal()">忘记密码</a>
+      </div>
     </div>
     <div class="login-button" onclick="login()" style="margin-top: 20px">
       登录
@@ -157,8 +165,68 @@
   <div class="sk-rotating-plane"></div>
 </div>
 
+
+<!-- 找回密码弹出框 -->
+<div class="modal fade" id="GetBackPasswordModal" style="z-index:99999999" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#GetBackPasswordModal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title h4" style="text-align: center">找回密码</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="getbackpassword_email" class="mylabel">邮箱</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
+              <input type="email"  class="form-control" id="getbackpassword_email"
+                placeholder="请输入邮箱找回密码">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="getbackpassword_code" class="mylabel">验证码</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-envelope-square fa-fw"></i></span>
+              <div style="display:flex">
+                <input type="text" style="flex:1" auto-complete="off" class="form-control"
+                  id="getbackpassword_code" placeholder="请输入邮箱验证码">
+                <button type="button" id="getpassword_btn" class="btn btn-success" onclick="getBackPassword()">获取验证码</button>
+              </div>
+            </div>
+          </div>
+          <div class="setPassword" style="display: none">
+              <div class=" form-group">
+                  <label for="setpassword1" class="mylabel">新密码</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                    <input type="password" auto-complete="off" class="form-control" placeholder="请输入重新设置后的密码"
+                    id="setpassword1">
+                  </div>
+              </div>
+              <div class=" form-group">
+                  <label for="setpassword1" class="mylabel">重复密码</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+                    <input type="password" auto-complete="off" class="form-control" placeholder="请再次输入重新设置后的密码"
+                    id="setpassword2">
+                  </div>
+              </div>
+              <button class="btn btn-success" type="button" onclick="setPassword()">设置新密码</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="closeModal('#GetBackPasswordModal')">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 找回密码弹出框 -->
+
+
 <!-- 提示框 -->
-<div class="modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div id='EmailModal' class=" modal fade bs-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
 

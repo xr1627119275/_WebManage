@@ -292,7 +292,7 @@ function login() {
     return;
   }
   if (StrisBlack(login_captcha) || !(login_captcha.toLowerCase() === captcha_code.toLowerCase())) {
-    alert("验证码不正确");
+    toastr.warning("验证码不正确");
     mycanvas.click();
     document.getElementById('login_captcha_input').value="";
     return;
@@ -315,10 +315,10 @@ function login() {
       }
       location.href = "/static/";
     } else {
-      alert("用户名或密码错误");
+      toastr.error("用户名或密码错误");
     }
   }, function () {
-    alert("服务器连接失败");
+    toastr.error("服务器连接失败");
   })
 }
 
@@ -457,16 +457,16 @@ function GoRegister() {
         //成功后
         console.log("获取验证码后提示框:  " + JSON.stringify(obj_json));
         if (obj_json.code === 0) {
-          $(".modal").modal("show");
+          $("#EmailModal").modal("show");
         } else if (obj_json.code === -4) {
           $("#reg_email").val("").focus();
-          alert("邮箱已存在,请更换邮箱绑定");
+          toastr.error("邮箱已存在,请更换邮箱绑定");
         } else if (obj_json.code === -6) {
-          alert("邮件发送失败，请联系管理员后重试");
+          toastr.error("邮件发送失败，请联系管理员后重试");
         }
       });
     } else {
-      alert("用户 " + reg_username + " 已存在,请重新输入");
+      toastr.warning("用户 " + reg_username + " 已存在,请重新输入");
     }
   });
 
@@ -476,9 +476,11 @@ function Get_Captcha() {
   bproto_ajax(REGISTER_GET_CAPTCHA, {'email': reg_email}, function (obj_json) {
     console.log("再次获取验证码:  " + JSON.stringify(obj_json));
     if (obj_json.code === 0) {
-      alert("重新获取成功");
+      toastr.success("重新获取成功");
     } else if (obj_json.code === -4) {
-      alert('该邮箱获取次数过多,请稍后重试');
+      toastr.error('该邮箱获取次数过多,请稍后重试');
+    }else{
+      toastr.error(obj_json.msg)
     }
   });
 }
@@ -499,12 +501,18 @@ function Register() {
   bproto_ajax(REGISTER_URL, param, function (obj_json) {
     console.log("注册:  " + JSON.stringify(obj_json));
     if (obj_json.code === 0) {
-      alert("注册成功");
-      CloseModal();
+      toastr.success("注册成功");
+      $("#EmailModal").modal("show");
+      $("#captcha").val('');
       $(".login input").val("");
       ChangeLogin();
       $("#username").val(reg_username);
       $("#password").val(reg_password);
+    }else if(obj_json.code==-9){
+      toastr.error("验证码错误,请重新输入");
+    } else{
+      toastr.error("注册失败"+obj_json.msg);
+
     }
   });
 }
@@ -556,11 +564,11 @@ function lineY() {
 function clickChange() {
   var mycanvas = document.getElementById('mycanvas');
   var cxt = mycanvas.getContext('2d');
-  cxt.fillStyle = '#000';
+  cxt.fillStyle = 'rgba(255,255,255,1)';
   cxt.fillRect(0, 0, 90, 40);
   /*生成干扰线20条*/
-  for (var j = 0; j < 20; j++) {
-    cxt.strokeStyle = '#fff';
+  for (var j = 0; j < 6; j++) {
+    cxt.strokeStyle = '#000';
     cxt.beginPath(); //若省略beginPath，则每点击一次验证码会累积干扰线的条数
     cxt.moveTo(lineX(), lineY());
     cxt.lineTo(lineX(), lineY());
@@ -568,7 +576,7 @@ function clickChange() {
     cxt.closePath();
     cxt.stroke();
   }
-  cxt.fillStyle = 'red';
+  cxt.fillStyle = '#4e7aff';
   cxt.font = 'bold 28px Arial';
   cxt.fillText(rand(), 15, 25); //把rand()生成的随机数文本填充到canvas中
 }
@@ -580,3 +588,111 @@ mycanvas.onclick = function (e) {
   clickChange();
 };
 
+
+
+function showGetBackPassword_Modal() {
+  $("#GetBackPasswordModal").modal("show");
+  $("#getbackpassword_email").val("")
+  $("#getbackpassword_code").val("")
+  $(".setPassword").hide();
+
+}
+
+function getBackPassword(){
+  
+  var code = $("#getbackpassword_email").val();
+  var target = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(code)
+  if(!target){
+    toastr.warning("邮箱格式不正确,请重新输入");
+    $("#getbackpassword_email").focus();
+    return;
+  }
+  var param = {
+    'access_token':"",
+    "email":code
+  }
+  bproto_ajax(GET_BACK_PASSWORD,param,function (obj_json) {  
+    if(obj_json.code===0){
+      toastr.success("邮箱验证码发送成功,请登录邮箱查看");
+
+      $("#getbackpassword_code").focus();
+      $("#getpassword_btn").text("60秒后获取验证码");
+      setInputCodeTime();
+      $(".setPassword").show();
+    }else if(obj_json.code==-3){
+      toastr.error("无此邮箱用户");
+    }else{
+      toastr.error("邮箱验证码发送失败"+obj_json.msg);
+    }
+  })
+}
+
+function setPassword(){
+  var code = $("#getbackpassword_code").val();
+  var password1 = $("#setpassword1").val();
+  var password2 = $("#setpassword2").val();
+
+  if(code.length==0){
+    toastr.warning("验证码不能为空");
+    return;
+  }
+
+  if(password1.length<5){
+    toastr.warning("密码不得少于6位");
+    return;
+  }
+  if(/[\u4e00-\u9fa5]/.test(password1)){
+    toastr.warning("密码中不能有中文");
+    return;
+  }
+  if(!(/[a-z]|[A-Z]/.test(password1))){ 
+    toastr.warning("密码中必须包含一个英文字母");
+    return;
+  }
+
+  if(password1!=password2){
+    toastr.warning("两次密码不一致,请检查");
+    return;
+  }
+
+  var param = {
+    'access_token':'',
+    'set_pwd_code':code,
+    'new_password':password1
+  }
+  bproto_ajax(SET_NEW_PASSWORD,param,function (obj_json) {  
+    if(obj_json.code==0){
+      toastr.success("密码修改成功,请重新登录");
+      $("#GetBackPasswordModal").modal("hide");
+    }else{
+      toastr.success("密码修改失败"+obj_json.msg);
+    }
+  })
+}
+
+function setInputCodeTime(){
+  $("#getpassword_btn").prop("disabled",true);
+
+  var time = 60; 
+  var id = setInterval(function(){
+    if(time>0){
+      $("#getpassword_btn").text(time+"秒后获取验证码");
+      time--;
+    }else{
+      $("#getpassword_btn").text("获取验证码").prop("disabled",false);
+      clearInterval(id);
+    }
+  },1000);
+}
+
+function closeModal(target){
+  $(target).modal("hide");
+}
+
+$(".modal").click(function(e){
+  if(e.target==$("#GetBackPasswordModal")[0]){
+    closeModal('#GetBackPasswordModal')
+  }else if(e.target==$("#EmailModal")[0]){
+    closeModal('#EmailModal')
+  }
+});

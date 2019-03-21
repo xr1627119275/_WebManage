@@ -16,27 +16,28 @@ ModalShowList = [];
 allUsers = [];//初始化所有用户信息
 
 currentGroupID = '';//当前用户组ID
+currentGroupName = '';//当前用户组ID
 
 showWhitchSlider(5)
 
 window.addEventListener('load',function () {  
   switch (location.hash) {
-      case "#userslistManage":
-        changeContent($("a[data-bind=#userslistManage]")[0]);
-        break;
+      // case "#userslistManage":
+      //   changeContent($("a[data-bind=#userslistManage]")[0]);
+      //   break;
+      case "#UserGroupManage":
+        changeContent($("a[data-bind=#UserGroupManage]")[0]);
+        break; 
       case "#certslistManage":
         // alert("1is");
         changeContent($("a[data-bind=#certslistManage]")[0]);
-        break;
-      case "#UserGroupManage":
-        changeContent($("a[data-bind=#UserGroupManage]")[0]);
         break;
       case "#TerminalVerify":
         changeContent($("a[data-bind=#TerminalVerify]")[0]);
         break;
       default:
-        location.href = "#userslistManage";
-        changeContent($("a[data-bind=#userslistManage]")[0]);
+        location.href = "#UserGroupPage";
+        changeContent($("a[data-bind=#UserGroupManage]")[0]);
         break
     }
 })
@@ -53,14 +54,14 @@ function changeContent(target) {
   // $(".right a").removeClass("active");
   // $(target).addClass("active");
   $(targetId).show();
-  if (target === $("a[data-bind=#userslistManage]")[0]) {
-    showUserList();
+  // if (target === $("a[data-bind=#userslistManage]")[0]) {
+  //   showUserList();
+  // } else 
+  if (target === $("a[data-bind=#UserGroupManage]")[0]) {
+    GetUserMsg_CallBack(showUserGroupManage);
   } else if (target === $("a[data-bind=#certslistManage]")[0]) {
     showCertsManage();
-  } else if (target === $("a[data-bind=#UserGroupManage]")[0]) {
-    GetUserMsg_CallBack(showUserGroupManage);
-
-  } else if ($(target)[0] == $("a[data-bind=#termslistManage]")[0]) {
+  } else  if ($(target)[0] == $("a[data-bind=#termslistManage]")[0]) {
     showTermsManage();
   }
 }
@@ -178,24 +179,24 @@ function getUserList(func) {
       }
     }
 
-    var searchlist = {"access_token":access_token,'list':[]};
-    for(var i=0;i<cacheUserslist.length;i++){
-      searchlist.list.push({
-        'target_type':'user',
-        'target_id':cacheUserslist[i].user_id
-      })
-    }
+    // var searchlist = {"access_token":access_token,'list':[]};
+    // for(var i=0;i<cacheUserslist.length;i++){
+    //   searchlist.list.push({
+    //     'target_type':'user',
+    //     'target_id':cacheUserslist[i].user_id
+    //   })
+    // }
 
-    bproto_ajax(GET_REMARK,searchlist,function (obj_json) {  
-      for(var i=0;i<obj_json.list.length;i++){
-        for(var j=0;j<cacheUserslist.length;j++){
-          if(cacheUserslist[j].user_id===obj_json.list[i].target_id){
-            cacheUserslist[j]['rename'] = obj_json.list[i].rename;
-          }
-        }
-      }
+    // bproto_ajax(GET_REMARK,searchlist,function (obj_json) {  
+    //   for(var i=0;i<obj_json.list.length;i++){
+    //     for(var j=0;j<cacheUserslist.length;j++){
+    //       if(cacheUserslist[j].user_id===obj_json.list[i].target_id){
+    //         cacheUserslist[j]['rename'] = obj_json.list[i].rename;
+    //       }
+    //     }
+    //   }
       func(cacheUserslist);
-    })
+    // })
   });
 }
 
@@ -222,16 +223,17 @@ function ShowEdit(target) {
   $(target).parent().parent().find(".disable").focus();
 }
 function HideEdit(target){
-  $(target).parent().parent().parent().find(".source").show();
-  $(target).parent().parent().parent().find(".edit").hide();
+  $(target).parent().parent().find(".source").show();
+  $(target).parent().parent().find(".edit").hide();
   $(target).parent().parent().find(".disable").val($(target).parent().parent().find(".disable").attr("data-bind"));
+  $(target).parent().parent().find(".remark").val($(target).parent().parent().find(".remark").attr("data-bind"));
   $(target).parent().parent().find(".disable").prop("disabled",true);
 }
 
 
 function DoBeizhu(target) {  
   var val = $(target).parent().parent().find(".disable").val();
-  
+  console.log(val)
   var param = {
     "access_token":access_token,
     "update_list":[{
@@ -242,11 +244,38 @@ function DoBeizhu(target) {
   }
   bproto_ajax(UPDATE_REMARK,param,function(obj_json){
     if(obj_json.code===0){
-      alert("修改成功");
+      toastr.success("修改成功");
+      getUserList(function (list) {
+        $("#userslistManage table tbody").html(template('userListTemp', {"users": cacheUserslist}));
+      });
+    }else{
+      toastr.error("修改失败"+obj_json.msg);
     }
   })
 }
 
+//群组中用户备注
+function Do_GroupUserBeizhu(target,id) {  
+  var val = $(target).parent().parent().find(".remark").val();
+  var param = {
+    "access_token":access_token,
+    "update_list":[{
+      "target_type":'user',
+      "target_id":id,
+      "rename":val 
+    }]
+  }
+  bproto_ajax(UPDATE_REMARK,param,function(obj_json){
+    if(obj_json.code===0){
+      toastr.success("修改成功");
+      showOwnerUserGroupUserList(currentGroupID,currentGroupName);
+    }else{
+      toastr.error("修改失败"+obj_json.msg);
+    }
+  })
+
+
+}
 
 //展示用户证书管理
 function showCertsManage() {
@@ -297,7 +326,7 @@ $(".addtermtype").on("click","li",function () {
 //给用户添加证书提交
 function AddCert_Modal() {
   if($(".addtermtype input").val() === ""){
-    alert("请输入证书类型");
+    toastr.warning("请输入证书类型");
     return;
   }
 
@@ -321,12 +350,12 @@ function AddCert_Modal() {
   };
   bproto_ajax(ADMIN_ISSUE_UESER_CERT, param, function (obj_json) {
     if (obj_json.code === 0) {
-      alert("添加完成");
+      toastr.success("添加完成");
       $("#AddCert").modal("hide");
     } else if (obj_json.code === -2) {
-      alert("权限不足,请管理员操作");
+      toastr.error("权限不足,请管理员操作");
     } else {
-      alert(obj_json.msg);
+      toastr.error("添加失败"+obj_json.msg);
     }
   })
 }
@@ -361,7 +390,7 @@ function showUserCerts(target) {
       // }
       // ModalShowList.push({target:$(".certTable"),title:$("#UserModal #myModalLabel").text()});
     } else {
-      alert("无数据")
+      toastr.warning("无数据")
     }
   });
 }
@@ -398,7 +427,7 @@ function addUserLabel() {
 //上一页
 function bindPager_Previous(target_page, func) {
   if (target_page === 0) {
-    alert("已经是第一页了");
+    toastr.info("已经是第一页了");
     return
   }
   target_page -= 1;
@@ -408,7 +437,7 @@ function bindPager_Previous(target_page, func) {
 //下一页
 function bindPager_Next(target_page, total_page, func) {
   if (total_page === 0 || target_page === total_page - 1) {
-    alert("已经是最后一页了");
+    toastr.info("已经是最后一页了");
     return;
   }
   target_page += 1;
@@ -453,7 +482,7 @@ function getCerts2Term_list(page) {
     if (obj_json.code === 0) {
       if(obj_json.terminals.length===0){
         currentCerts2TermPage_total = obj_json.page;
-        alert("已经是最后一页了");
+        toastr.info("已经是最后一页了");
         return;
       }
       currentCerts2TermPage = obj_json.page;
@@ -469,7 +498,7 @@ function getCerts2Term_list(page) {
 //绑定证书certs分页按钮
 function bindCertsPager_Previous() {
   if (currentCertsPage === 0) {
-    alert("已经是第一页了");
+    toastr.info("已经是第一页了");
     return
   }
   currentCertsPage -= 1;
@@ -478,7 +507,7 @@ function bindCertsPager_Previous() {
 
 function bindCertsPager_Next() {
   if (currentCertsPage === currentCertsPage_total - 1) {
-    alert("已经是最后一页了");
+    toastr.info("已经是最后一页了");
     return;
   }
   currentCertsPage += 1;
@@ -488,7 +517,7 @@ function bindCertsPager_Next() {
 //绑定证书颁布的设备页面分页按钮
 function bindCerts2TermPager_Previous() {
   if (currentCerts2TermPage === 0) {
-    alert("已经是第一页了");
+    toastr.info("已经是第一页了");
     return
   }
   currentCerts2TermPage -= 1;
@@ -497,7 +526,7 @@ function bindCerts2TermPager_Previous() {
 
 function bindCerts2TermPager_Next() {
   if (currentCerts2TermPage === currentCerts2TermPage_total - 1) {
-    alert("已经是最后一页了");
+    toastr.info("已经是最后一页了");
     return;
   }
   currentCerts2TermPage += 1;
@@ -585,14 +614,14 @@ function updateCert(target) {
         $(target).text("修改")
         $(target).next().hide();
         getCerts_list(currentCertsPage);
-        alert("更改成功")
+        toastr.success("更改成功")
       } else if (obj_json.code === -2) {
-        alert("更改失败,权限不足");
+        toastr.error("更改失败,权限不足");
         $(target).text("修改")
         $(target).next().hide();
         getCerts_list(currentCertsPage);
       } else {
-        alert("更改失败");
+        toastr.error("更改失败"+obj_json.msg);
       }
       // allSelects.show();
       // allSelects.prev().hide();
@@ -636,15 +665,15 @@ function showUpdateCertTimes(target) {
 
 function UpdateCertTimes() {
   if (!$("#updateTimes").val()) {
-    alert("次数不能为空");
+    toastr.warning("次数不能为空");
     return;
   }
   if (!($("#user_id").val())) {
-    alert("请选择用户");
+    toastr.warning("请选择用户");
     return;
   }
   if(!allUsers[$("#user_id").val()]){
-    alert("用户不存在");
+    toastr.warning("用户不存在");
     return;
   }
   if (CurrentUser === "admin") {
@@ -658,8 +687,10 @@ function UpdateCertTimes() {
   };
   bproto_ajax(ISSUE_UESER_CERT, param, function (obj_json) {
     if(obj_json.code===0){
-      alert("转移成功");
+      toastr.success("转移成功");
       $("#UserModal").modal("hide");
+    }else{
+      toastr.error("失败"+obj_json.msg);
     }
   })
 }
@@ -796,7 +827,7 @@ function addusergroup() {
   var name = $("#addgroupname").val();
   var note = $("#addgroupnote").val();
   if(name===""||note===""){
-    alert("用户组名称和备注信息不能为空");
+    toastr.warning("用户组名称和备注信息不能为空");
     return;
   }
 
@@ -809,9 +840,11 @@ function addusergroup() {
   }
   bproto_ajax(UPDATE_GROUP_LIST,param,function(obj_json){
     if(obj_json.code===0){
-        alert("添加成功");
+      toastr.success("添加成功");
         $("#AddUserGroupModal").modal("hide");
         showUserGroupManage();
+    }else{
+      toastr.error("添加失败"+obj_json.msg);
     }
   })
 }
@@ -821,7 +854,7 @@ function addusergroup() {
 function exitGroup(id) {
   var isdel = confirm("确认退出用户组");
     if(isdel===false){
-        return
+        return;
     }
   var param = {
     'access_token':access_token,
@@ -829,8 +862,10 @@ function exitGroup(id) {
   }
   bproto_ajax(EXIT_GROUP,param,function (obj_json) {  
     if(obj_json.code===0){
-      alert("退出成功");
+      toastr.success("退出成功");
       showUserGroupManage();
+    }else{
+      toastr.error("退出成功"+obj_json.msg);
     }
   })
 }
@@ -843,7 +878,7 @@ function updateGroupClick(target,id){
   // console.log(name,note);
   
   if(name===""){
-    alert("用户组名称不能为空");
+    toastr.warning("用户组名称不能为空");
     return;
   }
   var param = {
@@ -856,18 +891,21 @@ function updateGroupClick(target,id){
   }
   bproto_ajax(UPDATE_GROUP_LIST,param,function (obj_json) {  
     if(obj_json.code===0){
-      alert("修改成功");
+      toastr.success("修改成功");
       showUserGroupManage();
+    }else{
+      toastr.error("修改失败"+obj_json.msg);
     }
   });
 
 }
 
 //存在的用户组对应的用户列表
-function showOtherUserGroupUserList(id){
+function showOtherUserGroupUserList(id,name){
   currentGroupID = id;
   $("#UserGroupManage .body").hide();
   $("#UserGroupManage .Otherusermanage").show();
+  $("#UserGroupManage .Otherusermanage .head .title").text(name+" 用户信息");
 
   var param = {
     'access_token':access_token,
@@ -875,28 +913,31 @@ function showOtherUserGroupUserList(id){
   }
   bproto_ajax(GET_GROUP_USER_LIST,param,function (obj_json) {  
     if(obj_json.code===0){
-      var Userslist =  obj_json.user_list;
-      var searchlist = {"access_token":access_token,'list':[]};
-      for(var i=0;i<Userslist.length;i++){
-        searchlist.list.push({
-          'target_type':'user',
-          'target_id':Userslist[i].user_id
-        })
-      }
+      
+      $("#UserGroupManage .Otherusermanage .table tbody").html(template('OtherusermanageTemp',obj_json));
+      
+      // var Userslist =  obj_json.user_list;
+      // var searchlist = {"access_token":access_token,'list':[]};
+      // for(var i=0;i<Userslist.length;i++){
+      //   searchlist.list.push({
+      //     'target_type':'user',
+      //     'target_id':Userslist[i].user_id
+      //   })
+      // }
 
-      bproto_ajax(GET_REMARK,searchlist,function (obj_json) {  
-        if(obj_json.code===0){
-          for(var i=0;i<obj_json.list.length;i++){
-            for(var j=0;j<Userslist.length;j++){
-              if(Userslist[j].user_id===obj_json.list[i].target_id){
-                Userslist[j]['rename'] = obj_json.list[i].rename;
-              }
-            }
-          }      
-          $("#UserGroupManage .Otherusermanage .table tbody").html(template('OtherusermanageTemp',{'group_list':Userslist}))
-        }
+      // bproto_ajax(GET_REMARK,searchlist,function (obj_json) {  
+      //   if(obj_json.code===0){
+      //     for(var i=0;i<obj_json.list.length;i++){
+      //       for(var j=0;j<Userslist.length;j++){
+      //         if(Userslist[j].user_id===obj_json.list[i].target_id){
+      //           Userslist[j]['rename'] = obj_json.list[i].rename;
+      //         }
+      //       }
+      //     }      
+      //     $("#UserGroupManage .Otherusermanage .table tbody").html(template('OtherusermanageTemp',{'group_list':Userslist}))
+      //   }
 
-      })
+      // })
 
     }
   })
@@ -904,10 +945,12 @@ function showOtherUserGroupUserList(id){
 
 
 //自己创建的用户组对应的用户列表
-function showOwnerUserGroupUserList(id){
+function showOwnerUserGroupUserList(id,name){
   currentGroupID = id;
+  currentGroupName = name;
   $("#UserGroupManage .body").hide();
   $("#UserGroupManage .Ownerusermanage").show();
+  $("#UserGroupManage .Ownerusermanage .head .title").text(name+" 用户信息");
 
   var param = {
     'access_token':access_token,
@@ -915,29 +958,7 @@ function showOwnerUserGroupUserList(id){
   }
   bproto_ajax(GET_GROUP_USER_LIST,param,function (obj_json) {  
     if(obj_json.code===0){
-      var Userslist =  obj_json.user_list;
-      var searchlist = {"access_token":access_token,'list':[]};
-      for(var i=0;i<Userslist.length;i++){
-        searchlist.list.push({
-          'target_type':'user',
-          'target_id':Userslist[i].user_id
-        })
-      }
-
-      bproto_ajax(GET_REMARK,searchlist,function (obj_json) {  
-        if(obj_json.code===0){
-          for(var i=0;i<obj_json.list.length;i++){
-            for(var j=0;j<Userslist.length;j++){
-              if(Userslist[j].user_id===obj_json.list[i].target_id){
-                Userslist[j]['rename'] = obj_json.list[i].rename;
-              }
-            }
-          }          
-          $("#UserGroupManage .Ownerusermanage tbody").html(template('OwnerusermanageTemp',{'group_list':Userslist}))
-        }
-
-      })
-
+      $("#UserGroupManage .Ownerusermanage .table tbody").html(template('OwnerusermanageTemp',obj_json));
     }
   })
 }
@@ -957,8 +978,10 @@ function remove_group(name){
   }
   bproto_ajax(UPDATE_GROUP_USER_LIST,param,function (obj_json) {  
     if(obj_json.code===0){
-      alert("移出用户成功");
+      toastr.success("移出用户成功");
       showOwnerUserGroupUserList(currentGroupID);
+    }else{
+      toastr.error("移出用户失败"+obj_json.msg)
     }
   })
 
@@ -968,6 +991,7 @@ function remove_group(name){
 function inviteUser_Group_Modal() {
   $("#InviteUserGroupModal").modal("show");
   $("#invite_code").hide();
+  $(".copy").hide();
   $("#InviteUserGroupModal input").val("");
   $("#invite_duration").val(30);
 }
@@ -983,12 +1007,19 @@ function inviteUser_Group(){
     if(obj_json.code===0){
       var code = obj_json.invite_code;
       $("#invite_code").show().val(code);
+      // $(".copy").show();
+      // $(".copy").attr("onclick","copyText('"+$("#invite_code").val()+"')")
     }else{
       $("#invite_code").show().val(obj_json.code+"$生成失败");
     }
   })
 }
 
+
+function copy(){
+  console.log($("#invite_code").val())
+  copyText($("#invite_code").val());
+}
 //加入群组提示框
 function AddInUser_Group_Modal() {
   $("#AddInCodeUserGroupModal").modal("show");
@@ -1021,7 +1052,7 @@ function showGroupMsg() {
       $("#AddInCodeUserGroupModal .group_msg .group_master").text(obj_json.group_master)
       $("#AddInCodeUserGroupModal .group_msg button").attr("onclick","addInGroup('"+val+"')")
     }else{
-      alert(obj_json.code+"$邀请码无效");
+      toastr.error("失败"+obj_json.msg);
       $("#addIn_code").val("").focus();
     }
   })
@@ -1036,11 +1067,11 @@ function addInGroup(invite_code) {
 
   bproto_ajax(JOIN_GROUP,param,function (obj_json) {  
     if(obj_json.code===0){
-      alert("加入成功");
+      toastr.success("加入成功");
     }else if(obj_json.code===-5){
-      alert("已在群组");
+      toastr.error("已在群组");
     }else{
-      alert(obj_json.code+"$加入失败");
+      toastr.error(obj_json.code+"$加入失败");
     }
     closeModal('#AddInCodeUserGroupModal');
     showUserGroupManage();
@@ -1060,8 +1091,10 @@ function del_group(target){
   }
   bproto_ajax(UPDATE_GROUP_LIST,param,function (obj_json) {
     if(obj_json.code===0){
-      alert("删除成功");
+      toastr.success("删除成功");
       showUserGroupManage();
+    }else{
+      toastr.error("删除失败"+obj_json.msg)
     }
   })
 }

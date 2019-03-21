@@ -43,11 +43,15 @@
 
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/base.css" rel="stylesheet">
+      <link href="/static/css/toastr.min.css" rel="stylesheet" />
     <!--[if lt IE 9]>
     <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
     <script src="/static/js/jquery.min.js"></script>
+      <script src="/static/js/toastr.min.js"></script>
+
+
     <script src="/static/js/jquery.cookie.js"></script>
     <script src="/static/js/bprotocol.js"></script>
     <script src="/static/js/conf.js"></script>
@@ -63,66 +67,6 @@
     </section>
 </aside>
 <section class="main-content">
-    <style>
-        .main-content>header{
-            width: 100%;
-            height: 60px;
-            background: #1a2226;
-        }
-        .main-content>header>ul{
-            margin-right: 30px;
-            float: right;
-        }
-        .main-content>header li{
-            float: left;
-        }
-        .main-content>header>ul>li>a{
-            display: block;
-            height: 60px;
-            padding: 10px 25px 10px 15px;
-            font-size: 16px;
-            line-height: 40px;
-            font-weight: 700;
-            color: #4b646f;
-
-        }
-        .main-content>header>ul>li:last-child{
-            position: relative;
-        }
-        li.user:hover .a_list{
-            display: block;
-        }
-
-        .a_list{
-            display: none;
-            padding: 5px 0;
-            position: absolute;
-            right: 0;
-            border:1px solid #cccccc;
-            border-radius: 3px;
-            top: 56px;
-            background-color: #fff;
-            width: 100%;
-
-        }
-        .a_list li{
-            width: 100%;
-
-        }
-        .a_list li:hover{
-            background-color: #cccccc;
-        }
-        .a_list li>a{
-            display: block;
-            height: 30px;
-            color: #000;
-            line-height: 30px;
-            font-size: 14px;
-            width: 100%;
-            text-align: center;
-
-        }
-    </style>
     <header>
         
     </header>
@@ -130,21 +74,22 @@
     <section id="labelList" class="content labelList">
         <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">认证标签信息</div>
         <button type="button" id="addUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="ShowAddUserLabel_modal()"> 添加认证标签 </button>
-        <button type="button" id="removeUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="RemoveUserLabel()"> 删除认证标签 </button>
+        <button type="button" id="removeUserLabel" class="btn btn-danger" style="margin-bottom: 20px" onclick="RemoveUserLabel()"> 删除认证标签 </button>
         <!-- <button type="button" id="updateUserLabel" class="btn"style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="ShowUpdateUserLabel_modal()"> 修改认证标签信息 </button> -->
-        <div class="search pull-right" style="padding-right: 20px">
+        <!-- <div class="search pull-right" style="padding-right: 20px">
             <label class="mylabel">搜索标签</label>
             <input type="text" style="border-radius: 10px;display: inline-block;width: 200px;padding: 0 20px"  placeholder="请输入描述信息" class="form-control">
-        </div>
+        </div> -->
         <div class="showUserLabel">
             <style>
                 .showUserLabel td span{
                     position: relative;
+                    cursor: pointer;
                 }
                 .showUserLabel .showqrcode{
                     position: absolute;
                     top:50%;
-                    left:105%;
+                    left:160%;
                     transform: translateY(-50%);
                     display: none;
                 }
@@ -157,8 +102,7 @@
                 <thead>
                     <tr>
                         <th>
-                            #
-                            <!--<input type="checkbox" id="labelList_all_cb">-->
+                            <input type="checkbox" id="labelList_all_cb">
                         </th>
                         <th>标签名称</th>
                         <th style="display: none">UserId</th>
@@ -242,18 +186,24 @@
                 <input type="text" class="form-control edit label_name"  style="display:none" data-bind="{{value.label_name}}" value="{{value.label_name}}">
             </td>
             <td style="display: none">{{value.User_id}}</td>
-            <td style="height: 52px;line-height:52px;position: relative;"><span>{{value.label_id}}<div class="showqrcode" style="background-color:#fff;"  
-                data-bindid = "{{value.labe}}"
-                data-bindname = "{{value.label_name}}"
-                data-bindnote = "{{value.label_note}}"
-                >{{value.label_id}}</div></span></td>
-            <td><textarea class="disable form-control textarea_label_note" style="resize: none;cursor: text;" data-bind="{{value.label_note}}" disabled rows="2" >{{value.label_note}}</textarea></td>
-            <td>
-                <a href="javascript:;" class="my-link source" onclick="ShowEdit(this)">修改</a>
-                <a href="javascript:;" class="my-link edit" onclick="UpdateUserLabel('{{value.label_id}}',this)" style="display:none">确认</a>
-                <a href="javascript:;" class="my-link edit" onclick="HideEdit(this)" style="display:none">取消</a>
+            <td style="height: 52px;width:220px;line-height:52px;position: relative;">
+                <span>{{value.label_id}}
+                    <div class="showqrcode {{value.label_id}}" style="background-color:#fff;z-index:9999"  
+                    data-bindid = "{{value.label_id}}"
+                    data-bindname = "{{value.label_name}}"
+                    data-bindnote = "{{value.label_note}}"
+                    >{{value.label_id}}</div>
+                </span>
+                <button class="btn" style="outline:none" onclick="downloadCanvasIamge('.{{value.label_id}} canvas','{{value.label_name}}@{{value.label_id}}')">下载二维码</button>
+                <button class="btn" style="outline:none" onclick="copyText('{{value.label_id}}')">复制ID</button>
             </td>
-            <td><a href="javascript:;" onclick="RemoveOneUserLabel('{{value.label_id}}')" class="my-link">删除</a></td>
+            <td><textarea class="disable form-control textarea_label_note" style="resize: none;cursor: text;" data-bind="{{value.label_note}}" disabled rows="2" >{{value.label_note}}</textarea></td>
+            <td style="width:100px">
+                <button style="" class="btn source" onclick="ShowEdit(this)">修改</a>
+                <button  class="btn btn-success edit" onclick="UpdateUserLabel('{{value.label_id}}',this)" style="margin-right:10px;display:none">确认</a>
+                <button  class="btn btn-danger edit" onclick="HideEdit(this)" style="display:none">取消</a>
+            </td>
+            <td style="width:100px"><button href="javascript:;" onclick="RemoveOneUserLabel('{{value.label_id}}')" class="btn btn-danger">删除</a></td>
         </tr>
     {{/each}}
 </script>
