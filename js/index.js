@@ -21,6 +21,7 @@ currentUnAuthTermPage_total = 0;//初始化未授权设备总页数
 currentUnAuthTermPage = 0; //初始化未授权设备当前页数
 currentUnAuthTermPageSize = 10; // 初始化未授权设备每页获取数据
 
+CurrentAuthPaging = {};
 currentAuthTermPage_total = 0;//初始化授权设备总页数
 currentAuthTermPage = 0; //初始化授权设备当前页数
 currentAuthTermPageSize = 10; // 初始化授权设备每页获取数据
@@ -264,6 +265,17 @@ function fun_get_register_list() {
     if (obj_json.code === 0) {
       currentUnAuthTermPage_total = obj_json.page_total;
       currentUnAuthTermPage = obj_json.page;
+
+      $('.unauthpage').paging({
+        nowPage: currentUnAuthTermPage+1,
+        allPages: currentUnAuthTermPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+            
+            getUnAuthTerm_list(now-1)
+        }
+      });
+
       var html = template('unauthorizedTemp', obj_json);
       $("#unauthorized table tbody").html(html);
       update_ip();
@@ -412,12 +424,12 @@ function fun_get_authterm_list() {
       currentAuthTermPage_total = obj_json.page_total;
 
 
-      $('#paging.authpage').paging({
+      CurrentAuthPaging = $('.authpage').paging({
         nowPage: currentAuthTermPage+1,
         allPages: currentAuthTermPage_total,
         displayPage: 7,
         callBack: function (now) {
-            console.log(now-1);
+            
             getAuthTerm_list(now-1)
         }
       });
@@ -450,12 +462,15 @@ function fun_get_online_terminal_list() {
     if (obj_json.code === 0) {
       currentOnlineTermPage_total = obj_json.page_total;
       currentOnlineTermPage = obj_json.page;
-      // console.log(JSON.stringify(obj_json));
-      // var html = template('onlineTermsTemp', obj_json);
-      // $("#onlineTerminal .tablebox_authterm table tbody").html(html);
-      // Online_List_Search();
-
-      // console.log(obj_json);
+      // $('.onlinepage').paging({
+      //   nowPage: currentOnlineTermPage+1,
+      //   allPages: currentOnlineTermPage_total,
+      //   displayPage: 7,
+      //   callBack: function (now) {
+            
+      //       getOnlineTerm_list(now-1)
+      //   }
+      // });
       RenderOnlineTerminalTable(obj_json);
       RenderTable_Th("#onlineTerminal");
     }
@@ -595,16 +610,6 @@ function getAuthTerm_list(page, target) {
       currentAuthTermPage = obj_json.page;
       currentAuthTermPage_total = obj_json.page_total;
 
-      // $('#paging.authpage').paging({
-      //   nowPage: currentAuthTermPage+1,
-      //   allPages: currentAuthTermPage_total,
-      //   displayPage: 7,
-      //   callBack: function (now) {
-      //       console.log(now-1);
-      //       getAuthTerm_list(now-1)
-      //   }
-      // });
-
       var html = template('authorizedTemp', obj_json);
       $("#authorized .tablebox_authterm table tbody").html(html);
       Auth_List_Search();
@@ -661,6 +666,17 @@ function getOnlineTerm_list(page, target) {
         }
         currentOnlineTermPage = obj_json.page;
         currentOnlineTermPage_total = obj_json.page_total;
+
+        // $('.onlinepage').paging({
+        //   nowPage: currentOnlineTermPage+1,
+        //   allPages: currentOnlineTermPage_total,
+        //   displayPage: 7,
+        //   callBack: function (now) {
+              
+        //       getOnlineTerm_list(now-1)
+        //   }
+        // });
+
         RenderOnlineTerminalTable(obj_json);
         RenderTable_Th("#onlineTerminal")
       }
@@ -735,6 +751,16 @@ function btn_search(target) {
         if (obj_json.code === 0) {
           currentUnAuthTermPage_total = obj_json.page_total;
           currentUnAuthTermPage = obj_json.page;
+          $('.unauthpage').paging({
+            nowPage: currentUnAuthTermPage+1,
+            allPages: currentUnAuthTermPage_total,
+            displayPage: 7,
+            callBack: function (now) {
+                
+                getUnAuthTerm_list(now-1)
+            }
+          });
+
           var html = template('unauthorizedTemp', obj_json);
           $("#unauthorized table tbody").html(html);
           update_ip();
@@ -766,7 +792,7 @@ function btn_search(target) {
             allPages: currentAuthTermPage_total,
             displayPage: 7,
             callBack: function (now) {
-                console.log(now-1);
+                
                 getAuthTerm_list(now-1)
             }
           });
@@ -1021,6 +1047,17 @@ function updateUnauthorizedSort() {
     if (obj_json.code === 0) {
       currentUnAuthTermPage_total = obj_json.page_total;
       currentUnAuthTermPage = obj_json.page;
+
+      $('.unauthpage').paging({
+        nowPage: currentUnAuthTermPage+1,
+        allPages: currentUnAuthTermPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+            
+            getUnAuthTerm_list(now-1)
+        }
+      });
+
       var html = template('unauthorizedTemp', obj_json);
       $("#unauthorized table tbody").html(html);
       update_ip();
@@ -1063,7 +1100,7 @@ function updateAuthorizedSort() {
         allPages: currentAuthTermPage_total,
         displayPage: 7,
         callBack: function (now) {
-            console.log(now-1);
+            
             getAuthTerm_list(now-1)
         }
       });
@@ -1102,6 +1139,17 @@ function updateOnlineSort() {
     if (obj_json.code === 0) {
       currentOnlineTermPage = obj_json.page;
       currentOnlineTermPage_total = obj_json.page_total;
+
+      // $('.onlinepage').paging({
+      //   nowPage: currentOnlineTermPage+1,
+      //   allPages: currentOnlineTermPage_total,
+      //   displayPage: 7,
+      //   callBack: function (now) {
+            
+      //       getOnlineTerm_list(now-1)
+      //   }
+      // });
+
       RenderOnlineTerminalTable(obj_json);
       RenderTable_Th("#onlineTerminal");
     }

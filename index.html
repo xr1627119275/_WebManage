@@ -388,11 +388,21 @@
 
         </tbody>
       </table>
-
+      <div id="paging" class='unauthpage'> 
+          <div class="first">首页</div>
+          <div class="prev">上一页</div>
+          <ul class="list"></ul>
+          <div class="go">
+              <input type="text" placeholder="Goto">
+              <button>跳转</button>
+          </div>
+          <div class="next">下一页</div>
+          <div class="last">末页</div>
+      </div>
 
     </div>
     <div class="bottom">
-      <div class="UnAuth_pager" style="margin-bottom: 10px">
+      <!-- <div class="UnAuth_pager" style="margin-bottom: 10px">
 
         <ul class="pager" style="margin-bottom: 0">
           <li>
@@ -412,7 +422,7 @@
           <li><a href="javascript:;" onclick="getUnAuthTerm_list(currentUnAuthTermPage_total-1)">尾页</a></li>
         </ul>
 
-      </div>
+      </div> -->
 
       <!--底部授权部分-->
       <div class="account" style="display: none">
@@ -611,7 +621,7 @@
         <tbody>
 
         </tbody>
-      </table>
+      </table> 
       <div id="paging" class='authpage'> 
           <div class="first">首页</div>
           <div class="prev">上一页</div>
@@ -781,10 +791,21 @@
 
           </tbody>
         </table>
+        <div id="paging" class='onlinepage'> 
+            <div class="first" onclick="getOnlineTerm_list(0)">首页</div>
+            <div class="prev" onclick="bindPager_Previous(currentOnlineTermPage,getOnlineTerm_list)">上一页</div>
+            <ul class="list"></ul>
+            <div class="go">
+                <input type="text" placeholder="Goto">
+                <button>跳转</button>
+            </div>
+            <div class="next" onclick="bindPager_Next(currentOnlineTermPage,currentOnlineTermPage_total,getOnlineTerm_list)">下一页</div>
+            <!-- <div class="last">末页</div> -->
+        </div>
       </div>
 
       <div class="bottom">
-        <div class="online_pager">
+        <!-- <div class="online_pager">
 
           <ul class="pager" style="margin-bottom: 10px">
 
@@ -808,7 +829,7 @@
             <li><a href="javascript:;" onclick="getOnlineTerm_list(currentOnlineTermPage_total-1)">尾页</a></li>
           </ul>
 
-        </div>
+        </div> -->
 
         <!--底部发送信息部分-->
         <div class="account" style="display: none">
