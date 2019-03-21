@@ -387,6 +387,14 @@ function Online_List_Search() {
 //   })
 // }
 
+// $('#paging.authpage').paging({
+//   nowPage: 1+1,
+//   allPages: 10,
+//   displayPage: 7,
+//   callBack: function (now) {
+//       console.log(now);
+//   }
+// });
 
 //授权过的设备获取list
 function fun_get_authterm_list() {
@@ -402,6 +410,18 @@ function fun_get_authterm_list() {
     if (obj_json.code === 0) {
       currentAuthTermPage = obj_json.page;
       currentAuthTermPage_total = obj_json.page_total;
+
+
+      $('#paging.authpage').paging({
+        nowPage: currentAuthTermPage+1,
+        allPages: currentAuthTermPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+            console.log(now-1);
+            getAuthTerm_list(now-1)
+        }
+      });
+
       var html = template('authorizedTemp', obj_json);
       $("#authorized .tablebox_authterm table tbody").html(html);
       Auth_List_Search();
@@ -486,7 +506,7 @@ function getUnAuthTerm_list(page, target) {
 
   $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function (i, el) {
     if ($(this).text().length > 0 && el != $("#unauthorized .Receive")[0]) {
-      sortlist[$(this).attr("data-info")] = $(this).text()
+      sortlist[$(this).attr("data-info")] = $(this).attr("data-id");
     }
   });
 
@@ -535,7 +555,7 @@ function getAuthTerm_list(page, target) {
   var sortlist = {};
   $("#authorized .breadcrumb li:nth-child(n+2)").each(function (i, el) {
     if ($(this).text().length > 0 && el != $("#authorized .Receive")[0]) {
-      sortlist[$(this).attr("data-info")] = $(this).text()
+      sortlist[$(this).attr("data-info")] = $(this).attr("data-id");
     }
   });
 
@@ -575,6 +595,16 @@ function getAuthTerm_list(page, target) {
       currentAuthTermPage = obj_json.page;
       currentAuthTermPage_total = obj_json.page_total;
 
+      // $('#paging.authpage').paging({
+      //   nowPage: currentAuthTermPage+1,
+      //   allPages: currentAuthTermPage_total,
+      //   displayPage: 7,
+      //   callBack: function (now) {
+      //       console.log(now-1);
+      //       getAuthTerm_list(now-1)
+      //   }
+      // });
+
       var html = template('authorizedTemp', obj_json);
       $("#authorized .tablebox_authterm table tbody").html(html);
       Auth_List_Search();
@@ -595,7 +625,7 @@ function getOnlineTerm_list(page, target) {
     var sortlist = {};
     $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function (i, el) {
       if ($(this).text().length > 0 && el != $("#onlineTerminal .Receive")[0]) {
-        sortlist[$(this).attr("data-info")] = $(this).text()
+        sortlist[$(this).attr("data-info")] = $(this).attr("data-id"); 
       }
     });
 

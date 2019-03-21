@@ -12,7 +12,8 @@
       this.$oGo = this.$oPaging.find('.go');
       this.$oGo_text = this.$oGo.find('input');
       this.$oGo_btn = this.$oGo.find('button');
-  
+      
+      this.$oList.html("");
       this.defaults = {
         nowPage: 1,
         allPages: 10,
@@ -191,7 +192,7 @@
   
     $.fn.paging = function (options) {
       var paging = new Paging(this, options);
-  
+      
       return paging.inital();
     };
   
