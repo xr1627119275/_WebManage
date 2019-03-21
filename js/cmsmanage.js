@@ -279,7 +279,7 @@ function getCMSBlack_list(page) {
       page = 0
     }
     var param = {
-      'access_token': access_token,
+      'access_token': access_token, 
       'filter': {
         'cms': currentCMS,
         'item_type': 'BlackList',
@@ -297,7 +297,7 @@ function getCMSBlack_list(page) {
         currentCMSBlackListPage_total = obj_json.page_total;
 
         BW_fields_Name2Chinese(obj_json);
-        $("#black_white .BlackWhiteListContent .showBlackWhiteMsg .Blacktablebox tbody").html(template("BlackListTemp", obj_json))
+        $(".BlackWhiteListContent .showBlackWhiteMsg .Blacktablebox tbody").html(template("BlackListTemp", obj_json))
         RenderSelectField(function () {
           var target = $("#black_white .showBlackWhiteMsg .Blacktablebox .FieldSelectList");
           target.each(function () {
@@ -337,7 +337,7 @@ function getCMSWhite_list(page) {
         currentCMSWhiteListPage_total = obj_json.page_total;
 
         BW_fields_Name2Chinese(obj_json);
-        $("#black_white .BlackWhiteListContent .showBlackWhiteMsg .Whitetablebox tbody").html(template("BlackListTemp", obj_json))
+        $(".BlackWhiteListContent .showBlackWhiteMsg .Whitetablebox tbody").html(template("BlackListTemp", obj_json))
         $(".showBlackWhiteMsg .Blacktablebox,.showBlackWhiteMsg .Whitetablebox").height($(window).height() - $(".Whitetablebox").offset().top - 60);
         RenderSelectField(function () {
           var target = $("#black_white .showBlackWhiteMsg .Whitetablebox .FieldSelectList");
