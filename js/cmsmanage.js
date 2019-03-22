@@ -1,23 +1,23 @@
 currentCMSListPage_total = 0;//初始化授权设备总页数
 currentCMSListPage = 0; //初始化授权设备当前页数
-currentCMSListPageSize = 1; // 初始化授权设备每页获取数据
+currentCMSListPageSize = 20; // 初始化授权设备每页获取数据
 
  
 //初始化CMS设备页数数据
 currentCMSDevicePage_total = 0;
 currentCMSDevicePage = 0;
-currentCMSDevicePageSize = 1;
+currentCMSDevicePageSize = 20;
 
 //初始化黑名单页数数据
 currentCMSBlackListPage_total = 0;
 currentCMSBlackListPage = 0;
-currentCMSBlackListPageSize = 1;
+currentCMSBlackListPageSize = 10;
 
 //初始化白名单页数数据
 currentCMSWhiteListPage_total = 0;
 currentCMSWhiteListPage = 0;
-currentCMSWhiteListPageSize = 1;
-
+currentCMSWhiteListPageSize = 10; 
+  
 //默认添加黑名单
 currentAddBW = "WhiteList";
 
