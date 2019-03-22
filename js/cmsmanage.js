@@ -900,5 +900,5 @@ $(".modal").click(function (e) {
     closeModal("#AddBlackWhite_Modal");
   } else if (e.target == $("#ModuleFieldManage_Modal")[0]) {
     closeModal("#ModuleFieldManage_Modal");
-  }
+  } 
 });

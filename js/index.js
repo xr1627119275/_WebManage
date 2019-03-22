@@ -62,13 +62,24 @@ showWhitchSlider(1)
 // })
 
 // $(".table").on('click')
-function ShowOnlineTermAllMsg(id, target) {
+
+function ShowUnAuthTermAllMsg(value) {  
+  value = JSON.parse(value);
+  console.log(value)
+  $("#AllMsgModal .modal-body").html(template("UnAuthMsgTemp",value));
+  $("#AllMsgModal").modal("show");
+}
+
+
+function ShowOnlineTermAllMsg(id, value) {
   // $(this).find(".msg_body").css("display","block");
 
-  if ($(target).next().find("ul li.info").is(":hidden")) {
-    return;
-  }
-
+  // if ($(target).next().find("ul li.info").is(":hidden")) {
+  //   return;
+  // }
+  value = JSON.parse(value);
+  $("#AllMsgModal .modal-body").html(template("Auth_OnlineMsgTemp",value));
+  $("#AllMsgModal").modal("show");
   var param = {
     'access_token': access_token,
     'terminals': [id]
@@ -82,25 +93,27 @@ function ShowOnlineTermAllMsg(id, target) {
       var html = '';
       html += '<li class="list-group-item info"><span style="display:inline-block;width:100px">上线时间</span>' + (info.online_datetime) + '</li>'
       html += '<li class="list-group-item info"><span style="display:inline-block;width:100px">上线IP</span>' + (info.online_host) + '</li>'
-      $(target).next().find("ul").append(html);
+      $("#AllMsgModal .modal-body ul").append(html);
     }
+
   })
+
   // $(target).find(".msg_body ul").append('<li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{value.OSVersion}}</li>')
 }
 
 
-$(".table ").on("click", "td button", function (e) {
-  // $(this).find(".msg_body").css("display","block");
-  if (($(this).offset().top) > $(this).next().height()) {
-    $(this).parent().find(".msg_body").css({ "display": "block", "bottom": "0" });
-  } else {
-    $(this).parent().find(".msg_body").css({ "display": "block", "top": "0" });
-  }
-})
+// $(".table ").on("click", "td button", function (e) {
+//   // $(this).find(".msg_body").css("display","block");
+//   if (($(this).offset().top) > $(this).next().height()) {
+//     $(this).parent().find(".msg_body").css({ "display": "block", "bottom": "0" });
+//   } else {
+//     $(this).parent().find(".msg_body").css({ "display": "block", "top": "0" });
+//   }
+// })
 
-$(".table ").on("mouseleave", "td.more", function () {
-  $(this).find(".msg_body").css("display", "none");
-})
+// $(".table ").on("mouseleave", "td.more", function () {
+//   $(this).find(".msg_body").css("display", "none");
+// })
 
 
 
@@ -2233,5 +2246,7 @@ $(".modal").click(function (e) {
       return;
     }
     closeModal("#ModuleFieldManage_Modal");
+  } else if (e.target == $("#AllMsgModal")[0]) {
+    closeModal("#AllMsgModal");
   }
 });

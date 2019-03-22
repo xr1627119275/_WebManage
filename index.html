@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -11,7 +12,6 @@
   <link rel="stylesheet" href="/static/css/sidebar-menu.css">
 
   <style type="text/css">
-
     .search {
       width: 40%;
       margin: 0 auto;
@@ -41,7 +41,7 @@
       color: #f40;
     }
 
-    .breadcrumb .Receive > span {
+    .breadcrumb .Receive>span {
       line-height: 19px;
       color: #6b6b6b;
     }
@@ -64,7 +64,8 @@
       background-color: #222d32;
     }
 
-    .btn-group-lg > .btn, .btn-lg {
+    .btn-group-lg>.btn,
+    .btn-lg {
       padding: 5px 6px;
 
     }
@@ -134,40 +135,45 @@
       z-index: 99999
     }
 
-    .terminal>.terminal_content{
+    .terminal>.terminal_content {
       position: fixed;
       transform: translateX(-50%);
-      left:50%;
-      top:50px;
+      left: 50%;
+      top: 50px;
       width: 600px;
       padding: 50px 0px 0;
 
       height: 500px;
       background-color: rgba(0, 0, 0, .0);
     }
-    .terminal>.terminal_content>.hd{
+
+    .terminal>.terminal_content>.hd {
       cursor: move;
       height: 30px;
       background-color: #E5E5E5;
       border: 1px solid #C3C5C6;
     }
-    .terminal>.terminal_content>.hd>.fr{
+
+    .terminal>.terminal_content>.hd>.fr {
       height: 100%;
       padding: 0px 6px;
-      border-left:  1px solid #C3C5C6;
+      border-left: 1px solid #C3C5C6;
     }
-    .terminal>.terminal_content>.body{
+
+    .terminal>.terminal_content>.body {
       width: 100%;
       height: 100%;
       background-color: #000000;
       color: #ffffff;
     }
-    .terminal>.terminal_content>.body>p{
+
+    .terminal>.terminal_content>.body>p {
       display: flex;
       height: 25px;
       line-height: 25px;
     }
-    .terminal>.terminal_content>.body>p>input{
+
+    .terminal>.terminal_content>.body>p>input {
       flex: 1;
       margin-left: 5px;
       color: #ffffff;
@@ -176,6 +182,7 @@
       border: none;
       outline: none;
     }
+
     /*在线设备分页部分*/
   </style>
   <link href="/static/css/toastr.min.css" rel="stylesheet" />
@@ -185,7 +192,7 @@
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
   <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/toastr.min.js"></script>
+  <script src="/static/js/toastr.min.js"></script>
 
   <script src="/static/js/jquery.cookie.js"></script>
   <script src="/static/js/bprotocol.js"></script>
@@ -196,15 +203,16 @@
   <script src="/static/js/base.js"></script>
 
 </head>
-<body>
-<aside class="main-sidebar">
-  <section class="sidebar">
-    
-  </section>
-</aside>
 
-<section class="main-content">
-  <!-- <style>
+<body>
+  <aside class="main-sidebar">
+    <section class="sidebar">
+
+    </section>
+  </aside>
+
+  <section class="main-content">
+    <!-- <style>
     .main-content > header {
       width: 100%;
       height: 60px;
@@ -273,90 +281,90 @@
     }
   </style> -->
 
-  <style>
-    
-  </style>
-  <header>
-    
-  </header>
+    <style>
 
-  <!--未授权页面-->
-  <section class="content" id="unauthorized"  style="display: none">
+    </style>
+    <header>
 
-    <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">未授权设备</div>
+    </header>
 
-    <div class="search">
-      <div class="input-group">
-        <div class="input-group-btn">
-          <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false"><span class="text">请选择</span> <span class="caret"></span></button>
-          <ul class="dropdown-menu">
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
-            <!-- <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li> -->
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="serialnumber">序列号</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="type">类型</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">验证型号</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="imei">IMEI</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwareprovider">硬件供应商</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwaresn">硬件SN</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="softwareprovider">软件供应商</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
+    <!--未授权页面-->
+    <section class="content" id="unauthorized" style="display: none">
+
+      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">未授权设备</div>
+
+      <div class="search">
+        <div class="input-group">
+          <div class="input-group-btn">
+            <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false"><span class="text">请选择</span> <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
+              <!-- <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li> -->
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="serialnumber">序列号</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="type">类型</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">验证型号</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="imei">IMEI</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwareprovider">硬件供应商</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwaresn">硬件SN</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="softwareprovider">软件供应商</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
+              <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
+            </ul>
+          </div><!-- /btn-group -->
+          <span class="fa fa-remove " onclick="remove_input(this)" data-info="unauthorized"
+            style="position: absolute;"></span>
+          <input type="text" class="form-control" placeholder="请输入搜索内容">
+          <span class="input-group-btn">
+            <button class="btn btn-default search-btn" type="button" data-bind=" " data-info="unauthorized"
+              onclick="btn_search(this)">搜索</button>
+          </span>
+        </div><!-- /input-group -->
+      </div>
+      <div class="sort">
+        <div>
+          <ul class="clearfix typesort" data-bind="typesort">
+            <li><span>类型:</span></li>
+
           </ul>
-        </div><!-- /btn-group -->
-        <span class="fa fa-remove " onclick="remove_input(this)" data-info="unauthorized"
-              style="position: absolute;"></span>
-        <input type="text" class="form-control" placeholder="请输入搜索内容">
-        <span class="input-group-btn">
-        <button class="btn btn-default search-btn" type="button" data-bind=" " data-info="unauthorized"
-                onclick="btn_search(this)">搜索</button>
-      </span>
-      </div><!-- /input-group -->
-    </div>
-    <div class="sort">
-      <div>
-        <ul class="clearfix typesort" data-bind="typesort">
-          <li><span>类型:</span></li>
-
-        </ul>
+        </div>
+        <div>
+          <ul class="clearfix hardwaresort" data-bind="hardwaresort">
+            <li><span>硬件供应商:</span></li>
+          </ul>
+        </div>
+        <div>
+          <ul class="clearfix softwaresort" data-bind="softwaresort">
+            <li><span>软件供应商:</span></li>
+          </ul>
+        </div>
       </div>
-      <div>
-        <ul class="clearfix hardwaresort" data-bind="hardwaresort">
-          <li><span>硬件供应商:</span></li>
-        </ul>
-      </div>
-      <div>
-        <ul class="clearfix softwaresort" data-bind="softwaresort">
-          <li><span>软件供应商:</span></li>
-        </ul>
-      </div>
-    </div>
-    <ol class="breadcrumb">
-      <li>所有分类</li>
-      <li class="active" data-bind="typesort" data-info="type" style="display: none"></li>
-      <li class="active" data-bind="hardwaresort" data-info="hardwareprovider" style="display: none"></li>
-      <li class="active" data-bind="softwaresort" data-info="softwareprovider" style="display: none"></li>
-      <li class="Receive fr" onclick="Receive(this)"><span class='tip'>收起筛选</span><span class="fa fa-angle-up pull-right"
-                                                               aria-hidden="true"></span></li>
-    </ol>
+      <ol class="breadcrumb">
+        <li>所有分类</li>
+        <li class="active" data-bind="typesort" data-info="type" style="display: none"></li>
+        <li class="active" data-bind="hardwaresort" data-info="hardwareprovider" style="display: none"></li>
+        <li class="active" data-bind="softwaresort" data-info="softwareprovider" style="display: none"></li>
+        <li class="Receive fr" onclick="Receive(this)"><span class='tip'>收起筛选</span><span
+            class="fa fa-angle-up pull-right" aria-hidden="true"></span></li>
+      </ol>
 
-    <div class="tablebox" style="width: 100%;height: 100%;transition: all 0.5s ease 0s;padding: 0 0 62x 0">
+      <div class="tablebox" style="width: 100%;height: 100%;transition: all 0.5s ease 0s;padding: 0 0 62x 0">
 
-      <table class="table table-striped table-bordered">
-        <thead>
-        <tr >
-          <th><input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/></th> 
-          <th>类型</th>               <!--    type-->
-          <th>认证码</th>           <!--   randcode-->
-          <th>ID</th>                 <!--  id-->
-          <th>状态</th>           <!--   randcode-->
-          <th>注册时间</th>           <!--   randcode-->
-          <th>描述</th>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th><input type="checkbox" name="allcheck" class="allcheck" id="allcheck" /></th>
+              <th>类型</th> <!--    type-->
+              <th>认证码</th> <!--   randcode-->
+              <th>ID</th> <!--  id-->
+              <th>状态</th> <!--   randcode-->
+              <th>注册时间</th> <!--   randcode-->
+              <th>描述</th>
 
-          <!-- <th class="unauth_section section1"></th>
+              <!-- <th class="unauth_section section1"></th>
           <th class="unauth_section section1">硬件供应商</th>    
           <th class="unauth_section section1">硬件SN</th>        
           <th class="unauth_section section1">硬件版本</th>      
@@ -380,29 +388,29 @@
           <th class="unauth_section section3 ">客户端IP</th>        
           <th class="unauth_section section3 ">客户端地址</th>      
           <th class="unauth_section section3"></th> -->
-          <th>详情</th>
-          <th colspan="3">管理</th>
-        </tr>
-        </thead>
-        <tbody>
+              <th>详情</th>
+              <th colspan="3">管理</th>
+            </tr>
+          </thead>
+          <tbody>
 
-        </tbody>
-      </table>
-      <div id="paging" class='unauthpage'> 
+          </tbody>
+        </table>
+        <div id="paging" class='unauthpage'>
           <div class="first">首页</div>
           <div class="prev">上一页</div>
           <ul class="list"></ul>
           <div class="go">
-              <input type="text" placeholder="Goto">
-              <button>跳转</button>
+            <input type="text" placeholder="Goto">
+            <button>跳转</button>
           </div>
           <div class="next">下一页</div>
           <div class="last">末页</div>
-      </div>
+        </div>
 
-    </div>
-    <div class="bottom">
-      <!-- <div class="UnAuth_pager" style="margin-bottom: 10px">
+      </div>
+      <div class="bottom">
+        <!-- <div class="UnAuth_pager" style="margin-bottom: 10px">
 
         <ul class="pager" style="margin-bottom: 0">
           <li>
@@ -424,275 +432,110 @@
 
       </div> -->
 
-      <!--底部授权部分-->
-      <div class="account" style="display: none">
+        <!--底部授权部分-->
+        <div class="account" style="display: none">
 
-        <div class="fl">
-          <!-- <input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/><span>全选/全不选</span>&nbsp;&nbsp; -->
-          <span class="checkNum" style="visibility: hidden">已选</span>
+          <div class="fl">
+            <!-- <input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/><span>全选/全不选</span>&nbsp;&nbsp; -->
+            <span class="checkNum" style="visibility: hidden">已选</span>
 
-        </div>
-        <div class="fr">
-          <a class="authorize" onclick="auth_delete()" href="javascript:;"
-             style="float: left;background-color:#b75050;margin-right: 10px">删除</a>
-          <a class="authorize" onclick="auth_show()" href="javascript:;" style="float: left">授权</a>
-        </div>
-
-      </div>
-      <!--底部授权部分结束-->
-    </div>
-
-    <!--授权提示框-->
-
-    <div class="modal fade" id="AuthModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-
-      <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" onclick="closeModal('#AuthModal')" aria-label="Close"><span
-                    aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title h2" id="AuthCertLabel" style="text-align: center">管理员授权</h4>
           </div>
-          <div class="modal-body">
-            <div class="auth_modal adminAuth" style="display: none">
-              <div class="form-inline" style="text-align: center">
-                <label class="mylabel">证书授权时效</label>
-                <div class="form-group">
-                  <input type="number" class="form-control" id="year" placeholder="请输入证书授权时效(年)">
-                  <label class="mylabel">年</label>
-                </div>
-                <div class="form-group">
-                  <input type="number" class="form-control" id="day" data-bind="#dayduration_pop"
-                         data-msg="请输入证书授权时效(可单选)" placeholder="请输入证书授权时效(日)">
-                  <label class="mylabel">日</label>
-                </div>
-              </div>
+          <div class="fr">
+            <a class="authorize" onclick="auth_delete()" href="javascript:;"
+              style="float: left;background-color:#b75050;margin-right: 10px">删除</a>
+            <a class="authorize" onclick="auth_show()" href="javascript:;" style="float: left">授权</a>
+          </div>
+
+        </div>
+        <!--底部授权部分结束-->
+      </div>
+
+      <!--授权提示框-->
+
+      <div class="modal fade" id="AuthModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+        <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" onclick="closeModal('#AuthModal')" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title h2" id="AuthCertLabel" style="text-align: center">管理员授权</h4>
             </div>
-
-            <div class="auth_modal otherAuth" style="display: none">
-              <div class="form-inline" style="text-align: center">
-                <div class="cert_input">
-                  <label class="mylabel"><span>&nbsp;&nbsp;</span>证书ID</label>
-                  <div class="input-group">
-                    <input type="text" disabled onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
-                           class="h34 form-control w320" id="cert_id" placeholder="请选择证书"/>
-                    <div class="input-group-btn">
-                      <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
-                              aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right">
-                        <!--<li><a href="#">Action</a></li>-->
-                        <!--<li><a href="#">Another action</a></li>-->
-                        <!--<li><a href="#">Something else here</a></li>-->
-                        <!--<li role="separator" class="divider"></li>-->
-                        <!--<li><a href="#">Separated link</a></li>-->
-                      </ul>
-                    </div>
+            <div class="modal-body">
+              <div class="auth_modal adminAuth" style="display: none">
+                <div class="form-inline" style="text-align: center">
+                  <label class="mylabel">证书授权时效</label>
+                  <div class="form-group">
+                    <input type="number" class="form-control" id="year" placeholder="请输入证书授权时效(年)">
+                    <label class="mylabel">年</label>
                   </div>
-                </div>
-                <div class="label_input" style="margin-top: 10px">
-                  <label class="mylabel">认证标签</label>
-                  <div class="input-group">
-                    <input type="text" disabled onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
-                           class="w320 h34 form-control" id="label_id" placeholder="请选择认证标签"/>
-                    <div class="input-group-btn">
-                      <button type="button" style="margin-left: -5px" class="btn btn-default dropdown-toggle h34"
-                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right">
-
-                      </ul>
-                    </div>
+                  <div class="form-group">
+                    <input type="number" class="form-control" id="day" data-bind="#dayduration_pop"
+                      data-msg="请输入证书授权时效(可单选)" placeholder="请输入证书授权时效(日)">
+                    <label class="mylabel">日</label>
                   </div>
                 </div>
               </div>
+
+              <div class="auth_modal otherAuth" style="display: none">
+                <div class="form-inline" style="text-align: center">
+                  <div class="cert_input">
+                    <label class="mylabel"><span>&nbsp;&nbsp;</span>证书ID</label>
+                    <div class="input-group">
+                      <input type="text" disabled onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
+                        class="h34 form-control w320" id="cert_id" placeholder="请选择证书" />
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
+                          aria-haspopup="true" aria-expanded="false">
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <!--<li><a href="#">Action</a></li>-->
+                          <!--<li><a href="#">Another action</a></li>-->
+                          <!--<li><a href="#">Something else here</a></li>-->
+                          <!--<li role="separator" class="divider"></li>-->
+                          <!--<li><a href="#">Separated link</a></li>-->
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="label_input" style="margin-top: 10px">
+                    <label class="mylabel">认证标签</label>
+                    <div class="input-group">
+                      <input type="text" disabled onkeyup="this.value=this.value.replace(/[^\w_]/g,'');"
+                        class="w320 h34 form-control" id="label_id" placeholder="请选择认证标签" />
+                      <div class="input-group-btn">
+                        <button type="button" style="margin-left: -5px" class="btn btn-default dropdown-toggle h34"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" onclick="auth_btn()">授权</button>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" onclick="auth_btn()">授权</button>
-          </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!--未授权页面结束-->
+    </section>
+    <!--未授权页面结束-->
 
-  <!--授权页面-->
-  <section class="content" id="authorized" style="display: none;">
-    <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">已授权设备</div>
+    <!--授权页面-->
+    <section class="content" id="authorized" style="display: none;">
+      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">已授权设备</div>
 
-    <div class="search">
-      <div class="input-group">
-        <div class="input-group-btn">
-          <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false"><span class="text">请选择</span> <span class="caret"></span></button>
-          <ul class="dropdown-menu">
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
-            <!-- <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li> -->
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="serialnumber">序列号</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="type">类型</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">验证型号</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="imei">IMEI</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwareprovider">硬件供应商</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwaresn">硬件SN</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="softwareprovider">软件供应商</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
-            <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
-
-          </ul>
-        </div><!-- /btn-group -->
-        <span class="fa fa-remove " onclick="remove_input(this)" data-info="authorized"
-              style="position: absolute;"></span>
-        <input type="text" class="form-control " placeholder="请输入搜索内容">
-        <span class="input-group-btn">
-        <button class="btn btn-default search-btn" type="button" data-bind=" " data-info="authorized"
-                onclick="btn_search(this)">搜索</button>
-      </span>
-      </div><!-- /input-group -->
-    </div>
-
-    <div class="sort" >
-      <div>
-        <ul class="clearfix typesort" data-bind="typesort">
-          <li><span>类型:</span></li>
-
-        </ul>
-      </div>
-      <div>
-        <ul class="clearfix labelsort" data-bind="labelsort">
-          <li><span>标签:</span></li>
-        </ul>
-      </div>
-      <div>
-        <ul class="clearfix hardwaresort" data-bind="hardwaresort">
-          <li><span>硬件供应商:</span></li>
-        </ul>
-      </div>
-    </div>
-    <ol class="breadcrumb">
-      <li>所有分类</li>
-      <li class="active" data-bind="typesort" data-info="type" style="display: none"></li>
-      <li class="active" data-bind="labelsort" data-info="userlabel" style="display: none"></li>
-      <li class="active" data-bind="hardwaresort" data-info="hardwareprovider" style="display: none"></li>
-      <li class="Receive fr" onclick="Receive(this)"><span class='tip'>收起筛选</span><span class="fa fa-angle-up pull-right"
-                                                               aria-hidden="true"></span></li>
-    </ol>
-
-    <div class="tablebox_authterm" style="width:100%;height:100%;float:left;transition: all 0.5s ease 0s;;padding: 0 0 62x 0">
-      <table class="table table-striped table-bordered" style="padding-bottom:62px">
-        <thead>
-        <tr> 
-            <th>
-              <!-- <input type="checkbox" name='all_auth_ck'> -->
-              <input type="checkbox" name="allcheck" class="allcheck" id="allcheck"/>
-            </th>
-            <!--<th>#</th>-->
-          <th>类型</th>               <!--    type-->
-          <th>认证码</th>           <!--   randcode-->
-          <th>ID</th><!--  id-->
-          <th>授权状态</th>
-          <th>在线状态</th>
-          <th>认证标签</th>                 <!--  desc-->
-          <th>终端备注</th>
-           <!-- <th>序列号</th>              serialnumber-->
-          <!-- <th class="auth_section section1">验证型号            </th>       
-          <th class="auth_section section1">用户标签            </th>       
-          <th class="auth_section section1">硬件供应商            </th>     
-          <th class="auth_section section1">硬件SN            </th>         
-          <th class="auth_section section1">硬件版本            </th>       
-          <th class="auth_section section1">软件供应商            </th>     
-          <th class="auth_section section1">软件版本            </th>       
-
-          <th class="auth_section section2">CPU            </th>            
-          <th class="auth_section section2">IMEI            </th>           
-          <th class="auth_section section2">MAC            </th>            
-          <th class="auth_section section2">系统ID            </th>         
-          <th class="auth_section section2">系统类型            </th>       
-          <th class="auth_section section2">系统版本            </th>        -->
-          <th>详情</th>
-          <th colspan="3">管理</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-      </table> 
-      <div id="paging" class='authpage'> 
-          <div class="first">首页</div>
-          <div class="prev">上一页</div>
-          <ul class="list"></ul>
-          <div class="go">
-              <input type="text" placeholder="Goto">
-              <button>跳转</button>
-          </div>
-          <div class="next">下一页</div>
-          <div class="last">末页</div>
-      </div>
-    </div>
-
-    
-    <div class="bottom">
-
-    <div class="Auth_pager">
-
-      <!-- <ul class="pager" style="margin-bottom: 10px">
-        <li>
-          <select name="currentAuthTermPageSize" data-bind="fun_get_authterm_list" class="pageSelect input-sm">
-            <option value="10">10条/页</option>
-            <option value="20">20条/页</option>
-            <option value="30">30条/页</option>
-            <option value="40">40条/页</option>
-            <option value="50">50条/页</option>
-          </select>
-        </li>
-        <li><a href="javascript:;" onclick="getAuthTerm_list(0)">首页</a></li>
-        <li><a href="javascript:;" onclick="bindPager_Previous(currentAuthTermPage,getAuthTerm_list)">上一页</a></li>
-        <li><a href="javascript:;"
-               onclick="bindPager_Next(currentAuthTermPage,currentAuthTermPage_total,getAuthTerm_list)">下一页</a></li>
-        <li><a href="javascript:;" onclick="getAuthTerm_list(currentAuthTermPage_total-1)">尾页</a></li>
-      </ul> -->
-      
-    </div>
-
-    <!--底部授权部分-->
-    <div class="account" style="display: none">
-
-        <div class="fl">
-          <!-- <span>全选/全不选</span>&nbsp;&nbsp; -->
-          <span class="checkNum" style="visibility: hidden">已选</span>
-
-        </div>
-        <div class="fr">
-          <!-- <a class="authorize" onclick="auth_delete()" href="javascript:;"
-             style="float: left;background-color:#b75050;margin-right: 10px">删除</a>-->
-          <!-- <a class="authorize" onclick="showTermRemark()" href="javascript:;" style="float: left;margin-right: 10px">添加备注</a> -->
-          <a class="authorize" onclick="ResumeAuthTerm()" href="javascript:;" style="float: left;margin-right: 10px">恢复授权</a>
-          <a class="authorize" onclick="StopAuthTerm()" href="javascript:;" style="float: left">停用授权</a>
-        </div>
-
-      </div>
-      <!--底部授权部分结束-->
-    </div>
-  </section>
-  <!--授权页面结束-->
-
-  <!--在线设备页面-->
-  <section class="content" id="onlineTerminal" style="display: none">
-    <div class="online_content table_content ">
-      <!--<span class="pull-right"-->
-      <!--style="height: 40px;font-size: 20px;line-height: 40px;padding-right: 20px">总在线设备:100</span>-->
-      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">所有在线设备</div>
-
-      <div class="search" style="position: relative">
+      <div class="search">
         <div class="input-group">
           <div class="input-group-btn">
             <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false"><span class="text">请选择</span> <span class="caret"></span></button>
+              aria-expanded="false"><span class="text">请选择</span> <span class="caret"></span></button>
             <ul class="dropdown-menu">
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
               <!-- <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li> -->
@@ -708,19 +551,20 @@
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
               <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
+
             </ul>
           </div><!-- /btn-group -->
-          <span class="fa fa-remove " onclick="remove_input(this)" data-info="onlineTerminal"
-                style="position: absolute;"></span>
+          <span class="fa fa-remove " onclick="remove_input(this)" data-info="authorized"
+            style="position: absolute;"></span>
           <input type="text" class="form-control " placeholder="请输入搜索内容">
-
           <span class="input-group-btn">
-            <button class="btn btn-default search-btn" type="button" data-bind="" data-info="onlineTerminal"
-                    onclick="btn_search(this)">搜索</button>
+            <button class="btn btn-default search-btn" type="button" data-bind=" " data-info="authorized"
+              onclick="btn_search(this)">搜索</button>
           </span>
         </div><!-- /input-group -->
       </div>
-      <div class="sort" >
+
+      <div class="sort">
         <div>
           <ul class="clearfix typesort" data-bind="typesort">
             <li><span>类型:</span></li>
@@ -743,32 +587,198 @@
         <li class="active" data-bind="typesort" data-info="type" style="display: none"></li>
         <li class="active" data-bind="labelsort" data-info="userlabel" style="display: none"></li>
         <li class="active" data-bind="hardwaresort" data-info="hardwareprovider" style="display: none"></li>
-        <li class="Receive fr" onclick="Receive(this)"><span class='tip'>收起筛选</span><span class="fa fa-angle-up pull-right"
-                                                                 aria-hidden="true"></span></li>
+        <li class="Receive fr" onclick="Receive(this)"><span class='tip'>收起筛选</span><span
+            class="fa fa-angle-up pull-right" aria-hidden="true"></span></li>
       </ol>
-      <!--<div class="head clearfix" style="padding-right: 20px">-->
 
-      <!---->
-      <!--</div>-->
-      <div class="tablebox_online" style="width: 100%;transition: all 0.5s ease 0s;">
-        <!--<button type="button" class="btn"-->
-        <!--style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="">发送命令-->
-        <!--</button>-->
-
-        <table class="table table-striped table-bordered">
+      <div class="tablebox_authterm"
+        style="width:100%;height:100%;float:left;transition: all 0.5s ease 0s;;padding: 0 0 62x 0">
+        <table class="table table-striped table-bordered" style="padding-bottom:62px">
           <thead>
-          <tr>
-            <th>
-                <input type="checkbox" name="allcheck" class="allcheck"/>
-            </th>
-            <th>类型</th>               <!--    type-->
-            <th>认证码</th>           <!--   randcode-->
-            <th>ID</th><!--  id-->
-            <th>终端备注</th>                 <!--  desc-->
-            <th>认证标签</th>       
-            <!--  <th>序列号</th>              serialnumber-->
+            <tr>
+              <th>
+                <!-- <input type="checkbox" name='all_auth_ck'> -->
+                <input type="checkbox" name="allcheck" class="allcheck" id="allcheck" />
+              </th>
+              <!--<th>#</th>-->
+              <th>类型</th> <!--    type-->
+              <th>认证码</th> <!--   randcode-->
+              <th>ID</th><!--  id-->
+              <th>授权状态</th>
+              <th>在线状态</th>
+              <th>认证标签</th> <!--  desc-->
+              <th>终端备注</th>
+              <!-- <th>序列号</th>              serialnumber-->
+              <!-- <th class="auth_section section1">验证型号            </th>       
+          <th class="auth_section section1">用户标签            </th>       
+          <th class="auth_section section1">硬件供应商            </th>     
+          <th class="auth_section section1">硬件SN            </th>         
+          <th class="auth_section section1">硬件版本            </th>       
+          <th class="auth_section section1">软件供应商            </th>     
+          <th class="auth_section section1">软件版本            </th>       
 
-            <!-- <th class="online_section section1">验证型号   </th>         
+          <th class="auth_section section2">CPU            </th>            
+          <th class="auth_section section2">IMEI            </th>           
+          <th class="auth_section section2">MAC            </th>            
+          <th class="auth_section section2">系统ID            </th>         
+          <th class="auth_section section2">系统类型            </th>       
+          <th class="auth_section section2">系统版本            </th>        -->
+              <th>详情</th>
+              <th colspan="3">管理</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+        <div id="paging" class='authpage'>
+          <div class="first">首页</div>
+          <div class="prev">上一页</div>
+          <ul class="list"></ul>
+          <div class="go">
+            <input type="text" placeholder="Goto">
+            <button>跳转</button>
+          </div>
+          <div class="next">下一页</div>
+          <div class="last">末页</div>
+        </div>
+      </div>
+
+
+      <div class="bottom">
+
+        <div class="Auth_pager">
+
+          <!-- <ul class="pager" style="margin-bottom: 10px">
+        <li>
+          <select name="currentAuthTermPageSize" data-bind="fun_get_authterm_list" class="pageSelect input-sm">
+            <option value="10">10条/页</option>
+            <option value="20">20条/页</option>
+            <option value="30">30条/页</option>
+            <option value="40">40条/页</option>
+            <option value="50">50条/页</option>
+          </select>
+        </li>
+        <li><a href="javascript:;" onclick="getAuthTerm_list(0)">首页</a></li>
+        <li><a href="javascript:;" onclick="bindPager_Previous(currentAuthTermPage,getAuthTerm_list)">上一页</a></li>
+        <li><a href="javascript:;"
+               onclick="bindPager_Next(currentAuthTermPage,currentAuthTermPage_total,getAuthTerm_list)">下一页</a></li>
+        <li><a href="javascript:;" onclick="getAuthTerm_list(currentAuthTermPage_total-1)">尾页</a></li>
+      </ul> -->
+
+        </div>
+
+        <!--底部授权部分-->
+        <div class="account" style="display: none">
+
+          <div class="fl">
+            <!-- <span>全选/全不选</span>&nbsp;&nbsp; -->
+            <span class="checkNum" style="visibility: hidden">已选</span>
+
+          </div>
+          <div class="fr">
+            <!-- <a class="authorize" onclick="auth_delete()" href="javascript:;"
+             style="float: left;background-color:#b75050;margin-right: 10px">删除</a>-->
+            <!-- <a class="authorize" onclick="showTermRemark()" href="javascript:;" style="float: left;margin-right: 10px">添加备注</a> -->
+            <a class="authorize" onclick="ResumeAuthTerm()" href="javascript:;"
+              style="float: left;margin-right: 10px">恢复授权</a>
+            <a class="authorize" onclick="StopAuthTerm()" href="javascript:;" style="float: left">停用授权</a>
+          </div>
+
+        </div>
+        <!--底部授权部分结束-->
+      </div>
+    </section>
+    <!--授权页面结束-->
+
+    <!--在线设备页面-->
+    <section class="content" id="onlineTerminal" style="display: none">
+      <div class="online_content table_content ">
+        <!--<span class="pull-right"-->
+        <!--style="height: 40px;font-size: 20px;line-height: 40px;padding-right: 20px">总在线设备:100</span>-->
+        <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">所有在线设备</div>
+
+        <div class="search" style="position: relative">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button" class="btn  btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false"><span class="text">请选择</span> <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="authcode">认证码</a></li>
+                <!-- <li onclick="SearchSelect(this)" class="clearSelect"><a href="javascript:;" data-bind="">请选择</a></li> -->
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="serialnumber">序列号</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="mac">MAC</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="cli_id">ID</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="type">类型</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="modulenumber">验证型号</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="imei">IMEI</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwareprovider">硬件供应商</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="hardwaresn">硬件SN</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="softwareprovider">软件供应商</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="ostype">系统类型</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="osid">系统ID</a></li>
+                <li onclick="SearchSelect(this)"><a href="javascript:;" data-bind="userlabel">用户认证标签</a></li>
+              </ul>
+            </div><!-- /btn-group -->
+            <span class="fa fa-remove " onclick="remove_input(this)" data-info="onlineTerminal"
+              style="position: absolute;"></span>
+            <input type="text" class="form-control " placeholder="请输入搜索内容">
+
+            <span class="input-group-btn">
+              <button class="btn btn-default search-btn" type="button" data-bind="" data-info="onlineTerminal"
+                onclick="btn_search(this)">搜索</button>
+            </span>
+          </div><!-- /input-group -->
+        </div>
+        <div class="sort">
+          <div>
+            <ul class="clearfix typesort" data-bind="typesort">
+              <li><span>类型:</span></li>
+
+            </ul>
+          </div>
+          <div>
+            <ul class="clearfix labelsort" data-bind="labelsort">
+              <li><span>标签:</span></li>
+            </ul>
+          </div>
+          <div>
+            <ul class="clearfix hardwaresort" data-bind="hardwaresort">
+              <li><span>硬件供应商:</span></li>
+            </ul>
+          </div>
+        </div>
+        <ol class="breadcrumb">
+          <li>所有分类</li>
+          <li class="active" data-bind="typesort" data-info="type" style="display: none"></li>
+          <li class="active" data-bind="labelsort" data-info="userlabel" style="display: none"></li>
+          <li class="active" data-bind="hardwaresort" data-info="hardwareprovider" style="display: none"></li>
+          <li class="Receive fr" onclick="Receive(this)"><span class='tip'>收起筛选</span><span
+              class="fa fa-angle-up pull-right" aria-hidden="true"></span></li>
+        </ol>
+        <!--<div class="head clearfix" style="padding-right: 20px">-->
+
+        <!---->
+        <!--</div>-->
+        <div class="tablebox_online" style="width: 100%;transition: all 0.5s ease 0s;">
+          <!--<button type="button" class="btn"-->
+          <!--style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="">发送命令-->
+          <!--</button>-->
+
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>
+                  <input type="checkbox" name="allcheck" class="allcheck" />
+                </th>
+                <th>类型</th> <!--    type-->
+                <th>认证码</th> <!--   randcode-->
+                <th>ID</th><!--  id-->
+                <th>终端备注</th> <!--  desc-->
+                <th>认证标签</th>
+                <!--  <th>序列号</th>              serialnumber-->
+
+                <!-- <th class="online_section section1">验证型号   </th>         
             <th class="online_section section1">用户标签   </th>         
             <th class="online_section section1">硬件供应商 </th>       
             <th class="online_section section1">硬件SN      </th>           
@@ -782,30 +792,31 @@
             <th class="online_section section2">系统ID                   </th>           
             <th class="online_section section2">系统类型                   </th>         
             <th class="online_section section2">系统版本                   </th>          -->
-         
-            <th>详情</th>
-            <th>管理</th>
-          </tr>
-          </thead>
-          <tbody>
 
-          </tbody>
-        </table>
-        <div id="paging" class='onlinepage'> 
+                <th>详情</th>
+                <th>管理</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+          <div id="paging" class='onlinepage'>
             <div class="first" onclick="getOnlineTerm_list(0)">首页</div>
             <div class="prev" onclick="bindPager_Previous(currentOnlineTermPage,getOnlineTerm_list)">上一页</div>
             <ul class="list"></ul>
             <div class="go">
-                <input type="text" placeholder="Goto">
-                <button>跳转</button>
+              <input type="text" placeholder="Goto">
+              <button>跳转</button>
             </div>
-            <div class="next" onclick="bindPager_Next(currentOnlineTermPage,currentOnlineTermPage_total,getOnlineTerm_list)">下一页</div>
+            <div class="next"
+              onclick="bindPager_Next(currentOnlineTermPage,currentOnlineTermPage_total,getOnlineTerm_list)">下一页</div>
             <!-- <div class="last">末页</div> -->
+          </div>
         </div>
-      </div>
 
-      <div class="bottom">
-        <!-- <div class="online_pager">
+        <div class="bottom">
+          <!-- <div class="online_pager">
 
           <ul class="pager" style="margin-bottom: 10px">
 
@@ -831,54 +842,54 @@
 
         </div> -->
 
-        <!--底部发送信息部分-->
-        <div class="account" style="display: none">
+          <!--底部发送信息部分-->
+          <div class="account" style="display: none">
 
-          <div class="fl">
-            <!-- <span>全选/全不选</span>&nbsp;&nbsp; -->
-            <span class="checkNum" style="visibility: hidden">已选</span>
+            <div class="fl">
+              <!-- <span>全选/全不选</span>&nbsp;&nbsp; -->
+              <span class="checkNum" style="visibility: hidden">已选</span>
+            </div>
+            <!--<textarea type="text" class="ta_msg form-control"-->
+            <!--placeholder="请输入发送信息"-->
+            <!--style="width: 500px;margin-top:13px;position: absolute;top:0;right: 50%;transform:translateX(50%)"></textarea>-->
+            <div class="fr">
+              <a class="authorize" style="float: left" onclick="exec_show()" href="javascript:;">发送信息</a>
+            </div>
+
           </div>
-          <!--<textarea type="text" class="ta_msg form-control"-->
-          <!--placeholder="请输入发送信息"-->
-          <!--style="width: 500px;margin-top:13px;position: absolute;top:0;right: 50%;transform:translateX(50%)"></textarea>-->
-          <div class="fr">
-            <a class="authorize" style="float: left" onclick="exec_show()" href="javascript:;">发送信息</a>
-          </div>
-
-        </div>
-        <!--底部发送信息部分结束-->
-      </div>
-    </div>
-
-    <div class="online_content exec_content" style="display: none">
-      <div class="head">
-        <div class="back" onclick="Back('#onlineTerminal .exec_content','#onlineTerminal .table_content')">
-              <span class="fa fa-angle-left pull-left"
-                    style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
-          <span class="pull-left" style="cursor: pointer;font-size: 18px;line-height: 40px;">返回</span>
-        </div>
-        <div class="title"
-             style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0 ;color: #3c3c3c;">
-          发送命令
+          <!--底部发送信息部分结束-->
         </div>
       </div>
-      <div class="sendInput" style="width: 50%;margin: 0 auto 10px">
-        <div class="input-group">
-          <input type="text" class="form-control input_msg" placeholder="请输入发送的命令">
-          <span class="input-group-btn">
+
+      <div class="online_content exec_content" style="display: none">
+        <div class="head">
+          <div class="back" onclick="Back('#onlineTerminal .exec_content','#onlineTerminal .table_content')">
+            <span class="fa fa-angle-left pull-left"
+              style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+            <span class="pull-left" style="cursor: pointer;font-size: 18px;line-height: 40px;">返回</span>
+          </div>
+          <div class="title"
+            style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0 ;color: #3c3c3c;">
+            发送命令
+          </div>
+        </div>
+        <div class="sendInput" style="width: 50%;margin: 0 auto 10px">
+          <div class="input-group">
+            <input type="text" class="form-control input_msg" placeholder="请输入发送的命令">
+            <span class="input-group-btn">
               <button class="btn btn-success search-btn" type="button" onclick="SendExecMsg('')">发送</button>
             </span>
+          </div>
         </div>
-      </div>
-      <div style="margin: 0 0 10px 0">
-        <button class="btn btn-success " type="button" onclick="SendExecMsg('1')">占位命令</button>
-        <button class="btn btn-success " type="button" onclick="SendExecMsg('2')">占位命令</button>
-        <button class="btn btn-success " type="button" onclick="SendExecMsg('3')">占位命令</button>
-      </div>
-      <table class="table table-striped table-bordered">
-        <thead>
-        <tr>
-          <!--"SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",
+        <div style="margin: 0 0 10px 0">
+          <button class="btn btn-success " type="button" onclick="SendExecMsg('1')">占位命令</button>
+          <button class="btn btn-success " type="button" onclick="SendExecMsg('2')">占位命令</button>
+          <button class="btn btn-success " type="button" onclick="SendExecMsg('3')">占位命令</button>
+        </div>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <!--"SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",
               "Type": "Registered",
               "Mode": "UnKnowType",
               "State": "Normal",
@@ -887,215 +898,242 @@
               "ValidityBegin": "2018-11-22 15:25:40",
               "ValidityEnd": "2038-11-17 15:25:40",
               "IssueTimes": 1-->
-          <th>序列号</th>
-          <th>发送命令</th>
-          <th>回复信息</th>
-          <th>发送状态</th>
-        </tr>
-        </thead>
-        <tbody>
+              <th>序列号</th>
+              <th>发送命令</th>
+              <th>回复信息</th>
+              <th>发送状态</th>
+            </tr>
+          </thead>
+          <tbody>
 
-        </tbody>
-      </table>
-    </div>
-  </section>
-  <!--在线设备页面结束-->
- 
-
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!--在线设备页面结束-->
 
 
-  <!--设备型号认证页面-->
-  <section class="content" id="TerminalVerify" style="display: none;width: 100%">
-    <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">设备验证型号</div>
 
-    <div class="tablebox_TerminalVerify" style="width: 100%;overflow: auto">
-      <div style="width:50%;margin: 0 auto">
-        <button type="button" id="addModuleVerify" class="btn"
-            style="background: #222d32;color: #ffffff;display:block;margin-bottom: 10px" onclick="showAddModuleField_modal()"> 添加验证型号
-        </button>
-        <table class="table table-striped table-bordered">
-        <thead>
-        <tr>
-          <!--<th>
+
+    <!--设备型号认证页面-->
+    <section class="content" id="TerminalVerify" style="display: none;width: 100%">
+      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">设备验证型号</div>
+
+      <div class="tablebox_TerminalVerify" style="width: 100%;overflow: auto">
+        <div style="width:50%;margin: 0 auto">
+          <button type="button" id="addModuleVerify" class="btn"
+            style="background: #222d32;color: #ffffff;display:block;margin-bottom: 10px"
+            onclick="showAddModuleField_modal()"> 添加验证型号
+          </button>
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <!--<th>
               <input type="checkbox" style="vertical-align: top" id="TerminalVerify_all_cb">#
           </th>-->
-          <th>验证型号名称</th>
-          <th>验证列表</th>
-          <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-      </table>
-      </div>
-        
-    </div>
-  </section>
-  <!--设备型号认证结束-->
-</section>
-
-
-
-
-<!--发送命令给在线设备-->
-<div class="terminal" style="display: none">
-  <div class="terminal_content " >
-    <div class="hd ">
-      <div class="fr" onclick="closeTerminal()"><span style="cursor: auto;line-height: 28px" class="fa fa-remove"></span></div>
-    </div>
-    <p class="" unselectable="on" style="text-align:center;height: 40px;line-height: 40px;font-size: 20px;color: #ffffff;background-color:#000;">Welcome to Terminal</p>
-    <div class="body " style="overflow-y: auto">
-      <p><span class="terminal_Prefix"></span><input type="text"></p>
-    </div>
-  </div>
-</div>
-<!--发送命令给在线设备-->
-
-
-<!--备注修改-->
-<div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-
-    <div class="modal-dialog modal-md" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" onclick="closeModal('#UserLabelManage_modal')" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title h4" id="" style="text-align: center">添加授权标签</h4>
-                </div>
-
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="mylabel">用户授权标签名称</label>
-                        <input class="form-control" id="input_label_name" placeholder="请填写描述信息"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="mylabel">用户授权标签描述信息</label>
-                        <textarea class="form-control" id="textarea_label_note" rows="3" placeholder="请填写描述信息"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" onclick="addUserLabel()">添加</button>
-                </div>
-            </div>
-    </div>
-</div>
-<!--备注修改-->
-            
-
-
-<!--设备字段验证提示输入框-->
-<div class="modal fade" id="ModuleFieldManage_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-
-  <div class="modal-dialog modal-md" role="document">
-
-    <!--添加字段验证-->
-    <div class="modal-content addModuleField_content">
-      <div class="modal-header">
-        <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title h4" style="text-align: center">添加验证型号</h4>
-      </div>
-      <div class="modal-body">
-
-        <label class="mylabel beizhu" style="text-align: center">型号名称</label>
-        <div class="form-group beizhu">
-          <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="型号名称"></textarea>
-        </div>
-
-        <label class="mylabel" style="text-align: center">验证类型</label>
-        <div class="selectFieldName" style="padding-left: 10px">
-
-        </div>
-
-        <!--<label class="mylabel" style="text-align: center">是否进行认证</label>-->
-        <!--<input type="radio" name="radio_verify" value="1" checked> 是-->
-        <!--<input type="radio" name="radio_verify" value="0"> 否-->
-        <br/>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" onclick="AddModuleField()">开启验证</button>
-      </div>
-    </div>
-    <!--添加字段验证-->
-
-    <!--添加字段验证2-->
-    <div class="modal-content addField_content">
-      <div class="modal-header">
-        <button type="button" class="close" onclick="Back('#ModuleFieldManage_Modal .modal-content','.showModuleField_content')" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title h4" style="text-align: center">添加验证型号</h4>
-      </div>
-      <div class="modal-body">
-
-        <label class="mylabel beizhu" style="text-align: center">型号名称</label>
-        <div class="form-group beizhu">
-          <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="型号名称"></textarea>
-        </div>
-
-        <label class="mylabel" style="text-align: center">验证类型</label>
-        <div class="selectFieldName" style="padding-left: 10px">
-
-        </div>
-
-        <!--<label class="mylabel" style="text-align: center">是否进行认证</label>-->
-        <!--<input type="radio" name="radio_verify" value="1" checked> 是-->
-        <!--<input type="radio" name="radio_verify" value="0"> 否-->
-        <br/>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" onclick="AddModuleField()">开启验证</button>
-      </div>
-    </div>
-    <!--添加字段验证2-->
-
-    <!--显示字段验证-->
-    <div class="modal-content showModuleField_content" style="display: none">
-      <div class="modal-header">
-        <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title h4" style="text-align: center">验证型号列表</h4>
-      </div>
-      <div class="modal-body">
-        <button type="button" id="" class="btn btn-danger" style="margin-bottom: 20px"
-                onclick="RemoveModuleField()"> 删除验证项
-        </button>
-        <button type="button" id="addVerify" class="btn"
-                style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddField_modal()"> 添加验证项
-        </button>
-        <div class="tablebox_TerminalVerify_Field" style="width: 100%;overflow: auto">
-          <table class="table table-striped table-bordered" >
-            <thead>
-            <tr>
-              <th>
-                <input type="checkbox" id="TerminalVerify_all_cb">
-              </th>
-              <th>验证项</th>
-              <!--<th>验证</th>-->
-            </tr>
+                <th>验证型号名称</th>
+                <th>验证列表</th>
+                <th>操作</th>
+              </tr>
             </thead>
             <tbody>
 
             </tbody>
           </table>
         </div>
+
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" onclick="closeModal('#ModuleFieldManage_Modal')">关闭</button>
+    </section>
+    <!--设备型号认证结束-->
+  </section>
+
+
+
+
+  <!--发送命令给在线设备-->
+  <div class="terminal" style="display: none">
+    <div class="terminal_content ">
+      <div class="hd ">
+        <div class="fr" onclick="closeTerminal()"><span style="cursor: auto;line-height: 28px"
+            class="fa fa-remove"></span></div>
+      </div>
+      <p class="" unselectable="on"
+        style="text-align:center;height: 40px;line-height: 40px;font-size: 20px;color: #ffffff;background-color:#000;">
+        Welcome to Terminal</p>
+      <div class="body " style="overflow-y: auto">
+        <p><span class="terminal_Prefix"></span><input type="text"></p>
       </div>
     </div>
-    <!--显示字段验证-->
-
   </div>
-</div>
-<!--设备字段验证提示输入框-->
+  <!--发送命令给在线设备-->
 
 
-<!--未授权模板文件-->
-<script id="unauthorizedTemp" type="text/html">
-   
+  <!-- 详细信息显示 -->
+  <div class="modal fade" id="AllMsgModal" style="z-index:999999">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#AllMsgModal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title h4" style="text-align: center">详细信息</h4>
+        </div>
+        <div class="modal-body"> 
+          123
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="closeModal('#AllMsgModal')">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 详细信息显示 -->
+
+  <!--备注修改-->
+  <div class="modal fade" id="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#UserLabelManage_modal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title h4" id="" style="text-align: center">添加授权标签</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="mylabel">用户授权标签名称</label>
+            <input class="form-control" id="input_label_name" placeholder="请填写描述信息" />
+          </div>
+
+          <div class="form-group">
+            <label class="mylabel">用户授权标签描述信息</label>
+            <textarea class="form-control" id="textarea_label_note" rows="3" placeholder="请填写描述信息"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" onclick="addUserLabel()">添加</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--备注修改-->
+
+
+
+  <!--设备字段验证提示输入框-->
+  <div class="modal fade" id="ModuleFieldManage_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+    <div class="modal-dialog modal-md" role="document">
+
+      <!--添加字段验证-->
+      <div class="modal-content addModuleField_content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title h4" style="text-align: center">添加验证型号</h4>
+        </div>
+        <div class="modal-body">
+
+          <label class="mylabel beizhu" style="text-align: center">型号名称</label>
+          <div class="form-group beizhu">
+            <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="型号名称"></textarea>
+          </div>
+
+          <label class="mylabel" style="text-align: center">验证类型</label>
+          <div class="selectFieldName" style="padding-left: 10px">
+
+          </div>
+
+          <!--<label class="mylabel" style="text-align: center">是否进行认证</label>-->
+          <!--<input type="radio" name="radio_verify" value="1" checked> 是-->
+          <!--<input type="radio" name="radio_verify" value="0"> 否-->
+          <br />
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="AddModuleField()">开启验证</button>
+        </div>
+      </div>
+      <!--添加字段验证-->
+
+      <!--添加字段验证2-->
+      <div class="modal-content addField_content">
+        <div class="modal-header">
+          <button type="button" class="close"
+            onclick="Back('#ModuleFieldManage_Modal .modal-content','.showModuleField_content')"
+            aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title h4" style="text-align: center">添加验证型号</h4>
+        </div>
+        <div class="modal-body">
+
+          <label class="mylabel beizhu" style="text-align: center">型号名称</label>
+          <div class="form-group beizhu">
+            <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="型号名称"></textarea>
+          </div>
+
+          <label class="mylabel" style="text-align: center">验证类型</label>
+          <div class="selectFieldName" style="padding-left: 10px">
+
+          </div>
+
+          <!--<label class="mylabel" style="text-align: center">是否进行认证</label>-->
+          <!--<input type="radio" name="radio_verify" value="1" checked> 是-->
+          <!--<input type="radio" name="radio_verify" value="0"> 否-->
+          <br />
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="AddModuleField()">开启验证</button>
+        </div>
+      </div>
+      <!--添加字段验证2-->
+
+      <!--显示字段验证-->
+      <div class="modal-content showModuleField_content" style="display: none">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#ModuleFieldManage_Modal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title h4" style="text-align: center">验证型号列表</h4>
+        </div>
+        <div class="modal-body">
+          <button type="button" id="" class="btn btn-danger" style="margin-bottom: 20px" onclick="RemoveModuleField()">
+            删除验证项
+          </button>
+          <button type="button" id="addVerify" class="btn"
+            style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddField_modal()"> 添加验证项
+          </button>
+          <div class="tablebox_TerminalVerify_Field" style="width: 100%;overflow: auto">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>
+                    <input type="checkbox" id="TerminalVerify_all_cb">
+                  </th>
+                  <th>验证项</th>
+                  <!--<th>验证</th>-->
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" onclick="closeModal('#ModuleFieldManage_Modal')">关闭</button>
+        </div>
+      </div>
+      <!--显示字段验证-->
+
+    </div>
+  </div>
+  <!--设备字段验证提示输入框-->
+
+
+  <!--未授权模板文件-->
+  <script id="unauthorizedTemp" type="text/html">
+
   {{each registers as value i}}
     
     <tr style="position:relative">
@@ -1108,13 +1146,13 @@
         <td>{{value.desc}}</td>
 
         <td class="more" style="width:100px;position:relative">
-          <button class="btn"  onclick="ShowOnlineTermAllMsg('{{value.serialnumber}}',this)">查看
+          <button class="btn"  onclick="ShowUnAuthTermAllMsg('{{ value | toString}}')">查看
           </button>
           <div class="msg_body" style="
                   position:absolute;
                   display:none;
                   /* width:400px; */
-                  height:400px;
+                  height:400px; 
                   overflow:auto;
                   right:50%;
                   /* background-color: red; */
@@ -1152,10 +1190,10 @@
     
   {{/each}}
 </script>
-<!--未授权模板结束-->
+  <!--未授权模板结束-->
 
-<!--授权设备模板文件-->
-<script id="authorizedTemp" type="text/html">
+  <!--授权设备模板文件-->
+  <script id="authorizedTemp" type="text/html">
   {{each terminal_list as value i}}
   <tr class="{{value.auth_status==1?'warning':''}}">
       <td><input type="checkbox" name="done"  data-bind="{{value.SerialNumber}}"></td>
@@ -1172,7 +1210,7 @@
         </div>
       </td>
       <td class="more" style="position:relative;width:100px"  data-bind="">
-          <button class="btn" onclick="ShowOnlineTermAllMsg('{{value.SerialNumber}}',this)">查看
+          <button class="btn" onclick="ShowOnlineTermAllMsg('{{value.SerialNumber}}','{{ value | toString}}')">查看
           </button>
           <div class="msg_body" style="
                   position:absolute;
@@ -1222,10 +1260,10 @@
     
   {{/each}}
 </script>
-<!--授权设备模板结束-->
+  <!--授权设备模板结束-->
 
-<!--在线设备模板文件-->
-<script id="onlineTermsTemp" type="text/html">
+  <!--在线设备模板文件-->
+  <script id="onlineTermsTemp" type="text/html">
   {{each terminal_list as value i}}
   <tr>
       <td><input type="checkbox" name="done" data-bind="{{value.SerialNumber}}"></td>
@@ -1243,7 +1281,7 @@
       <td>{{value.UserLabelName}}</td>
       <!-- <td>{{value.SerialNumber}}</td> -->
       <td class="more" style="width:100px;position:relative">
-          <button class="btn"  onclick="ShowOnlineTermAllMsg('{{value.SerialNumber}}',this)">查看
+          <button class="btn"  onclick="ShowOnlineTermAllMsg('{{value.SerialNumber}}','{{ value | toString}}')">查看
           </button>
           <div class="msg_body" style="
                   position:absolute;
@@ -1283,10 +1321,10 @@
     </tr>
   {{/each}}
 </script>
-<!--在线设备模板结束-->
+  <!--在线设备模板结束-->
 
-<!--在线设备发送信息模板-->
-<script id="onlineTermsExecTemp" type="text/html">
+  <!--在线设备发送信息模板-->
+  <script id="onlineTermsExecTemp" type="text/html">
   {{each data as value i}}
   <tr data-bind="{{value.term}}">
     <td style="line-height: 51px">{{value.term}}</td>
@@ -1300,11 +1338,11 @@
   </tr>
   {{/each}}
 </script>
-<!--在线设备发送信息结束-->
+  <!--在线设备发送信息结束-->
 
 
-<!--设备型号认证模板文件-->
-<script id="TerminalVerifyTemp" type="text/html">
+  <!--设备型号认证模板文件-->
+  <script id="TerminalVerifyTemp" type="text/html">
   {{each list as value i}}
   <tr>
     <td>{{value}}</td>
@@ -1315,10 +1353,10 @@
   </tr>
   {{/each}}
 </script>
-<!--设备型号认证模板结束-->
+  <!--设备型号认证模板结束-->
 
-<!--设备验证列表字段模板文件-->
-<script id="TerminalVerify_FieldTemp" type="text/html">
+  <!--设备验证列表字段模板文件-->
+  <script id="TerminalVerify_FieldTemp" type="text/html">
   {{each module_fields as value i}}
   <tr>
     <td><input type="checkbox" name="cb_termlist" data-bind="{{module}}"></td>
@@ -1326,11 +1364,11 @@
   </tr>
   {{/each}}
 </script>
-<!--设备验证列表字段模板文件结束-->
+  <!--设备验证列表字段模板文件结束-->
 
 
-<!--设备验证型号字段名称列表-->
-<script id="ModuleFieldNameTemp" type="text/html">
+  <!--设备验证型号字段名称列表-->
+  <script id="ModuleFieldNameTemp" type="text/html">
   {{ each fields as value i}}
   <div class="" style="display:inline-block;width: 130px;">
     <input type="checkbox" name="radioFieldName" value="{{value.split('|')[0]}}"> {{value.split('|')[1]}}
@@ -1338,12 +1376,63 @@
 
   {{/each}}
 </script>
-<!--设备验证型号字段名称列表-->
+  <!--设备验证型号字段名称列表-->
+
+  <!-- 查看详细信息弹出框 -->
+  <script id="Auth_OnlineMsgTemp" type="text/html">
+  
+  <ul class="list-group more" style="margin-bottom:0;text-align:left">
+      <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{SerialNumber}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">验证型号</span>{{ModuleNumber}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">描述</span>{{Desc}}</li>
+
+      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件供应商</span>{{HardwareProvider}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件SN</span>{{HardwareSN}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件版本</span>{{HardwareVersion}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">软件供应商</span>{{SoftwareProvider}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">软件版本</span>{{SoftwareVersion}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">CPU</span>{{CPU}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">IMEI</span>{{IMEI}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">MAC</span>{{MAC}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">系统ID</span>{{OSID}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">系统类型</span>{{OSType}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{OSVersion}}</li>
+  </ul>
+  
+</script>
+  <!-- 查看详细信息弹出框 -->
+
+  <!-- 查看详细信息弹出框 -->
+  <script id="UnAuthMsgTemp" type="text/html">
+  
+    <ul class="list-group more" style="margin-bottom:0;text-align:left">
+        <li class="list-group-item"><span style="display:inline-block;width:100px">硬件供应商</span>{{hardwareprovider}}</li>
+        <li class="list-group-item table_td"><span style="display:inline-block;width:100px">硬件SN</span><span title="{{hardwaresn}}">{{hardwaresn}}</span></li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">硬件版本</span>{{hardwareversion}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">软件供应商</span>{{softwareprovider}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">软件版本</span>{{softwareversion}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">CPU</span>{{cpu}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">IMEI</span>{{imei}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">MAC</span>{{mac}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">系统ID</span>{{osid}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">系统类型</span>{{ostype}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{osversion}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">验证型号</span>{{modelnumber}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{serialnumber}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">用户认证标签</span>{{userlabel}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">客户端IP</span>{{clienthost}}</li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">客户端地址</span><span class="iphost" data-ip="{{clienthost.replace(/\./g,'_')}}">{{clienthost}}</span></li>
+    </ul>
+  
+</script>
+  <!-- 查看详细信息弹出框 -->
 
 
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/paging.js"></script>
-<script src="/static/js/template.js"></script>
-<script src="/static/js/index.js"></script>
+
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/paging.js"></script>
+  <script src="/static/js/template.js"></script>
+  <script src="/static/js/index.js"></script>
 </body>
+
 </html>
