@@ -17,6 +17,9 @@ currentGroup = "";
 currentGroupName = "";
 allUsers = {};
 
+CurrentCertUserEl = "";//当前证书用户
+
+
 showWhitchSlider(7);
 
 window.addEventListener('load',changeHashPage)
@@ -815,8 +818,9 @@ function AddCert_Modal() {
   })
 }
 
-//绑定查看证书
+//查看证书
 function showUserCerts(target) {
+  CurrentCertUserEl = target
   username = $(target).attr("data-bind");
 //    {"access_token":"SAKPFLsOpsnrzAyAmYSxNu6pCJEwxpHM","username":"admin","page":0,"page_size":5}:
   userid = $(target).attr("data-userid");
@@ -831,7 +835,15 @@ function showUserCerts(target) {
       // "page": 0,    "page_size": 5,    "page_total": 86
       currentCertsPage = obj_json.page;
       currentCertsPage_total = obj_json.page_total;
-      obj_json.userid = userid;
+      $('.certslistpage').paging({
+        nowPage: currentCertsPage+1,
+        allPages: currentCertsPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+          getCerts_list(now-1)
+        }
+      });
+      userid = obj_json.userid;
       RenderCertTable(obj_json);//渲染数据
 
       $(".certsManageContent").hide();
@@ -856,12 +868,42 @@ function RenderCertTable(list) {
     list.certs[i].ValidityBegin_ = list.certs[i].ValidityBegin.replace(" ", "T");
     list.certs[i].ValidityEnd_ = list.certs[i].ValidityEnd.replace(" ", "T");
   }
-  $(".certsManageContent.certTable table tbody").html(template('certList', list))
+  $(".certsManageContent.certTable table tbody").html(template('certList_template', list))
 }
 
 //渲染证书颁布的设备table
 function RenderCert2TermTable(list) {
   $(".showCert2Term table tbody").html(template('termList', list))
+}
+
+
+//更改备注
+function updateCertRename(target,id) {
+  var val = $(target).parent().parent().find("input.edit").val()
+  if(val===""){
+    toastr.warning("备注不能为空");
+    $(target).parent().parent().parent().find("input.edit").focus(); 
+    return;
+  }
+  var param = {
+    'access_token':access_token,
+    "update_list":[{
+        "target_type":"cert",
+        "target_id":id,
+        "rename":val
+      }]
+  }
+
+  bproto_ajax(UPDATE_REMARK,param,function (obj_json) {  
+    if(obj_json.code===0){
+      getCerts_list(currentCertsPage);
+      toastr.success("修改成功");
+    }else{
+      getCerts_list(currentCertsPage);
+      toastr.error(obj_json.msg)
+    }
+    HideEdit(target)
+  })
 }
 
 //修改用户证书
@@ -944,63 +986,381 @@ function updateCert(target) {
 }
 
 
-//展示选择用户页面
-function showUpdateCertTimes(target) {
-  current_certId = $(target).attr("data-bind");
-  param = {"access_token": access_token};
-  bproto_ajax(GET_USERLIST_URL, param, function (obj_json) {
-    var users = obj_json.users;
-    var html = template('Select_usersList', {"users": users});
-    for (let index = 0; index < users.length; index++) {      
-      allUsers[users[index].username]=users[index].user_id
-    }
-    $("#UserModal .SelectUser .users").html(html);
-    $("#UserModal #myModalLabel").text("选择用户");
-    $("#UserModal .modal-dialog").removeClass("modal-lg").addClass("modal-md");
-    $("#UserModal").modal("show");
-    $("#updateTimes").val("");
-    $(".modalTable").hide();
-    $(".SelectUser").show();
-    // ModalShowList.push({target: $(".SelectUser"), title: $("#UserModal #myModalLabel").text()});
+// //展示选择用户页面
+// function showUpdateCertTimes(target) {
+//   current_certId = $(target).attr("data-bind");
+//   param = {"access_token": access_token};
+//   bproto_ajax(GET_USERLIST_URL, param, function (obj_json) {
+//     var users = obj_json.users;
+//     var html = template('Select_usersList', {"users": users});
+//     for (let index = 0; index < users.length; index++) {      
+//       allUsers[users[index].username]=users[index].user_id
+//     }
+//     $("#UserModal .SelectUser .users").html(html);
+//     $("#UserModal #myModalLabel").text("选择用户");
+//     $("#UserModal .modal-dialog").removeClass("modal-lg").addClass("modal-md");
+//     $("#UserModal").modal("show");
+//     $("#updateTimes").val("");
+//     $(".modalTable").hide();
+//     $(".SelectUser").show();
+//     // ModalShowList.push({target: $(".SelectUser"), title: $("#UserModal #myModalLabel").text()});
 
-    //li选择用户click
-    $(".SelectUser .users .dropdown-menu").on("click","li",function () {
-      $("#user_id").val($(this).find("a").text())
-      $("#user_id").attr("data-bind",$(this).attr("data-bind"))
-    })
+//     //li选择用户click
+//     $(".SelectUser .users .dropdown-menu").on("click","li",function () {
+//       $("#user_id").val($(this).find("a").text())
+//       $("#user_id").attr("data-bind",$(this).attr("data-bind"))
+//     })
 
-  });
+//   });
+// }
+
+// function UpdateCertTimes() {
+//   if (!$("#updateTimes").val()) {
+//     toastr.warning("次数不能为空");
+//     return;
+//   }
+//   if (!($("#user_id").val())) {
+//     toastr.warning("请选择用户");
+//     return;
+//   }
+//   if(!allUsers[$("#user_id").val()]){
+//     toastr.warning("用户不存在");
+//     return;
+//   }
+//   if (CurrentUser === "admin") {
+//     // current_certId = "null";
+//   }
+//   param = {
+//     "access_token": access_token,
+//     "cert_id_from": current_certId,
+//     "user_id_to": allUsers[$("#user_id").val()],
+//     "times": parseInt($("#updateTimes").val())
+//   };
+//   bproto_ajax(ISSUE_UESER_CERT, param, function (obj_json) {
+//     if(obj_json.code===0){
+//       toastr.success("转移成功");
+//       $("#UserModal").modal("hide");
+//     }else{
+//       toastr.error("失败"+obj_json.msg);
+//     }
+//   })
+// }
+
+//选择转移证书方式
+function Choice(target) {
+  $(".Choice").hide();
+  $(".Choice"+target).show();
 }
 
-function UpdateCertTimes() {
-  if (!$("#updateTimes").val()) {
-    toastr.warning("次数不能为空");
+
+//渲染证书颁布的设备table
+function RenderCert2TermTable(list) {
+  $(".showCert table tbody").html(template('termList_template', list))
+}
+
+// param = {
+//   "access_token": access_token,
+//   "cert_id_from": current_certId,
+//   "user_id_to": allUsers[$("#user_id").val()],
+//   "times": parseInt($("#updateTimes").val())
+// };
+// bproto_ajax(ISSUE_UESER_CERT, param, function (obj_json) {
+//   if(obj_json.code===0){
+//     toastr.success("转移成功");
+//     $("#UserModal").modal("hide");
+//   }else{
+//     toastr.error("失败"+obj_json.msg);
+//   }
+// })
+
+$("ul.group.dropdown-menu").on("click","a",function () {
+  $("ul.user.dropdown-menu").html("")
+  $("#switchuser_id").val("").attr("data-bind","");
+
+  $(this).parent().parent().parent().parent().find("input").val($(this).text())
+  $(this).parent().parent().parent().parent().find("input").attr("data-bind",$(this).attr("data-bind"))
+  var id = $(this).parent().parent().parent().parent().find("input").attr("data-bind")
+  var param = {
+    'access_token':access_token,
+    'group_id':id
+  }
+  bproto_ajax(GET_GROUP_USER_LIST,param,function (obj_json) {  
+    if(obj_json.code===0){
+
+      var userlist = obj_json.user_list;
+      if(userlist.length==0){
+        toastr.info("该用户组没有用户,请重新选择");
+        return;
+      }else{
+        var html = ''
+        for(var i=0;i<userlist.length;i++){
+          html+='<li data-bind="PU"><a href="javascript:;" data-bind="'+userlist[i].username+'">'+(userlist[i].username)+'(备注:'+(userlist[i].remark?userlist[i].remark:"无")+')\
+            </a></li>'
+        }
+        $("ul.user.dropdown-menu").html(html);
+      }
+    }
+  })
+})
+
+
+$(".input-group.user .input-group-btn").click(function () {  
+  if($("#group_id").val()==""){
+    toastr.warning("请先选择用户群组");
     return;
   }
-  if (!($("#user_id").val())) {
-    toastr.warning("请选择用户");
-    return;
+})
+
+$("ul.user.dropdown-menu").on("click","a",function () {  
+  
+  $("#switchuser_id").val($(this).text())
+  $("#switchuser_id").attr("data-bind",$(this).attr("data-bind"))
+})
+
+
+
+//展示证书提示框
+function ShowSwitchCerts_Modal(certid) {
+  
+  current_certId = certid;
+  $("#SwitchCertsModal").modal("show");
+  $("#SwitchCertsModal input").val("");
+  $("#SwitchCertsModal ul").html("");
+  var param = {
+    'access_token':access_token
   }
-  if(!allUsers[$("#user_id").val()]){
-    toastr.warning("用户不存在");
-    return;
+  bproto_ajax(GET_GROUP_LIST,param,function (obj_json) {  
+    if(obj_json.code===0){
+      if(!obj_json.group_list.length){
+        $("#UserGroupManage .ingroup_table tbody").html("")
+        return;
+      }
+      var mydata = {"group_list":[]};
+      for (var i = 0; i < obj_json.group_list.length; i++) {
+        // if(CurrentUserId===obj_json.group_list[i].master_user_id){
+          mydata.group_list.push(obj_json.group_list[i])
+        // }
+      }
+
+      if(mydata.group_list.length==0){
+        toastr.info("无用户组无法转移证书给其他用户，请创建用户组");
+        return;
+      }else{
+        $("#SwitchCertsModal").modal("show");
+        $("#SwitchCertsModal input").val("");
+        $("#SwitchCertsModal ul").html("");
+      }
+      // ul.group
+      var html = ''
+      for(var i=0;i<mydata.group_list.length;i++){
+        html+='<li data-bind="PU">\
+                <a href="javascript:;" data-bind="'+mydata.group_list[i].id+'">'+(mydata.group_list[i].name)+'(备注:'+(mydata.group_list[i].note?mydata.group_list[i].note:"无")+')\
+                </a>\
+              </li>'
+      }
+      $("ul.group.dropdown-menu").html(html);
+    }
+  })
+
+}
+//转移逻辑
+function SwitchCertTimes(){
+  var name = $("#switchuser_id").attr("data-bind");
+  var times = $("#cert_times").val();
+  var password = $("#user_password").val();
+  var username = $("#user_name").val();
+
+  if(!$(".Choice.ChoiceGroup").is(":hidden")){
+    if(name.length==0){
+      toastr.warning("请选择一个用户");
+      return;
+    }else if(times.length==0){
+      toastr.warning("请输入转移证书次数");
+      return;
+    }else if(times==0){
+      toastr.warning("转移证书次数不能为0");
+      return;
+    }else if(password==''){
+      toastr.warning("密码不能为空");
+      return;
+    }
+    username = name;
+  }else{
+    if(username.length==""){
+      toastr.warning("请输入用户名");
+      return;
+    }else if(times.length==0){
+      toastr.warning("请输入转移证书次数");
+      return;
+    }else if(times==0){
+      toastr.warning("转移证书次数不能为0");
+      return;
+    }else if(password==''){
+      toastr.warning("密码不能为空");
+      return;
+    }
   }
-  if (CurrentUser === "admin") {
-    // current_certId = "null";
-  }
+ 
   param = {
     "access_token": access_token,
     "cert_id_from": current_certId,
-    "user_id_to": allUsers[$("#user_id").val()],
-    "times": parseInt($("#updateTimes").val())
+    "user_name_to": username,
+    "times": parseInt(times),
+    "password" : md5(CurrentUser+"@"+md5(password))
   };
   bproto_ajax(ISSUE_UESER_CERT, param, function (obj_json) {
     if(obj_json.code===0){
       toastr.success("转移成功");
-      $("#UserModal").modal("hide");
+      showUserCerts();
+      $("#SwitchCertsModal").modal("hide");
+
+    }else if(obj_json.code==-11){
+      toastr.error("密码错误");
     }else{
       toastr.error("失败"+obj_json.msg);
     }
+  })
+
+}
+
+// GetUserMsg_CallBack(function () {  
+//   if(CurrentUser=="admin"){
+
+//   $("#TreeCertsModal").modal("show");
+// }
+// })
+
+function SetDate(cert) {  
+  return cert.ValidityBegin.slice(0,10).replace(/\-/g,"")+" - "+cert.ValidityEnd.slice(0,10).replace(/\-/g,"")
+}
+
+
+function ShowTreeCerts_Modal(certid){
+  $("#TreeCertsModal").modal("show");
+  $("#TreeCertsModal .modal-body").html('\
+  <div style="width:100%">\
+    <div style="border: 2px solid #ccc;padding:20px 0;border-radius: 10px;width: 400px;text-align: center;margin: 0 auto;">\
+      <div>当前证书</div>\
+      <div class="currentInfo" style="overflow:auto">'+certid+'</div>\
+      \
+      <div>\
+        <a class="my-link prev" href="javascript:;" onclick="prev(\''+certid+'\',this)">查看上一级</a>\
+        <a class="my-link next" href="javascript:;" onclick="next(\''+certid+'\',this)">查看下一级</a>\
+      </div>\
+      </div>\
+  </div>');
+}
+
+function ShowTreeCertsContent(cert) {  
+  $(".certsManageContent").hide();
+  $(".TreeCerts").show();
+  cert = JSON.parse(cert);
+  $(".TreeCerts .body").html('\
+  <div style="width:100%">\
+    <div style="border: 2px solid #ccc;padding:0 0 10px;border-radius: 10px;width: 260px;text-align: center;margin: 0 auto;">\
+      <div class="h4" style="">当前证书('+(cert.IssueTermType)+')</div>\
+      <ul class="list-group" style="margin-bottom:10px;;text-align:left">\
+        <li class="list-group-item"                 ><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书用户</span>'+(CurrentUser)+'</li>\
+        <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">有效时间</span>'+SetDate(cert)+'</li>\
+        <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书次数</span>'+(cert.MaxIssueTimes)+'(剩余'+(cert.MaxIssueTimes-cert.IssueTimes)+')</li>\
+      </ul>\
+      <div>\
+        <a class="my-link prev" href="javascript:;" onclick="prev(\''+cert.SerialNumber+'\',this)">查看上一级</a>\
+        <a class="my-link next" href="javascript:;" onclick="next(\''+cert.SerialNumber+'\',this)">查看下一级</a>\
+      </div>\
+      </div>\
+  </div>');
+  $(".TreeCerts .body .next").click();
+  // bproto_ajax(GET_CERT_TREE2,{"access_token":access_token,"cert":cert.SerialNumber},function(obj_json){
+
+  // });
+
+}
+
+
+function prev(certid,target) {  
+  bproto_ajax(GET_CERT_TREE2,{"access_token":access_token,"cert":certid},function(obj_json){
+    if(obj_json.cert_parent!=null){
+      var cert_parent = obj_json.cert_parent;
+      var parent = document.createElement("div");
+      // $(parent).addClass("bottom_tree").attr("data-bind","top_tree1");
+      $(parent).css({"marginBottom":20})
+      var div = document.createElement("div");
+      $(div).addClass("top_tree");
+      $(div).html('\
+      <div class="h4" >父证书</div>\
+      <ul class="list-group" style="margin-bottom:10px;;text-align:left">\
+        <li class="list-group-item"                 ><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书用户</span>'+(cert_parent.IssuerRemark?cert_child[i].IssuerRemark:cert_parent.IssuerName)+'</li>\
+        <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">有效时间</span>'+SetDate(cert_parent)+'</li>\
+        <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书次数</span>'+(cert_parent.MaxIssueTimes)+'(剩余'+(cert_parent.MaxIssueTimes-cert_parent.IssueTimes)+')</li>\
+      </ul>\
+      <div>\
+        <a class="my-link next" href="javascript:;" onclick="prev(\''+cert_parent.SerialNumber+'\',this)">查看上一级</a>\
+      </div>');
+
+      $(parent).append(div);
+
+      // if(i==cert_child.length-1){
+      //   break;
+      // }
+
+      // var div40 = document.createElement("div");
+      // $(div40).css({"width":40})
+      // $(parent).append(div40);
+      console.log(parent);
+      $(target).parent().parent().parent().prevAll().remove()
+      $(".TreeCerts .body").prepend(parent);
+      $(target).parent().parent().css({"border-color":"red"})
+    }else{
+      toastr.info("该证书为顶级证书");
+    }
+  })
+}
+
+function next(certid,target){
+  // $("#TreeCertsModal").modal("show");
+  // window.cert_child = [];
+  // $("#TreeCertModal .modal-body").html("");
+  bproto_ajax(GET_CERT_TREE2,{"access_token":access_token,"cert":certid},function(obj_json){
+    if(obj_json.cert_child.length>0){
+      var cert_child = obj_json.cert_child;
+      var parent = document.createElement("div");
+      $(parent).addClass("bottom_tree").attr("data-bind","bottom_tree1");
+      $(parent).css({'width':260*cert_child.length+40*(cert_child.length-1)});
+      console.log(parent); 
+      for(var i=0;i<cert_child.length;i++){
+        var div = document.createElement("div");
+        $(div).addClass("tree_child");
+        $(div).html('\
+        <div class="h4">子证书</div>\
+          <ul class="list-group" style="margin-bottom:10px;;text-align:left">\
+            <li class="list-group-item"                 ><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书用户</span>'+(cert_child[i].IssuerRemark?cert_child[i].IssuerRemark:cert_child[i].IssuerName)+'</li>\
+            <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">有效时间</span>'+(SetDate(cert_child[i]))+'</li>\
+            <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书次数</span>'+(cert_child[i].MaxIssueTimes)+'(剩余'+(cert_child[i].MaxIssueTimes-cert_child[i].IssueTimes)+')</li>\
+          </ul>\
+        <div>\
+          <a class="my-link next" href="javascript:;" onclick="next(\''+cert_child[i].SerialNumber+'\',this)">查看下一级</a>\
+        </div>');
+
+        $(parent).append(div);
+
+        if(i==cert_child.length-1){
+          break;
+        }
+
+        var div40 = document.createElement("div");
+        $(div40).css({"width":40})
+        $(parent).append(div40);
+      }
+      console.log($(target).parent().parent())
+      $(target).parent().parent().parent().nextAll().remove()
+      $(".TreeCerts .body").append(parent);
+      $(target).parent().parent().css({"border-color":"red"})
+    }else{
+      toastr.info("无子证书");
+    }
+
+    $("#TreeCertsModal .modal-body").resize()
   })
 }
 

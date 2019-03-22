@@ -21,6 +21,7 @@ currentUnAuthTermPage_total = 0;//初始化未授权设备总页数
 currentUnAuthTermPage = 0; //初始化未授权设备当前页数
 currentUnAuthTermPageSize = 10; // 初始化未授权设备每页获取数据
 
+CurrentAuthPaging = {};
 currentAuthTermPage_total = 0;//初始化授权设备总页数
 currentAuthTermPage = 0; //初始化授权设备当前页数
 currentAuthTermPageSize = 10; // 初始化授权设备每页获取数据
@@ -61,13 +62,31 @@ showWhitchSlider(1)
 // })
 
 // $(".table").on('click')
-function ShowOnlineTermAllMsg(id, target) {
+
+function ShowUnAuthTermAllMsg(value) {  
+  value = JSON.parse(value);
+  $("#AllMsgModal .modal-body").html(template("UnAuthMsgTemp",value));
+  update_ip();
+  $("#AllMsgModal").modal("show");
+  $("#AllMsgModal .modal-body ul").css({"max-height":$(window).height()*0.8,"overflow":"auto"})
+}
+
+
+function ShowOnlineTermAllMsg(id, value) {
   // $(this).find(".msg_body").css("display","block");
 
-  if ($(target).next().find("ul li.info").is(":hidden")) {
-    return;
-  }
+  // if ($(target).next().find("ul li.info").is(":hidden")) {
+  //   return;
+  // }
+  value = JSON.parse(value);
+  $("#AllMsgModal .modal-body").html(template("Auth_OnlineMsgTemp",value));
+  update_ip();
+  $("#AllMsgModal").modal("show");
+  $("#AllMsgModal .modal-body ul").css({"max-height":$(window).height()*0.8,"overflow":"auto"})
 
+  // if($("#AllMsgModal .modal-body ul").height()>($(window).height()*0.6)){
+  //   $("#AllMsgModal .modal-body ul").css({"height":$(window).height()*0.6,"overflow":"auto"})
+  // } 
   var param = {
     'access_token': access_token,
     'terminals': [id]
@@ -81,25 +100,27 @@ function ShowOnlineTermAllMsg(id, target) {
       var html = '';
       html += '<li class="list-group-item info"><span style="display:inline-block;width:100px">上线时间</span>' + (info.online_datetime) + '</li>'
       html += '<li class="list-group-item info"><span style="display:inline-block;width:100px">上线IP</span>' + (info.online_host) + '</li>'
-      $(target).next().find("ul").append(html);
+      $("#AllMsgModal .modal-body ul").append(html);
     }
+
   })
+
   // $(target).find(".msg_body ul").append('<li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{value.OSVersion}}</li>')
 }
 
 
-$(".table ").on("click", "td button", function (e) {
-  // $(this).find(".msg_body").css("display","block");
-  if (($(this).offset().top) > $(this).next().height()) {
-    $(this).parent().find(".msg_body").css({ "display": "block", "bottom": "0" });
-  } else {
-    $(this).parent().find(".msg_body").css({ "display": "block", "top": "0" });
-  }
-})
+// $(".table ").on("click", "td button", function (e) {
+//   // $(this).find(".msg_body").css("display","block");
+//   if (($(this).offset().top) > $(this).next().height()) {
+//     $(this).parent().find(".msg_body").css({ "display": "block", "bottom": "0" });
+//   } else {
+//     $(this).parent().find(".msg_body").css({ "display": "block", "top": "0" });
+//   }
+// })
 
-$(".table ").on("mouseleave", "td.more", function () {
-  $(this).find(".msg_body").css("display", "none");
-})
+// $(".table ").on("mouseleave", "td.more", function () {
+//   $(this).find(".msg_body").css("display", "none");
+// })
 
 
 
@@ -264,6 +285,17 @@ function fun_get_register_list() {
     if (obj_json.code === 0) {
       currentUnAuthTermPage_total = obj_json.page_total;
       currentUnAuthTermPage = obj_json.page;
+
+      $('.unauthpage').paging({
+        nowPage: currentUnAuthTermPage+1,
+        allPages: currentUnAuthTermPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+            
+            getUnAuthTerm_list(now-1)
+        }
+      });
+
       var html = template('unauthorizedTemp', obj_json);
       $("#unauthorized table tbody").html(html);
       update_ip();
@@ -302,6 +334,7 @@ function fun_get_register_list() {
 function update_ip() {
   var templist = [];
   $(".iphost").each(function (i, el) {
+    if($(this).attr("data-ip")=="")return;
     templist.push($(this).attr("data-ip").replace(/\_/g, "."));
 
     if (i == $(".iphost").length - 1) {
@@ -387,6 +420,14 @@ function Online_List_Search() {
 //   })
 // }
 
+// $('#paging.authpage').paging({
+//   nowPage: 1+1,
+//   allPages: 10,
+//   displayPage: 7,
+//   callBack: function (now) {
+//       console.log(now);
+//   }
+// });
 
 //授权过的设备获取list
 function fun_get_authterm_list() {
@@ -402,6 +443,18 @@ function fun_get_authterm_list() {
     if (obj_json.code === 0) {
       currentAuthTermPage = obj_json.page;
       currentAuthTermPage_total = obj_json.page_total;
+
+
+      CurrentAuthPaging = $('.authpage').paging({
+        nowPage: currentAuthTermPage+1,
+        allPages: currentAuthTermPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+            
+            getAuthTerm_list(now-1)
+        }
+      });
+
       var html = template('authorizedTemp', obj_json);
       $("#authorized .tablebox_authterm table tbody").html(html);
       Auth_List_Search();
@@ -430,12 +483,15 @@ function fun_get_online_terminal_list() {
     if (obj_json.code === 0) {
       currentOnlineTermPage_total = obj_json.page_total;
       currentOnlineTermPage = obj_json.page;
-      // console.log(JSON.stringify(obj_json));
-      // var html = template('onlineTermsTemp', obj_json);
-      // $("#onlineTerminal .tablebox_authterm table tbody").html(html);
-      // Online_List_Search();
-
-      // console.log(obj_json);
+      // $('.onlinepage').paging({
+      //   nowPage: currentOnlineTermPage+1,
+      //   allPages: currentOnlineTermPage_total,
+      //   displayPage: 7,
+      //   callBack: function (now) {
+            
+      //       getOnlineTerm_list(now-1)
+      //   }
+      // });
       RenderOnlineTerminalTable(obj_json);
       RenderTable_Th("#onlineTerminal");
     }
@@ -486,7 +542,7 @@ function getUnAuthTerm_list(page, target) {
 
   $("#unauthorized .breadcrumb li:nth-child(n+2)").each(function (i, el) {
     if ($(this).text().length > 0 && el != $("#unauthorized .Receive")[0]) {
-      sortlist[$(this).attr("data-info")] = $(this).attr("data-id")
+      sortlist[$(this).attr("data-info")] = $(this).attr("data-id");
     }
   });
 
@@ -535,7 +591,7 @@ function getAuthTerm_list(page, target) {
   var sortlist = {};
   $("#authorized .breadcrumb li:nth-child(n+2)").each(function (i, el) {
     if ($(this).text().length > 0 && el != $("#authorized .Receive")[0]) {
-      sortlist[$(this).attr("data-info")] = $(this).attr("data-id")
+      sortlist[$(this).attr("data-info")] = $(this).attr("data-id");
     }
   });
 
@@ -554,7 +610,7 @@ function getAuthTerm_list(page, target) {
   var search_val = $("#authorized .search input").val();
 
   if (search_val.length > 0) {
-    if (!isNaN(search_input)) {
+    if (!isNaN(search_val)) {
       search_val = parseInt(search_val)
     }
     sortlist[$("#authorized .search .search-btn").attr("data-bind")] = search_val
@@ -595,7 +651,7 @@ function getOnlineTerm_list(page, target) {
     var sortlist = {};
     $("#onlineTerminal .breadcrumb li:nth-child(n+2)").each(function (i, el) {
       if ($(this).text().length > 0 && el != $("#onlineTerminal .Receive")[0]) {
-        sortlist[$(this).attr("data-info")] = $(this).attr("data-id")
+        sortlist[$(this).attr("data-info")] = $(this).attr("data-id"); 
       }
     });
 
@@ -631,6 +687,17 @@ function getOnlineTerm_list(page, target) {
         }
         currentOnlineTermPage = obj_json.page;
         currentOnlineTermPage_total = obj_json.page_total;
+
+        // $('.onlinepage').paging({
+        //   nowPage: currentOnlineTermPage+1,
+        //   allPages: currentOnlineTermPage_total,
+        //   displayPage: 7,
+        //   callBack: function (now) {
+              
+        //       getOnlineTerm_list(now-1)
+        //   }
+        // });
+
         RenderOnlineTerminalTable(obj_json);
         RenderTable_Th("#onlineTerminal")
       }
@@ -705,6 +772,16 @@ function btn_search(target) {
         if (obj_json.code === 0) {
           currentUnAuthTermPage_total = obj_json.page_total;
           currentUnAuthTermPage = obj_json.page;
+          $('.unauthpage').paging({
+            nowPage: currentUnAuthTermPage+1,
+            allPages: currentUnAuthTermPage_total,
+            displayPage: 7,
+            callBack: function (now) {
+                
+                getUnAuthTerm_list(now-1)
+            }
+          });
+
           var html = template('unauthorizedTemp', obj_json);
           $("#unauthorized table tbody").html(html);
           update_ip();
@@ -730,6 +807,16 @@ function btn_search(target) {
         if (obj_json.code === 0) {
           currentAuthTermPage = obj_json.page;
           currentAuthTermPage_total = obj_json.page_total;
+
+          $('#paging.authpage').paging({
+            nowPage: currentAuthTermPage+1,
+            allPages: currentAuthTermPage_total,
+            displayPage: 7,
+            callBack: function (now) {
+                
+                getAuthTerm_list(now-1)
+            }
+          });
 
           var html = template('authorizedTemp', obj_json);
           $("#authorized .tablebox_authterm table tbody").html(html);
@@ -879,7 +966,7 @@ function SetSortItem(content, target, func) {
       $(this).css("color", "red");
       $(content + " .breadcrumb li[data-bind=" + $(this).parent().parent().attr('data-bind') + "]").attr("data-id", $(this).attr("data-bind")).text($(this).text()).show()
     }
-    func()
+    func() 
   });
 
   if (!$(content + " .breadcrumb")[0].hasClick) {
@@ -919,7 +1006,7 @@ function bindSortItem() {
   //     $("#unauthorized .breadcrumb li[data-bind=" + $(this).parent().parent().attr('data-bind') + "]").text($(this).text()).show()
   //   }
   //   updateUnauthorizedSort()
-  // });
+  // }); 
   // $("#unauthorized .hardwaresort").delegate("a", "click", function () {
   //   if ($(this).css("color") == "rgb(255, 0, 0)") {
   //     $(this).css("color", "#000");
@@ -981,6 +1068,17 @@ function updateUnauthorizedSort() {
     if (obj_json.code === 0) {
       currentUnAuthTermPage_total = obj_json.page_total;
       currentUnAuthTermPage = obj_json.page;
+
+      $('.unauthpage').paging({
+        nowPage: currentUnAuthTermPage+1,
+        allPages: currentUnAuthTermPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+            
+            getUnAuthTerm_list(now-1)
+        }
+      });
+
       var html = template('unauthorizedTemp', obj_json);
       $("#unauthorized table tbody").html(html);
       update_ip();
@@ -1018,6 +1116,16 @@ function updateAuthorizedSort() {
       currentAuthTermPage = obj_json.page;
       currentAuthTermPage_total = obj_json.page_total;
 
+      $('#paging.authpage').paging({
+        nowPage: currentAuthTermPage+1,
+        allPages: currentAuthTermPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+            
+            getAuthTerm_list(now-1)
+        }
+      });
+
       var html = template('authorizedTemp', obj_json);
       $("#authorized .tablebox_authterm table tbody").html(html);
       Auth_List_Search();
@@ -1052,6 +1160,17 @@ function updateOnlineSort() {
     if (obj_json.code === 0) {
       currentOnlineTermPage = obj_json.page;
       currentOnlineTermPage_total = obj_json.page_total;
+
+      // $('.onlinepage').paging({
+      //   nowPage: currentOnlineTermPage+1,
+      //   allPages: currentOnlineTermPage_total,
+      //   displayPage: 7,
+      //   callBack: function (now) {
+            
+      //       getOnlineTerm_list(now-1)
+      //   }
+      // });
+
       RenderOnlineTerminalTable(obj_json);
       RenderTable_Th("#onlineTerminal");
     }
@@ -2135,5 +2254,7 @@ $(".modal").click(function (e) {
       return;
     }
     closeModal("#ModuleFieldManage_Modal");
+  } else if (e.target == $("#AllMsgModal")[0]) {
+    closeModal("#AllMsgModal");
   }
 });

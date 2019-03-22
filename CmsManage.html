@@ -92,10 +92,20 @@
 
           </tbody>
         </table>
-
+        <div id="paging" class='cmslistpage'> 
+            <div class="first">首页</div>
+            <div class="prev">上一页</div>
+            <ul class="list"></ul>
+            <div class="go">
+                <input type="text" placeholder="Goto">
+                <button>跳转</button>
+            </div>
+            <div class="next">下一页</div>
+            <div class="last">末页</div>
+        </div>
       </div>
 
-      <div class="cmslist_pager" style="height: 60px;">
+      <!-- <div class="cmslist_pager" style="height: 60px;">
 
         <ul class="pager" style="margin-bottom: 0">
           <li>
@@ -114,10 +124,10 @@
           <li><a href="javascript:;" onclick="getCMSTerm_list(currentCMSListPage_total-1)">尾页</a></li>
         </ul>
 
-      </div>
+      </div> -->
     </div>
     <!--CMS信息结束-->
-
+    
     <!--CMS设备信息-->
     <div class="cmsDevicelistContent CmsContent" style="display: none">
       <!--<div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">CMS设备信息</div>-->
@@ -149,9 +159,20 @@
           </tbody>
         </table>
 
+        <div id="paging" class='cmsDevicelistpage'> 
+            <div class="first">首页</div>
+            <div class="prev">上一页</div>
+            <ul class="list"></ul>
+            <div class="go">
+                <input type="text" placeholder="Goto">
+                <button>跳转</button>
+            </div>
+            <div class="next">下一页</div>
+            <div class="last">末页</div>
+        </div>
       </div>
 
-      <div class="cmslist_pager" style="height: 60px;">
+      <!-- <div class="cmslist_pager" style="height: 60px;">
 
         <ul class="pager" style="margin-bottom: 0">
           <li>
@@ -170,7 +191,7 @@
           <li><a href="javascript:;" onclick="getCMSPuDevice_list(currentCMSDevicePage_total-1)">尾页</a></li>
         </ul>
 
-      </div>
+      </div> -->
     </div>
     <!--CMS设备信息结束-->
 
@@ -245,10 +266,20 @@
                           
                         </tbody>
                       </table>
-      
+                      <div id="paging" class='Whitelistpage'> 
+                          <div class="first">首页</div>
+                          <div class="prev">上一页</div>
+                          <ul class="list"></ul>
+                          <div class="go">
+                              <input type="text" placeholder="Goto">
+                              <button>跳转</button>
+                          </div>
+                          <div class="next">下一页</div>
+                          <div class="last">末页</div>
+                      </div>
                     </div>
       
-                    <div class="white_pager" style="height: 60px;">
+                    <!-- <div class="white_pager" style="height: 60px;">
 
                       <ul class="pager" style="margin-bottom: 0">
                         <li>
@@ -267,7 +298,7 @@
                         <li><a href="javascript:;" onclick="getCMSWhite_list(currentCMSWhiteListPage_total-1)">尾页</a></li>
                       </ul>
       
-                    </div>
+                    </div> -->
                 </div>
                 <div role="tabpanel" class="tab-pane" id="BlackList">
                   <div class="Blacktablebox"
@@ -283,14 +314,24 @@
                         <th colspan="2">操作</th>
                       </tr>
                       </thead>
-                      <tbody>
-  
+                      <tbody> 
+                        
                       </tbody>
                     </table>
-  
+                    <div id="paging" class='Blacklistpage'> 
+                        <div class="first">首页</div>
+                        <div class="prev">上一页</div>
+                        <ul class="list"></ul>
+                        <div class="go">
+                            <input type="text" placeholder="Goto">
+                            <button>跳转</button>
+                        </div>
+                        <div class="next">下一页</div>
+                        <div class="last">末页</div>
+                    </div>
                   </div>
   
-                  <div class="black_pager" style="height: 60px;">
+                  <!-- <div class="black_pager" style="height: 60px;">
   
                     <ul class="pager" style="margin-bottom: 0">
                       <li>
@@ -309,7 +350,7 @@
                       <li><a href="javascript:;" onclick="getCMSBlack_list(currentCMSBlackListPage_total-1)">尾页</a></li>
                     </ul>
   
-                  </div>
+                  </div> -->
   
                 </div>
               
@@ -390,6 +431,27 @@
 </section>
 
 
+ <!-- 详细信息显示 -->
+ <div class="modal fade" id="AllMsgModal" style="z-index:999999">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#AllMsgModal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title h4" style="text-align: center">详细信息</h4>
+        </div>
+        <div class="modal-body"> 
+          123
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="closeModal('#AllMsgModal')">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 详细信息显示 -->
+
 <!--添加黑白名单提示框-->
 <div class="modal fade" id="AddBlackWhite_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
@@ -455,7 +517,7 @@
     <td>{{value.db_username}}</td> -->
     <td>{{value.version}}</td>
     <td class="more" style="position:relative;width:100px">
-        <button class="btn">查看
+        <button class="btn" onclick="showAllMsgModal('{{ value | toString }}')">查看
         </button>
         <div class="msg_body" style="
                 position:absolute;
@@ -463,7 +525,7 @@
                 /* width:400px; */
                 /* height:400px; */
                 overflow:auto;
-                right:50%;
+                right:50%; 
                 /* background-color: red; */
                 z-index:999{{i}};
                 /* bottom:0; */
@@ -547,7 +609,7 @@
     <td>
       <button href="javascript:;" class="source btn " onclick="ShowEdit(this)">编辑</button>
       <div class="edit" style="display: none">
-        <button href="javascript:;" class="btn btn-success " style="margin-right: 10px" onclick="DoEdit(this,'{{value.id}}','BlackList')">确认</button> |
+        <button href="javascript:;" class="btn btn-success " style="margin-right: 10px" onclick="DoEdit(this,'{{value.id}}','BlackList')">确认</button> 
         <button href="javascript:;" class="btn btn-danger " onclick="HideEdit(this)">取消</button>
       </div>
 
@@ -630,6 +692,21 @@
   </tr>
 
 </script>
+
+
+<!-- 详细信息 -->
+<script id="AllMsgTemp" type="text/html">
+  <ul class="list-group more" style="margin-bottom:0;text-align:left">
+      <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{cms}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">域名</span>{{domain}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">代理</span>{{agent}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">数据库主机</span>{{db_host}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">数据库端口</span>{{db_port}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">数据库账号</span>{{db_username}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">数据库密码</span>{{db_password}}</li>
+  </ul>
+</script>
+<!-- 详细信息 -->
 
 
 <!----------------------模板文件结束--------------------------->

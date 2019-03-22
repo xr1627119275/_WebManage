@@ -255,6 +255,26 @@ th{
 
 }
 
+.top_tree{
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    padding: 0 0 10px;
+    width:260px;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .bottom_tree{
+    display: flex;margin-top: 30px;text-align: center;margin: 0 auto;padding: 20px 0
+  }
+  .tree_child{
+    flex:1;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 260px; 
+    padding: 0 0 10px;text-align: center;margin: 0 auto;overflow: hidden;
+  }
+
+
 
 .section2{
     display: none;
@@ -279,3 +299,82 @@ th{
     font-weight: 700;
     margin-right: 10px;
 }
+
+/* paging Css */
+#paging {
+    width: 100%;
+    /* margin-top: 60px; */
+    text-align: center;
+    color: #0099ff;
+  
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  #paging .first,
+  #paging .last,
+  #paging .prev,
+  #paging .next,
+  #paging .list li {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 4px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    cursor: default;
+    border-radius: 4px;
+    vertical-align: top;
+  }
+  #paging .list {
+    display: inline-block;
+    vertical-align: top;
+  }
+  #paging .list li {
+    width: 40px;
+    padding: 0;
+    text-align: center;
+  }
+  #paging .list li.cur {
+    color: #fff;
+    background-color: #0099ff;
+    border-color: #428bca;
+  }
+  #paging .go {
+    display: none;
+    position: relative;
+    max-width: 160px;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  #paging .go input {
+    float: left;
+    width: 70%;
+    height: 28px;
+    line-height: 30px;
+    padding: 0 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+    color: #0099ff;
+  }
+  #paging .go button {
+    float: left;
+    width: 30%;
+    height: 100%;
+    cursor: pointer;
+    color: #fff;
+    background-color: #0099ff;
+    border-radius: 0 4px 4px 0;
+  }
+  #paging .disable {
+    color: #bfbfbf;
+    cursor: not-allowed;
+  }
+  
+   #paging input::-webkit-input-placeholder { color: #bfbfbf; }
+  #paging input::-moz-input-placeholder { color: #bfbfbf; }
+  #paging input:-ms-input-placeholder { color: #bfbfbf; } 
+  
+/* paging Css */

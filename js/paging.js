@@ -12,7 +12,18 @@
       this.$oGo = this.$oPaging.find('.go');
       this.$oGo_text = this.$oGo.find('input');
       this.$oGo_btn = this.$oGo.find('button');
-  
+      
+      // 取消默认
+      this.$oList.html("");
+      this.$aItem.unbind("click");
+      this.$oFirst.unbind("click");
+      this.$oLast.unbind("click");
+      this.$oPrev.unbind("click");
+      this.$oNext.unbind("click");
+      this.$oGo_btn.unbind("click"); 
+      // 取消默认
+
+
       this.defaults = {
         nowPage: 1,
         allPages: 10,
@@ -128,17 +139,19 @@
         var self = this;
   
         this.initalPaging();
-        this.opts.callBack && this.opts.callBack(this.iNum);
+        // this.opts.callBack && this.opts.callBack(this.iNum);
   
         this.$aItem.click(function () {
           if (!$(this).hasClass('cur')) {
             self.iNum = parseInt($(this).attr('index').substring(1));
-  
+            
             self.clickFn();
           }
         });
   
         this.$oFirst.click(function () {
+          
+          
           if (!$(this).hasClass('disable')) {
             self.iNum = 1;
   
@@ -147,6 +160,7 @@
         });
   
         this.$oLast.click(function () {
+          
           if (!$(this).hasClass('disable')) {
             self.iNum = self.allPages;
   
@@ -155,6 +169,7 @@
         });
   
         this.$oPrev.click(function () {
+          
           if (!$(this).hasClass('disable')) {
             self.iNum --;
   
@@ -163,14 +178,16 @@
         });
   
         this.$oNext.click(function () {
+
+          
           if (!$(this).hasClass('disable')) {
-            self.iNum ++;
-  
+            self.iNum ++;  
             self.clickFn();
           }
         });
   
         this.$oGo_btn.click(function () {
+          
           var value = self.$oGo_text.val();
           var reg = new RegExp(/^[0-9]*[1-9][0-9]*$/);
   
@@ -191,7 +208,7 @@
   
     $.fn.paging = function (options) {
       var paging = new Paging(this, options);
-  
+      
       return paging.inital();
     };
   

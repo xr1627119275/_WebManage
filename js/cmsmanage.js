@@ -2,7 +2,7 @@ currentCMSListPage_total = 0;//初始化授权设备总页数
 currentCMSListPage = 0; //初始化授权设备当前页数
 currentCMSListPageSize = 20; // 初始化授权设备每页获取数据
 
-
+ 
 //初始化CMS设备页数数据
 currentCMSDevicePage_total = 0;
 currentCMSDevicePage = 0;
@@ -11,13 +11,13 @@ currentCMSDevicePageSize = 20;
 //初始化黑名单页数数据
 currentCMSBlackListPage_total = 0;
 currentCMSBlackListPage = 0;
-currentCMSBlackListPageSize = 20;
+currentCMSBlackListPageSize = 10;
 
 //初始化白名单页数数据
 currentCMSWhiteListPage_total = 0;
 currentCMSWhiteListPage = 0;
-currentCMSWhiteListPageSize = 20;
-
+currentCMSWhiteListPageSize = 10; 
+  
 //默认添加黑名单
 currentAddBW = "WhiteList";
 
@@ -88,20 +88,27 @@ function changeContent(target) {
 // })
 
  
-$(".table ").on("click","td.more",function () {  
-  // console.log(($(this).offset().top-60),$(this).find(".msg_body").height());
-  if( ($(this).offset().top-60)> $(this).find(".msg_body").height() ){
-    $(this).find(".msg_body").css({"display":"block","bottom":"0"});
-  }else{
-    $(this).find(".msg_body").css({"display":"block","top":"0"});
-    // $(this).find(".msg_body").css({"display":"block","bottom":""});
+// $(".table ").on("click","td.more",function () {  
+//   // console.log(($(this).offset().top-60),$(this).find(".msg_body").height());
+//   if( ($(this).offset().top-60)> $(this).find(".msg_body").height() ){
+//     $(this).find(".msg_body").css({"display":"block","bottom":"0"});
+//   }else{
+//     $(this).find(".msg_body").css({"display":"block","top":"0"});
+//     // $(this).find(".msg_body").css({"display":"block","bottom":""});
 
-  }
-})
+//   }
+// })
  
-$(".table ").on("mouseleave","td.more",function () {  
-  $(this).find(".msg_body").css("display","none");
-})
+// $(".table ").on("mouseleave","td.more",function () {  
+//   $(this).find(".msg_body").css("display","none");
+// })
+
+function showAllMsgModal(value) {  
+  value = JSON.parse(value);
+  $("#AllMsgModal .modal-body").html(template("AllMsgTemp",value));
+  $("#AllMsgModal").modal("show");
+}
+
 
 //处理table中Th 合并
 function RenderTable_Th(target) {
@@ -131,6 +138,14 @@ function showCmsList() {
       function (obj_json) {
         currentCMSListPage = obj_json.page;
         currentCMSListPage_total = obj_json.page_total;
+        $('.cmslistpage').paging({
+          nowPage: currentCMSListPage+1,
+          allPages: currentCMSListPage_total,
+          displayPage: 7,
+          callBack: function (now) {
+            getCMSTerm_list(now-1);
+          }
+        });
         $("#cmslist .cmslistContent .cmstablebox tbody").html(template("cmsListTemp", obj_json))
       }
   )
@@ -156,10 +171,20 @@ function RenderCmsDevice() {
   }
   AjaxPost(GET_CMS_PU_LIST,param)
       .then(function (obj_json) {
-
+        if(obj_json.pu_list.length==0){
+          toastr.info("无数据");
+          return;
+        }
         currentCMSDevicePage = obj_json.page;
         currentCMSDevicePage_total = obj_json.page_total;
-
+        $('.cmsDevicelistpage').paging({
+          nowPage: currentCMSDevicePage+1,
+          allPages: currentCMSDevicePage_total,
+          displayPage: 7,
+          callBack: function (now) {
+            getCMSPuDevice_list(now-1);
+          }
+        });
         $("#cmslist .CmsContent .cmsDevicetablebox tbody").html(template("cmsDeviceListTemp", obj_json))
       })
 }
@@ -421,6 +446,14 @@ function showBlack_list(cms) {
       // currentCMSBlackListPageSize = obj_json.page_size;
       currentCMSBlackListPage_total = obj_json.page_total;
 
+      $('.Blacklistpage').paging({
+        nowPage: currentCMSBlackListPage+1,
+        allPages: currentCMSBlackListPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+          getCMSBlack_list(now-1);
+        }
+      });
       BW_fields_Name2Chinese(obj_json);
       $("#cmslist .BlackWhiteListContent .showBlackWhiteMsg .Blacktablebox tbody").html(template("BlackListTemp", obj_json))
 
@@ -484,6 +517,15 @@ function showWhite_list(cms) {
       currentCMSWhiteListPage = obj_json.page;
       // currentCMSBlackListPageSize = obj_json.page_size;
       currentCMSWhiteListPage_total = obj_json.page_total;
+
+      $('.Whitelistpage').paging({
+        nowPage: currentCMSWhiteListPage+1,
+        allPages: currentCMSWhiteListPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+          getCMSWhite_list(now-1);
+        }
+      });
 
       BW_fields_Name2Chinese(obj_json);
       $("#cmslist .BlackWhiteListContent .showBlackWhiteMsg .Whitetablebox tbody").html(template("WhiteListTemp", obj_json))
@@ -868,5 +910,7 @@ $(".modal").click(function (e) {
     closeModal("#AddBlackWhite_Modal");
   } else if (e.target == $("#ModuleFieldManage_Modal")[0]) {
     closeModal("#ModuleFieldManage_Modal");
+  } else if (e.target == $("#AllMsgModal")[0]) {
+    closeModal("#AllMsgModal");
   }
 });

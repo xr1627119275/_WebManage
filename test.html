@@ -107,20 +107,37 @@ p { padding-bottom: 10px; font-size: 20px; text-align: center; }
 
 
 <div id="paging">
-    <div class="first">首页</div>
-    <div class="prev">上一页</div>
-    <ul class="list"></ul>
-    <div class="go">
-        <input type="text" placeholder="Goto">
-        <button>跳转</button>
+        <div class="first">首页</div>
+        <div class="prev">上一页</div>
+        <ul class="list"></ul>
+        <div class="go">
+            <input type="text" placeholder="Goto">
+            <button>跳转</button>
+        </div>
+        <div class="next">下一页</div>
+        <div class="last">末页</div>
     </div>
-    <div class="next">下一页</div>
-    <div class="last">末页</div>
-</div>
 
 
 
- 
+    <div class="modal fade" id="TreeCertsModal" style="z-index:99999999" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" onclick="closeModal('#TreeCertsModal')" aria-label="Close"><span
+                      aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title h4" style="text-align: center">证书关系</h4>
+                </div>
+                <div class="modal-body" style="overflow:auto">
+                  
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="closeModal('#TreeCertsModal')">关闭</button>
+        </div>
+        </div>
+    </div>
+    </div>
 
 <script src="/static/js/jquery.min.js"></script>
 

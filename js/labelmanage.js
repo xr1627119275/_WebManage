@@ -192,10 +192,6 @@ function RemoveOneUserLabel(id) {
 
 //删除用户标签
 function RemoveUserLabel() {
-  var isdel = confirm("确认删除");
-  if (isdel === false) {
-    return
-  }
   var isCheck = false;
   var userlabels = [];
   $("input[name=cb_label]").each(function () {
@@ -205,6 +201,11 @@ function RemoveUserLabel() {
     }
   });
   if (!isCheck) { toastr.warning("请选择用户标签"); return; }
+  
+  var isdel = confirm("确认删除");
+  if (isdel === false) {
+    return
+  }
   param = {
     'access_token': access_token,
     'userlabels': userlabels
