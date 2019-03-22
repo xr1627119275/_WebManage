@@ -65,9 +65,10 @@ showWhitchSlider(1)
 
 function ShowUnAuthTermAllMsg(value) {  
   value = JSON.parse(value);
-  console.log(value)
   $("#AllMsgModal .modal-body").html(template("UnAuthMsgTemp",value));
+  update_ip();
   $("#AllMsgModal").modal("show");
+  $("#AllMsgModal .modal-body ul").css({"max-height":$(window).height()*0.8,"overflow":"auto"})
 }
 
 
@@ -79,7 +80,13 @@ function ShowOnlineTermAllMsg(id, value) {
   // }
   value = JSON.parse(value);
   $("#AllMsgModal .modal-body").html(template("Auth_OnlineMsgTemp",value));
+  update_ip();
   $("#AllMsgModal").modal("show");
+  $("#AllMsgModal .modal-body ul").css({"max-height":$(window).height()*0.8,"overflow":"auto"})
+
+  // if($("#AllMsgModal .modal-body ul").height()>($(window).height()*0.6)){
+  //   $("#AllMsgModal .modal-body ul").css({"height":$(window).height()*0.6,"overflow":"auto"})
+  // } 
   var param = {
     'access_token': access_token,
     'terminals': [id]
@@ -327,6 +334,7 @@ function fun_get_register_list() {
 function update_ip() {
   var templist = [];
   $(".iphost").each(function (i, el) {
+    if($(this).attr("data-ip")=="")return;
     templist.push($(this).attr("data-ip").replace(/\_/g, "."));
 
     if (i == $(".iphost").length - 1) {

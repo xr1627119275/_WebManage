@@ -24,20 +24,20 @@ window.addEventListener('load', function () {
 })
 
 
-$(".table ").on("click","td.more",function () {  
-  // console.log(($(this).offset().top-60),$(this).find(".msg_body").height());
-  if( ($(this).offset().top-60)> $(this).find(".msg_body").height() ){
-    $(this).find(".msg_body").css({"display":"block","bottom":"0"});
-  }else{
-    $(this).find(".msg_body").css({"display":"block","top":"0"});
-    // $(this).find(".msg_body").css({"display":"block","bottom":""});
+// $(".table ").on("click","td.more",function () {  
+//   // console.log(($(this).offset().top-60),$(this).find(".msg_body").height());
+//   if( ($(this).offset().top-60)> $(this).find(".msg_body").height() ){
+//     $(this).find(".msg_body").css({"display":"block","bottom":"0"});
+//   }else{
+//     $(this).find(".msg_body").css({"display":"block","top":"0"});
+//     // $(this).find(".msg_body").css({"display":"block","bottom":""});
 
-  }
-})
+//   }
+// })
  
-$(".table ").on("mouseleave","td.more",function () {  
-  $(this).find(".msg_body").css("display","none");
-})
+// $(".table ").on("mouseleave","td.more",function () {  
+//   $(this).find(".msg_body").css("display","none");
+// })
 
 //切换导航
 function changeContent(target) {
@@ -57,17 +57,8 @@ function changeContent(target) {
 function showUserCerts() {
   $(".content").hide()
   $("#certList").show()
-  if (window.CurrentUser === undefined) {
-    bproto_ajax(GET_LOGIN_MSG_URL, { 'access_token': access_token }, function (obj_json) {
-      if (obj_json.code != 0) {
-        location.href = '/';
-      }
-      CurrentUser = obj_json.username;
-      getUserCerts();
-    })
-  } else {
-    getUserCerts();
-  }
+
+  GetUserMsg_CallBack(getUserCerts);
 }
 
 function getUserCerts() {
@@ -83,6 +74,16 @@ function getUserCerts() {
       currentCertsPage = obj_json.page;
       currentCertsPage_total = obj_json.page_total;
       userid = obj_json.userid;
+
+      $('.certslistpage').paging({
+        nowPage: currentCertsPage+1,
+        allPages: currentCertsPage_total,
+        displayPage: 7,
+        callBack: function (now) {
+          getCerts_list(now-1)
+        }
+      });
+
       RenderCertTable(obj_json);//渲染数据
 
       $(".modalTable").hide();
@@ -267,10 +268,10 @@ function updateCertRename(target,id) {
 
   bproto_ajax(UPDATE_REMARK,param,function (obj_json) {  
     if(obj_json.code===0){
-      showUserCerts();
+      getCerts_list(currentCertsPage);
       toastr.success("修改成功");
     }else{
-      showUserCerts();
+      getCerts_list(currentCertsPage);
       toastr.error(obj_json.msg)
     }
     HideEdit(target)

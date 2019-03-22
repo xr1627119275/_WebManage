@@ -359,7 +359,7 @@
               <th><input type="checkbox" name="allcheck" class="allcheck" id="allcheck" /></th>
               <th>类型</th> <!--    type-->
               <th>认证码</th> <!--   randcode-->
-              <th>ID</th> <!--  id-->
+              <th>ID&Name</th> <!--  id-->
               <th>状态</th> <!--   randcode-->
               <th>注册时间</th> <!--   randcode-->
               <th>描述</th>
@@ -603,7 +603,7 @@
               <!--<th>#</th>-->
               <th>类型</th> <!--    type-->
               <th>认证码</th> <!--   randcode-->
-              <th>ID</th><!--  id-->
+              <th>ID&Name</th><!--  id-->
               <th>授权状态</th>
               <th>在线状态</th>
               <th>认证标签</th> <!--  desc-->
@@ -773,7 +773,7 @@
                 </th>
                 <th>类型</th> <!--    type-->
                 <th>认证码</th> <!--   randcode-->
-                <th>ID</th><!--  id-->
+                <th>ID&Name</th><!--  id-->
                 <th>终端备注</th> <!--  desc-->
                 <th>认证标签</th>
                 <!--  <th>序列号</th>              serialnumber-->
@@ -981,9 +981,9 @@
         <div class="modal-body"> 
           123
         </div>
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
           <button type="button" class="btn btn-primary" onclick="closeModal('#AllMsgModal')">关闭</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -1140,7 +1140,7 @@
         <td><input type="checkbox" name="done" data-type="{{value.type}}" data-code="{{value.authcode}}" data-sessionid="{{value.sessionid}}"></td>
         <td>{{value.type}}</td>
         <td>{{value.authcode}}</td>
-        <td>{{value.id}}</td>
+        <td>{{value.id}}{{value.name==""?"":"("+value.name+")"}}</td>
         <td>{{value.online?"在线":"离线"}}</td>
         <td>{{value.reg_datetime}}</td>
         <td>{{value.desc}}</td>
@@ -1199,7 +1199,7 @@
       <td><input type="checkbox" name="done"  data-bind="{{value.SerialNumber}}"></td>
       <td>{{value.Type}}</td>
       <td>{{value.AuthCode}}</td>
-      <td>{{value.CLI_ID}}</td>
+      <td>{{value.CLI_ID}}{{value.CLI_Name==""?"":"("+value.CLI_Name+")"}}</td>
       <td>{{value.auth_status==0?'启用':value.auth_status==1?'暂停':'取消'}}</td>
       <td>{{value.online?"在线":"离线"}}</td>
       <td>{{value.UserLabelName}}</td>
@@ -1269,7 +1269,7 @@
       <td><input type="checkbox" name="done" data-bind="{{value.SerialNumber}}"></td>
       <td>{{value.Type}}</td>
       <td>{{value.AuthCode}}</td>
-      <td>{{value.CLI_ID}}</td>
+      <td>{{value.CLI_ID}}{{value.CLI_Name==""?"":"("+value.CLI_Name+")"}}</td>
       <td>
           <span class="source">{{value.remark}}</span>
           <div class="edit" style="display:none">
@@ -1385,7 +1385,8 @@
       <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{SerialNumber}}</li>
       <li class="list-group-item"><span style="display:inline-block;width:100px">验证型号</span>{{ModuleNumber}}</li>
       <li class="list-group-item"><span style="display:inline-block;width:100px">描述</span>{{Desc}}</li>
-
+      <li class="list-group-item"><span style="display:inline-block;width:100px">授权时IP</span>{{auth_host}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">授权时IP(地址)</span><span class="iphost" data-ip="{{auth_host.replace(/\./g,'_')}}">{{auth_host}}</span></li>
       <li class="list-group-item"><span style="display:inline-block;width:100px">硬件供应商</span>{{HardwareProvider}}</li>
       <li class="list-group-item"><span style="display:inline-block;width:100px">硬件SN</span>{{HardwareSN}}</li>
       <li class="list-group-item"><span style="display:inline-block;width:100px">硬件版本</span>{{HardwareVersion}}</li>
@@ -1421,7 +1422,7 @@
         <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{serialnumber}}</li>
         <li class="list-group-item"><span style="display:inline-block;width:100px">用户认证标签</span>{{userlabel}}</li>
         <li class="list-group-item"><span style="display:inline-block;width:100px">客户端IP</span>{{clienthost}}</li>
-        <li class="list-group-item"><span style="display:inline-block;width:100px">客户端地址</span><span class="iphost" data-ip="{{clienthost.replace(/\./g,'_')}}">{{clienthost}}</span></li>
+        <li class="list-group-item"><span style="display:inline-block;width:100px">客户端IP(地址)</span><span class="iphost" data-ip="{{clienthost.replace(/\./g,'_')}}">{{clienthost}}</span></li>
     </ul>
   
 </script>

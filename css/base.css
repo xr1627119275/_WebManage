@@ -255,6 +255,26 @@ th{
 
 }
 
+.top_tree{
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    padding: 0 0 10px;
+    width:260px;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .bottom_tree{
+    display: flex;margin-top: 30px;text-align: center;margin: 0 auto;padding: 20px 0
+  }
+  .tree_child{
+    flex:1;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 260px; 
+    padding: 0 0 10px;text-align: center;margin: 0 auto;overflow: hidden;
+  }
+
+
 
 .section2{
     display: none;

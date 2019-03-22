@@ -104,7 +104,7 @@
             <div class="last">末页</div>
         </div>
       </div>
-      
+
       <!-- <div class="cmslist_pager" style="height: 60px;">
 
         <ul class="pager" style="margin-bottom: 0">
@@ -431,6 +431,27 @@
 </section>
 
 
+ <!-- 详细信息显示 -->
+ <div class="modal fade" id="AllMsgModal" style="z-index:999999">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#AllMsgModal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title h4" style="text-align: center">详细信息</h4>
+        </div>
+        <div class="modal-body"> 
+          123
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="closeModal('#AllMsgModal')">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 详细信息显示 -->
+
 <!--添加黑白名单提示框-->
 <div class="modal fade" id="AddBlackWhite_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
@@ -496,7 +517,7 @@
     <td>{{value.db_username}}</td> -->
     <td>{{value.version}}</td>
     <td class="more" style="position:relative;width:100px">
-        <button class="btn">查看
+        <button class="btn" onclick="showAllMsgModal('{{ value | toString }}')">查看
         </button>
         <div class="msg_body" style="
                 position:absolute;
@@ -504,7 +525,7 @@
                 /* width:400px; */
                 /* height:400px; */
                 overflow:auto;
-                right:50%;
+                right:50%; 
                 /* background-color: red; */
                 z-index:999{{i}};
                 /* bottom:0; */
@@ -588,7 +609,7 @@
     <td>
       <button href="javascript:;" class="source btn " onclick="ShowEdit(this)">编辑</button>
       <div class="edit" style="display: none">
-        <button href="javascript:;" class="btn btn-success " style="margin-right: 10px" onclick="DoEdit(this,'{{value.id}}','BlackList')">确认</button> |
+        <button href="javascript:;" class="btn btn-success " style="margin-right: 10px" onclick="DoEdit(this,'{{value.id}}','BlackList')">确认</button> 
         <button href="javascript:;" class="btn btn-danger " onclick="HideEdit(this)">取消</button>
       </div>
 
@@ -671,6 +692,21 @@
   </tr>
 
 </script>
+
+
+<!-- 详细信息 -->
+<script id="AllMsgTemp" type="text/html">
+  <ul class="list-group more" style="margin-bottom:0;text-align:left">
+      <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{cms}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">域名</span>{{domain}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">代理</span>{{agent}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">数据库主机</span>{{db_host}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">数据库端口</span>{{db_port}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">数据库账号</span>{{db_username}}</li>
+      <li class="list-group-item"><span style="display:inline-block;width:100px">数据库密码</span>{{db_password}}</li>
+  </ul>
+</script>
+<!-- 详细信息 -->
 
 
 <!----------------------模板文件结束--------------------------->

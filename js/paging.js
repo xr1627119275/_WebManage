@@ -139,12 +139,12 @@
         var self = this;
   
         this.initalPaging();
-        this.opts.callBack && this.opts.callBack(this.iNum);
+        // this.opts.callBack && this.opts.callBack(this.iNum);
   
         this.$aItem.click(function () {
           if (!$(this).hasClass('cur')) {
             self.iNum = parseInt($(this).attr('index').substring(1));
-  
+            
             self.clickFn();
           }
         });

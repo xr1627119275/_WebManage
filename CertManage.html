@@ -10,47 +10,7 @@
   <link rel="stylesheet" href="/static/css/font-awesome.css">
   <link rel="stylesheet" href="/static/css/sidebar-menu.css">
 
-  <style type="text/css">
-    .main-sidebar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      min-height: 100%;
-      width: 230px;
-      z-index: 810;
-      background-color: #222d32;
-    }
-
-    .main-content {
-      position: absolute;
-      width: 100%;
-      padding-left: 230px;
-      top: 0;
-      right: 0;
-    }
-
-    /*主体部分*/
-    section .content {
-      width: 100%;
-      padding: 0 20px;
-    }
-
-    /*主体部分*/
-    .table th,
-    .table td {
-      text-align: center;
-    }
-
-    .certPager {
-      padding: 0 10px 0 240px;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      height: 60px;
-      width: 100%;
-    }
-  </style>
+  
   <!---->
 
   <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -62,8 +22,9 @@
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
   <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/md5.js"></script>
-    <script src="/static/js/toastr.min.js"></script>
+  
+  <script src="/static/js/md5.js"></script>
+  <script src="/static/js/toastr.min.js"></script>
 
   <script src="/static/js/jquery.cookie.js"></script>
   <script src="/static/js/bprotocol.js"></script>
@@ -80,74 +41,6 @@
     </section>
   </aside>
   <section class="main-content">
-    <style>
-      /* .main-content>header {
-        width: 100%;
-        height: 60px;
-        background: #1a2226;
-      }
-
-      .main-content>header>ul {
-        margin-right: 30px;
-        float: right;
-      }
-
-      .main-content>header li {
-        float: left;
-      }
-
-      .main-content>header>ul>li>a {
-        display: block;
-        height: 60px;
-        padding: 10px 25px 10px 15px;
-        font-size: 16px;
-        line-height: 40px;
-        font-weight: 700;
-        color: #4b646f;
-
-      }
-
-      .main-content>header>ul>li:last-child {
-        position: relative;
-      }
-
-      li.user:hover .a_list {
-        display: block;
-      }
-
-      .a_list {
-        display: none;
-        padding: 5px 0;
-        position: absolute;
-        right: 0;
-        border: 1px solid #cccccc;
-        border-radius: 3px;
-        top: 56px;
-        background-color: #fff;
-        width: 100%;
-
-      }
-
-      .a_list li {
-        width: 100%;
-
-      }
-
-      .a_list li:hover {
-        background-color: #cccccc;
-      }
-
-      .a_list li>a {
-        display: block;
-        height: 30px;
-        color: #000;
-        line-height: 30px;
-        font-size: 14px;
-        width: 100%;
-        text-align: center;
-
-      } */
-    </style>
     <header>
       
     </header>
@@ -166,6 +59,7 @@
                 <th>证书备注</th>
                 <!-- <th>序列号</th> -->
                 <th>类型</th>
+                <th>状态</th>
                 <!-- <th>剩余次数</th> -->
                 <th>最大使用次数</th>
                 <th>生效起止时间</th>
@@ -178,7 +72,7 @@
                 <!-- <th>颁布次数</th> -->
                 <!-- <th>最大颁布次数</th> -->
                 <th style="display: none">ParentCert</th>
-                <th>详情</th>
+                <!-- <th>详情</th> -->
                 <th colspan="4">管理</th>
                 <!--<th>修改证书信息</th>-->
                 <!--<th>证书授权次数转移</th>-->
@@ -189,15 +83,26 @@
   
             </tbody>
           </table>
+          <div id="paging" class='certslistpage'>
+              <div class="first">首页</div>
+              <div class="prev">上一页</div>
+              <ul class="list"></ul>
+              <div class="go">
+                <input type="text" placeholder="Goto">
+                <button>跳转</button>
+              </div>
+              <div class="next">下一页</div>
+              <div class="last">末页</div>
+            </div>
         </div>
-        <div class="certPager">
+        <!-- <div class="certPager">
           <ul class="pager" style="margin-bottom: 0">
             <li><a href="javascript:;" onclick="getCerts_list(0)">首页</a></li>
             <li><a href="javascript:;" onclick="bindPager_Previous(currentCertsPage,getCerts_list)">上一页</a></li>
             <li><a href="javascript:;" onclick="bindPager_Next(currentCertsPage,currentCertsPage_total,getCerts_list)">下一页</a></li>
             <li><a href="javascript:;" onclick="getCerts_list(currentCertsPage_total-1)">尾页</a></li>
           </ul>
-        </div>
+        </div> -->
       </div>
       <!-- 证书列表 -->
 
@@ -316,24 +221,7 @@
   <!-- 证书树状图弹出框 -->
 <div class="modal fade" id="TreeCertsModal" style="z-index:99999999" tabindex="-1" role="dialog">
   <style>
-    .top_tree{
-      border-radius: 10px;
-      border: 2px solid #ccc;
-      padding: 0 0 10px;
-      width:260px;
-      text-align: center;
-      margin: 0 auto;
-    }
-    .bottom_tree{
-      display: flex;margin-top: 30px;text-align: center;margin: 0 auto;padding: 20px 0
-    }
-    .tree_child{
-      flex:1;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      width: 260px; 
-      padding: 0 0 10px;text-align: center;margin: 0 auto;overflow: hidden;
-    }
+    
   </style>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -345,16 +233,6 @@
       </div>
       <div class="modal-body" style="overflow:auto">
           
-
-          <!-- <div class="tree" style="width: 440px">
-              <div style="">
-                  Text
-              </div>
-              <div style="width: 40px;"></div>
-              <div style="flex:1;border: 1px solid #ccc;border-radius: 10px;width: 200px;padding: 20px 0;text-align: center;margin: 0 auto;">
-                  Text
-              </div>
-          </div> -->
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-primary" onclick="closeModal('#TreeCertsModal')">关闭</button>
@@ -375,67 +253,17 @@
         </td>
         <td>
             <span>{{value.Type=="Registered"?"注册":(value.Type=="Unregistered"?"未注册":(value.Type=="Free"?"免费":(value.Type=="Trial"?"试用":"未知")))}}</span>
-            <select style="display: none" name="Type" class="certType">
-                <option value="Trial">Trial</option>
-                <option value="Free">Free</option>
-                <option value="Unregistered">Unregistered</option>
-                <option value="Registered">Registered</option>
-            </select>
         </td>
-        <td style="display: none">
-            <span>{{value.Mode}}</span>
-            <select style="display: none" name="Mode" class="certMode">
-                <option value="UnKnowType">UnKnowType</option>
-            </select>
-        </td>
-        <!-- <td>
-            <span>{{value.State}}</span>
-            <select style="display: none" name="State" class="certState">
-                <option value="Normal">Normal</option>
-                <option value="Revoke">Revoke</option>
-            </select>
-        </td> -->
+        <td>{{value.State=="Normal"?"正常":(value.State=="Revoke"?"吊销":"未知")}}</td>
+        
+        
         <td style="display: none">{{value.Issuer_id}}</td>
-        <!-- <td>{{value.IssueDate}}</td> -->
-        <!-- <td>
-            <span>{{value.ValidityBegin}}</span>
-            <input style="display: none" type="datetime-local" class="ValidityBegin" value="{{value.ValidityBegin_}}"/>
-        </td>
-        <td>
-            <span>{{value.ValidityEnd}}</span>
-            <input style="display: none" type="datetime-local" class="ValidityEnd" value="{{value.ValidityEnd_}}"/>
-        </td> -->
-        <!-- <td>{{value.IssueTimes}}</td> -->
-        <!-- <td>{{value.MaxIssueTimes}}</td> -->
+        
         <td style="display: none">{{value.ParentCert}}</td>
         <td>{{value.MaxIssueTimes}}(剩余:{{value.MaxIssueTimes-value.IssueTimes}})</td>
         <td>{{value.ValidityBegin.slice(0,10).replace(/\-/g,"")}} - {{value.ValidityEnd.slice(0,10).replace(/\-/g,"")}}</td>
 
-        <td class="more" style="width:100px;position:relative">
-            <button class="btn">查看
-            </button>
-            <div class="msg_body" style="
-                    position:absolute;
-                    display:none;
-                    /* width:400px; */
-                    /* height:400px; */
-                    overflow:auto;
-                    right:50%;
-                    /* background-color: red; */
-                    z-index:99{{i}};
-                    /* bottom:0; */
-                  ">
-                    <ul class="list-group" style="margin-bottom:0;text-align:left">
-                        <li class="list-group-item"><span style="display:inline-block;width:100px">状态</span>{{value.State=="Normal"?"正常":(value.State=="Revoke"?"吊销":"未知")}}</li>
-                        <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{value.SerialNumber}}</li>
-                        <li class="list-group-item"><span style="display:inline-block;width:100px">颁发日期</span>{{value.IssueDate}}</li>
-                        <li class="list-group-item"><span style="display:inline-block;width:100px">生效日期</span>{{value.ValidityBegin}}</li>
-                        <!-- <li class="list-group-item"><span style="display:inline-block;width:100px">失效时间</span>{{value.ValidityEnd}}</li> -->
-                        <!-- <li class="list-group-item"><span style="display:inline-block;width:100px">使用次数</span>{{value.IssueTimes}}</li> -->
-                        <!-- <li class="list-group-item"><span style="display:inline-block;width:100px">最大使用次数</span>{{value.MaxIssueTimes}}</li> -->
-                    </ul>
-                </div>
-          </td>
+        
         <td style="width:100px">
           <button href="javascript:;" class="btn source" onclick="ShowEdit(this)">修改备注</button>
           <button href="javascript:;" class="btn btn-success edit" style="display:none;margin-right:10px" onclick="updateCertRename(this,'{{value.SerialNumber}}')">确认</button>
@@ -449,16 +277,9 @@
         <td style="width:100px">
             <button href="javascript:;" class="btn" onclick="ShowTreeCertsContent('{{value | toString}}')">证书关系</button>
         </td>
-        <!--<td><input data-bind="{{value.SerialNumber}}" type="button" value="修改"-->
-                   <!--style="height: 20px;line-height: 20px;padding: 0 5px" class="updateCert" onclick="updateCert(this)"></td>-->
-        <!--<td><input data-bind="{{value.SerialNumber}}" data-userid="{{userid}}" type="button" value="选择用户"-->
-                   <!--style="height: 20px;line-height: 20px;padding: 0 5px" onclick="showUpdateCertTimes(this)"></td>-->
-        <!--<td><input type="button" value="查看"-->
-                   <!--style="height: 20px;line-height: 20px;padding: 0 5px" onclick="showTerminal('{{value.SerialNumber}}')"></td>-->
-
+       
     </tr>
     {{/each}}
-    <tr>
 </script>
   <!--获取用户证书模板结束-->
 

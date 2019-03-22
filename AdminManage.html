@@ -52,6 +52,8 @@
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
   <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/md5.js"></script>
+
     <script src="/static/js/toastr.min.js"></script>
 
   <script src="/static/js/jquery.cookie.js"></script>
@@ -652,54 +654,71 @@
               用户证书管理
             </div>
           </div>
-          <div class="showCert" style="width: 100%;overflow: auto">
-            <table class="table table-striped table-bordered">
-              <thead>
-                <tr>
-                  <!--"SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",
-                      "Type": "Registered",
-                      "Mode": "UnKnowType",
-                      "State": "Normal",
-                      "Issuer_id": 3,
-                      "IssueDate": "2018-11-22 15:25:40",
-                      "ValidityBegin": "2018-11-22 15:25:40",
-                      "ValidityEnd": "2038-11-17 15:25:40",
-                      "IssueTimes": 1-->
-                  <th>序列号</th>
-                  <th>颁布设备类型</th>
-                  <th>类型</th>
-                  <th style="display: none">Mode</th>
-                  <th>状态</th>
-                  <th style="display: none">Issuer_id</th>
-                  <th>颁发日期</th>
-                  <th>生效日期</th>
-                  <th>失效日期</th>
-                  <th>颁布次数</th>
-                  <th>最大颁布次数</th>
-                  <th style="display: none">ParentCert</th>
-                  <th>修改证书信息</th>
-                  <th>证书授权次数转移</th>
-                  <th>颁布的设备</th>
-                  <th>上级证书</th>
-                </tr>
-              </thead>
-              <tbody>
-  
-              </tbody>
-            </table>
-          </div>
-          <div class="certPager">
-            <ul class="pager" style="margin-bottom: 0">
-              <li><a href="javascript:;" onclick="getCerts_list(0)">首页</a></li>
-              <li><a href="javascript:;" onclick="bindPager_Previous(currentCertsPage,getCerts_list)">上一页</a></li>
-              <li><a href="javascript:;"
-                  onclick="bindPager_Next(currentCertsPage,currentCertsPage_total,getCerts_list)">下一页</a></li>
-              <li><a href="javascript:;" onclick="getCerts_list(currentCertsPage_total-1)">尾页</a></li>
-            </ul>
-          </div>
+          <div class="showCert" style="width: 100%;height:100%;">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>颁布设备类型</th>
+                    <th>证书备注</th>
+                    <!-- <th>序列号</th> -->
+                    <th>类型</th>
+                    <th>状态</th>
+                    <!-- <th>剩余次数</th> -->
+                    <th>最大使用次数</th>
+                    <th>生效起止时间</th>
+                    <th style="display: none">Mode</th>
+                    <!-- <th>状态</th> -->
+                    <th style="display: none">Issuer_id</th>
+                    <!-- <th>颁发日期</th> -->
+                    <!-- <th>生效日期</th> -->
+                    <!-- <th>失效日期</th> -->
+                    <!-- <th>颁布次数</th> -->
+                    <!-- <th>最大颁布次数</th> -->
+                    <th style="display: none">ParentCert</th>
+                    <!-- <th>详情</th> -->
+                    <th colspan="4">管理</th>
+                    <!--<th>修改证书信息</th>-->
+                    <!--<th>证书授权次数转移</th>-->
+                    <!--<th>颁布的设备</th>-->
+                  </tr>
+                </thead>
+                <tbody>
+      
+                </tbody>
+              </table>
+              <div id="paging" class='certslistpage'>
+                  <div class="first">首页</div>
+                  <div class="prev">上一页</div>
+                  <ul class="list"></ul>
+                  <div class="go">
+                    <input type="text" placeholder="Goto">
+                    <button>跳转</button>
+                  </div>
+                  <div class="next">下一页</div>
+                  <div class="last">末页</div>
+                </div>
+            </div>
         </div>
         <!--证书信息表格结束-->
-  
+        
+        <!-- 证书关系 -->
+        <div class="certsManageContent TreeCerts" style="display:none">
+          <div class="head">
+            <div class="back" onclick="Back('.certsManageContent','.certTable')">
+              <span class="fa fa-angle-left pull-left"
+                style="font-size: 30px;line-height: 40px;padding-left: 10px;cursor: pointer"></span>
+              <span class="pull-left" style="font-size: 18px;line-height: 40px;">返回</span>
+            </div>
+            <div class="title" style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">
+              证书关系</div>
+          </div>
+
+          <div class="body" style="width:100%;overflow: auto;">
+
+          </div>
+
+        </div>
+        <!-- 证书关系 -->
       </section>
     <!--用户证书管理结束-->
   </section>
@@ -1068,32 +1087,6 @@
           </div>
           <!--展示用户设备信息结束-->
 
-          <!--展示用户设备型号认证信息-->
-          <div class="modalTable TermVerifyTable" style="display: none">
-            <button type="button" id="addModuleVerify" class="btn"
-              style="background: #222d32;color: #ffffff;margin-bottom: 20px" onclick="showAddModuleField_modal()">
-              添加验证型号
-            </button>
-            <button type="button" class="btn" style="background: #222d32;color: #ffffff;margin-bottom: 20px"
-              onclick="RemoveModuleField()"> 删除验证型号
-            </button>
-            <div class="showTermVerify" style="width: 100%;height: 100%;overflow: auto;margin-bottom: 60px">
-              <table class="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>ModuleNumber</th>
-                    <th>验证列表</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <!--展示用户设备型号认证信息结束-->
-
 
         </div>
         <div class="modal-footer">
@@ -1236,6 +1229,93 @@
       </div>
     </div>
     <!--选择用户输入框-->
+
+      <!-- 转移证书弹出框 -->
+<div class="modal fade" id="SwitchCertsModal" style="z-index:99999999" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#SwitchCertsModal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title h4" style="text-align: center">转移证书</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-inline" style="margin: 0 auto">
+              <button class="btn btn-info" onclick="Choice('.ChoiceGroup')">选择用户组内用户</button>
+              <button class="btn btn-info" onclick="Choice('.ChoiceUser')">手动输入用户名</button>
+            </div>
+            <div class="Choice ChoiceGroup">
+                <div class="form-inline">
+                    <label class="mylabel">选择用户组</label><br>
+                    <div class="input-group group">
+                      <input type="text" disabled  style="width: 400px;"  onkeyup="this.value=this.value.replace(/[^\w_]/g,'');" class="h34 form-control"
+                        id="group_id" placeholder="选择用户组" />
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
+                          aria-haspopup="true" aria-expanded="false">
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right group">
+                          
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+                <div class="form-inline">
+                    <label class="mylabel">选择用户</label><br>
+                    <div class="input-group user">
+                      <input type="text" disabled style="width: 400px;" onkeyup="this.value=this.value.replace(/[^\w_]/g,'');" class="h34 form-control"
+                        id="switchuser_id" placeholder="请选择用户" />
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
+                          aria-haspopup="true" aria-expanded="false">
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right user">
+                          
+                        </ul>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="Choice ChoiceUser" style="display: none">
+                <div class="form-inline">
+                    <label class="mylabel">用户名</label><br>
+                    <div class="input-group">
+                        <input type="text" style="width: 434px;"  class="h34 form-control"
+                        id="user_name" placeholder="请输入用户名" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-inline">
+                <label class="mylabel">转移证书次数</label><br>
+                <div class="input-group">
+                    <input type="number" min="0" maxlength="5"  onkeydown="this.value=this.value.replace(/-/g,'');"
+                    oninput="this.value=this.value.replace(/-/g,'');"  style="width: 434px;"  class="h34 form-control"
+                    id="cert_times" placeholder="请输入次数" />
+                </div>
+            </div>
+
+            <div class="form-inline">
+                <label class="mylabel">请输入密码</label><br>
+                <div class="input-group">
+                    <input type="password"   style="width: 434px;"  class="h34 form-control"
+                    id="user_password" placeholder="请输入密码" />
+                </div>
+            </div>
+            
+            <button class="btn btn-success" style="margin-top:10px" onclick="SwitchCertTimes()">转移次数</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="closeModal('#SwitchCertsModal')">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 转移证书弹出框 -->
 
   <!-- #################################################ScriptTemp############################################## -->
 
@@ -1397,17 +1477,51 @@
 </script>
   <!--certslist获取证书管理-->
 
+  <!--获取用户证书模板NEW-->
+  <script id="certList_template" type="text/html">
+    {{each certs as value i}}
+    <tr>
+        <td>{{value.IssueTermType}}</td>
+        <td>
+          <span class="source">{{value.rename?value.rename:""}}</span>
+          <input type="text" class="edit form-control" style="display:none" value="{{value.rename}}" data-bind="{{value.rename}}">
+        </td>
+        <td>
+            <span>{{value.Type=="Registered"?"注册":(value.Type=="Unregistered"?"未注册":(value.Type=="Free"?"免费":(value.Type=="Trial"?"试用":"未知")))}}</span>
+        </td>
+        <td>{{value.State=="Normal"?"正常":(value.State=="Revoke"?"吊销":"未知")}}</td>
+        
+        
+        <td style="display: none">{{value.Issuer_id}}</td>
+        
+        <td style="display: none">{{value.ParentCert}}</td>
+        <td>{{value.MaxIssueTimes}}(剩余:{{value.MaxIssueTimes-value.IssueTimes}})</td>
+        <td>{{value.ValidityBegin.slice(0,10).replace(/\-/g,"")}} - {{value.ValidityEnd.slice(0,10).replace(/\-/g,"")}}</td>
+
+        
+        <td style="width:100px">
+          <button href="javascript:;" class="btn source" onclick="ShowEdit(this)">修改备注</button>
+          <button href="javascript:;" class="btn btn-success edit" style="display:none;margin-right:10px" onclick="updateCertRename(this,'{{value.SerialNumber}}')">确认</button>
+
+          <button href="javascript:;" class="btn btn-danger edit" onclick="HideEdit(this)" style="display:none">取消</button>
+        
+        </td>
+        <!-- <td style="width:100px">
+            <button href="javascript:;" class="btn" onclick="ShowSwitchCerts_Modal('{{value.SerialNumber}}')">转移证书</button>
+        </td> -->
+        <td style="width:100px">
+            <button href="javascript:;" class="btn" onclick="ShowTreeCertsContent('{{value | toString}}')">证书关系</button>
+        </td>
+       
+    </tr>
+    {{/each}}
+</script>
+  <!--获取用户证书模板结束-->
+
+
   <!--获取用户证书模板-->
   <script id="certList" type="text/html">
-    <!--SerialNumber": "cert_deec7666ee6a11e8bcca0242ac110003",-->
-    <!--"Type": "Registered",-->
-    <!--"Mode": "UnKnowType",-->
-    <!--"State": "Normal",-->
-    <!--"Issuer_id": 3,-->
-    <!--"IssueDate": "2018-11-22 15:25:40",-->
-    <!--"ValidityBegin": "2018-11-22 15:25:40",-->
-    <!--"ValidityEnd": "2038-11-17 15:25:40",-->
-    <!--"IssueTimes": 1-->
+    
     {{each certs as value i}}
     <tr>
 

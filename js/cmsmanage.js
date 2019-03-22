@@ -88,20 +88,27 @@ function changeContent(target) {
 // })
 
  
-$(".table ").on("click","td.more",function () {  
-  // console.log(($(this).offset().top-60),$(this).find(".msg_body").height());
-  if( ($(this).offset().top-60)> $(this).find(".msg_body").height() ){
-    $(this).find(".msg_body").css({"display":"block","bottom":"0"});
-  }else{
-    $(this).find(".msg_body").css({"display":"block","top":"0"});
-    // $(this).find(".msg_body").css({"display":"block","bottom":""});
+// $(".table ").on("click","td.more",function () {  
+//   // console.log(($(this).offset().top-60),$(this).find(".msg_body").height());
+//   if( ($(this).offset().top-60)> $(this).find(".msg_body").height() ){
+//     $(this).find(".msg_body").css({"display":"block","bottom":"0"});
+//   }else{
+//     $(this).find(".msg_body").css({"display":"block","top":"0"});
+//     // $(this).find(".msg_body").css({"display":"block","bottom":""});
 
-  }
-})
+//   }
+// })
  
-$(".table ").on("mouseleave","td.more",function () {  
-  $(this).find(".msg_body").css("display","none");
-})
+// $(".table ").on("mouseleave","td.more",function () {  
+//   $(this).find(".msg_body").css("display","none");
+// })
+
+function showAllMsgModal(value) {  
+  value = JSON.parse(value);
+  $("#AllMsgModal .modal-body").html(template("AllMsgTemp",value));
+  $("#AllMsgModal").modal("show");
+}
+
 
 //处理table中Th 合并
 function RenderTable_Th(target) {
@@ -164,7 +171,10 @@ function RenderCmsDevice() {
   }
   AjaxPost(GET_CMS_PU_LIST,param)
       .then(function (obj_json) {
-
+        if(obj_json.pu_list.length==0){
+          toastr.info("无数据");
+          return;
+        }
         currentCMSDevicePage = obj_json.page;
         currentCMSDevicePage_total = obj_json.page_total;
         $('.cmsDevicelistpage').paging({
@@ -900,5 +910,7 @@ $(".modal").click(function (e) {
     closeModal("#AddBlackWhite_Modal");
   } else if (e.target == $("#ModuleFieldManage_Modal")[0]) {
     closeModal("#ModuleFieldManage_Modal");
-  } 
+  } else if (e.target == $("#AllMsgModal")[0]) {
+    closeModal("#AllMsgModal");
+  }
 });
