@@ -771,6 +771,16 @@ function addUserCert(target) {
   $("#AddCert input").val("");
   $("#AddCertLabel").text($(target).attr("data-user") + " 颁布证书");
   $("#AddCert").modal("show");
+
+  bproto_ajax(GET_CERT_TYPE,{"access_token":access_token},function (obj_json) {  
+    var cert_types = obj_json.cert_types;
+    var html = "";
+    for(var i=0;i<cert_types.length;i++){
+      html += '<li data-bind="'+cert_types[i]+'"><a href="javascript:;">'+cert_types[i]+'</a></li>'
+    }
+    $("#AddCert ul.types").html(html);
+  })
+
   $(".addtermtype input").focus();
 }
 
@@ -1290,7 +1300,7 @@ function prev(certid,target) {
       $(div).html('\
       <div class="h4" >父证书</div>\
       <ul class="list-group" style="margin-bottom:10px;;text-align:left">\
-        <li class="list-group-item"                 ><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书用户</span>'+(cert_parent.IssuerRemark?cert_child[i].IssuerRemark:cert_parent.IssuerName)+'</li>\
+        <li class="list-group-item"                 ><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书用户</span>'+(cert_parent.IssuerRemark?cert_parent.IssuerRemark:cert_parent.IssuerName)+'</li>\
         <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">有效时间</span>'+SetDate(cert_parent)+'</li>\
         <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书次数</span>'+(cert_parent.MaxIssueTimes)+'(剩余'+(cert_parent.MaxIssueTimes-cert_parent.IssueTimes)+')</li>\
       </ul>\

@@ -33,6 +33,16 @@ function fun_api_logout() {
   })
 }
 
+//修改密码
+function updatepasswd() {  
+  if(location.pathname.indexOf("Own.html")!=-1){
+    $('#updatePassword_Modal').modal("show");
+  }else{
+    location.href = "/static/Own.html#UpdatePassword";
+  }
+}
+
+
 //提前获取用户信息，并回调
 function GetUserMsg_CallBack(func) {
   if (!window.CurrentUserId) {
@@ -179,10 +189,59 @@ $(".table ").on("mouseleave", "td.more", function () {
   $(this).find(".msg_body").css("display", "none");
 })
 
+//utc2localDate
+function convertDate(UTCDateString) {
+  if(!UTCDateString){
+    return '-';
+  }
+  function formatFunc(str) {    //格式化显示
+    return str > 9 ? str : '0' + str
+  }
+  var date2 = new Date(UTCDateString);     //这步是关键
+  var year = date2.getFullYear();
+  var mon = formatFunc(date2.getMonth() + 1);
+  var day = formatFunc(date2.getDate());
+  var hour = date2.getHours();
+  // var noon = hour >= 12 ? 'PM' : 'AM';
+  // var noon = hour >= 12 ? 'PM' : 'AM';
+  // hour = hour>=12?hour-12:hour;
+  hour = formatFunc(hour);
+  var min = formatFunc(date2.getMinutes());
+  // var dateStr = year+'-'+mon+'-'+day+' '+noon +' '+hour+':'+min;
+  var dateStr = year+'-'+mon+'-'+day+' '+hour+':'+min;
+  return dateStr;
+}
+
+function utc2beijing(new_datetime) {
+  // 转为正常的时间格式 年-月-日 时:分:秒
+  // var T_pos = utc_datetime.indexOf('T');
+  // var Z_pos = utc_datetime.indexOf('Z');
+  // var year_month_day = utc_datetime.substr(0,T_pos);
+  // var hour_minute_second = utc_datetime.substr(T_pos+1,Z_pos-T_pos-1);
+  // var new_datetime = year_month_day+" "+hour_minute_second; // 2017-03-31 08:02:06
+
+  // 处理成为时间戳
+  timestamp = new Date(Date.parse(new_datetime));
+  timestamp = timestamp.getTime();
+  timestamp = timestamp/1000;
+
+  // 增加8个小时，北京时间比utc时间多八个时区
+  var timestamp = timestamp+8*60*60;
+
+  // 时间戳转为时间
+  var beijing_datetime = new Date(parseInt(timestamp) * 1000).toLocaleString();
+  return beijing_datetime; 
+} 
+
 //模板   对象2字符串
 $(function () {
+
   template.helper("toString", function (state) {
     return JSON.stringify(state);
+  })  
+
+  template.helper("UTC2LocalDate", function (state) {
+    return utc2beijing(state);
   })
 })
 //数组去重

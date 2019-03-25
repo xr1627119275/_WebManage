@@ -68,6 +68,7 @@ UPDATE_CERTS_URL = API_V1 + "update_cert/" ; //更改证书信息
 
 GET_CERT_TERMINAL_URL = API_V1 + "get_cert_terminal/" ;  //查看证书颁布的设备
 
+GET_CERT_TYPE = API_V1 + "get_cert_type/"; //证书类型列表
 
 ADMIN_ISSUE_UESER_CERT = API_V1 + "issue/admin_issue_user_cert/"; //管理员颁发个用户证书
 

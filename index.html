@@ -1037,7 +1037,7 @@
 
           <label class="mylabel beizhu" style="text-align: center">型号名称</label>
           <div class="form-group beizhu">
-            <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="型号名称"></textarea>
+            <textarea class="form-control" id="textarea_ModuleNumber" disabled="true" rows="3" placeholder="型号名称"></textarea>
           </div>
 
           <label class="mylabel" style="text-align: center">验证类型</label>
@@ -1069,7 +1069,7 @@
 
           <label class="mylabel beizhu" style="text-align: center">型号名称</label>
           <div class="form-group beizhu">
-            <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="型号名称"></textarea>
+            <textarea class="form-control" id="addAgaintextarea_ModuleNumber" disabled rows="3" placeholder="型号名称"></textarea>
           </div>
 
           <label class="mylabel" style="text-align: center">验证类型</label>
@@ -1084,7 +1084,8 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" onclick="AddModuleField()">开启验证</button>
+          <button type="button" class="btn" onclick="closeModal('#ModuleFieldManage_Modal')">取消</button>
+          <button type="button" class="btn btn-success" onclick="AddAgainModuleField()">开启验证</button>
         </div>
       </div>
       <!--添加字段验证2-->
@@ -1111,7 +1112,7 @@
                     <input type="checkbox" id="TerminalVerify_all_cb">
                   </th>
                   <th>验证项</th>
-                  <!--<th>验证</th>-->
+                  <th>操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -1142,7 +1143,7 @@
         <td>{{value.authcode}}</td>
         <td>{{value.id}}{{value.name==""?"":"("+value.name+")"}}</td>
         <td>{{value.online?"在线":"离线"}}</td>
-        <td>{{value.reg_datetime}}</td>
+        <td>{{value.reg_datetime | UTC2LocalDate}}</td>
         <td>{{value.desc}}</td>
 
         <td class="more" style="width:100px;position:relative">
@@ -1200,7 +1201,15 @@
       <td>{{value.Type}}</td>
       <td>{{value.AuthCode}}</td>
       <td>{{value.CLI_ID}}{{value.CLI_Name==""?"":"("+value.CLI_Name+")"}}</td>
-      <td>{{value.auth_status==0?'启用':value.auth_status==1?'暂停':'取消'}}</td>
+      <td>
+        <span style="margin-right:5px">{{value.auth_status==0?'启用':value.auth_status==1?'暂停':'取消'}}</span>
+          {{if value.auth_status!='1'}}
+          <button class="btn btn-danger" onclick="StopAuthTerm('{{value.SerialNumber}}')" href="javascript:;">停用</a>
+        {{/if}}
+        {{if value.auth_status=='1'}}
+          <button class="btn btn-success" onclick="ResumeAuthTerm('{{value.SerialNumber}}')" href="javascript:;">启用</a>
+        {{/if}}
+      </td>
       <td>{{value.online?"在线":"离线"}}</td>
       <td>{{value.UserLabelName}}</td>
       <td>
@@ -1248,14 +1257,14 @@
           <button class="btn btn-success edit" style="margin-right:10px;display:none" onclick="updateTermRemark(this,'{{value.SerialNumber}}')" href="javascript:;">确认</a>
           <button class="btn btn-danger edit" style="display:none" onclick="CancelTermRemark(this)" href="javascript:;">取消</a>
         </td>
-        <td  style="width:100px">
+        <!-- <td  style="width:100px">
             {{if value.auth_status!='1'}}
               <button class="btn btn-danger" onclick="StopAuthTerm('{{value.SerialNumber}}')" href="javascript:;">停用</a>
             {{/if}}
             {{if value.auth_status=='1'}}
               <button class="btn btn-success" onclick="ResumeAuthTerm('{{value.SerialNumber}}')" href="javascript:;">启用</a>
             {{/if}}
-        </td>
+        </td> -->
     </tr>
     
   {{/each}}
@@ -1361,6 +1370,7 @@
   <tr>
     <td><input type="checkbox" name="cb_termlist" data-bind="{{module}}"></td>
     <td class="field" data-bind="{{value.split('|')[0]}}">{{value.split("|")[1]}}</td>
+    <td><button class='btn btn-danger' onclick='RemoveModuleField("{{value}}","{{module}}")'>删除</button></td>
   </tr>
   {{/each}}
 </script>

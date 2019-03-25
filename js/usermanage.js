@@ -38,7 +38,8 @@ window.addEventListener('load',function () {
       default:
         location.href = "#UserGroupPage";
         changeContent($("a[data-bind=#UserGroupManage]")[0]);
-        break
+        break;
+
     }
 })
   
@@ -254,6 +255,26 @@ function DoBeizhu(target) {
   })
 }
 
+//群组中用户备注
+function Do_OtherGroupUserBeizhu(target,id) {  
+  var val = $(target).parent().parent().find(".remark").val();
+  var param = {
+    "access_token":access_token,
+    "update_list":[{
+      "target_type":'user',
+      "target_id":id,
+      "rename":val 
+    }]
+  }
+  bproto_ajax(UPDATE_REMARK,param,function(obj_json){
+    if(obj_json.code===0){
+      toastr.success("修改成功");
+      showOtherUserGroupUserList(currentGroupID,currentGroupName);
+    }else{
+      toastr.error("修改失败"+obj_json.msg);
+    }
+  })
+}
 //群组中用户备注
 function Do_GroupUserBeizhu(target,id) {  
   var val = $(target).parent().parent().find(".remark").val();
@@ -903,6 +924,7 @@ function updateGroupClick(target,id){
 //存在的用户组对应的用户列表
 function showOtherUserGroupUserList(id,name){
   currentGroupID = id;
+  currentGroupName = name;
   $("#UserGroupManage .body").hide();
   $("#UserGroupManage .Otherusermanage").show();
   $("#UserGroupManage .Otherusermanage .head .title").text(name+" 用户信息");

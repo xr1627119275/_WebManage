@@ -1824,32 +1824,44 @@ function showAddModuleField_modal() {
 
 
 //删除验证型号
-function RemoveModuleField() {
-
-  var isCheck = false;
-  $("input[name=cb_termlist]").each(function () {
-    if ($(this).prop("checked")) {
-      isCheck = true;
-    }
-  });
-
-  if (!isCheck) {
-    toastr.warning("请选择一条验证项");
-    return;
-  }
-
-  var isdel = confirm("确认删除选中的验证项?");
-  if (isdel === false) {
-    return
-  }
-
+function RemoveModuleField(value,module) {
   var del_list = [];
-  $("input[name=cb_termlist]:checked").each(function (i, el) {
+
+  if(value){
+    var isdel = confirm("确认删除选中的验证项?");
+    if (isdel === false) {
+      return
+    }
     del_list.push({
-      "module": $(el).attr("data-bind"),
-      'field': $(el).parent().parent().find(".field").attr("data-bind")
+      "module": module,
+      'field': value.split('|')[0]
     })
-  })
+  }else{
+
+    var isCheck = false;
+    $("input[name=cb_termlist]").each(function () {
+      if ($(this).prop("checked")) {
+        isCheck = true;
+      }
+    });
+  
+    if (!isCheck) {
+      toastr.warning("请选择一条验证项");
+      return;
+    }
+    var isdel = confirm("确认删除选中的验证项?");
+    if (isdel === false) {
+      return
+    }
+
+    $("input[name=cb_termlist]:checked").each(function (i, el) {
+      del_list.push({
+        "module": $(el).attr("data-bind"),
+        'field': $(el).parent().parent().find(".field").attr("data-bind")
+      })
+    })
+  }
+
   var param = {
     'access_token': access_token,
     'del_list': del_list
@@ -1860,7 +1872,11 @@ function RemoveModuleField() {
       param = { 'access_token': access_token };
       bproto_ajax(GET_MODULE_FIELDS, param, function (obj_json) {
         RenderModule_fields(obj_json);
-        showListModuleField_modal($("input[name=cb_termlist]:checked").attr("data-bind"));
+        if(value){
+          showListModuleField_modal(module);
+        }else{
+          showListModuleField_modal($("input[name=cb_termlist]:checked").attr("data-bind"));
+        }
       });
     } else {
       toastr.error("删除失败" + obj_json.msg);
@@ -1941,8 +1957,8 @@ function showListModuleField_modal(data) {
 function showAddField_modal(data) {
   $("#ModuleFieldManage_Modal .modal-content").hide();
   $("#ModuleFieldManage_Modal .addField_content").show();
-  $(".addField_content .beizhu").hide();
-  $(".addField_content .beizhu #textarea_ModuleNumber").val(data);
+  // $(".addField_content .beizhu").hide();
+  $(".addField_content .beizhu #addAgaintextarea_ModuleNumber").val(data);
 
   param = { 'access_token': access_token };
   bproto_ajax(GET_MODULE_FIELD_NAME, param, function (obj_json) {
@@ -1958,6 +1974,47 @@ function showAddField_modal(data) {
     }
   });
 }
+//再次添加验证字段
+function AddAgainModuleField() {
+  var isCheck = false;
+  var fields = [];
+
+
+  $("input[name=radioFieldName]").each(function () {
+    if ($(this).prop("checked")) {
+      isCheck = true;
+      fields.push($(this).val());
+    }
+  });
+  if (!isCheck) {
+    toastr.warning("请选择型号字段");
+    return;
+  }
+
+  if ($("#addAgaintextarea_ModuleNumber").val().length === 0) {
+    toastr.warning("请输入备注信息");
+    return;
+  }
+
+  param = {
+    'access_token': access_token,
+    'module': $("#addAgaintextarea_ModuleNumber").val(),
+    'fields': fields,
+    'verify': true
+  };
+  bproto_ajax(ADD_MODULE_FIELD, param, function (obj_json) {
+    if (obj_json.code === 0) {
+      toastr.success("添加成功");
+      $("#addAgaintextarea_ModuleNumber").val("");
+    } else {
+      toastr.error("添加失败" + obj_json.msg);
+    }
+    fun_get_module_fields_list();
+    closeModal("#ModuleFieldManage_Modal");
+  })
+}
+
+
 
 function DelListModuleFields(value) {
   var isdel = confirm("确认删除,将全部删除验证项?");

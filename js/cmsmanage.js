@@ -644,6 +644,9 @@ function AddBWField() {
 //编辑黑白名单
 function ShowEdit(target) {
   $(target).parent().parent().find(".edit").show();
+  $(target).parent().parent().find("select.edit").each(function (i,el) {  
+    $(el).find("option[value="+$(el).attr("data-bind")+"]").prop("selected",true)
+  })
   $(target).parent().parent().find(".source").hide();
 }
 function HideEdit(target){

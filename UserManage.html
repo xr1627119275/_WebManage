@@ -249,6 +249,7 @@
               <th>用户名称</th>
               <th>备注</th>
               <th>邮箱</th>
+              <th colspan="2">操作</th>
             </tr>
           </thead>
           <tbody>
@@ -1059,7 +1060,6 @@
             <td style="width:100px">
                 <button href="javascript:;" class="source btn"  onclick="ShowEdit(this)">修改组信息</a>
                 <button href="javascript:;" class="edit btn btn-success" style="display:none;margin-right:10px" onclick="updateGroupClick(this,'{{value.id}}')">确认</a>
-                &nbsp;
                 <button href="javascript:;" class="edit btn btn-danger" style="display:none;" onclick="HideEdit(this)">取消</a>
             </td>
             <!-- <td><a href="javascript:;" class="my-link btn-link btn-primary" onclick="">用户管理</a></td> -->
@@ -1074,8 +1074,16 @@
       {{each user_list as value i}}
       <tr>
         <td>{{value.username}}</td>
-        <td>{{value.remark}}</td>
+        <td>
+          <span class="source">{{value.remark}}</span>
+          <input type="text" style="display:none" data-bind='{{value.remark}}' class="remark form-control edit" value="{{value.remark}}"/>
+        </td>
         <td>{{value.email}}</td>
+        <td style="width:100px">
+          <button href="javascript:;" class="source btn" onclick="ShowEdit(this)">修改备注</button>
+          <button href="javascript:;" style="display:none;margin-right:10px" class="edit btn btn-success" onclick="Do_OtherGroupUserBeizhu(this,'{{value.user_id}}')">确定</button>
+          <button href="javascript:;" style="display:none" class="edit btn btn-danger" onclick="HideEdit(this)">取消</button>
+        </td>
       </tr>
       {{/each}}
     </script>

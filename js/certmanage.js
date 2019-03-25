@@ -523,7 +523,7 @@ function prev(certid,target) {
       $(div).html('\
       <div class="h4" >父证书</div>\
       <ul class="list-group" style="margin-bottom:10px;;text-align:left">\
-        <li class="list-group-item"                 ><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书用户</span>'+(cert_parent.IssuerRemark?cert_child[i].IssuerRemark:cert_parent.IssuerName)+'</li>\
+        <li class="list-group-item"                 ><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书用户</span>'+(cert_parent.IssuerRemark?cert_parent.IssuerRemark:cert_parent.IssuerName)+'</li>\
         <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">有效时间</span>'+SetDate(cert_parent)+'</li>\
         <li class="list-group-item" style="display:"><span style="display:inline-block;width:60px;font-weight:700;margin-right:10px;text-align:right;">证书次数</span>'+(cert_parent.MaxIssueTimes)+'(剩余'+(cert_parent.MaxIssueTimes-cert_parent.IssueTimes)+')</li>\
       </ul>\

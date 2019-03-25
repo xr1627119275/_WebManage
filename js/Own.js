@@ -9,6 +9,10 @@ window.addEventListener('load', function () {
     case "#OtherPage":
       changeContent($("a[data-bind=#Other]")[0]);
       break;
+    case "#UpdatePassword":
+      showupdatePassword_Modal();
+      changeContent($("a[data-bind=#OwnMsg]")[0]);
+      break;
     default:
       location.hash = "#OwnMsgPage";
       changeContent($("a[data-bind=#OwnMsg]")[0]);
@@ -338,10 +342,12 @@ function StrisBlack(str) {
 
 function closeModal(target) {
   $(target).modal("hide");
+  location.hash = "";
 }
 
 $(".modal").click(function (e) {
   if (e.target == $("#updatePassword_Modal")[0]) {
-    closeModal('#updatePassword_Modal')
+    closeModal('#updatePassword_Modal');
+    location.hash = "";
   }
 });
