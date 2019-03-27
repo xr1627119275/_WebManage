@@ -6,33 +6,22 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>登录</title>
-  <link rel="stylesheet" media="screen" href="/static/css/style.css">
-  <link rel="stylesheet" type="text/css" href="/static/css/base.css"/>
-  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/static/css/font-awesome.css">
-    <link href="/static/css/toastr.min.css" rel="stylesheet" />
+  <link href="css/style.css" media="screen" rel="stylesheet">
+
+    <!-- build:css  /static/css/_Base.css -->
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/sidebar-menu.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/toastr.min.css" rel="stylesheet" />
+    <!-- endbuild -->
 <!--[if lt IE 9]>
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
 
-  <script src="/static/js/jquery.min.js"></script>
-  <script src="/static/js/toastr.min.js"></script>
 
-  <script src="/static/js/bootstrap.min.js"></script>
 
-  <script>
-    // function CloseModal() {
-    //   $(".modal").modal("hide");
-    //   $("#captcha").val('');
-    // }
-
-    // $(".modal").click(function (e) {
-    //   if (e.target == this) {
-    //     closeModal()
-    //   }
-    // });
-  </script>
 </head>
 <body>
 <div id="particles-js">
@@ -70,7 +59,7 @@
         <div class="login-center-input-text">密码</div>
       </div>
     </div>
-    <div class="login-center clearfix">
+    <div class="login-center yzm clearfix" style="display:none">
       <div class="login-center-img"><img src="/static/images/login_captcha.png"/></div>
       <div class="login-center-input">
         <input style="width: 70%;float: left" type="text" id="login_captcha_input" name="" value=""
@@ -255,10 +244,15 @@
 </div>
 <!-- 提示框 -->
 
-<script src="/static/js/jquery.cookie.js"></script>
-<script src="/static/js/conf.js"></script>
-<script src="/static/js/bprotocol.js"></script>
-<script src="/static/js/login.js"></script>
+<!-- build:js /static/js/_login.js -->
+<script src="js/jquery.min.js"></script>
+<script src="js/toastr.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/conf.js"></script>
+<script src="js/bprotocol.js"></script>
+<script src="js/login.js"></script>
+<!-- endbuild -->
 
 </body>
 </html>

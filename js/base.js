@@ -189,27 +189,6 @@ $(".table ").on("mouseleave", "td.more", function () {
   $(this).find(".msg_body").css("display", "none");
 })
 
-//utc2localDate
-function convertDate(UTCDateString) {
-  if(!UTCDateString){
-    return '-';
-  }
-  
-  var date2 = new Date(UTCDateString);     //这步是关键
-  var year = date2.getFullYear();
-  var mon = formatFunc(date2.getMonth() + 1);
-  var day = formatFunc(date2.getDate());
-  var hour = date2.getHours();
-  // var noon = hour >= 12 ? 'PM' : 'AM';
-  // var noon = hour >= 12 ? 'PM' : 'AM';
-  // hour = hour>=12?hour-12:hour;
-  hour = formatFunc(hour);
-  var min = formatFunc(date2.getMinutes());
-  // var dateStr = year+'-'+mon+'-'+day+' '+noon +' '+hour+':'+min;
-  var dateStr = year+'-'+mon+'-'+day+' '+hour+':'+min;
-  return dateStr;
-}
-
 function utc2beijing(new_datetime) {
 
   // 处理成为时间戳
@@ -250,6 +229,21 @@ $(function () {
     return utc2beijing(state);
   })
 })
+
+//获取证书类型数组
+function GetCertTypes(callback) {
+  if(!window.certsTypes){
+    bproto_ajax(GET_CERT_TYPE,{'access_token':access_token},function (obj_json) { 
+      window.certsTypes = obj_json.cert_types;
+      callback(obj_json.cert_types); 
+    })
+  }else{
+    callback(window.certsTypes); 
+  }  
+}
+
+
+
 //数组去重
 Array.prototype.unique = function () {
   // n为hash表，r为临时数组
@@ -408,7 +402,7 @@ Array.prototype.unique = function () {
       var self = this;
 
       this.initalPaging();
-      this.opts.callBack && this.opts.callBack(this.iNum);
+      // this.opts.callBack && this.opts.callBack(this.iNum);
 
       this.$aItem.click(function () {
         if (!$(this).hasClass('cur')) {

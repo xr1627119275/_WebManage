@@ -36,6 +36,10 @@ function changeHashPage(){
       // alert("1is");
       changeContent($("a[data-bind=#certslistManage]")[0]);
       break;
+    case "#developManage":
+      // alert("1is");
+      changeContent($("a[data-bind=#developManage]")[0]);
+      break;
     default:
       location.hash = "#ServerConfigPage";
       changeContent($("a[data-bind=#ServerConfig]")[0])
@@ -80,6 +84,8 @@ function changeContent(target) {
     showUserGroupManage()
   }else if (target === $("a[data-bind=#certslistManage]")[0]) {
     showCertsManage();
+  }else if (target === $("a[data-bind=#developManage]")[0]) {
+    showDevelopManage();
   }
 }
 
@@ -396,7 +402,7 @@ function addGroupNext(target){
 function setPermissionTableCk() {
   $(".addbody.step2").on("click","input[type=checkbox]",function () {  
     var ischeckd = $(this).prop("checked");
-    var permission = $(this).attr("data-bind")
+    var permission = $(this).attr("data-bind");
     var ishave = false;
 
     $(this).parent().parent().hasClass("active")?$(this).parent().parent().removeClass("active"):$(this).parent().parent().addClass("active")
@@ -772,8 +778,7 @@ function addUserCert(target) {
   $("#AddCertLabel").text($(target).attr("data-user") + " 颁布证书");
   $("#AddCert").modal("show");
 
-  bproto_ajax(GET_CERT_TYPE,{"access_token":access_token},function (obj_json) {  
-    var cert_types = obj_json.cert_types;
+  GetCertTypes(function (cert_types) {
     var html = "";
     for(var i=0;i<cert_types.length;i++){
       html += '<li data-bind="'+cert_types[i]+'"><a href="javascript:;">'+cert_types[i]+'</a></li>'
@@ -1400,6 +1405,221 @@ function showTerminal(cert) {
 }
 
 
+// ========================开发信息列表开始===========================
+// 开发信息列表
+function showDevelopManage(){
+  $("#developManage").show();
+  bproto_ajax(GET_APP_INFO,{'access_token':access_token},function (obj_json) {  
+    $("#developManage .table tbody").html(template("developManageTemp",obj_json));
+  })
+}
+
+
+
+//Ul选择类型逻辑
+$("ul.developtype").on("click","li",function () {  
+  var val = $(this).attr("data-bind");
+  $("#develop_type").val(val);
+})
+
+//添加开发信息提示框
+function ShowAddDevelopModal() {  
+  $('#AddDevelopModal').modal("show");
+  $('#AddDevelopModal input').val("");
+
+  GetCertTypes(function (cert_types) {  
+    var html = "";
+    for(var i=0;i<cert_types.length;i++){
+      html += '<li data-bind="'+cert_types[i]+'"><a href="javascript:;">'+cert_types[i]+'</a></li>'
+    }
+    $("ul.developtype").html(html);
+  })
+
+}
+
+//添加开发信息按钮逻辑
+function addDevelop(){
+  var develop_type = $("#develop_type").val();
+  var develop_name = $("#develop_name").val();
+  var develop_company = $("#develop_company").val();
+  var develop_note = $("#develop_note").val();
+  if(!develop_type){
+    toastr.warning("请选择类型");
+    return;
+  }
+
+  var param = {
+    'access_token':access_token,
+    'add_list':[
+      {
+        'type':develop_type,
+        'name':develop_name,
+        'company':develop_company,
+        'note':develop_note,
+      }
+    ]
+  }
+  bproto_ajax(UPDATE_APP_INFO,param,function (obj_json) {  
+    console.log(obj_json.code)
+    if(obj_json.code===0){
+      toastr.success("添加成功");
+      closeModal("#AddDevelopModal");
+      showDevelopManage();
+    }else{
+      toastr.error("添加失败 "+obj_json.msg);
+    }
+  });
+}
+
+
+
+function SetChecked(el) {  
+  var name = $(el).attr("data-bind");
+  $(el).click(function () {  
+    $("input[name="+name+"]").prop("checked",$(this).prop("checked"));
+  });
+
+  $(".table").on("click","input[name="+name+"]",function () {
+    var allcheck = true;  
+    $("input[name="+name+"]").each(function () {  
+      if(!$(this).prop("checked")){
+        allcheck = false;
+      }
+    })
+    $(el).prop("checked",allcheck);
+  })
+}
+
+SetChecked("#alldevelop");
+
+
+$("#UpdateDevelopModal .my").click(function(){
+  $("#UpdateDevelopModal .my").prop("checked",false);
+  $(this).prop("checked",!$(this).prop("checked"));
+})
+
+//显示修改信息提示框
+function ShowUpdateDevelop_Modal(str_obj){
+  var obj = JSON.parse(str_obj);
+
+  $("#UpdateDevelopModal #update_develop_name").val(obj.name);
+  $("#UpdateDevelopModal #update_develop_company").val(obj.company);
+  $("#UpdateDevelopModal #update_develop_note").val(obj.note);
+  $("#UpdateDevelopModal .my").prop("checked",false);
+  $("#UpdateDevelopModal .my").eq(obj.status).prop("checked",true);
+  $("#UpdateDevelopModal .btn-success").attr("onclick","UpdateDevelop('"+obj.id+"')")
+  $("#UpdateDevelopModal").modal("show");
+
+}
+//修改开发信息按钮逻辑
+function UpdateDevelop(id){
+  var develop_name = $("#update_develop_name").val();
+  var develop_company = $("#update_develop_company").val();
+  var develop_note = $("#update_develop_note").val();
+  var status = $("#UpdateDevelopModal .my:checked").attr("data-bind");
+  var param = {
+    'access_token':access_token,
+    'update_list':[
+      {
+        'id':id,
+        'name':develop_name,
+        'company':develop_company,
+        'note':develop_note,
+        'status':parseInt(status)
+      }
+    ]
+  }
+  bproto_ajax(UPDATE_APP_INFO,param,function (obj_json) {  
+    console.log(obj_json.code)
+    if(obj_json.code===0){
+      toastr.success("修改成功");
+      closeModal("#UpdateDevelopModal");
+      showDevelopManage();
+    }else{
+      toastr.error("修改失败 "+obj_json.msg);
+    }
+  });
+}
+
+//显示更改状态提示框
+function ShowUpdateStatus(status,id){
+  if(status==0){
+    ShowConfirmModal("使用该APP信息的终端将可以使用,确认恢复吗?","UpdateStatus(0,'"+id+"')")
+  }else{
+    ShowConfirmModal("使用该APP信息的终端将无法使用,确认暂停吗?","UpdateStatus(1,'"+id+"')")
+  }
+}
+//更改状态按钮
+function UpdateStatus(status,id){
+  var param = {
+    'access_token':access_token,
+    'update_list':[
+      {
+        'id':id,
+        'status':parseInt(status)
+      }
+    ]
+  }
+  bproto_ajax(UPDATE_APP_INFO,param,function (obj_json) {  
+    console.log(obj_json.code)
+    if(obj_json.code===0){
+      toastr.success("修改成功");
+      $("#ConfirmModal").modal("hide");
+      showDevelopManage();
+    }else{
+      toastr.error("修改失败 "+obj_json.msg);
+    }
+  });
+}
+
+//显示删除确认框
+function ShowdelDevelop_Modal(id){
+  var del_list = []
+  if(id=="Multiple"){
+    var check = false;  
+    $("input[name=develop_cb]").each(function () {  
+      if($(this).prop("checked")){
+        check = true;
+        del_list.push($(this).attr("data-bind"));
+      }
+    })
+    if(!check){
+      toastr.warning("请选择一条信息");
+      return;
+    }
+  }else{
+    del_list = [id];
+  }
+  ShowConfirmModal("使用该APP信息的终端将无法使用,确认删除吗?","delDevelop(\'"+JSON.stringify(del_list)+"\')")
+}
+
+//删除开发信息
+function delDevelop(del_list){
+  
+
+  del_list = JSON.parse(del_list);
+  // console.log(prompt("使用该APP的终端将无法使用,确认删除?(请在输入确认)"));
+  
+  var param = {
+    'access_token':access_token,
+    'del_list':del_list
+  }
+  bproto_ajax(UPDATE_APP_INFO,param,function (obj_json) {  
+    if(obj_json.code===0){
+      toastr.success("删除成功");
+      $("#alldevelop").prop("checked",false);
+      showDevelopManage();
+      closeModal("#ConfirmModal");
+    }else{
+      toastr.error("删除失败 "+obj_json.msg);
+    }
+  })
+}
+
+
+// ========================开发信息列表结束===========================
+
+
 
 
 //上一页
@@ -1469,6 +1689,23 @@ function getCerts2Term_list(page) {
   })
 }
 
+
+function ConfirmVerify(Str_func){
+  if(!$("input[name=confirm]").prop("checked")){
+    toastr.info("请先勾选‘我确认’");
+    return;
+  }else{
+    eval(decodeURIComponent(Str_func))
+  }
+}
+//显示自定义Confirm提示框
+function ShowConfirmModal(info,verifyBtn){
+  $("input[name=confirm]").prop("checked",false);
+  $("#ConfirmModal .confirm_info").text(info);
+  $("#ConfirmModal .btn-success").attr("onclick","ConfirmVerify(\""+encodeURIComponent(verifyBtn)+"\")");
+  $("#ConfirmModal").modal("show");
+}
+
 function closeModal(target) {
   $(target).modal("hide");
 }
@@ -1491,5 +1728,14 @@ $(".modal").click(function (e) {
   }
   if (e.target == $("#PermissionManage_Modal")[0]) {
     closeModal('#PermissionManage_Modal')
+  }
+  if (e.target == $("#AddDevelopModal")[0]) {
+    closeModal('#AddDevelopModal')
+  }
+  if (e.target == $("#UpdateDevelopModal")[0]) {
+    closeModal('#UpdateDevelopModal')
+  }
+  if (e.target == $(".modal")[0]) {
+    closeModal('.modal')
   }
 });

@@ -6,10 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>终端管理</title>
-  <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/static/css/base.css">
-  <link rel="stylesheet" href="/static/css/font-awesome.css">
-  <link rel="stylesheet" href="/static/css/sidebar-menu.css">
+
+  <!-- build:css css/_Base.css -->
+  <link href="css/font-awesome.css" rel="stylesheet">
+  <link href="css/sidebar-menu.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/base.css" rel="stylesheet">
+  <link href="css/toastr.min.css" rel="stylesheet" />
+  <!-- endbuild -->
 
   <style type="text/css">
     .search {
@@ -185,22 +189,12 @@
 
     /*在线设备分页部分*/
   </style>
-  <link href="/static/css/toastr.min.css" rel="stylesheet" />
 
   <!--[if lt IE 9]>
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
-  <script src="/static/js/jquery.min.js"></script>
-  <script src="/static/js/toastr.min.js"></script>
 
-  <script src="/static/js/jquery.cookie.js"></script>
-  <script src="/static/js/bprotocol.js"></script>
-  <script src="/static/js/conf.js"></script>
-
-
-  <script src="/static/js/sidebar-menu.js"></script>
-  <script src="/static/js/base.js"></script>
 
 </head>
 
@@ -1037,14 +1031,13 @@
 
           <label class="mylabel beizhu" style="text-align: center">型号名称</label>
           <div class="form-group beizhu">
-            <textarea class="form-control" id="textarea_ModuleNumber" disabled="true" rows="3" placeholder="型号名称"></textarea>
+            <textarea class="form-control" id="textarea_ModuleNumber" rows="3" placeholder="型号名称"></textarea>
           </div>
 
           <label class="mylabel" style="text-align: center">验证类型</label>
           <div class="selectFieldName" style="padding-left: 10px">
 
           </div>
-
           <!--<label class="mylabel" style="text-align: center">是否进行认证</label>-->
           <!--<input type="radio" name="radio_verify" value="1" checked> 是-->
           <!--<input type="radio" name="radio_verify" value="0"> 否-->
@@ -1149,36 +1142,7 @@
         <td class="more" style="width:100px;position:relative">
           <button class="btn"  onclick="ShowUnAuthTermAllMsg('{{ value | toString}}')">查看
           </button>
-          <div class="msg_body" style="
-                  position:absolute;
-                  display:none;
-                  /* width:400px; */
-                  height:400px; 
-                  overflow:auto;
-                  right:50%;
-                  /* background-color: red; */
-                  z-index:9999;
-                  /* bottom:0; */
-                ">
-                  <ul class="list-group" style="margin-bottom:0;text-align:left">
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件供应商</span>{{value.hardwareprovider}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件SN</span>{{value.hardwaresn}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件版本</span>{{value.hardwareversion}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">软件供应商</span>{{value.softwareprovider}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">软件版本</span>{{value.softwareversion}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">CPU</span>{{value.cpu}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">IMEI</span>{{value.imei}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">MAC</span>{{value.mac}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统ID</span>{{value.osid}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统类型</span>{{value.ostype}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{value.osversion}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">验证型号</span>{{value.modelnumber}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{value.serialnumber}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">用户认证标签</span>{{value.userlabel}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">客户端IP</span>{{value.clienthost}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">客户端地址</span><span class="iphost" data-ip="{{value.clienthost.replace(/\./g,'_')}}">{{value.clienthost}}</span></li>
-                  </ul>
-              </div>
+         
         </td>
 
         <td style="width:100px">
@@ -1221,36 +1185,7 @@
       <td class="more" style="position:relative;width:100px"  data-bind="">
           <button class="btn" onclick="ShowOnlineTermAllMsg('{{value.SerialNumber}}','{{ value | toString}}')">查看
           </button>
-          <div class="msg_body" style="
-                  position:absolute;
-                  display:none;
-                  /* width:400px; */
-                  height:400px;
-                  overflow:auto;
-                  right:50%;
-                  /* background-color: red; */
-                  z-index:9999;
-                  /* bottom:0; */
-                ">
-                  <ul class="list-group" style="margin-bottom:0;text-align:left">
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{value.SerialNumber}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">验证型号</span>{{value.ModuleNumber}}</li>
-                    <!-- <li class="list-group-item"><span style="display:inline-block;width:100px">用户标签</span>{{value.UserLabelName}}</li> -->
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">描述</span>{{value.Desc}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">硬件供应商</span>{{value.HardwareProvider}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">硬件SN</span>{{value.HardwareSN}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">硬件版本</span>{{value.HardwareVersion}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">软件供应商</span>{{value.SoftwareProvider}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">软件版本</span>{{value.SoftwareVersion}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">CPU</span>{{value.CPU}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">IMEI</span>{{value.IMEI}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">MAC</span>{{value.MAC}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">系统ID</span>{{value.OSID}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">系统类型</span>{{value.OSType}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{value.OSVersion}}</li>
-
-                  </ul>
-              </div>
+        
         </td>
         <td  style="width:100px">
           <button href="javascrip:;" class="btn source" onclick='showTermRemark(this)'>修改备注</a>
@@ -1292,37 +1227,7 @@
       <td class="more" style="width:100px;position:relative">
           <button class="btn"  onclick="ShowOnlineTermAllMsg('{{value.SerialNumber}}','{{ value | toString}}')">查看
           </button>
-          <div class="msg_body" style="
-                  position:absolute;
-                  display:none;
-                  /* width:400px; */
-                  height:400px;
-                  overflow:auto;
-                  right:50%;
-                  /* background-color: red; */
-                  z-index:9999;
-                  /* bottom:0; */
-                ">
-                  <ul class="list-group" style="margin-bottom:0;text-align:left">
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{value.SerialNumber}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">验证型号</span>{{value.ModuleNumber}}</li>
-                      <!-- <li class="list-group-item"><span style="display:inline-block;width:100px">用户标签</span>{{value.UserLabel}}</li> -->
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">描述</span>{{value.Desc}}</li>
-
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件供应商</span>{{value.HardwareProvider}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件SN</span>{{value.HardwareSN}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">硬件版本</span>{{value.HardwareVersion}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">软件供应商</span>{{value.SoftwareProvider}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">软件版本</span>{{value.SoftwareVersion}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">CPU</span>{{value.CPU}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">IMEI</span>{{value.IMEI}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">MAC</span>{{value.MAC}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统ID</span>{{value.OSID}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统类型</span>{{value.OSType}}</li>
-                      <li class="list-group-item"><span style="display:inline-block;width:100px">系统版本</span>{{value.OSVersion}}</li>
-
-                  </ul>
-              </div>
+        
         </td>
         <td  style="width:100px">
           <button class="btn" onclick="exec_show('{{value.SerialNumber}}')" href="javascript:;">发送信息</a>
@@ -1439,11 +1344,20 @@
   <!-- 查看详细信息弹出框 -->
 
 
+  <!-- build:js js/_index.js -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/toastr.min.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  <script src="js/bprotocol.js"></script>
+  <script src="js/conf.js"></script>
+  <script src="js/base.js"></script>
 
-  <script src="/static/js/bootstrap.min.js"></script>
-  <script src="/static/js/paging.js"></script>
-  <script src="/static/js/template.js"></script>
-  <script src="/static/js/index.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/paging.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/index.js"></script>
+  <!-- endbuild -->
+
 </body>
 
 </html>

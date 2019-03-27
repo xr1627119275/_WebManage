@@ -127,6 +127,9 @@ GET_CONFIG_INFO =  API_V1 + "config/get_config_info/"; //获取配置信息列�
 
 UPDATE_CONFIG_INFO = API_V1 + "config/update_config_info/"; //添加/修改/删除 配置信息
 
+GET_APP_INFO = API_V1 + "config/get_app_info/"; //获取开发信息
+
+UPDATE_APP_INFO = API_V1 + "config/update_app_info/"; //修改开发信息
 
 
 

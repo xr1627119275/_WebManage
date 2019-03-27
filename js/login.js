@@ -1,4 +1,17 @@
 $(function () {
+  if(!localStorage.errortimes){
+
+  }else{
+    var errortimes = JSON.parse(localStorage.errortimes);
+    if(((new Date().getTime()-parseInt(errortimes.t))/1000)>3600){
+      localStorage.errortimes = JSON.stringify({'t':new Date().getTime(),"times":0})
+    }else if(errortimes.times>2){
+      $(".yzm").show();
+    }else{
+
+    }
+  }
+
   var param = {"access_token": $.cookie("access_token")};
   bproto_ajax(GET_LOGIN_MSG_URL, param, function (obj_json) {
     console.log(obj_json);
@@ -291,11 +304,14 @@ function login() {
     checkIsblank($("#username,#password"));
     return;
   }
-  if (StrisBlack(login_captcha) || !(login_captcha.toLowerCase() === captcha_code.toLowerCase())) {
-    toastr.warning("验证码不正确");
-    mycanvas.click();
-    document.getElementById('login_captcha_input').value="";
-    return;
+
+  if(!$(".yzm").is(":hidden")){
+    if (StrisBlack(login_captcha) || !(login_captcha.toLowerCase() === captcha_code.toLowerCase())) {
+      toastr.warning("验证码不正确");
+      mycanvas.click();
+      document.getElementById('login_captcha_input').value="";
+      return;
+    }
   }
   param = {'username': username, 'password': password};
   bproto_ajax(LOGIN_URL, param, function (obj_json) {
@@ -313,9 +329,21 @@ function login() {
           $.cookie('saveName',newstr+"|"+obj_json.username, {expires: 365, path: '/'});
         }
       }
+      localStorage.errortimes = JSON.stringify({"t":new Date().getTime(),"times":0});
       location.href = "/static/";
     } else {
       toastr.error("用户名或密码错误");
+      if(!localStorage.errortimes){
+        localStorage.errortimes = JSON.stringify({"t":new Date().getTime(),"times":1});
+      }else{
+        var errortimes = JSON.parse(localStorage.errortimes);
+        localStorage.errortimes = JSON.stringify({"t":errortimes.t,"times":parseInt(errortimes.times)+1});
+        if(((new Date().getTime()-parseInt(errortimes.t))/1000)>3600){
+          localStorage.errortimes = JSON.stringify({"t":new Date().getTime(),"times":1});
+        }else if((errortimes.times+1)>2){
+          $(".yzm").show();
+        }
+      }
     }
   }, function () {
     toastr.error("服务器连接失败");

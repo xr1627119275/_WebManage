@@ -6,62 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>管理员中心</title>
-
-  <link rel="stylesheet" href="/static/css/font-awesome.css">
-  <link rel="stylesheet" href="/static/css/sidebar-menu.css">
-
-  <style type="text/css">
-    .main-sidebar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      min-height: 100%;
-      width: 230px;
-      z-index: 810;
-      background-color: #222d32;
-    }
-
-    .main-content {
-      position: absolute;
-      width: 100%;
-      padding-left: 230px;
-      top: 0;
-      right: 0;
-    }
-
-    /*主体部分*/
-    section .content {
-      width: 100%;
-      padding: 0 20px;
-    }
-
-    /*主体部分*/
-    .table th,
-    .table td {
-      text-align: center;
-    }
-  </style>
-  <!---->
-
-  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/static/css/base.css" rel="stylesheet">
-  <link href="/static/css/toastr.min.css" rel="stylesheet" />
+  <!-- build:css css/_Base.css -->
+  <link href="css/font-awesome.css" rel="stylesheet">
+  <link href="css/sidebar-menu.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/base.css" rel="stylesheet">
+  <link href="css/toastr.min.css" rel="stylesheet" />
+  <!-- endbuild -->
   <!--[if lt IE 9]>
     <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
-  <script src="/static/js/jquery.min.js"></script>
-  <script src="/static/js/md5.js"></script>
 
-    <script src="/static/js/toastr.min.js"></script>
 
-  <script src="/static/js/jquery.cookie.js"></script>
-  <script src="/static/js/bprotocol.js"></script>
-  <script src="/static/js/conf.js"></script>
-  <script src="/static/js/sidebar-menu.js"></script>
-  <script src="/static/js/base.js"></script>
-
+ 
 
 </head>
 
@@ -72,92 +30,7 @@
     </section>
   </aside>
   <section class="main-content">
-    <style>
-      /* .main-content>header {
-        width: 100%;
-        height: 60px;
-        background: #1a2226;
-      }
-
-      .main-content>header>ul {
-        margin-right: 30px;
-        float: right;
-      }
-
-      .main-content>header li {
-        float: left;
-      }
-
-      .main-content>header>ul>li>a {
-        display: block;
-        height: 60px;
-        padding: 10px 25px 10px 15px;
-        font-size: 16px;
-        line-height: 40px;
-        font-weight: 700;
-        color: #4b646f;
-
-      }
-
-      .main-content>header>ul>li:last-child {
-        position: relative;
-      }
-
-      li.user:hover .a_list {
-        display: block;
-      }
-
-      .a_list {
-        display: none;
-        padding: 5px 0;
-        position: absolute;
-        right: 0;
-        border: 1px solid #cccccc;
-        border-radius: 3px;
-        top: 56px;
-        background-color: #fff;
-        width: 100%;
-
-      }
-
-      .a_list li {
-        width: 100%;
-
-      }
-
-      .a_list li:hover {
-        background-color: #cccccc;
-      }
- 
-      .a_list li>a {
-        display: block;
-        height: 30px;
-        color: #000;
-        line-height: 30px;
-        font-size: 14px;
-        width: 100%;
-        text-align: center;
-
-      } */
-
-      .certPager {
-      padding: 0 10px 0 240px;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      height: 60px;
-      width: 100%;
-    }
-
-    .certTermPager {
-      height: auto;
-      width: 100%;
-    }
-
-    .certTermPager .pager {
-      margin: 10px 0;
-    }
-    </style>
+  
     <header>
 
     </header>
@@ -721,6 +594,36 @@
         <!-- 证书关系 -->
       </section>
     <!--用户证书管理结束-->
+
+    <!-- 开发信息 -->
+    <section class="content" id="developManage" style="display:none">
+      <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">开发信息管理</div>
+      <button type="button"  class="btn"
+          style="background: #222d32;color: #ffffff;margin-bottom: 10px" onclick="ShowAddDevelopModal()"> 添加开发信息 </button>
+      <button type="button"  class="btn btn-danger"
+          style="margin-bottom: 10px" onclick="ShowdelDevelop_Modal('Multiple')"> 删除信息 </button>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="alldevelop" data-bind="develop_cb"></th>
+            <th>类型</th>
+            <th>状态</th>
+            <th>名称</th>
+            <th>公司</th>
+            <th>备注</th>
+            <th>N</th>
+            <th>E</th>
+            <th colspan="2">管理</th>
+          </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+      </table>
+    </section>
+    <!-- 开发信息结束 -->
+
+
   </section>
 
 
@@ -729,7 +632,7 @@
 
 
   <!--添加服务器配置提示框-->
-  <div class="modal fade" id="ServerConfig_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="ServerConfig_modal"  style="z-index: 999999999" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
     <div class="modal-dialog modal-xs" style="width: 750px" role="document">
       <!--服务器配置-->
@@ -768,7 +671,7 @@
   <!--添加服务器配置提示框-->
 
 
-  <div class="modal fade" id="UserGrounpManage_modal" tabindex="-1" role="dialog">
+  <div class="modal fade" id="UserGrounpManage_modal"  style="z-index: 999999999" tabindex="-1" role="dialog">
 
     <div class="modal-dialog modal-xs" style="width: 750px" role="document">
       <!-- 添加组用户 -->
@@ -835,7 +738,7 @@
   </div>
 
   <!-- 弹出框 -->
-  <div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  <div class="modal fade" id="UserModal"  style="z-index: 999999999" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="false" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -1099,7 +1002,7 @@
   <!-- 弹出框结束 -->
 
   <!--添加权限输入框-->
-  <div class="modal fade" id="PermissionManage_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="PermissionManage_Modal"   style="z-index: 999999999" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -1131,7 +1034,7 @@
 
 
     <!--颁布证书提示输入框-->
-    <div class="modal fade" id="AddCert" tabindex="-1" role="dialog">
+    <div class="modal fade" id="AddCert"  style="z-index: 999999999" tabindex="-1" role="dialog">
 
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -1208,27 +1111,7 @@
     </div>
     <!--颁布证书提示输入框-->
 
-    <!--选择用户输入框-->
-    <div class="modal fade" id="SelectUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
-      <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" onclick="closeSelectUser()" aria-label="Close"><span
-                aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title h4" id="SelectUserLabel" style="text-align: center">选择用户</h4>
-          </div>
-          <div class="modal-body">
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" onclick="UpdateCertTimes()">提交</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--选择用户输入框-->
 
       <!-- 转移证书弹出框 -->
 <div class="modal fade" id="SwitchCertsModal" style="z-index:99999999" tabindex="-1" role="dialog">
@@ -1316,6 +1199,151 @@
     </div>
   </div>
   <!-- 转移证书弹出框 -->
+
+  <!--添加开发信息输入框-->
+<div class="modal fade" id="AddDevelopModal" tabindex="-1" style="z-index: 999999999">
+  <div class="modal-dialog modal-md"  role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" onclick="closeModal('#AddDevelopModal')" aria-label="Close"><span
+            aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title h4"  style="text-align: center">添加开发信息</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-inline">
+          <label class="mylabel">选择类型</label><br>
+          <div class="input-group group">
+            <input type="text" disabled  style="width: 400px;"  onkeyup="this.value=this.value.replace(/[^\w_]/g,'');" class="h34 form-control"
+              id="develop_type" placeholder="选择类型" />
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle h34" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right developtype">
+                
+              </ul>
+            </div>
+          </div>
+          <div class="form-inline">
+              <label class="mylabel">名称</label><br>
+              <div class="input-group">
+                  <input type="text min="0" style="width: 434px;"  class="h34 form-control"
+                  id="develop_name" placeholder="请输入名称(可不填)" />
+              </div>
+          </div>
+          <div class="form-inline">
+              <label class="mylabel">公司</label><br>
+              <div class="input-group">
+                  <input type="text min="0" style="width: 434px;"  class="h34 form-control"
+                  id="develop_company" placeholder="请输入公司(可不填)" />
+              </div>
+          </div>
+
+          <div class="form-inline" style="margin-bottom:10px">
+              <label class="mylabel">备注</label><br>
+              <div class="input-group">
+                  <input type="text min="0" style="width: 434px;"  class="h34 form-control"
+                  id="develop_note" placeholder="请输入备注(可不填)" />
+              </div>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success fl" onclick="addDevelop()">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--添加开发信息输入框-->
+
+
+
+  <!--添加开发信息输入框-->
+<div class="modal fade" id="UpdateDevelopModal" tabindex="-1" style="z-index: 999999999">
+  <div class="modal-dialog modal-md"  role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" onclick="closeModal('#UpdateDevelopModal')" aria-label="Close"><span
+            aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title h4"  style="text-align: center">修改开发信息</h4>
+      </div>
+      <div class="modal-body">
+
+          <div class="form-inline">
+              <label class="mylabel">名称</label><br>
+              <div class="input-group">
+                  <input type="text min="0" style="width: 434px;"  class="h34 form-control"
+                  id="update_develop_name" placeholder="请输入名称(可不填)" />
+              </div>
+          </div>
+
+          <div class="form-inline">
+              <label class="mylabel">公司</label><br>
+              <div class="input-group">
+                  <input type="text min="0" style="width: 434px;"  class="h34 form-control"
+                  id="update_develop_company" placeholder="请输入公司(可不填)" />
+              </div>
+          </div>
+
+          <div class="form-inline" style="">
+              <label class="mylabel">备注</label><br>
+              <div class="input-group">
+                  <input type="text min="0" style="width: 434px;"  class="h34 form-control"
+                  id="update_develop_note" placeholder="请输入备注(可不填)" />
+              </div>
+          </div>
+          
+          <div class="form-inline" style="display:none">
+              <label class="mylabel">状态</label><br>
+              <div class="input-group" style="vertical-align: middle;">
+                  <input type="checkbox" class="my" style="vertical-align: sub;margin-right: 5px" data-bind="0" name="status"><span style='margin-right: 10px'>启用</span>
+                  <input type="checkbox" class="my" style="vertical-align: sub;margin-right: 5px" data-bind="1" name="status">暂停
+              </div>
+          </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success fl" onclick="UpdateDevelop(id)">修改</button>
+        <button type="button" class="btn btn-danger fl" onclick="closeModal('#UpdateDevelopModal')">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--添加开发信息输入框-->
+
+
+
+
+<!--确认提示框输入框-->
+<div class="modal fade" id="ConfirmModal"  style="z-index: 999999999" tabindex="-1" >
+
+    <div class="modal-dialog modal-md" id="ModalCenter" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" onclick="closeModal('#ConfirmModal')" aria-label="Close"><span
+              aria-hidden="true">&times;</span>
+          </button>
+          <p class="modal-title h2" style="text-align: center;color:#f00">警告</p> 
+        </div>
+        <div class="modal-body">
+          <p class='h3 confirm_info' style='text-align: center'>使用该APP信息的终端将无法使用,确认删除吗?</p> 
+          <p class="h4" style='text-align: center;vertical-align: middle;'><input class="my" type="checkbox" name="confirm" style="margin-right:5px">我确认</p> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="delDevelop()">确认</button>
+          <button type="button" class="btn btn-danger" onclick="closeModal('#ConfirmModal')">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--确认提示框输入框 -->
 
   <!-- #################################################ScriptTemp############################################## -->
 
@@ -1639,13 +1667,55 @@
   </script>
     <!--选择用户结束-->
 
+
+<!-- 开发信息列表 -->
+<script id="developManageTemp" type="text/html">
+  {{each list as value }}
+    <tr>
+      <td><input type="checkbox" name="develop_cb" data-all="#alldevelop" data-bind="{{value.id}}"></td>
+      <td>{{value.type}}</td>
+      <td>
+          {{ if value.status==0}}
+          <span style='margin-right:10px'>正常</span>
+          <button class="btn btn-danger"onclick="ShowUpdateStatus(1,'{{value.id}}');">暂停</button>
+          {{ else }}
+          <span style='margin-right:10px'>暂停</span>
+          <button class="btn btn-success" onclick="ShowUpdateStatus(0,'{{value.id}}')">恢复</button>
+          {{/if}}
+      </td>
+      <td>{{value.name}}</td>
+      <td>{{value.company}}</td>
+      <td>{{value.note}}</td>
+      <td>{{value.key_n}}</td>
+      <td>{{value.key_e}}</td>
+      <td style="width:100px">
+        <button class="btn" onclick="ShowUpdateDevelop_Modal('{{value | toString}}')">修改信息</button>
+      </td>
+      <td style="width:100px">
+        <button class="btn btn-danger" onclick="ShowdelDevelop_Modal('{{value.id}}')">删除</button>
+      </td>
+    </tr>
+  {{/each}}
+</script>
+<!-- 开发信息列表 -->
+
+
   <!-- #################################################ScriptTemp############################################## -->
 
+  <!-- build:js js/_AdminManage.js -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  <script src="js/toastr.min.js"></script>
+  <script src="js/md5.js"></script>
+  
+  <script src="js/bprotocol.js"></script>
+  <script src="js/conf.js"></script>
+  <script src="js/base.js"></script>
 
-  <script src="/static/js/bootstrap.min.js"></script>
-  <script src="/static/js/template.js"></script>
-  <script src="/static/js/jquery.qrcode.min.js"></script>
-  <script src="/static/js/adminmanage.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/adminmanage.js"></script>
+  <!-- endbuild -->
 </body>
 
 </html>

@@ -274,8 +274,35 @@ th{
     padding: 0 0 10px;text-align: center;margin: 0 auto;overflow: hidden;
   }
 
+#ModalCenter{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    top: 30%;
+}
 
+input[type=checkbox].my {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    /* vertical-align: middle; */
+    outline: 0;
+    -webkit-appearance: none;
+    border: 1px solid #bbb;
+    box-sizing: border-box;
+    background-color: #fff;
+  }
 
+input[type=checkbox]:checked.my {
+    background-image: url(/static/images/cam-201901231024.svg);
+    ;
+    background-color: #006eff;
+    border-color: #006eff;
+    background-position: 81.16% 40.63%;
+    background-size: 2185.714285714286% 2157.1428571428573%;
+    ;
+    background-repeat: no-repeat
+  }
 .section2{
     display: none;
 }

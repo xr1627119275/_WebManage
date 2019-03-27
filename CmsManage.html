@@ -6,28 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CMS管理</title>
 
-  <link rel="stylesheet" href="/static/css/font-awesome.css">
-  <link rel="stylesheet" href="/static/css/sidebar-menu.css">
-  <!---->
 
-  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/static/css/base.css" rel="stylesheet">
+  <!-- build:css css/_Base.css -->
+  <link href="css/font-awesome.css" rel="stylesheet">
+  <link href="css/sidebar-menu.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/base.css" rel="stylesheet">
+  <link href="css/toastr.min.css" rel="stylesheet" />
+  <!-- endbuild -->
 
-  <link href="/static/css/toastr.min.css" rel="stylesheet" />
-  <!--[if lt IE 9]>
+  <!--[if lt IE 9]> 
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
   <![endif]-->
-  <script src="//cdn.jsdelivr.net/npm/bluebird@3.5.3/js/browser/bluebird.min.js"></script>
 
-  <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/toastr.min.js"></script>
 
-  <script src="/static/js/jquery.cookie.js"></script>
-  <script src="/static/js/bprotocol.js"></script>
-  <script src="/static/js/conf.js"></script>
-  <script src="/static/js/sidebar-menu.js"></script>
-  <script src="/static/js/base.js"></script>
 
   <style>
     .spantip{
@@ -70,6 +63,7 @@
           <tr>
             <th>CMS备注</th>       
             <th>名称</th>          
+            <th>在线状态</th>          
             <th>PU_CMD端口</th>          
             <th>CU_CMD端口</th>          
             <!-- <th>序列号</th>         -->
@@ -502,46 +496,14 @@
       <input style="display:none" type="text" class="edit form-control" value="{{value.remark}}" data-bind="{{value.remark}}">
     </td>
     <td>{{value.name}}</td>
+    <td>{{value.online?"在线":"离线"}}</td>
     <td>{{value.pu_cmd_port}}</td>
     <td>{{value.cu_cmd_port}}</td>
-    <!-- <td>{{value.cms}}</td> -->
-    <!-- <td>{{value.max_pu_count}}</td>
-    <td>{{value.max_online_pu_count}}</td>
-    <td>{{value.use_white_black_list_type==="WhiteList"?"白名单":"黑名单"}}</td> -->
-    <!-- <td>{{value.domain}}</td>
-    <td>{{value.agent}}</td>
-    <td>{{value.cu_cmd_port}}</td>
-    <td>{{value.pu_cmd_port}}</td>
-    <td>{{value.db_host}}</td>
-    <td>{{value.db_port}}</td>
-    <td>{{value.db_username}}</td> -->
     <td>{{value.version}}</td>
     <td class="more" style="position:relative;width:100px">
         <button class="btn" onclick="showAllMsgModal('{{ value | toString }}')">查看
         </button>
-        <div class="msg_body" style="
-                position:absolute;
-                display:none;
-                /* width:400px; */
-                /* height:400px; */
-                overflow:auto;
-                right:50%; 
-                /* background-color: red; */
-                z-index:999{{i}};
-                /* bottom:0; */
-              ">
-                <ul class="list-group" style="margin-bottom:0;text-align:left">
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">序列号</span>{{value.cms}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">域名</span>{{value.domain}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">代理</span>{{value.agent}}</li>
-                    <!-- <li class="list-group-item"><span style="display:inline-block;width:100px">CU_CMD端口</span>{{value.cu_cmd_port}}</li> -->
-                    <!-- <li class="list-group-item"><span style="display:inline-block;width:100px">PU_CMD端口</span>{{value.pu_cmd_port}}</li> -->
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">数据库主机</span>{{value.db_host}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">数据库端口</span>{{value.db_port}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">数据库账号</span>{{value.db_username}}</li>
-                    <li class="list-group-item"><span style="display:inline-block;width:100px">数据库密码</span>{{value.db_password}}</li>
-                </ul>
-            </div>
+        
       </td>
     <td style="width:100px">
       <button href="javascript:;" class="btn source" onclick="ShowEdit(this)">修改备注</a>
@@ -711,9 +673,18 @@
 
 <!----------------------模板文件结束--------------------------->
 
+<!-- build:js js/_CmsManage.js -->
+<script src="js/bluebird.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/toastr.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/template.js"></script>
+<script src="js/conf.js"></script>
+<script src="js/bprotocol.js"></script>
+<script src="js/base.js"></script>
+<script src="js/cmsmanage.js"></script>
+<!-- endbuild -->
 
-<script src="/static/js/bootstrap.min.js"></script>
-<script src="/static/js/template.js"></script>
-<script src="/static/js/cmsmanage.js"></script>
 </body>
 </html>
