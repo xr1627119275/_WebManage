@@ -600,20 +600,20 @@
       <div style="text-align: center;font-size: 30px;font-weight:bold;margin: 10px 0;color: #3c3c3c;">开发信息管理</div>
       <button type="button"  class="btn"
           style="background: #222d32;color: #ffffff;margin-bottom: 10px" onclick="ShowAddDevelopModal()"> 添加开发信息 </button>
-      <button type="button"  class="btn btn-danger"
-          style="margin-bottom: 10px" onclick="ShowdelDevelop_Modal('Multiple')"> 删除信息 </button>
+      <!-- <button type="button"  class="btn btn-danger"
+          style="margin-bottom: 10px" onclick="ShowdelDevelop_Modal('Multiple')"> 删除信息 </button> -->
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th><input type="checkbox" id="alldevelop" data-bind="develop_cb"></th>
             <th>类型</th>
+            <th>ID</th>
             <th>状态</th>
             <th>名称</th>
             <th>公司</th>
             <th>备注</th>
-            <th>N</th>
-            <th>E</th>
-            <th colspan="2">管理</th>
+            <th>ras_n(hex)</th>
+            <th>ras_e(hex)</th>
+            <th colspan="3">管理</th>
           </tr>
         </thead>
         <tbody>
@@ -1361,8 +1361,23 @@
         <!-- <select name="" class="ConfigKeySelectList input-sm">
           <option value="login_expire">login_expire</option>
         </select> -->
-        <input type="text" class="input-sm input_addconfigkey" style="border: 1px solid #a9a9a9;"
-          placeholder="请输入配置参数" />
+        <!-- <input type="text" class="input-sm input_addconfigkey" style="border: 1px solid #a9a9a9;"
+          placeholder="请输入配置参数" /> -->
+          <div class="input-group">
+              <input type="text" class="input-sm input_addconfigkey form-control" style="border: 1px solid #a9a9a9;" placeholder="请输入配置参数">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" style="
+                  width: 30px;
+                  height: 30px;
+                  line-height: 14px;
+                  margin-left: -2px; 
+                  text-align: center;
+            "><span class="caret"></span></button>
+                <ul class="dropdown-menu selectkey dropdown-menu-right">
+                  <li><a href="javascript:;" data-bind="login_expire">login_expire</a></li>
+                </ul>
+              </div><!-- /btn-group -->
+            </div><!-- /input-group -->
       </td>
       <td>
         <input type="text" class="input-sm input_addconfigval" style="border: 1px solid #a9a9a9;"
@@ -1400,7 +1415,7 @@
                       margin-left: -2px;
                       text-align: center;
                 "><span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-menu-right">
+                    <ul class="dropdown-menu selectkey dropdown-menu-right">
                       <li><a href="javascript:;" data-bind="login_expire">login_expire</a></li>
                       <!-- <li role="separator" class="divider"></li> -->
                     </ul>
@@ -1672,8 +1687,8 @@
 <script id="developManageTemp" type="text/html">
   {{each list as value }}
     <tr>
-      <td><input type="checkbox" name="develop_cb" data-all="#alldevelop" data-bind="{{value.id}}"></td>
       <td>{{value.type}}</td>
+      <td>{{value.id}}</td>
       <td>
           {{ if value.status==0}}
           <span style='margin-right:10px'>正常</span>
@@ -1688,6 +1703,9 @@
       <td>{{value.note}}</td>
       <td>{{value.key_n}}</td>
       <td>{{value.key_e}}</td>
+      <td style="width:100px">
+        <button class="btn" onclick="_copyText('{{value | toString}}')">复制信息</button>
+      </td>
       <td style="width:100px">
         <button class="btn" onclick="ShowUpdateDevelop_Modal('{{value | toString}}')">修改信息</button>
       </td>

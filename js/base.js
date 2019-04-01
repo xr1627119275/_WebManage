@@ -169,7 +169,7 @@ function hideLeft(target) {
 
 
 function copyText(text, callback) { // text: 要复制的内容， callback: 回调
-  var tag = document.createElement('input');
+  var tag = document.createElement('textarea');
   tag.setAttribute('id', 'cp_hgz_input');
   tag.value = text;
   document.getElementsByTagName('body')[0].appendChild(tag);
@@ -227,6 +227,10 @@ $(function () {
 
   template.helper("UTC2LocalDate", function (state) {
     return utc2beijing(state);
+  })
+
+  template.helper("CopyDevelop", function (state) {
+    return "type: "+state.type+"\n"+"app_id: "+state.id+"\n"+"rsa_n: "+state.key_n+"\n"+"rsa_e: "+state.key_e
   })
 })
 

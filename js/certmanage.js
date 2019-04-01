@@ -433,7 +433,12 @@ function SwitchCertTimes(){
       return;
     }
   }
- 
+  
+  if(username==CurrentUser){
+    toastr.warning("证书不能转让给自己,请重新输入!");
+    $("#user_name").focus();
+    return;
+  }
   param = {
     "access_token": access_token,
     "cert_id_from": current_certId,

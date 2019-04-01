@@ -168,16 +168,25 @@ function ShowAddUserLabel_modal() {
   $(".modal-content").hide();
   $(".AddServerConfig_content").show();
   $(".AddServerConfig_content tbody").html($("#AddServerConfigSelect").html());
-  setDropdown();
+  bproto_ajax(GET_CONFIG_KEYS,{"access_token":access_token},function (obj_json) {  
+    if(obj_json.code===0){
+      window.configkey_list =  obj_json.config_key_list; 
+      var html = "";
+      for(var i=0;i<configkey_list.length;i++){
+        html += '<li><a href="javascript:;" data-bind="'+configkey_list[i]+'">'+configkey_list[i]+'</a></li>'
+        
+      }
+      $("ul.selectkey").html(html);
+    }
+  })
   $(".selectserver option[value=" + currentAddConfig + "]").prop("selected", true);
 }
 
-function setDropdown() {  
-  
-  $("#ServerConfig_modal .dropdown-menu").on("click",'li a',function () {  
-    $(".input_addconfigkey").val($(this).attr('data-bind'));
+$(function () {  
+  $("#ServerConfig_modal ").on("click",'.dropdown-menu a',function () {  
+    $(this).parent().parent().parent().parent().find(".input_addconfigkey").val($(this).attr('data-bind'));
   })
-}
+})
 
 
 
@@ -282,7 +291,7 @@ function DoEdit(target,id){
     toastr.warning("请输入修改后的值");
     return;
   }
-  var param ={
+  var param ={ 
     'access_token':access_token,
     "update_list":[{
       "id":parseInt(id),
@@ -1614,6 +1623,12 @@ function delDevelop(del_list){
       toastr.error("删除失败 "+obj_json.msg);
     }
   })
+}
+
+function _copyText(str_obj) {  
+  str_obj = JSON.parse(str_obj);
+  var str = "type: "+str_obj.type+'\n'+"app_id: "+str_obj.id+'\n'+"rsa_n(hex): "+str_obj.key_n+'\n'+"rsa_e(hex): "+str_obj.key_e
+  copyText(str);
 }
 
 

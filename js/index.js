@@ -1378,28 +1378,22 @@ function auth_show(id, code, _type) {
         }
       }
 
-      if (certidlist.length == 0) {
-        toastr.warning("无" + type + "类型证书");
-        $("#AuthModal").modal("hide");
-        return;
+      if (templist.length > 0) {
+        if(certidlist.length > 0){
+          SetUserLabel();
+          $("#AuthModal").modal("show");
+          $("#AuthModal .auth_modal").hide();
+          $("#AuthModal #AuthCertLabel").text(CurrentUser + "授权");
+          $("#AuthModal .otherAuth").show();
+        }else{
+          toastr.warning("无" + type + "类型证书");
+        }
+        
+      } else {
+        toastr.warning("请选择授权设备");
+        return false;
       }
 
-      // var list = [];
-      // for (let i = 0; i < certidlist.length; i++) {
-      //   list.push({
-      //     "target_type": "cert",
-      //     "target_id": certidlist[i].id, 
-      //   })
-      // }
-      // bproto_ajax(GET_REMARK,{'access_token':access_token,'list':list},function(obj_json){
-      //   if(obj_json.code==0){
-      //     for(var i=0;i<obj_json.list.length;i++){
-      //       for(var j=0;j<certidlist.length;j++){
-      //         if(obj_json.list[i].target_id==certidlist[j].id){
-      //           certidlist[j].rename = obj_json.list[i].rename
-      //         }
-      //       }
-      //     }
       certid_html = "";
       for (let i = 0; i < certidlist.length; i++) {
         certid_html += "<li><a style='display: inline-block' href='javascript:;'>\
@@ -1411,27 +1405,32 @@ function auth_show(id, code, _type) {
       }
       $(".cert_input .dropdown-menu").html(certid_html);
       $(".cert_input .dropdown-menu a").eq(0).click()
-      // }
-      // })
+
     }
   });
+
   //获取用户标签填充下拉数据
-  bproto_ajax(USER_LABEL_GET, param, function (obj_json) {
-    if (obj_json.code === 0) {
-      for (let i = 0; i < obj_json.userlabel.length; i++) {
-        labelidlist.push({ "label_id": obj_json.userlabel[i].label_id, "label_name": obj_json.userlabel[i].label_name })
+  function SetUserLabel() {  
+    bproto_ajax(USER_LABEL_GET, {
+      "access_token": access_token,
+      "username": CurrentUser
+    }, function (obj_json) {
+      if (obj_json.code === 0) {
+        for (let i = 0; i < obj_json.userlabel.length; i++) {
+          labelidlist.push({ "label_id": obj_json.userlabel[i].label_id, "label_name": obj_json.userlabel[i].label_name })
+        }
+        labelid_html = "";
+        for (let i = 0; i < labelidlist.length; i++) {
+          labelid_html += "<li><a data-bind='" + labelidlist[i].label_id + "' title='" + labelidlist[i].label_id + "' href='javascript:;'>\
+          (标签名:" + (labelidlist[i].label_name === "" ? "无" : labelidlist[i].label_name) + ")" + labelidlist[i].label_id + "\
+          <span class='labelname' style='display:none'>"+ (labelidlist[i].label_name == "" ? labelidlist[i].label_id : labelidlist[i].label_name) + "</span>\
+          </a></li>"
+        }
+        $(".label_input .dropdown-menu").html(labelid_html);
+        $(".label_input .dropdown-menu a").eq(0).click()
       }
-      labelid_html = "";
-      for (let i = 0; i < labelidlist.length; i++) {
-        labelid_html += "<li><a data-bind='" + labelidlist[i].label_id + "' title='" + labelidlist[i].label_id + "' href='javascript:;'>\
-        (标签名:" + (labelidlist[i].label_name === "" ? "无" : labelidlist[i].label_name) + ")" + labelidlist[i].label_id + "\
-        <span class='labelname' style='display:none'>"+ (labelidlist[i].label_name == "" ? labelidlist[i].label_id : labelidlist[i].label_name) + "</span>\
-        </a></li>"
-      }
-      $(".label_input .dropdown-menu").html(labelid_html);
-      $(".label_input .dropdown-menu a").eq(0).click()
-    }
-  });
+    });
+  }
 
 
   // $("#unauthorized input[name=done]").each(function () {
@@ -1442,26 +1441,15 @@ function auth_show(id, code, _type) {
   //     })
   //   }
   // });
-  if (templist.length > 0) {
-    // if (CurrentUser === "admin") {
-    //   $("#AuthModal").modal("show");
-    //   $("#AuthModal .auth_modal").hide();
-    //   $("#AuthModal #AuthCertLabel").text("管理员授权");
-    //   $("#AuthModal .adminAuth").show();
-    // } else {
-    //   $("#AuthModal").modal("show");
-    //   $("#AuthModal .auth_modal").hide();
-    //   $("#AuthModal #AuthCertLabel").text(CurrentUser + "授权");
-    //   $("#AuthModal .otherAuth").show();
-    // }
-    $("#AuthModal").modal("show");
-    $("#AuthModal .auth_modal").hide();
-    $("#AuthModal #AuthCertLabel").text(CurrentUser + "授权");
-    $("#AuthModal .otherAuth").show();
-  } else {
-    toastr.warning("请选择授权设备");
-    return false;
-  }
+  // if (templist.length > 0) {
+  //   $("#AuthModal").modal("show");
+  //   $("#AuthModal .auth_modal").hide();
+  //   $("#AuthModal #AuthCertLabel").text(CurrentUser + "授权");
+  //   $("#AuthModal .otherAuth").show();
+  // } else {
+  //   toastr.warning("请选择授权设备");
+  //   return false;
+  // }
 
 }
 
